@@ -1,0 +1,656 @@
+gpasm-0.13.7 beta               lvd.asm     11-2-2012  01:06:42          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00001 ;--------------------------------------------------------
+               00002 ; File Created by SDCC : free open source ANSI-C Compiler
+               00003 ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
+               00004 ; This file was generated Fri Nov  2 01:06:42 2012
+               00005 ;--------------------------------------------------------
+               00006 ; PIC16 port for the Microchip 16-bit core micros
+               00007 ;--------------------------------------------------------
+               00008         list    p=18f8520
+               00009 
+               00010         radix dec
+               00011 
+               00012 ;--------------------------------------------------------
+               00013 ; public variables in this module
+               00014 ;--------------------------------------------------------
+               00015         global _lvd_set
+               00016         global _lvd_triggered
+               00017         global _lvd_check
+               00018 
+               00019 ;--------------------------------------------------------
+               00020 ; extern variables in this module
+               00021 ;--------------------------------------------------------
+               00022         extern _RCSTA2bits
+               00023         extern _TXSTA2bits
+               00024         extern _CCP5CONbits
+               00025         extern _CCP4CONbits
+               00026         extern _T4CONbits
+               00027         extern _PORTAbits
+               00028         extern _PORTBbits
+               00029         extern _PORTCbits
+               00030         extern _PORTDbits
+               00031         extern _PORTEbits
+               00032         extern _PORTFbits
+               00033         extern _PORTGbits
+               00034         extern _PORTHbits
+               00035         extern _PORTJbits
+               00036         extern _LATAbits
+               00037         extern _LATBbits
+               00038         extern _LATCbits
+               00039         extern _LATDbits
+               00040         extern _LATEbits
+               00041         extern _LATFbits
+               00042         extern _LATGbits
+               00043         extern _LATHbits
+               00044         extern _LATJbits
+               00045         extern _TRISAbits
+               00046         extern _TRISBbits
+               00047         extern _TRISCbits
+               00048         extern _TRISDbits
+               00049         extern _TRISEbits
+               00050         extern _TRISFbits
+               00051         extern _TRISGbits
+               00052         extern _TRISHbits
+               00053         extern _TRISJbits
+               00054         extern _MEMCONbits
+gpasm-0.13.7 beta               lvd.asm     11-2-2012  01:06:42          PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00055         extern _PIE1bits
+               00056         extern _PIR1bits
+               00057         extern _IPR1bits
+               00058         extern _PIE2bits
+               00059         extern _PIR2bits
+               00060         extern _IPR2bits
+               00061         extern _PIE3bits
+               00062         extern _PIR3bits
+               00063         extern _IPR3bits
+               00064         extern _EECON1bits
+               00065         extern _RCSTA1bits
+               00066         extern _TXSTA1bits
+               00067         extern _RCSTAbits
+               00068         extern _TXSTAbits
+               00069         extern _PSPCONbits
+               00070         extern _T3CONbits
+               00071         extern _CMCONbits
+               00072         extern _CVRCONbits
+               00073         extern _CCP3CONbits
+               00074         extern _CCP2CONbits
+               00075         extern _CCP1CONbits
+               00076         extern _ADCON2bits
+               00077         extern _ADCON1bits
+               00078         extern _ADCON0bits
+               00079         extern _SSPCON2bits
+               00080         extern _SSPCON1bits
+               00081         extern _SSPSTATbits
+               00082         extern _T2CONbits
+               00083         extern _T1CONbits
+               00084         extern _RCONbits
+               00085         extern _WDTCONbits
+               00086         extern _LVDCONbits
+               00087         extern _OSCCONbits
+               00088         extern _STATUSbits
+               00089         extern _INTCON3bits
+               00090         extern _INTCON2bits
+               00091         extern _INTCONbits
+               00092         extern _STKPTRbits
+               00093         extern _RCSTA2
+               00094         extern _TXSTA2
+               00095         extern _TXREG2
+               00096         extern _RCREG2
+               00097         extern _SPBRG2
+               00098         extern _CCP5CON
+               00099         extern _CCPR5L
+               00100         extern _CCPR5H
+               00101         extern _CCP4CON
+               00102         extern _CCPR4L
+               00103         extern _CCPR4H
+               00104         extern _T4CON
+               00105         extern _PR4
+               00106         extern _TMR4
+               00107         extern _PORTA
+               00108         extern _PORTB
+gpasm-0.13.7 beta               lvd.asm     11-2-2012  01:06:42          PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00109         extern _PORTC
+               00110         extern _PORTD
+               00111         extern _PORTE
+               00112         extern _PORTF
+               00113         extern _PORTG
+               00114         extern _PORTH
+               00115         extern _PORTJ
+               00116         extern _LATA
+               00117         extern _LATB
+               00118         extern _LATC
+               00119         extern _LATD
+               00120         extern _LATE
+               00121         extern _LATF
+               00122         extern _LATG
+               00123         extern _LATH
+               00124         extern _LATJ
+               00125         extern _TRISA
+               00126         extern _TRISB
+               00127         extern _TRISC
+               00128         extern _TRISD
+               00129         extern _TRISE
+               00130         extern _TRISF
+               00131         extern _TRISG
+               00132         extern _TRISH
+               00133         extern _TRISJ
+               00134         extern _MEMCON
+               00135         extern _PIE1
+               00136         extern _PIR1
+               00137         extern _IPR1
+               00138         extern _PIE2
+               00139         extern _PIR2
+               00140         extern _IPR2
+               00141         extern _PIE3
+               00142         extern _PIR3
+               00143         extern _IPR3
+               00144         extern _EECON1
+               00145         extern _EECON2
+               00146         extern _EEDATA
+               00147         extern _EEADR
+               00148         extern _EEADRH
+               00149         extern _RCSTA1
+               00150         extern _TXSTA1
+               00151         extern _TXREG1
+               00152         extern _RCREG1
+               00153         extern _SPBRG1
+               00154         extern _RCSTA
+               00155         extern _TXSTA
+               00156         extern _TXREG
+               00157         extern _RCREG
+               00158         extern _SPBRG
+               00159         extern _PSPCON
+               00160         extern _T3CON
+               00161         extern _TMR3L
+               00162         extern _TMR3H
+gpasm-0.13.7 beta               lvd.asm     11-2-2012  01:06:42          PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00163         extern _CMCON
+               00164         extern _CVRCON
+               00165         extern _CCP3CON
+               00166         extern _CCPR3L
+               00167         extern _CCPR3H
+               00168         extern _CCP2CON
+               00169         extern _CCPR2L
+               00170         extern _CCPR2H
+               00171         extern _CCP1CON
+               00172         extern _CCPR1L
+               00173         extern _CCPR1H
+               00174         extern _ADCON2
+               00175         extern _ADCON1
+               00176         extern _ADCON0
+               00177         extern _ADRESL
+               00178         extern _ADRESH
+               00179         extern _SSPCON2
+               00180         extern _SSPCON1
+               00181         extern _SSPSTAT
+               00182         extern _SSPADD
+               00183         extern _SSPBUF
+               00184         extern _T2CON
+               00185         extern _PR2
+               00186         extern _TMR2
+               00187         extern _T1CON
+               00188         extern _TMR1L
+               00189         extern _TMR1H
+               00190         extern _RCON
+               00191         extern _WDTCON
+               00192         extern _LVDCON
+               00193         extern _OSCCON
+               00194         extern _T0CON
+               00195         extern _TMR0L
+               00196         extern _TMR0H
+               00197         extern _STATUS
+               00198         extern _FSR2L
+               00199         extern _FSR2H
+               00200         extern _PLUSW2
+               00201         extern _PREINC2
+               00202         extern _POSTDEC2
+               00203         extern _POSTINC2
+               00204         extern _INDF2
+               00205         extern _BSR
+               00206         extern _FSR1L
+               00207         extern _FSR1H
+               00208         extern _PLUSW1
+               00209         extern _PREINC1
+               00210         extern _POSTDEC1
+               00211         extern _POSTINC1
+               00212         extern _INDF1
+               00213         extern _WREG
+               00214         extern _FSR0L
+               00215         extern _FSR0H
+               00216         extern _PLUSW0
+gpasm-0.13.7 beta               lvd.asm     11-2-2012  01:06:42          PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00217         extern _PREINC0
+               00218         extern _POSTDEC0
+               00219         extern _POSTINC0
+               00220         extern _INDF0
+               00221         extern _INTCON3
+               00222         extern _INTCON2
+               00223         extern _INTCON
+               00224         extern _PRODL
+               00225         extern _PRODH
+               00226         extern _TABLAT
+               00227         extern _TBLPTRL
+               00228         extern _TBLPTRH
+               00229         extern _TBLPTRU
+               00230         extern _PCL
+               00231         extern _PCLATH
+               00232         extern _PCLATU
+               00233         extern _STKPTR
+               00234         extern _TOSL
+               00235         extern _TOSH
+               00236         extern _TOSU
+               00237 ;--------------------------------------------------------
+               00238 ;       Equates to used internal registers
+               00239 ;--------------------------------------------------------
+  00000FE8     00240 WREG    equ     0xfe8
+  00000FE1     00241 FSR1L   equ     0xfe1
+  00000FD9     00242 FSR2L   equ     0xfd9
+  00000FE5     00243 POSTDEC1        equ     0xfe5
+  00000FE4     00244 PREINC1 equ     0xfe4
+  00000FDB     00245 PLUSW2  equ     0xfdb
+               00246 
+               00247 
+               00248 ; Internal registers
+               00249 .registers      udata_ovr       0x0000
+               00250 r0x00   res     1
+               00251 
+               00252 ;--------------------------------------------------------
+               00253 ; global & static initialisations
+               00254 ;--------------------------------------------------------
+               00255 ; I code from now on!
+               00256 ; ; Starting pCode block
+               00257 S_lvd__lvd_check        code
+0000 00258 _lvd_check:
+               00259 ;       .line   122; lvd.c      unsigned char   lvd_check(unsigned char threshold)
+0000 CFD9 FFE5 00260         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00261         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00262         MOVFF   r0x00, POSTDEC1
+000C 0E02      00263         MOVLW   0x02
+000E CFDB F000 00264         MOVFF   PLUSW2, r0x00
+               00265 ;       .line   127; lvd.c      PIE2bits.LVDIE = 0;
+0012 9400      00266         BCF     _PIE2bits, 2
+               00267 ;       .line   130; lvd.c      LVDCONbits.LVDEN = 0;
+0014 9800      00268         BCF     _LVDCONbits, 4
+               00269 ;       .line   135; lvd.c      LVDCON &= 0xf0;
+0016 0EF0      00270         MOVLW   0xf0
+gpasm-0.13.7 beta               lvd.asm     11-2-2012  01:06:42          PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0018 1600      00271         ANDWF   _LVDCON, F
+               00272 ;       .line   136; lvd.c      LVDCON |= threshold;
+001A 5000      00273         MOVF    r0x00, W
+001C 1200      00274         IORWF   _LVDCON, F
+               00275 ;       .line   139; lvd.c      LVDCONbits.LVDEN = 1;
+001E 8800      00276         BSF     _LVDCONbits, 4
+0020 00277 _00118_DS_:
+               00278 ;       .line   144; lvd.c      while (LVDCONbits.BGST == 0)
+0020 AA00      00279         BTFSS   _LVDCONbits, 5
+0022 D000      00280         BRA     _00118_DS_
+               00281 ;       .line   150; lvd.c      PIR2bits.LVDIF = 0;
+0024 9400      00282         BCF     _PIR2bits, 2
+               00283 ;       .line   153; lvd.c      voltage_low = PIR2bits.LVDIF;
+0026 6A00      00284         CLRF    r0x00
+0028 B400      00285         BTFSC   _PIR2bits, 2
+002A 2A00      00286         INCF    r0x00, F
+               00287 ;       .line   156; lvd.c      LVDCONbits.LVDEN = 0;
+002C 9800      00288         BCF     _LVDCONbits, 4
+               00289 ;       .line   158; lvd.c      return voltage_low;
+002E 5000      00290         MOVF    r0x00, W
+0030 CFE4 F000 00291         MOVFF   PREINC1, r0x00
+0034 CFE4 FFD9 00292         MOVFF   PREINC1, FSR2L
+0038 0012      00293         RETURN  
+               00294 
+               00295 ; ; Starting pCode block
+               00296 S_lvd__lvd_triggered    code
+0000 00297 _lvd_triggered:
+               00298 ;       .line   97; lvd.c       unsigned char   lvd_triggered(void)
+0000 CFD9 FFE5 00299         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00300         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00301         MOVFF   r0x00, POSTDEC1
+               00302 ;       .line   99; lvd.c       return PIR2bits.LVDIF;
+000C 6A00      00303         CLRF    r0x00
+000E B400      00304         BTFSC   _PIR2bits, 2
+0010 2A00      00305         INCF    r0x00, F
+0012 5000      00306         MOVF    r0x00, W
+0014 CFE4 F000 00307         MOVFF   PREINC1, r0x00
+0018 CFE4 FFD9 00308         MOVFF   PREINC1, FSR2L
+001C 0012      00309         RETURN  
+               00310 
+               00311 ; ; Starting pCode block
+               00312 S_lvd__lvd_set  code
+0000 00313 _lvd_set:
+               00314 ;       .line   55; lvd.c       void    lvd_set(unsigned char threshold)
+0000 CFD9 FFE5 00315         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00316         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00317         MOVFF   r0x00, POSTDEC1
+000C 0E02      00318         MOVLW   0x02
+000E CFDB F000 00319         MOVFF   PLUSW2, r0x00
+               00320 ;       .line   58; lvd.c       PIE2bits.LVDIE = 0;
+0012 9400      00321         BCF     _PIE2bits, 2
+               00322 ;       .line   61; lvd.c       LVDCONbits.LVDEN = 0;
+0014 9800      00323         BCF     _LVDCONbits, 4
+               00324 ;       .line   66; lvd.c       LVDCON &= 0xf0;
+gpasm-0.13.7 beta               lvd.asm     11-2-2012  01:06:42          PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0016 0EF0      00325         MOVLW   0xf0
+0018 1600      00326         ANDWF   _LVDCON, F
+               00327 ;       .line   67; lvd.c       LVDCON |= threshold;
+001A 5000      00328         MOVF    r0x00, W
+001C 1200      00329         IORWF   _LVDCON, F
+               00330 ;       .line   70; lvd.c       LVDCONbits.LVDEN = 1;
+001E 8800      00331         BSF     _LVDCONbits, 4
+0020 00332 _00105_DS_:
+               00333 ;       .line   75; lvd.c       while (LVDCONbits.BGST == 0)
+0020 AA00      00334         BTFSS   _LVDCONbits, 5
+0022 D000      00335         BRA     _00105_DS_
+               00336 ;       .line   81; lvd.c       PIR2bits.LVDIF = 0;
+0024 9400      00337         BCF     _PIR2bits, 2
+0026 CFE4 F000 00338         MOVFF   PREINC1, r0x00
+002A CFE4 FFD9 00339         MOVFF   PREINC1, FSR2L
+002E 0012      00340         RETURN  
+               00341 
+               00342 
+               00343 
+               00344 ; Statistics:
+               00345 ; code size:      136 (0x0088) bytes ( 0.10%)
+               00346 ;                  68 (0x0044) words
+               00347 ; udata size:       0 (0x0000) bytes ( 0.00%)
+               00348 ; access size:      1 (0x0001) bytes
+               00349 
+               00350 
+gpasm-0.13.7 beta               lvd.asm     11-2-2012  01:06:42          PAGE  8
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+FSR1L                             00000FE1
+FSR2L                             00000FD9
+PLUSW2                            00000FDB
+POSTDEC1                          00000FE5
+PREINC1                           00000FE4
+WREG                              00000FE8
+_00105_DS_                        00000020
+_00118_DS_                        00000020
+_ADCON0                           00000000
+_ADCON0bits                       00000000
+_ADCON1                           00000000
+_ADCON1bits                       00000000
+_ADCON2                           00000000
+_ADCON2bits                       00000000
+_ADRESH                           00000000
+_ADRESL                           00000000
+_BSR                              00000000
+_CCP1CON                          00000000
+_CCP1CONbits                      00000000
+_CCP2CON                          00000000
+_CCP2CONbits                      00000000
+_CCP3CON                          00000000
+_CCP3CONbits                      00000000
+_CCP4CON                          00000000
+_CCP4CONbits                      00000000
+_CCP5CON                          00000000
+_CCP5CONbits                      00000000
+_CCPR1H                           00000000
+_CCPR1L                           00000000
+_CCPR2H                           00000000
+_CCPR2L                           00000000
+_CCPR3H                           00000000
+_CCPR3L                           00000000
+_CCPR4H                           00000000
+_CCPR4L                           00000000
+_CCPR5H                           00000000
+_CCPR5L                           00000000
+_CMCON                            00000000
+_CMCONbits                        00000000
+_CVRCON                           00000000
+_CVRCONbits                       00000000
+_EEADR                            00000000
+_EEADRH                           00000000
+_EECON1                           00000000
+_EECON1bits                       00000000
+_EECON2                           00000000
+_EEDATA                           00000000
+_FSR0H                            00000000
+_FSR0L                            00000000
+_FSR1H                            00000000
+_FSR1L                            00000000
+_FSR2H                            00000000
+_FSR2L                            00000000
+gpasm-0.13.7 beta               lvd.asm     11-2-2012  01:06:42          PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_INDF0                            00000000
+_INDF1                            00000000
+_INDF2                            00000000
+_INTCON                           00000000
+_INTCON2                          00000000
+_INTCON2bits                      00000000
+_INTCON3                          00000000
+_INTCON3bits                      00000000
+_INTCONbits                       00000000
+_IPR1                             00000000
+_IPR1bits                         00000000
+_IPR2                             00000000
+_IPR2bits                         00000000
+_IPR3                             00000000
+_IPR3bits                         00000000
+_LATA                             00000000
+_LATAbits                         00000000
+_LATB                             00000000
+_LATBbits                         00000000
+_LATC                             00000000
+_LATCbits                         00000000
+_LATD                             00000000
+_LATDbits                         00000000
+_LATE                             00000000
+_LATEbits                         00000000
+_LATF                             00000000
+_LATFbits                         00000000
+_LATG                             00000000
+_LATGbits                         00000000
+_LATH                             00000000
+_LATHbits                         00000000
+_LATJ                             00000000
+_LATJbits                         00000000
+_LVDCON                           00000000
+_LVDCONbits                       00000000
+_MEMCON                           00000000
+_MEMCONbits                       00000000
+_OSCCON                           00000000
+_OSCCONbits                       00000000
+_PCL                              00000000
+_PCLATH                           00000000
+_PCLATU                           00000000
+_PIE1                             00000000
+_PIE1bits                         00000000
+_PIE2                             00000000
+_PIE2bits                         00000000
+_PIE3                             00000000
+_PIE3bits                         00000000
+_PIR1                             00000000
+_PIR1bits                         00000000
+_PIR2                             00000000
+_PIR2bits                         00000000
+_PIR3                             00000000
+_PIR3bits                         00000000
+gpasm-0.13.7 beta               lvd.asm     11-2-2012  01:06:42          PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_PLUSW0                           00000000
+_PLUSW1                           00000000
+_PLUSW2                           00000000
+_PORTA                            00000000
+_PORTAbits                        00000000
+_PORTB                            00000000
+_PORTBbits                        00000000
+_PORTC                            00000000
+_PORTCbits                        00000000
+_PORTD                            00000000
+_PORTDbits                        00000000
+_PORTE                            00000000
+_PORTEbits                        00000000
+_PORTF                            00000000
+_PORTFbits                        00000000
+_PORTG                            00000000
+_PORTGbits                        00000000
+_PORTH                            00000000
+_PORTHbits                        00000000
+_PORTJ                            00000000
+_PORTJbits                        00000000
+_POSTDEC0                         00000000
+_POSTDEC1                         00000000
+_POSTDEC2                         00000000
+_POSTINC0                         00000000
+_POSTINC1                         00000000
+_POSTINC2                         00000000
+_PR2                              00000000
+_PR4                              00000000
+_PREINC0                          00000000
+_PREINC1                          00000000
+_PREINC2                          00000000
+_PRODH                            00000000
+_PRODL                            00000000
+_PSPCON                           00000000
+_PSPCONbits                       00000000
+_RCON                             00000000
+_RCONbits                         00000000
+_RCREG                            00000000
+_RCREG1                           00000000
+_RCREG2                           00000000
+_RCSTA                            00000000
+_RCSTA1                           00000000
+_RCSTA1bits                       00000000
+_RCSTA2                           00000000
+_RCSTA2bits                       00000000
+_RCSTAbits                        00000000
+_SPBRG                            00000000
+_SPBRG1                           00000000
+_SPBRG2                           00000000
+_SSPADD                           00000000
+_SSPBUF                           00000000
+_SSPCON1                          00000000
+_SSPCON1bits                      00000000
+gpasm-0.13.7 beta               lvd.asm     11-2-2012  01:06:42          PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_SSPCON2                          00000000
+_SSPCON2bits                      00000000
+_SSPSTAT                          00000000
+_SSPSTATbits                      00000000
+_STATUS                           00000000
+_STATUSbits                       00000000
+_STKPTR                           00000000
+_STKPTRbits                       00000000
+_T0CON                            00000000
+_T1CON                            00000000
+_T1CONbits                        00000000
+_T2CON                            00000000
+_T2CONbits                        00000000
+_T3CON                            00000000
+_T3CONbits                        00000000
+_T4CON                            00000000
+_T4CONbits                        00000000
+_TABLAT                           00000000
+_TBLPTRH                          00000000
+_TBLPTRL                          00000000
+_TBLPTRU                          00000000
+_TMR0H                            00000000
+_TMR0L                            00000000
+_TMR1H                            00000000
+_TMR1L                            00000000
+_TMR2                             00000000
+_TMR3H                            00000000
+_TMR3L                            00000000
+_TMR4                             00000000
+_TOSH                             00000000
+_TOSL                             00000000
+_TOSU                             00000000
+_TRISA                            00000000
+_TRISAbits                        00000000
+_TRISB                            00000000
+_TRISBbits                        00000000
+_TRISC                            00000000
+_TRISCbits                        00000000
+_TRISD                            00000000
+_TRISDbits                        00000000
+_TRISE                            00000000
+_TRISEbits                        00000000
+_TRISF                            00000000
+_TRISFbits                        00000000
+_TRISG                            00000000
+_TRISGbits                        00000000
+_TRISH                            00000000
+_TRISHbits                        00000000
+_TRISJ                            00000000
+_TRISJbits                        00000000
+_TXREG                            00000000
+_TXREG1                           00000000
+_TXREG2                           00000000
+_TXSTA                            00000000
+gpasm-0.13.7 beta               lvd.asm     11-2-2012  01:06:42          PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_TXSTA1                           00000000
+_TXSTA1bits                       00000000
+_TXSTA2                           00000000
+_TXSTA2bits                       00000000
+_TXSTAbits                        00000000
+_WDTCON                           00000000
+_WDTCONbits                       00000000
+_WREG                             00000000
+__18F8520                         00000001
+_lvd_check                        00000000
+_lvd_set                          00000000
+_lvd_triggered                    00000000
+r0x00                             00000000
+
+
+Errors   :       0
+Warnings :       0 reported,       0 suppressed
+Messages :       0 reported,       0 suppressed
+

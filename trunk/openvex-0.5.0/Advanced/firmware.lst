@@ -1,0 +1,2358 @@
+gplink-0.13.7 beta
+Copyright (c) 1998-2005 gputils project
+Listing File Generated: 10-13-2012  23:44:08
+ 
+ 
+Address  Value    Disassembly              Source
+-------  -----    -----------              ------
+                                           ;--------------------------------------------------------
+                                           ; File Created by SDCC : free open source ANSI-C Compiler
+                                           ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
+                                           ; This file was generated Sat Oct 13 23:44:08 2012
+                                           ;--------------------------------------------------------
+                                           ; PIC16 port for the Microchip 16-bit core micros
+                                           ;--------------------------------------------------------
+                                           	list	p=18f8520
+                                           
+                                           	radix dec
+                                           
+                                           ;--------------------------------------------------------
+                                           ; public variables in this module
+                                           ;--------------------------------------------------------
+                                           	global _main
+                                           	global _custom_init
+                                           	global _rc_routine
+                                           	global _arcade_drive_routine
+                                           	global _sonar_scan
+                                           	global _autonomous_routine0
+                                           	global _autonomous_routine2
+                                           	global _autonomous_routine_competition
+                                           
+                                           ;--------------------------------------------------------
+                                           ; extern variables in this module
+                                           ;--------------------------------------------------------
+                                           	extern __divuchar
+                                           	extern _stdin
+                                           	extern _stdout
+                                           	extern _RCSTA2bits
+                                           	extern _TXSTA2bits
+                                           	extern _CCP5CONbits
+                                           	extern _CCP4CONbits
+                                           	extern _T4CONbits
+                                           	extern _PORTAbits
+                                           	extern _PORTBbits
+                                           	extern _PORTCbits
+                                           	extern _PORTDbits
+                                           	extern _PORTEbits
+                                           	extern _PORTFbits
+                                           	extern _PORTGbits
+                                           	extern _PORTHbits
+                                           	extern _PORTJbits
+                                           	extern _LATAbits
+                                           	extern _LATBbits
+                                           	extern _LATCbits
+                                           	extern _LATDbits
+                                           	extern _LATEbits
+                                           	extern _LATFbits
+                                           	extern _LATGbits
+                                           	extern _LATHbits
+                                           	extern _LATJbits
+                                           	extern _TRISAbits
+                                           	extern _TRISBbits
+                                           	extern _TRISCbits
+                                           	extern _TRISDbits
+                                           	extern _TRISEbits
+                                           	extern _TRISFbits
+                                           	extern _TRISGbits
+                                           	extern _TRISHbits
+                                           	extern _TRISJbits
+                                           	extern _MEMCONbits
+                                           	extern _PIE1bits
+                                           	extern _PIR1bits
+                                           	extern _IPR1bits
+                                           	extern _PIE2bits
+                                           	extern _PIR2bits
+                                           	extern _IPR2bits
+                                           	extern _PIE3bits
+                                           	extern _PIR3bits
+                                           	extern _IPR3bits
+                                           	extern _EECON1bits
+                                           	extern _RCSTA1bits
+                                           	extern _TXSTA1bits
+                                           	extern _RCSTAbits
+                                           	extern _TXSTAbits
+                                           	extern _PSPCONbits
+                                           	extern _T3CONbits
+                                           	extern _CMCONbits
+                                           	extern _CVRCONbits
+                                           	extern _CCP3CONbits
+                                           	extern _CCP2CONbits
+                                           	extern _CCP1CONbits
+                                           	extern _ADCON2bits
+                                           	extern _ADCON1bits
+                                           	extern _ADCON0bits
+                                           	extern _SSPCON2bits
+                                           	extern _SSPCON1bits
+                                           	extern _SSPSTATbits
+                                           	extern _T2CONbits
+                                           	extern _T1CONbits
+                                           	extern _RCONbits
+                                           	extern _WDTCONbits
+                                           	extern _LVDCONbits
+                                           	extern _OSCCONbits
+                                           	extern _STATUSbits
+                                           	extern _INTCON3bits
+                                           	extern _INTCON2bits
+                                           	extern _INTCONbits
+                                           	extern _STKPTRbits
+                                           	extern _Timer0_overflows
+                                           	extern _Timer1_overflows
+                                           	extern _Timer2_overflows
+                                           	extern _Timer3_overflows
+                                           	extern _Timer4_overflows
+                                           	extern _Interrupt_port_in_use
+                                           	extern _Encoder_on_iport
+                                           	extern _Encoder_ticks
+                                           	extern _Quad_input_port
+                                           	extern _Porta_sample
+                                           	extern _Portf_sample
+                                           	extern _Porth_sample
+                                           	extern _Rx_buff
+                                           	extern _Rx_user_buff_index
+                                           	extern _Spi_status
+                                           	extern _Sonar_data_available
+                                           	extern _Sonar_on_iport
+                                           	extern _User_rxdata
+                                           	extern _User_txdata
+                                           	extern _Tx_buff
+                                           	extern _Tx_user_buff_index
+                                           	extern _RCSTA2
+                                           	extern _TXSTA2
+                                           	extern _TXREG2
+                                           	extern _RCREG2
+                                           	extern _SPBRG2
+                                           	extern _CCP5CON
+                                           	extern _CCPR5L
+                                           	extern _CCPR5H
+                                           	extern _CCP4CON
+                                           	extern _CCPR4L
+                                           	extern _CCPR4H
+                                           	extern _T4CON
+                                           	extern _PR4
+                                           	extern _TMR4
+                                           	extern _PORTA
+                                           	extern _PORTB
+                                           	extern _PORTC
+                                           	extern _PORTD
+                                           	extern _PORTE
+                                           	extern _PORTF
+                                           	extern _PORTG
+                                           	extern _PORTH
+                                           	extern _PORTJ
+                                           	extern _LATA
+                                           	extern _LATB
+                                           	extern _LATC
+                                           	extern _LATD
+                                           	extern _LATE
+                                           	extern _LATF
+                                           	extern _LATG
+                                           	extern _LATH
+                                           	extern _LATJ
+                                           	extern _TRISA
+                                           	extern _TRISB
+                                           	extern _TRISC
+                                           	extern _TRISD
+                                           	extern _TRISE
+                                           	extern _TRISF
+                                           	extern _TRISG
+                                           	extern _TRISH
+                                           	extern _TRISJ
+                                           	extern _MEMCON
+                                           	extern _PIE1
+                                           	extern _PIR1
+                                           	extern _IPR1
+                                           	extern _PIE2
+                                           	extern _PIR2
+                                           	extern _IPR2
+                                           	extern _PIE3
+                                           	extern _PIR3
+                                           	extern _IPR3
+                                           	extern _EECON1
+                                           	extern _EECON2
+                                           	extern _EEDATA
+                                           	extern _EEADR
+                                           	extern _EEADRH
+                                           	extern _RCSTA1
+                                           	extern _TXSTA1
+                                           	extern _TXREG1
+                                           	extern _RCREG1
+                                           	extern _SPBRG1
+                                           	extern _RCSTA
+                                           	extern _TXSTA
+                                           	extern _TXREG
+                                           	extern _RCREG
+                                           	extern _SPBRG
+                                           	extern _PSPCON
+                                           	extern _T3CON
+                                           	extern _TMR3L
+                                           	extern _TMR3H
+                                           	extern _CMCON
+                                           	extern _CVRCON
+                                           	extern _CCP3CON
+                                           	extern _CCPR3L
+                                           	extern _CCPR3H
+                                           	extern _CCP2CON
+                                           	extern _CCPR2L
+                                           	extern _CCPR2H
+                                           	extern _CCP1CON
+                                           	extern _CCPR1L
+                                           	extern _CCPR1H
+                                           	extern _ADCON2
+                                           	extern _ADCON1
+                                           	extern _ADCON0
+                                           	extern _ADRESL
+                                           	extern _ADRESH
+                                           	extern _SSPCON2
+                                           	extern _SSPCON1
+                                           	extern _SSPSTAT
+                                           	extern _SSPADD
+                                           	extern _SSPBUF
+                                           	extern _T2CON
+                                           	extern _PR2
+                                           	extern _TMR2
+                                           	extern _T1CON
+                                           	extern _TMR1L
+                                           	extern _TMR1H
+                                           	extern _RCON
+                                           	extern _WDTCON
+                                           	extern _LVDCON
+                                           	extern _OSCCON
+                                           	extern _T0CON
+                                           	extern _TMR0L
+                                           	extern _TMR0H
+                                           	extern _STATUS
+                                           	extern _FSR2L
+                                           	extern _FSR2H
+                                           	extern _PLUSW2
+                                           	extern _PREINC2
+                                           	extern _POSTDEC2
+                                           	extern _POSTINC2
+                                           	extern _INDF2
+                                           	extern _BSR
+                                           	extern _FSR1L
+                                           	extern _FSR1H
+                                           	extern _PLUSW1
+                                           	extern _PREINC1
+                                           	extern _POSTDEC1
+                                           	extern _POSTINC1
+                                           	extern _INDF1
+                                           	extern _WREG
+                                           	extern _FSR0L
+                                           	extern _FSR0H
+                                           	extern _PLUSW0
+                                           	extern _PREINC0
+                                           	extern _POSTDEC0
+                                           	extern _POSTINC0
+                                           	extern _INDF0
+                                           	extern _INTCON3
+                                           	extern _INTCON2
+                                           	extern _INTCON
+                                           	extern _PRODL
+                                           	extern _PRODH
+                                           	extern _TABLAT
+                                           	extern _TBLPTRL
+                                           	extern _TBLPTRH
+                                           	extern _TBLPTRU
+                                           	extern _PCL
+                                           	extern _PCLATH
+                                           	extern _PCLATU
+                                           	extern _STKPTR
+                                           	extern _TOSL
+                                           	extern _TOSH
+                                           	extern _TOSU
+                                           	extern _printf
+                                           	extern _io_set_analog_port_count
+                                           	extern _io_read_analog
+                                           	extern _io_read_digital
+                                           	extern _io_set_direction
+                                           	extern _timer0_read32
+                                           	extern _timer_read_ms
+                                           	extern _timer_start
+                                           	extern _shaft_encoder_read_std
+                                           	extern _shaft_encoder_enable_std
+                                           	extern _shaft_tps_run
+                                           	extern _shaft_tps_init
+                                           	extern _rc_read_status
+                                           	extern _rc_read_data
+                                           	extern _rc_new_data_available
+                                           	extern _rc_button_sequence
+                                           	extern _pwm_write
+                                           	extern _controller_submit_data
+                                           	extern _controller_begin_autonomous_mode
+                                           	extern _controller_end_autonomous_mode
+                                           	extern _controller_print_version
+                                           	extern _sonar_init
+                                           	extern _sonar_read
+                                           	extern _controller_init
+                                           	extern _line_sensor_read
+                                           	extern _arcade_drive
+                                           	extern __divsint
+                                           	extern __divulong
+                                           ;--------------------------------------------------------
+                                           ;	Equates to used internal registers
+                                           ;--------------------------------------------------------
+                                           STATUS	equ	0xfd8
+                                           PCL	equ	0xff9
+                                           PCLATH	equ	0xffa
+                                           PCLATU	equ	0xffb
+                                           WREG	equ	0xfe8
+                                           FSR0L	equ	0xfe9
+                                           FSR1L	equ	0xfe1
+                                           FSR2L	equ	0xfd9
+                                           POSTDEC1	equ	0xfe5
+                                           PREINC1	equ	0xfe4
+                                           PLUSW2	equ	0xfdb
+                                           PRODL	equ	0xff3
+                                           PRODH	equ	0xff4
+                                           
+                                           
+                                           	idata
+                                           _rc_routine_sonar_distance_1_1	db	0x00, 0x00
+                                           _rc_routine_old_time_1_1	db	0x00, 0x00, 0x00, 0x00
+                                           _arcade_drive_routine_implement_pos_1_1	db	0x00
+                                           _sonar_scan_sonar_direction_1_1	db	0x00
+                                           _sonar_scan_add_1_1	db	0x02
+                                           
+                                           
+                                           ; Internal registers
+                                           .registers	udata_ovr	0x0000
+                                           r0x00	res	1
+                                           r0x01	res	1
+                                           r0x02	res	1
+                                           r0x03	res	1
+                                           r0x04	res	1
+                                           r0x05	res	1
+                                           r0x06	res	1
+                                           r0x07	res	1
+                                           r0x08	res	1
+                                           r0x09	res	1
+                                           r0x0a	res	1
+                                           r0x0b	res	1
+                                           r0x0c	res	1
+                                           r0x0d	res	1
+                                           r0x0e	res	1
+                                           r0x0f	res	1
+                                           r0x10	res	1
+                                           r0x11	res	1
+                                           r0x12	res	1
+                                           r0x13	res	1
+                                           r0x14	res	1
+                                           r0x15	res	1
+                                           
+                                           udata_firmware_0	udata
+                                           _rc_routine_elapsed_time_1_1	res	4
+                                           
+                                           udata_firmware_1	udata
+                                           _rc_routine_line_sensor_1_1	res	6
+                                           
+                                           udata_firmware_2	udata
+                                           _arcade_drive_routine_rc_pos_1_1	res	1
+                                           
+                                           udata_firmware_3	udata
+                                           _arcade_drive_routine_left_drive_1_1	res	1
+                                           
+                                           udata_firmware_4	udata
+                                           _arcade_drive_routine_right_drive_1_1	res	1
+                                           
+                                           udata_firmware_5	udata
+                                           _arcade_drive_routine_joy_x_1_1	res	1
+                                           
+                                           udata_firmware_6	udata
+                                           _arcade_drive_routine_joy_y_1_1	res	1
+                                           
+                                           udata_firmware_7	udata
+                                           _autonomous_routine0_shafts_1_1	res	28
+                                           
+                                           udata_firmware_8	udata
+                                           _autonomous_routine2_shafts_1_1	res	28
+                                           
+                                           ;--------------------------------------------------------
+                                           ; interrupt vector 
+                                           ;--------------------------------------------------------
+                                           
+                                           ;--------------------------------------------------------
+                                           ; global & static initialisations
+                                           ;--------------------------------------------------------
+                                           	code
+                                           __sdcc_gsinit_startup:
+                                           ; I code from now on!
+00727a   ef3f     goto	0x727e              	goto	__sdcc_program_startup
+00727c   f039
+                                           ; ; Starting pCode block
+                                           __sdcc_program_startup:
+00727e   ec39     call	0x6072, 0           	CALL	_main
+007280   f030
+                                           ; ;	return from main will lock up
+                                           
+007282   ef41     goto	0x7282              	GOTO	$
+007284   f039
+                                           ; ; Starting pCode block
+                                           S_firmware__main	code
+                                           _main:
+                                           ;	.line	67; firmware.c	controller_init();
+006072   ecca     call	0x5b94, 0           	CALL	_controller_init
+006074   f02d
+                                           ;	.line	70; firmware.c	custom_init();
+006076   ec77     call	0x40ee, 0           	CALL	_custom_init
+006078   f020
+                                           ;	.line	81; firmware.c	if ( io_read_digital(COMPETITION_JUMPER_PORT) == 0 )
+00607a   0e0f     movlw	0xf                	MOVLW	0x0f
+00607c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00607e   ecdf     call	0x45be, 0           	CALL	_io_read_digital
+006080   f022
+006082   6e00     movwf	0, 0               	MOVWF	r0x00
+006084   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+006086   5000     movf	0, 0, 0             	MOVF	r0x00, W
+006088   e117     bnz	0x60b8               	BNZ	_00119_DS_
+                                           ;	.line	84; firmware.c	printf("Waiting for RC signal to begin autonomous period...\n");
+00608a   0e00     movlw	0                  	MOVLW	UPPER(__str_0)
+00608c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00608e   0e41     movlw	0x41               	MOVLW	HIGH(__str_0)
+006090   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+006092   0e9a     movlw	0x9a               	MOVLW	LOW(__str_0)
+006094   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+006096   ecb1     call	0x6d62, 0           	CALL	_printf
+006098   f036
+00609a   0e03     movlw	0x3                	MOVLW	0x03
+00609c   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           _00105_DS_:
+                                           ;	.line	85; firmware.c	while ( rc_read_status() != 1 )
+00609e   ec76     call	0x6cec, 0           	CALL	_rc_read_status
+0060a0   f036
+                                           ; #	MOVWF	r0x00
+                                           ; #	MOVF	r0x00, W
+0060a2   6e00     movwf	0, 0               	MOVWF	r0x00
+0060a4   0a01     xorlw	0x1                	XORLW	0x01
+0060a6   e1fb     bnz	0x609e               	BNZ	_00105_DS_
+                                           ;	.line	88; firmware.c	autonomous_routine_competition(20);
+0060a8   0e00     movlw	0                  	MOVLW	0x00
+0060aa   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0060ac   0e14     movlw	0x14               	MOVLW	0x14
+0060ae   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0060b0   ec97     call	0x752e, 0           	CALL	_autonomous_routine_competition
+0060b2   f03a
+0060b4   0e02     movlw	0x2                	MOVLW	0x02
+0060b6   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           _00119_DS_:
+                                           ;	.line	113; firmware.c	if ( rc_new_data_available() )
+0060b8   ec6b     call	0x74d6, 0           	CALL	_rc_new_data_available
+0060ba   f03a
+0060bc   6e00     movwf	0, 0               	MOVWF	r0x00
+0060be   5000     movf	0, 0, 0             	MOVF	r0x00, W
+0060c0   e0fb     bz	0x60b8                	BZ	_00119_DS_
+                                           ;	.line	115; firmware.c	rc_routine();
+0060c2   ecb8     call	0x1d70, 0           	CALL	_rc_routine
+0060c4   f00e
+                                           ;	.line	124; firmware.c	switch( rc_button_sequence(AUTO_TRIGGER_BUTTON, AUTO_TRIGGER_SEQ_LEN) )
+0060c6   0e02     movlw	0x2                	MOVLW	0x02
+0060c8   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0060ca   0e05     movlw	0x5                	MOVLW	0x05
+0060cc   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0060ce   ecba     call	0x6374, 0           	CALL	_rc_button_sequence
+0060d0   f031
+0060d2   6e00     movwf	0, 0               	MOVWF	r0x00
+0060d4   0e02     movlw	0x2                	MOVLW	0x02
+0060d6   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+0060d8   0e04     movlw	0x4                	MOVLW	0x04
+0060da   5c00     subwf	0, 0, 0            	SUBWF	r0x00, W
+0060dc   e2ed     bc	0x60b8                	BC	_00119_DS_
+0060de   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
+0060e0   ffe5
+0060e2   c002     movff	0x2, 0xfe5         	MOVFF	r0x02, POSTDEC1
+0060e4   ffe5
+0060e6   6a02     clrf	0x2, 0              	CLRF	r0x02
+0060e8   3400     rlcf	0, 0, 0             	RLCF	r0x00, W
+0060ea   3602     rlcf	0x2, 0x1, 0         	RLCF	r0x02, F
+0060ec   34e8     rlcf	0xe8, 0, 0          	RLCF	WREG, W
+0060ee   3602     rlcf	0x2, 0x1, 0         	RLCF	r0x02, F
+0060f0   0bfc     andlw	0xfc               	ANDLW	0xfc
+0060f2   6e01     movwf	0x1, 0             	MOVWF	r0x01
+0060f4   0e00     movlw	0                  	MOVLW	UPPER(_00132_DS_)
+0060f6   6efb     movwf	0xfb, 0            	MOVWF	PCLATU
+0060f8   0e61     movlw	0x61               	MOVLW	HIGH(_00132_DS_)
+0060fa   6efa     movwf	0xfa, 0            	MOVWF	PCLATH
+0060fc   0e14     movlw	0x14               	MOVLW	LOW(_00132_DS_)
+0060fe   2601     addwf	0x1, 0x1, 0        	ADDWF	r0x01, F
+006100   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+006102   22fa     addwfc	0xfa, 0x1, 0      	ADDWFC	PCLATH, F
+006104   b0d8     btfsc	0xd8, 0, 0         	BTFSC	STATUS, 0
+006106   2afb     incf	0xfb, 0x1, 0        	INCF	PCLATU, F
+006108   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
+00610a   cfe4     movff	0xfe4, 0x2         	MOVFF	PREINC1, r0x02
+00610c   f002
+00610e   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
+006110   f001
+006112   6ef9     movwf	0xf9, 0            	MOVWF	PCL
+                                           _00132_DS_:
+006114   ef92     goto	0x6124              	GOTO	_00110_DS_
+006116   f030
+006118   ef95     goto	0x612a              	GOTO	_00111_DS_
+00611a   f030
+00611c   ef96     goto	0x612c              	GOTO	_00112_DS_
+00611e   f030
+006120   ef99     goto	0x6132              	GOTO	_00113_DS_
+006122   f030
+                                           _00110_DS_:
+                                           ;	.line	127; firmware.c	autonomous_routine0();
+006124   ecb9     call	0x3d72, 0           	CALL	_autonomous_routine0
+006126   f01e
+                                           ;	.line	128; firmware.c	break;
+006128   d7c7     bra	0x60b8               	BRA	_00119_DS_
+                                           _00111_DS_:
+                                           ;	.line	131; firmware.c	break;
+00612a   d7c6     bra	0x60b8               	BRA	_00119_DS_
+                                           _00112_DS_:
+                                           ;	.line	133; firmware.c	autonomous_routine2();
+00612c   ecc4     call	0x3988, 0           	CALL	_autonomous_routine2
+00612e   f01c
+                                           ;	.line	134; firmware.c	break;
+006130   d7c3     bra	0x60b8               	BRA	_00119_DS_
+                                           _00113_DS_:
+                                           ;	.line	137; firmware.c	break;
+006132   d7c2     bra	0x60b8               	BRA	_00119_DS_
+                                           ;	.line	140; firmware.c	}
+006134   0012     return	0                 	RETURN	
+                                           
+                                           ; ; Starting pCode block
+                                           S_firmware__autonomous_routine_competition	code
+                                           _autonomous_routine_competition:
+                                           ;	.line	703; firmware.c	void    autonomous_routine_competition(unsigned short seconds)
+00752e   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
+007530   ffe5
+007532   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
+007534   ffd9
+                                           ;	.line	706; firmware.c	printf("Running competition autonomous routine...\n");
+007536   0e00     movlw	0                  	MOVLW	UPPER(__str_5)
+007538   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00753a   0e42     movlw	0x42               	MOVLW	HIGH(__str_5)
+00753c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00753e   0e74     movlw	0x74               	MOVLW	LOW(__str_5)
+007540   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+007542   ecb1     call	0x6d62, 0           	CALL	_printf
+007544   f036
+007546   0e03     movlw	0x3                	MOVLW	0x03
+007548   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	707; firmware.c	controller_begin_autonomous_mode();
+00754a   ec06     call	0x740c, 0           	CALL	_controller_begin_autonomous_mode
+00754c   f03a
+                                           ;	.line	725; firmware.c	controller_end_autonomous_mode();
+00754e   ec20     call	0x7440, 0           	CALL	_controller_end_autonomous_mode
+007550   f03a
+007552   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
+007554   ffd9
+007556   0012     return	0                 	RETURN	
+                                           
+                                           ; ; Starting pCode block
+                                           S_firmware__autonomous_routine2	code
+                                           _autonomous_routine2:
+                                           ;	.line	641; firmware.c	void    autonomous_routine2()
+003988   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
+00398a   ffe5
+00398c   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
+00398e   ffd9
+003990   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
+003992   ffe5
+003994   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
+003996   ffe5
+003998   c002     movff	0x2, 0xfe5         	MOVFF	r0x02, POSTDEC1
+00399a   ffe5
+                                           ;	.line	646; firmware.c	controller_begin_autonomous_mode();
+00399c   ec06     call	0x740c, 0           	CALL	_controller_begin_autonomous_mode
+00399e   f03a
+                                           ;	.line	649; firmware.c	shaft_tps_init(&shafts[0], 0, ROUTINE2_TICKS,
+0039a0   0e02     movlw	0x2                	MOVLW	HIGH(_autonomous_routine2_shafts_1_1)
+0039a2   6e01     movwf	0x1, 0             	MOVWF	r0x01
+0039a4   0e5c     movlw	0x5c               	MOVLW	LOW(_autonomous_routine2_shafts_1_1)
+0039a6   6e00     movwf	0, 0               	MOVWF	r0x00
+0039a8   0e80     movlw	0x80               	MOVLW	0x80
+0039aa   6e02     movwf	0x2, 0             	MOVWF	r0x02
+                                           ;	.line	650; firmware.c	LEFT_DRIVE_PORT, LEFT_ENCODER_INTERRUPT_PORT, 0, -ROUTINE2_POWER);
+0039ac   0eff     movlw	0xff               	MOVLW	0xff
+0039ae   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0039b0   0eb0     movlw	0xb0               	MOVLW	0xb0
+0039b2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0039b4   0e00     movlw	0                  	MOVLW	0x00
+0039b6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0039b8   0e01     movlw	0x1                	MOVLW	0x01
+0039ba   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0039bc   0e03     movlw	0x3                	MOVLW	0x03
+0039be   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0039c0   0e02     movlw	0x2                	MOVLW	0x02
+0039c2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0039c4   0e58     movlw	0x58               	MOVLW	0x58
+0039c6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0039c8   0e00     movlw	0                  	MOVLW	0x00
+0039ca   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0039cc   0e00     movlw	0                  	MOVLW	0x00
+0039ce   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0039d0   0e00     movlw	0                  	MOVLW	0x00
+0039d2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0039d4   0e00     movlw	0                  	MOVLW	0x00
+0039d6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0039d8   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+0039da   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0039dc   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
+0039de   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0039e0   5000     movf	0, 0, 0             	MOVF	r0x00, W
+0039e2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0039e4   ec23     call	0x2e46, 0           	CALL	_shaft_tps_init
+0039e6   f017
+0039e8   0e0e     movlw	0xe                	MOVLW	0x0e
+0039ea   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	651; firmware.c	shaft_tps_init(&shafts[1], 0, ROUTINE2_TICKS,
+0039ec   0e02     movlw	0x2                	MOVLW	HIGH(_autonomous_routine2_shafts_1_1 + 14)
+0039ee   6e01     movwf	0x1, 0             	MOVWF	r0x01
+0039f0   0e6a     movlw	0x6a               	MOVLW	LOW(_autonomous_routine2_shafts_1_1 + 14)
+0039f2   6e00     movwf	0, 0               	MOVWF	r0x00
+0039f4   0e80     movlw	0x80               	MOVLW	0x80
+0039f6   6e02     movwf	0x2, 0             	MOVWF	r0x02
+                                           ;	.line	652; firmware.c	RIGHT_DRIVE_PORT, RIGHT_ENCODER_INTERRUPT_PORT, 0, ROUTINE2_POWER);
+0039f8   0e00     movlw	0                  	MOVLW	0x00
+0039fa   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0039fc   0e50     movlw	0x50               	MOVLW	0x50
+0039fe   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a00   0e00     movlw	0                  	MOVLW	0x00
+003a02   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a04   0e02     movlw	0x2                	MOVLW	0x02
+003a06   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a08   0e04     movlw	0x4                	MOVLW	0x04
+003a0a   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a0c   0e02     movlw	0x2                	MOVLW	0x02
+003a0e   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a10   0e58     movlw	0x58               	MOVLW	0x58
+003a12   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a14   0e00     movlw	0                  	MOVLW	0x00
+003a16   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a18   0e00     movlw	0                  	MOVLW	0x00
+003a1a   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a1c   0e00     movlw	0                  	MOVLW	0x00
+003a1e   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a20   0e00     movlw	0                  	MOVLW	0x00
+003a22   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a24   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+003a26   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a28   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
+003a2a   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a2c   5000     movf	0, 0, 0             	MOVF	r0x00, W
+003a2e   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a30   ec23     call	0x2e46, 0           	CALL	_shaft_tps_init
+003a32   f017
+003a34   0e0e     movlw	0xe                	MOVLW	0x0e
+003a36   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	653; firmware.c	shaft_tps_run(shafts, 2);
+003a38   0e02     movlw	0x2                	MOVLW	HIGH(_autonomous_routine2_shafts_1_1)
+003a3a   6e01     movwf	0x1, 0             	MOVWF	r0x01
+003a3c   0e5c     movlw	0x5c               	MOVLW	LOW(_autonomous_routine2_shafts_1_1)
+003a3e   6e00     movwf	0, 0               	MOVWF	r0x00
+003a40   0e80     movlw	0x80               	MOVLW	0x80
+003a42   6e02     movwf	0x2, 0             	MOVWF	r0x02
+003a44   0e02     movlw	0x2                	MOVLW	0x02
+003a46   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a48   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+003a4a   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a4c   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
+003a4e   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a50   5000     movf	0, 0, 0             	MOVF	r0x00, W
+003a52   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a54   ec0e     call	0x81c, 0            	CALL	_shaft_tps_run
+003a56   f004
+003a58   0e04     movlw	0x4                	MOVLW	0x04
+003a5a   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	655; firmware.c	pwm_write(LEFT_DRIVE_PORT, MOTOR_STOP);
+003a5c   0e00     movlw	0                  	MOVLW	0x00
+003a5e   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a60   0e03     movlw	0x3                	MOVLW	0x03
+003a62   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a64   ec8c     call	0x6f18, 0           	CALL	_pwm_write
+003a66   f037
+003a68   0e02     movlw	0x2                	MOVLW	0x02
+003a6a   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	656; firmware.c	pwm_write(RIGHT_DRIVE_PORT, MOTOR_STOP);
+003a6c   0e00     movlw	0                  	MOVLW	0x00
+003a6e   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a70   0e04     movlw	0x4                	MOVLW	0x04
+003a72   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a74   ec8c     call	0x6f18, 0           	CALL	_pwm_write
+003a76   f037
+003a78   0e02     movlw	0x2                	MOVLW	0x02
+003a7a   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	657; firmware.c	controller_submit_data(WAIT);
+003a7c   0e01     movlw	0x1                	MOVLW	0x01
+003a7e   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a80   ec56     call	0x5aac, 0           	CALL	_controller_submit_data
+003a82   f02d
+003a84   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+                                           ;	.line	660; firmware.c	shaft_tps_init(&shafts[0], 0, ROUTINE2_TICKS,
+003a86   0e02     movlw	0x2                	MOVLW	HIGH(_autonomous_routine2_shafts_1_1)
+003a88   6e01     movwf	0x1, 0             	MOVWF	r0x01
+003a8a   0e5c     movlw	0x5c               	MOVLW	LOW(_autonomous_routine2_shafts_1_1)
+003a8c   6e00     movwf	0, 0               	MOVWF	r0x00
+003a8e   0e80     movlw	0x80               	MOVLW	0x80
+003a90   6e02     movwf	0x2, 0             	MOVWF	r0x02
+                                           ;	.line	661; firmware.c	LEFT_DRIVE_PORT, LEFT_ENCODER_INTERRUPT_PORT, 0, ROUTINE2_POWER);
+003a92   0e00     movlw	0                  	MOVLW	0x00
+003a94   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a96   0e50     movlw	0x50               	MOVLW	0x50
+003a98   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a9a   0e00     movlw	0                  	MOVLW	0x00
+003a9c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003a9e   0e01     movlw	0x1                	MOVLW	0x01
+003aa0   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003aa2   0e03     movlw	0x3                	MOVLW	0x03
+003aa4   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003aa6   0e02     movlw	0x2                	MOVLW	0x02
+003aa8   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003aaa   0e58     movlw	0x58               	MOVLW	0x58
+003aac   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003aae   0e00     movlw	0                  	MOVLW	0x00
+003ab0   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003ab2   0e00     movlw	0                  	MOVLW	0x00
+003ab4   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003ab6   0e00     movlw	0                  	MOVLW	0x00
+003ab8   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003aba   0e00     movlw	0                  	MOVLW	0x00
+003abc   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003abe   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+003ac0   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003ac2   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
+003ac4   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003ac6   5000     movf	0, 0, 0             	MOVF	r0x00, W
+003ac8   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003aca   ec23     call	0x2e46, 0           	CALL	_shaft_tps_init
+003acc   f017
+003ace   0e0e     movlw	0xe                	MOVLW	0x0e
+003ad0   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	662; firmware.c	shaft_tps_init(&shafts[1], 0, ROUTINE2_TICKS,
+003ad2   0e02     movlw	0x2                	MOVLW	HIGH(_autonomous_routine2_shafts_1_1 + 14)
+003ad4   6e01     movwf	0x1, 0             	MOVWF	r0x01
+003ad6   0e6a     movlw	0x6a               	MOVLW	LOW(_autonomous_routine2_shafts_1_1 + 14)
+003ad8   6e00     movwf	0, 0               	MOVWF	r0x00
+003ada   0e80     movlw	0x80               	MOVLW	0x80
+003adc   6e02     movwf	0x2, 0             	MOVWF	r0x02
+                                           ;	.line	663; firmware.c	RIGHT_DRIVE_PORT, RIGHT_ENCODER_INTERRUPT_PORT, 0, -ROUTINE2_POWER);
+003ade   0eff     movlw	0xff               	MOVLW	0xff
+003ae0   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003ae2   0eb0     movlw	0xb0               	MOVLW	0xb0
+003ae4   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003ae6   0e00     movlw	0                  	MOVLW	0x00
+003ae8   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003aea   0e02     movlw	0x2                	MOVLW	0x02
+003aec   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003aee   0e04     movlw	0x4                	MOVLW	0x04
+003af0   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003af2   0e02     movlw	0x2                	MOVLW	0x02
+003af4   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003af6   0e58     movlw	0x58               	MOVLW	0x58
+003af8   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003afa   0e00     movlw	0                  	MOVLW	0x00
+003afc   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003afe   0e00     movlw	0                  	MOVLW	0x00
+003b00   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003b02   0e00     movlw	0                  	MOVLW	0x00
+003b04   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003b06   0e00     movlw	0                  	MOVLW	0x00
+003b08   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003b0a   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+003b0c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003b0e   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
+003b10   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003b12   5000     movf	0, 0, 0             	MOVF	r0x00, W
+003b14   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003b16   ec23     call	0x2e46, 0           	CALL	_shaft_tps_init
+003b18   f017
+003b1a   0e0e     movlw	0xe                	MOVLW	0x0e
+003b1c   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	664; firmware.c	shaft_tps_run(shafts, 2);
+003b1e   0e02     movlw	0x2                	MOVLW	HIGH(_autonomous_routine2_shafts_1_1)
+003b20   6e01     movwf	0x1, 0             	MOVWF	r0x01
+003b22   0e5c     movlw	0x5c               	MOVLW	LOW(_autonomous_routine2_shafts_1_1)
+003b24   6e00     movwf	0, 0               	MOVWF	r0x00
+003b26   0e80     movlw	0x80               	MOVLW	0x80
+003b28   6e02     movwf	0x2, 0             	MOVWF	r0x02
+003b2a   0e02     movlw	0x2                	MOVLW	0x02
+003b2c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003b2e   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+003b30   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003b32   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
+003b34   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003b36   5000     movf	0, 0, 0             	MOVF	r0x00, W
+003b38   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003b3a   ec0e     call	0x81c, 0            	CALL	_shaft_tps_run
+003b3c   f004
+003b3e   0e04     movlw	0x4                	MOVLW	0x04
+003b40   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	666; firmware.c	pwm_write(LEFT_DRIVE_PORT, MOTOR_STOP);
+003b42   0e00     movlw	0                  	MOVLW	0x00
+003b44   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003b46   0e03     movlw	0x3                	MOVLW	0x03
+003b48   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003b4a   ec8c     call	0x6f18, 0           	CALL	_pwm_write
+003b4c   f037
+003b4e   0e02     movlw	0x2                	MOVLW	0x02
+003b50   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	667; firmware.c	pwm_write(RIGHT_DRIVE_PORT, MOTOR_STOP);
+003b52   0e00     movlw	0                  	MOVLW	0x00
+003b54   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003b56   0e04     movlw	0x4                	MOVLW	0x04
+003b58   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003b5a   ec8c     call	0x6f18, 0           	CALL	_pwm_write
+003b5c   f037
+003b5e   0e02     movlw	0x2                	MOVLW	0x02
+003b60   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	668; firmware.c	controller_submit_data(WAIT);
+003b62   0e01     movlw	0x1                	MOVLW	0x01
+003b64   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003b66   ec56     call	0x5aac, 0           	CALL	_controller_submit_data
+003b68   f02d
+003b6a   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+                                           ;	.line	670; firmware.c	controller_end_autonomous_mode();
+003b6c   ec20     call	0x7440, 0           	CALL	_controller_end_autonomous_mode
+003b6e   f03a
+003b70   cfe4     movff	0xfe4, 0x2         	MOVFF	PREINC1, r0x02
+003b72   f002
+003b74   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
+003b76   f001
+003b78   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
+003b7a   f000
+003b7c   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
+003b7e   ffd9
+003b80   0012     return	0                 	RETURN	
+                                           
+                                           ; ; Starting pCode block
+                                           S_firmware__autonomous_routine0	code
+                                           _autonomous_routine0:
+                                           ;	.line	486; firmware.c	void    autonomous_routine0()
+003d72   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
+003d74   ffe5
+003d76   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
+003d78   ffd9
+003d7a   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
+003d7c   ffe5
+003d7e   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
+003d80   ffe5
+003d82   c002     movff	0x2, 0xfe5         	MOVFF	r0x02, POSTDEC1
+003d84   ffe5
+003d86   c003     movff	0x3, 0xfe5         	MOVFF	r0x03, POSTDEC1
+003d88   ffe5
+003d8a   c004     movff	0x4, 0xfe5         	MOVFF	r0x04, POSTDEC1
+003d8c   ffe5
+                                           ;	.line	492; firmware.c	controller_begin_autonomous_mode();
+003d8e   ec06     call	0x740c, 0           	CALL	_controller_begin_autonomous_mode
+003d90   f03a
+                                           ;	.line	494; firmware.c	for (c=0; c<4; ++c)
+003d92   0e04     movlw	0x4                	MOVLW	0x04
+003d94   6e00     movwf	0, 0               	MOVWF	r0x00
+003d96   6a01     clrf	0x1, 0              	CLRF	r0x01
+                                           _00217_DS_:
+                                           ;	.line	497; firmware.c	if ( shaft_tps_init(&shafts[0], 0, 180,
+003d98   0e02     movlw	0x2                	MOVLW	HIGH(_autonomous_routine0_shafts_1_1)
+003d9a   6e03     movwf	0x3, 0             	MOVWF	r0x03
+003d9c   0e40     movlw	0x40               	MOVLW	LOW(_autonomous_routine0_shafts_1_1)
+003d9e   6e02     movwf	0x2, 0             	MOVWF	r0x02
+003da0   0e80     movlw	0x80               	MOVLW	0x80
+003da2   6e04     movwf	0x4, 0             	MOVWF	r0x04
+                                           ;	.line	498; firmware.c	LEFT_DRIVE_PORT, LEFT_ENCODER_INTERRUPT_PORT, 0, -60) != OV_OK )
+003da4   0eff     movlw	0xff               	MOVLW	0xff
+003da6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003da8   0ec4     movlw	0xc4               	MOVLW	0xc4
+003daa   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003dac   0e00     movlw	0                  	MOVLW	0x00
+003dae   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003db0   0e01     movlw	0x1                	MOVLW	0x01
+003db2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003db4   0e03     movlw	0x3                	MOVLW	0x03
+003db6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003db8   0e00     movlw	0                  	MOVLW	0x00
+003dba   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003dbc   0eb4     movlw	0xb4               	MOVLW	0xb4
+003dbe   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003dc0   0e00     movlw	0                  	MOVLW	0x00
+003dc2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003dc4   0e00     movlw	0                  	MOVLW	0x00
+003dc6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003dc8   0e00     movlw	0                  	MOVLW	0x00
+003dca   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003dcc   0e00     movlw	0                  	MOVLW	0x00
+003dce   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003dd0   5004     movf	0x4, 0, 0           	MOVF	r0x04, W
+003dd2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003dd4   5003     movf	0x3, 0, 0           	MOVF	r0x03, W
+003dd6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003dd8   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+003dda   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003ddc   ec23     call	0x2e46, 0           	CALL	_shaft_tps_init
+003dde   f017
+003de0   6e02     movwf	0x2, 0             	MOVWF	r0x02
+003de2   0e0e     movlw	0xe                	MOVLW	0x0e
+003de4   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+003de6   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+003de8   e00a     bz	0x3dfe                	BZ	_00214_DS_
+                                           ;	.line	499; firmware.c	printf("shaft_tps_init() failed.\n");
+003dea   0e00     movlw	0                  	MOVLW	UPPER(__str_4)
+003dec   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003dee   0e42     movlw	0x42               	MOVLW	HIGH(__str_4)
+003df0   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003df2   0e5a     movlw	0x5a               	MOVLW	LOW(__str_4)
+003df4   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003df6   ecb1     call	0x6d62, 0           	CALL	_printf
+003df8   f036
+003dfa   0e03     movlw	0x3                	MOVLW	0x03
+003dfc   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           _00214_DS_:
+                                           ;	.line	500; firmware.c	shaft_tps_init(&shafts[1], 0, 180,
+003dfe   0e02     movlw	0x2                	MOVLW	HIGH(_autonomous_routine0_shafts_1_1 + 14)
+003e00   6e03     movwf	0x3, 0             	MOVWF	r0x03
+003e02   0e4e     movlw	0x4e               	MOVLW	LOW(_autonomous_routine0_shafts_1_1 + 14)
+003e04   6e02     movwf	0x2, 0             	MOVWF	r0x02
+003e06   0e80     movlw	0x80               	MOVLW	0x80
+003e08   6e04     movwf	0x4, 0             	MOVWF	r0x04
+                                           ;	.line	501; firmware.c	RIGHT_DRIVE_PORT, RIGHT_ENCODER_INTERRUPT_PORT, 0, 60);
+003e0a   0e00     movlw	0                  	MOVLW	0x00
+003e0c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e0e   0e3c     movlw	0x3c               	MOVLW	0x3c
+003e10   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e12   0e00     movlw	0                  	MOVLW	0x00
+003e14   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e16   0e02     movlw	0x2                	MOVLW	0x02
+003e18   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e1a   0e04     movlw	0x4                	MOVLW	0x04
+003e1c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e1e   0e00     movlw	0                  	MOVLW	0x00
+003e20   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e22   0eb4     movlw	0xb4               	MOVLW	0xb4
+003e24   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e26   0e00     movlw	0                  	MOVLW	0x00
+003e28   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e2a   0e00     movlw	0                  	MOVLW	0x00
+003e2c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e2e   0e00     movlw	0                  	MOVLW	0x00
+003e30   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e32   0e00     movlw	0                  	MOVLW	0x00
+003e34   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e36   5004     movf	0x4, 0, 0           	MOVF	r0x04, W
+003e38   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e3a   5003     movf	0x3, 0, 0           	MOVF	r0x03, W
+003e3c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e3e   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+003e40   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e42   ec23     call	0x2e46, 0           	CALL	_shaft_tps_init
+003e44   f017
+003e46   0e0e     movlw	0xe                	MOVLW	0x0e
+003e48   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	502; firmware.c	shaft_tps_run(shafts, 2);
+003e4a   0e02     movlw	0x2                	MOVLW	HIGH(_autonomous_routine0_shafts_1_1)
+003e4c   6e03     movwf	0x3, 0             	MOVWF	r0x03
+003e4e   0e40     movlw	0x40               	MOVLW	LOW(_autonomous_routine0_shafts_1_1)
+003e50   6e02     movwf	0x2, 0             	MOVWF	r0x02
+003e52   0e80     movlw	0x80               	MOVLW	0x80
+003e54   6e04     movwf	0x4, 0             	MOVWF	r0x04
+003e56   0e02     movlw	0x2                	MOVLW	0x02
+003e58   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e5a   5004     movf	0x4, 0, 0           	MOVF	r0x04, W
+003e5c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e5e   5003     movf	0x3, 0, 0           	MOVF	r0x03, W
+003e60   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e62   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+003e64   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e66   ec0e     call	0x81c, 0            	CALL	_shaft_tps_run
+003e68   f004
+003e6a   0e04     movlw	0x4                	MOVLW	0x04
+003e6c   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	504; firmware.c	pwm_write(LEFT_DRIVE_PORT, MOTOR_STOP);
+003e6e   0e00     movlw	0                  	MOVLW	0x00
+003e70   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e72   0e03     movlw	0x3                	MOVLW	0x03
+003e74   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e76   ec8c     call	0x6f18, 0           	CALL	_pwm_write
+003e78   f037
+003e7a   0e02     movlw	0x2                	MOVLW	0x02
+003e7c   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	505; firmware.c	pwm_write(RIGHT_DRIVE_PORT, MOTOR_STOP);
+003e7e   0e00     movlw	0                  	MOVLW	0x00
+003e80   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e82   0e04     movlw	0x4                	MOVLW	0x04
+003e84   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e86   ec8c     call	0x6f18, 0           	CALL	_pwm_write
+003e88   f037
+003e8a   0e02     movlw	0x2                	MOVLW	0x02
+003e8c   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	506; firmware.c	controller_submit_data(WAIT);
+003e8e   0e01     movlw	0x1                	MOVLW	0x01
+003e90   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003e92   ec56     call	0x5aac, 0           	CALL	_controller_submit_data
+003e94   f02d
+003e96   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+                                           ;	.line	509; firmware.c	shaft_tps_init(&shafts[0], 0, 105,
+003e98   0e02     movlw	0x2                	MOVLW	HIGH(_autonomous_routine0_shafts_1_1)
+003e9a   6e03     movwf	0x3, 0             	MOVWF	r0x03
+003e9c   0e40     movlw	0x40               	MOVLW	LOW(_autonomous_routine0_shafts_1_1)
+003e9e   6e02     movwf	0x2, 0             	MOVWF	r0x02
+003ea0   0e80     movlw	0x80               	MOVLW	0x80
+003ea2   6e04     movwf	0x4, 0             	MOVWF	r0x04
+                                           ;	.line	510; firmware.c	LEFT_DRIVE_PORT, LEFT_ENCODER_INTERRUPT_PORT, 0, -60);
+003ea4   0eff     movlw	0xff               	MOVLW	0xff
+003ea6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003ea8   0ec4     movlw	0xc4               	MOVLW	0xc4
+003eaa   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003eac   0e00     movlw	0                  	MOVLW	0x00
+003eae   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003eb0   0e01     movlw	0x1                	MOVLW	0x01
+003eb2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003eb4   0e03     movlw	0x3                	MOVLW	0x03
+003eb6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003eb8   0e00     movlw	0                  	MOVLW	0x00
+003eba   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003ebc   0e69     movlw	0x69               	MOVLW	0x69
+003ebe   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003ec0   0e00     movlw	0                  	MOVLW	0x00
+003ec2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003ec4   0e00     movlw	0                  	MOVLW	0x00
+003ec6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003ec8   0e00     movlw	0                  	MOVLW	0x00
+003eca   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003ecc   0e00     movlw	0                  	MOVLW	0x00
+003ece   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003ed0   5004     movf	0x4, 0, 0           	MOVF	r0x04, W
+003ed2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003ed4   5003     movf	0x3, 0, 0           	MOVF	r0x03, W
+003ed6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003ed8   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+003eda   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003edc   ec23     call	0x2e46, 0           	CALL	_shaft_tps_init
+003ede   f017
+003ee0   0e0e     movlw	0xe                	MOVLW	0x0e
+003ee2   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	511; firmware.c	shaft_tps_run(shafts, 1);
+003ee4   0e02     movlw	0x2                	MOVLW	HIGH(_autonomous_routine0_shafts_1_1)
+003ee6   6e03     movwf	0x3, 0             	MOVWF	r0x03
+003ee8   0e40     movlw	0x40               	MOVLW	LOW(_autonomous_routine0_shafts_1_1)
+003eea   6e02     movwf	0x2, 0             	MOVWF	r0x02
+003eec   0e80     movlw	0x80               	MOVLW	0x80
+003eee   6e04     movwf	0x4, 0             	MOVWF	r0x04
+003ef0   0e01     movlw	0x1                	MOVLW	0x01
+003ef2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003ef4   5004     movf	0x4, 0, 0           	MOVF	r0x04, W
+003ef6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003ef8   5003     movf	0x3, 0, 0           	MOVF	r0x03, W
+003efa   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003efc   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+003efe   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+003f00   ec0e     call	0x81c, 0            	CALL	_shaft_tps_run
+003f02   f004
+003f04   0e04     movlw	0x4                	MOVLW	0x04
+003f06   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+003f08   0eff     movlw	0xff               	MOVLW	0xff
+003f0a   2600     addwf	0, 0x1, 0          	ADDWF	r0x00, F
+003f0c   a0d8     btfss	0xd8, 0, 0         	BTFSS	STATUS, 0
+003f0e   0601     decf	0x1, 0x1, 0         	DECF	r0x01, F
+                                           ;	.line	494; firmware.c	for (c=0; c<4; ++c)
+003f10   5000     movf	0, 0, 0             	MOVF	r0x00, W
+003f12   1001     iorwf	0x1, 0, 0          	IORWF	r0x01, W
+003f14   a4d8     btfss	0xd8, 0x2, 0       	BTFSS	STATUS, 2
+003f16   d740     bra	0x3d98               	BRA	_00217_DS_
+                                           ;	.line	514; firmware.c	controller_end_autonomous_mode();
+003f18   ec20     call	0x7440, 0           	CALL	_controller_end_autonomous_mode
+003f1a   f03a
+003f1c   cfe4     movff	0xfe4, 0x4         	MOVFF	PREINC1, r0x04
+003f1e   f004
+003f20   cfe4     movff	0xfe4, 0x3         	MOVFF	PREINC1, r0x03
+003f22   f003
+003f24   cfe4     movff	0xfe4, 0x2         	MOVFF	PREINC1, r0x02
+003f26   f002
+003f28   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
+003f2a   f001
+003f2c   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
+003f2e   f000
+003f30   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
+003f32   ffd9
+003f34   0012     return	0                 	RETURN	
+                                           
+                                           ; ; Starting pCode block
+                                           S_firmware__sonar_scan	code
+                                           _sonar_scan:
+                                           ;	.line	458; firmware.c	void    sonar_scan(unsigned char port)
+0070ea   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
+0070ec   ffe5
+0070ee   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
+0070f0   ffd9
+0070f2   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
+0070f4   ffe5
+0070f6   0e02     movlw	0x2                	MOVLW	0x02
+0070f8   cfdb     movff	0xfdb, 0           	MOVFF	PLUSW2, r0x00
+0070fa   f000
+0070fc   0107     movlb	0x7                	BANKSEL	_sonar_scan_sonar_direction_1_1
+                                           ;	.line	465; firmware.c	pwm_write(port, sonar_direction);
+0070fe   5107     movf	0x7, 0, 0x1         	MOVF	_sonar_scan_sonar_direction_1_1, W, B
+007100   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+007102   5000     movf	0, 0, 0             	MOVF	r0x00, W
+007104   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+007106   ec8c     call	0x6f18, 0           	CALL	_pwm_write
+007108   f037
+00710a   0e02     movlw	0x2                	MOVLW	0x02
+00710c   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+00710e   0107     movlb	0x7                	BANKSEL	_sonar_scan_add_1_1
+                                           ;	.line	466; firmware.c	sonar_direction += add;
+007110   5108     movf	0x8, 0, 0x1         	MOVF	_sonar_scan_add_1_1, W, B
+007112   0107     movlb	0x7                	BANKSEL	_sonar_scan_sonar_direction_1_1
+007114   2707     addwf	0x7, 0x1, 0x1      	ADDWF	_sonar_scan_sonar_direction_1_1, F, B
+                                           ;	.line	469; firmware.c	if ( (sonar_direction == -SONAR_MAX_ANGLE) ||
+007116   5107     movf	0x7, 0, 0x1         	MOVF	_sonar_scan_sonar_direction_1_1, W, B
+007118   0aba     xorlw	0xba               	XORLW	0xba
+00711a   e004     bz	0x7124                	BZ	_00199_DS_
+                                           _00206_DS_:
+00711c   0107     movlb	0x7                	BANKSEL	_sonar_scan_sonar_direction_1_1
+                                           ;	.line	470; firmware.c	(sonar_direction == +SONAR_MAX_ANGLE) )
+00711e   5107     movf	0x7, 0, 0x1         	MOVF	_sonar_scan_sonar_direction_1_1, W, B
+007120   0a46     xorlw	0x46               	XORLW	0x46
+007122   e102     bnz	0x7128               	BNZ	_00200_DS_
+                                           _00199_DS_:
+007124   0107     movlb	0x7                	BANKSEL	_sonar_scan_add_1_1
+                                           ;	.line	471; firmware.c	add = -add;
+007126   6d08     negf	0x8, 0x1            	NEGF	_sonar_scan_add_1_1, B
+                                           _00200_DS_:
+                                           ;	.line	472; firmware.c	controller_submit_data(NO_WAIT);
+007128   0e00     movlw	0                  	MOVLW	0x00
+00712a   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00712c   ec56     call	0x5aac, 0           	CALL	_controller_submit_data
+00712e   f02d
+007130   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+007132   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
+007134   f000
+007136   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
+007138   ffd9
+00713a   0012     return	0                 	RETURN	
+                                           
+                                           ; ; Starting pCode block
+                                           S_firmware__arcade_drive_routine	code
+                                           _arcade_drive_routine:
+                                           ;	.line	398; firmware.c	void    arcade_drive_routine(void)
+0048b8   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
+0048ba   ffe5
+0048bc   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
+0048be   ffd9
+0048c0   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
+0048c2   ffe5
+0048c4   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
+0048c6   ffe5
+0048c8   c002     movff	0x2, 0xfe5         	MOVFF	r0x02, POSTDEC1
+0048ca   ffe5
+0048cc   c003     movff	0x3, 0xfe5         	MOVFF	r0x03, POSTDEC1
+0048ce   ffe5
+0048d0   c004     movff	0x4, 0xfe5         	MOVFF	r0x04, POSTDEC1
+0048d2   ffe5
+0048d4   c005     movff	0x5, 0xfe5         	MOVFF	r0x05, POSTDEC1
+0048d6   ffe5
+                                           ;	.line	408; firmware.c	joy_x = rc_read_data(ARCADE_DRIVE_X_CHAN);
+0048d8   0e04     movlw	0x4                	MOVLW	0x04
+0048da   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0048dc   ec4b     call	0x5696, 0           	CALL	_rc_read_data
+0048de   f02b
+0048e0   0102     movlb	0x2                	BANKSEL	_arcade_drive_routine_joy_x_1_1
+0048e2   6ff8     movwf	0xf8, 0x1          	MOVWF	_arcade_drive_routine_joy_x_1_1, B
+0048e4   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+                                           ;	.line	409; firmware.c	joy_y = -rc_read_data(ARCADE_DRIVE_Y_CHAN);
+0048e6   0e03     movlw	0x3                	MOVLW	0x03
+0048e8   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0048ea   ec4b     call	0x5696, 0           	CALL	_rc_read_data
+0048ec   f02b
+0048ee   6e00     movwf	0, 0               	MOVWF	r0x00
+0048f0   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+0048f2   1c00     comf	0, 0, 0             	COMF	r0x00, W
+0048f4   0102     movlb	0x2                	BANKSEL	_arcade_drive_routine_joy_y_1_1
+0048f6   6ff9     movwf	0xf9, 0x1          	MOVWF	_arcade_drive_routine_joy_y_1_1, B
+0048f8   2bf9     incf	0xf9, 0x1, 0x1      	INCF	_arcade_drive_routine_joy_y_1_1, F, B
+                                           ;	.line	410; firmware.c	arcade_drive(joy_x, joy_y, PWM_MAX, &left_drive, &right_drive);
+0048fa   0e02     movlw	0x2                	MOVLW	HIGH(_arcade_drive_routine_left_drive_1_1)
+0048fc   6e01     movwf	0x1, 0             	MOVWF	r0x01
+0048fe   0ef6     movlw	0xf6               	MOVLW	LOW(_arcade_drive_routine_left_drive_1_1)
+004900   6e00     movwf	0, 0               	MOVWF	r0x00
+004902   0e80     movlw	0x80               	MOVLW	0x80
+004904   6e02     movwf	0x2, 0             	MOVWF	r0x02
+004906   0e02     movlw	0x2                	MOVLW	HIGH(_arcade_drive_routine_right_drive_1_1)
+004908   6e04     movwf	0x4, 0             	MOVWF	r0x04
+00490a   0ef7     movlw	0xf7               	MOVLW	LOW(_arcade_drive_routine_right_drive_1_1)
+00490c   6e03     movwf	0x3, 0             	MOVWF	r0x03
+00490e   0e80     movlw	0x80               	MOVLW	0x80
+                                           ; #	MOVWF	r0x05
+                                           ; #	MOVF	r0x05, W
+004910   6e05     movwf	0x5, 0             	MOVWF	r0x05
+004912   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+004914   5004     movf	0x4, 0, 0           	MOVF	r0x04, W
+004916   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+004918   5003     movf	0x3, 0, 0           	MOVF	r0x03, W
+00491a   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00491c   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+00491e   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+004920   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
+004922   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+004924   5000     movf	0, 0, 0             	MOVF	r0x00, W
+004926   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+004928   0e7f     movlw	0x7f               	MOVLW	0x7f
+00492a   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00492c   0102     movlb	0x2                	BANKSEL	_arcade_drive_routine_joy_y_1_1
+00492e   51f9     movf	0xf9, 0, 0x1        	MOVF	_arcade_drive_routine_joy_y_1_1, W, B
+004930   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+004932   0102     movlb	0x2                	BANKSEL	_arcade_drive_routine_joy_x_1_1
+004934   51f8     movf	0xf8, 0, 0x1        	MOVF	_arcade_drive_routine_joy_x_1_1, W, B
+004936   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+004938   ec1a     call	0x2834, 0           	CALL	_arcade_drive
+00493a   f014
+00493c   0e09     movlw	0x9                	MOVLW	0x09
+00493e   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+004940   0107     movlb	0x7                	BANKSEL	_arcade_drive_routine_implement_pos_1_1
+                                           ;	.line	419; firmware.c	if ( implement_pos > SERVO_CENTER )
+004942   5106     movf	0x6, 0, 0x1         	MOVF	_arcade_drive_routine_implement_pos_1_1, W, B
+004944   0f80     addlw	0x80               	ADDLW	0x80
+004946   0f7f     addlw	0x7f               	ADDLW	0x7f
+004948   e320     bnc	0x498a               	BNC	_00172_DS_
+                                           ;	.line	421; firmware.c	left_drive /= IMPLEMENT_GEAR_DOWN;
+00494a   0e03     movlw	0x3                	MOVLW	0x03
+00494c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00494e   0102     movlb	0x2                	BANKSEL	_arcade_drive_routine_left_drive_1_1
+004950   51f6     movf	0xf6, 0, 0x1        	MOVF	_arcade_drive_routine_left_drive_1_1, W, B
+004952   bff6     btfsc	0xf6, 0x7, 0x1     	BTFSC	_arcade_drive_routine_left_drive_1_1, 7, B
+004954   6ce8     negf	0xe8, 0             	NEGF	WREG
+004956   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+004958   ecea     call	0x6dd4, 0           	CALL	__divuchar
+00495a   f036
+00495c   0102     movlb	0x2                	BANKSEL	_arcade_drive_routine_left_drive_1_1
+00495e   bff6     btfsc	0xf6, 0x7, 0x1     	BTFSC	_arcade_drive_routine_left_drive_1_1, 7, B
+004960   6ce8     negf	0xe8, 0             	NEGF	WREG
+004962   0102     movlb	0x2                	BANKSEL	_arcade_drive_routine_left_drive_1_1
+004964   6ff6     movwf	0xf6, 0x1          	MOVWF	_arcade_drive_routine_left_drive_1_1, B
+004966   50e4     movf	0xe4, 0, 0          	MOVF	PREINC1, W
+004968   50e4     movf	0xe4, 0, 0          	MOVF	PREINC1, W
+                                           ;	.line	422; firmware.c	right_drive /= IMPLEMENT_GEAR_DOWN;
+00496a   0e03     movlw	0x3                	MOVLW	0x03
+00496c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00496e   0102     movlb	0x2                	BANKSEL	_arcade_drive_routine_right_drive_1_1
+004970   51f7     movf	0xf7, 0, 0x1        	MOVF	_arcade_drive_routine_right_drive_1_1, W, B
+004972   bff7     btfsc	0xf7, 0x7, 0x1     	BTFSC	_arcade_drive_routine_right_drive_1_1, 7, B
+004974   6ce8     negf	0xe8, 0             	NEGF	WREG
+004976   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+004978   ecea     call	0x6dd4, 0           	CALL	__divuchar
+00497a   f036
+00497c   0102     movlb	0x2                	BANKSEL	_arcade_drive_routine_right_drive_1_1
+00497e   bff7     btfsc	0xf7, 0x7, 0x1     	BTFSC	_arcade_drive_routine_right_drive_1_1, 7, B
+004980   6ce8     negf	0xe8, 0             	NEGF	WREG
+004982   0102     movlb	0x2                	BANKSEL	_arcade_drive_routine_right_drive_1_1
+004984   6ff7     movwf	0xf7, 0x1          	MOVWF	_arcade_drive_routine_right_drive_1_1, B
+004986   50e4     movf	0xe4, 0, 0          	MOVF	PREINC1, W
+004988   50e4     movf	0xe4, 0, 0          	MOVF	PREINC1, W
+                                           _00172_DS_:
+00498a   0102     movlb	0x2                	BANKSEL	_arcade_drive_routine_left_drive_1_1
+                                           ;	.line	426; firmware.c	pwm_write(LEFT_DRIVE_PORT, -left_drive);
+00498c   1df6     comf	0xf6, 0, 0x1        	COMF	_arcade_drive_routine_left_drive_1_1, W, B
+00498e   6e00     movwf	0, 0               	MOVWF	r0x00
+004990   2a00     incf	0, 0x1, 0           	INCF	r0x00, F
+004992   5000     movf	0, 0, 0             	MOVF	r0x00, W
+004994   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+004996   0e03     movlw	0x3                	MOVLW	0x03
+004998   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00499a   ec8c     call	0x6f18, 0           	CALL	_pwm_write
+00499c   f037
+00499e   0e02     movlw	0x2                	MOVLW	0x02
+0049a0   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+0049a2   0102     movlb	0x2                	BANKSEL	_arcade_drive_routine_right_drive_1_1
+                                           ;	.line	427; firmware.c	pwm_write(RIGHT_DRIVE_PORT, right_drive);
+0049a4   51f7     movf	0xf7, 0, 0x1        	MOVF	_arcade_drive_routine_right_drive_1_1, W, B
+0049a6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0049a8   0e04     movlw	0x4                	MOVLW	0x04
+0049aa   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0049ac   ec8c     call	0x6f18, 0           	CALL	_pwm_write
+0049ae   f037
+0049b0   0e02     movlw	0x2                	MOVLW	0x02
+0049b2   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	436; firmware.c	rc_pos = -rc_read_data(ARCADE_IMPLEMENT_CHAN);
+0049b4   0e02     movlw	0x2                	MOVLW	0x02
+0049b6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0049b8   ec4b     call	0x5696, 0           	CALL	_rc_read_data
+0049ba   f02b
+0049bc   6e00     movwf	0, 0               	MOVWF	r0x00
+0049be   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+0049c0   1c00     comf	0, 0, 0             	COMF	r0x00, W
+0049c2   0102     movlb	0x2                	BANKSEL	_arcade_drive_routine_rc_pos_1_1
+0049c4   6ff5     movwf	0xf5, 0x1          	MOVWF	_arcade_drive_routine_rc_pos_1_1, B
+0049c6   2bf5     incf	0xf5, 0x1, 0x1      	INCF	_arcade_drive_routine_rc_pos_1_1, F, B
+                                           ;	.line	437; firmware.c	if ( (rc_pos < JOY_CENTER - JOY_THRESHOLD) &&
+0049c8   51f5     movf	0xf5, 0, 0x1        	MOVF	_arcade_drive_routine_rc_pos_1_1, W, B
+0049ca   0f80     addlw	0x80               	ADDLW	0x80
+0049cc   0f94     addlw	0x94               	ADDLW	0x94
+0049ce   e208     bc	0x49e0                	BC	_00177_DS_
+0049d0   0107     movlb	0x7                	BANKSEL	_arcade_drive_routine_implement_pos_1_1
+                                           ;	.line	438; firmware.c	(implement_pos < IMPLEMENT_DOWN) )
+0049d2   5106     movf	0x6, 0, 0x1         	MOVF	_arcade_drive_routine_implement_pos_1_1, W, B
+0049d4   0f80     addlw	0x80               	ADDLW	0x80
+0049d6   0f6e     addlw	0x6e               	ADDLW	0x6e
+0049d8   e203     bc	0x49e0                	BC	_00177_DS_
+0049da   0107     movlb	0x7                	BANKSEL	_arcade_drive_routine_implement_pos_1_1
+                                           ;	.line	439; firmware.c	++implement_pos;
+0049dc   2b06     incf	0x6, 0x1, 0x1       	INCF	_arcade_drive_routine_implement_pos_1_1, F, B
+0049de   d00c     bra	0x49f8               	BRA	_00178_DS_
+                                           _00177_DS_:
+0049e0   0102     movlb	0x2                	BANKSEL	_arcade_drive_routine_rc_pos_1_1
+                                           ;	.line	440; firmware.c	else if ( (rc_pos > JOY_CENTER + JOY_THRESHOLD) &&
+0049e2   51f5     movf	0xf5, 0, 0x1        	MOVF	_arcade_drive_routine_rc_pos_1_1, W, B
+0049e4   0f80     addlw	0x80               	ADDLW	0x80
+0049e6   0f6b     addlw	0x6b               	ADDLW	0x6b
+0049e8   e307     bnc	0x49f8               	BNC	_00178_DS_
+0049ea   0107     movlb	0x7                	BANKSEL	_arcade_drive_routine_implement_pos_1_1
+                                           ;	.line	441; firmware.c	(implement_pos > IMPLEMENT_UP) )
+0049ec   5106     movf	0x6, 0, 0x1         	MOVF	_arcade_drive_routine_implement_pos_1_1, W, B
+0049ee   0f80     addlw	0x80               	ADDLW	0x80
+                                           ; #	ADDLW	0xe3
+                                           ; #	BTFSS	STATUS, 0
+                                           ; #	GOTO	_00178_DS_
+                                           ; #	DECF	_arcade_drive_routine_implement_pos_1_1, F, B
+                                           ; #	MOVF	_arcade_drive_routine_implement_pos_1_1, W, B
+                                           ;	.line	442; firmware.c	--implement_pos;
+0049f0   0fe3     addlw	0xe3               	ADDLW	0xe3
+                                           ;	.line	443; firmware.c	pwm_write(IMPLEMENT_SERVO_PORT, implement_pos);
+0049f2   e302     bnc	0x49f8               	BNC	_10228_DS_
+0049f4   0107     movlb	0x7                	BANKSEL	_arcade_drive_routine_implement_pos_1_1
+0049f6   0706     decf	0x6, 0x1, 0x1       	DECF	_arcade_drive_routine_implement_pos_1_1, F, B
+                                           _10228_DS_:
+                                           _00178_DS_:
+0049f8   0107     movlb	0x7                	BANKSEL	_arcade_drive_routine_implement_pos_1_1
+0049fa   5106     movf	0x6, 0, 0x1         	MOVF	_arcade_drive_routine_implement_pos_1_1, W, B
+0049fc   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0049fe   0e01     movlw	0x1                	MOVLW	0x01
+004a00   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+004a02   ec8c     call	0x6f18, 0           	CALL	_pwm_write
+004a04   f037
+004a06   0e02     movlw	0x2                	MOVLW	0x02
+004a08   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+004a0a   cfe4     movff	0xfe4, 0x5         	MOVFF	PREINC1, r0x05
+004a0c   f005
+004a0e   cfe4     movff	0xfe4, 0x4         	MOVFF	PREINC1, r0x04
+004a10   f004
+004a12   cfe4     movff	0xfe4, 0x3         	MOVFF	PREINC1, r0x03
+004a14   f003
+004a16   cfe4     movff	0xfe4, 0x2         	MOVFF	PREINC1, r0x02
+004a18   f002
+004a1a   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
+004a1c   f001
+004a1e   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
+004a20   f000
+004a22   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
+004a24   ffd9
+004a26   0012     return	0                 	RETURN	
+                                           
+                                           ; ; Starting pCode block
+                                           S_firmware__rc_routine	code
+                                           _rc_routine:
+                                           ;	.line	208; firmware.c	void    rc_routine(void)
+001d70   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
+001d72   ffe5
+001d74   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
+001d76   ffd9
+001d78   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
+001d7a   ffe5
+001d7c   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
+001d7e   ffe5
+001d80   c002     movff	0x2, 0xfe5         	MOVFF	r0x02, POSTDEC1
+001d82   ffe5
+001d84   c003     movff	0x3, 0xfe5         	MOVFF	r0x03, POSTDEC1
+001d86   ffe5
+001d88   c004     movff	0x4, 0xfe5         	MOVFF	r0x04, POSTDEC1
+001d8a   ffe5
+001d8c   c005     movff	0x5, 0xfe5         	MOVFF	r0x05, POSTDEC1
+001d8e   ffe5
+001d90   c006     movff	0x6, 0xfe5         	MOVFF	r0x06, POSTDEC1
+001d92   ffe5
+001d94   c007     movff	0x7, 0xfe5         	MOVFF	r0x07, POSTDEC1
+001d96   ffe5
+001d98   c008     movff	0x8, 0xfe5         	MOVFF	r0x08, POSTDEC1
+001d9a   ffe5
+001d9c   c009     movff	0x9, 0xfe5         	MOVFF	r0x09, POSTDEC1
+001d9e   ffe5
+001da0   c00a     movff	0xa, 0xfe5         	MOVFF	r0x0a, POSTDEC1
+001da2   ffe5
+001da4   c00b     movff	0xb, 0xfe5         	MOVFF	r0x0b, POSTDEC1
+001da6   ffe5
+001da8   c00c     movff	0xc, 0xfe5         	MOVFF	r0x0c, POSTDEC1
+001daa   ffe5
+001dac   c00d     movff	0xd, 0xfe5         	MOVFF	r0x0d, POSTDEC1
+001dae   ffe5
+001db0   c00e     movff	0xe, 0xfe5         	MOVFF	r0x0e, POSTDEC1
+001db2   ffe5
+001db4   c00f     movff	0xf, 0xfe5         	MOVFF	r0x0f, POSTDEC1
+001db6   ffe5
+001db8   c010     movff	0x10, 0xfe5        	MOVFF	r0x10, POSTDEC1
+001dba   ffe5
+001dbc   c011     movff	0x11, 0xfe5        	MOVFF	r0x11, POSTDEC1
+001dbe   ffe5
+001dc0   c012     movff	0x12, 0xfe5        	MOVFF	r0x12, POSTDEC1
+001dc2   ffe5
+001dc4   c013     movff	0x13, 0xfe5        	MOVFF	r0x13, POSTDEC1
+001dc6   ffe5
+001dc8   c014     movff	0x14, 0xfe5        	MOVFF	r0x14, POSTDEC1
+001dca   ffe5
+001dcc   c015     movff	0x15, 0xfe5        	MOVFF	r0x15, POSTDEC1
+001dce   ffe5
+                                           ;	.line	221; firmware.c	sonar_distance = sonar_read(SONAR_INTERRUPT_PORT);
+001dd0   0e03     movlw	0x3                	MOVLW	0x03
+001dd2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001dd4   ecac     call	0x2b58, 0           	CALL	_sonar_read
+001dd6   f015
+001dd8   0107     movlb	0x7                	BANKSEL	_rc_routine_sonar_distance_1_1
+001dda   6f00     movwf	0, 0x1             	MOVWF	_rc_routine_sonar_distance_1_1, B
+001ddc   cff3     movff	0xff3, 0x701       	MOVFF	PRODL, (_rc_routine_sonar_distance_1_1 + 1)
+001dde   f701
+001de0   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+                                           ;	.line	237; firmware.c	arcade_drive_routine();
+001de2   ec5c     call	0x48b8, 0           	CALL	_arcade_drive_routine
+001de4   f024
+                                           ;	.line	241; firmware.c	controller_submit_data(NO_WAIT);
+001de6   0e00     movlw	0                  	MOVLW	0x00
+001de8   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001dea   ec56     call	0x5aac, 0           	CALL	_controller_submit_data
+001dec   f02d
+001dee   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+                                           ;	.line	249; firmware.c	elapsed_time = SYSTEM_TIMER_SECONDS();
+001df0   ec59     call	0x50b2, 0           	CALL	_timer0_read32
+001df2   f028
+001df4   6e00     movwf	0, 0               	MOVWF	r0x00
+001df6   cff3     movff	0xff3, 0x1         	MOVFF	PRODL, r0x01
+001df8   f001
+001dfa   cff4     movff	0xff4, 0x2         	MOVFF	PRODH, r0x02
+001dfc   f002
+001dfe   cfe9     movff	0xfe9, 0x3         	MOVFF	FSR0L, r0x03
+001e00   f003
+001e02   a6d5     btfss	0xd5, 0x3, 0       	BTFSS	_T0CON, 3
+001e04   d004     bra	0x1e0e               	BRA	_00158_DS_
+001e06   0e01     movlw	0x1                	MOVLW	0x01
+001e08   6e04     movwf	0x4, 0             	MOVWF	r0x04
+001e0a   6a05     clrf	0x5, 0              	CLRF	r0x05
+001e0c   d00f     bra	0x1e2c               	BRA	_00159_DS_
+                                           _00158_DS_:
+001e0e   0e07     movlw	0x7                	MOVLW	0x07
+001e10   14d5     andwf	0xd5, 0, 0         	ANDWF	_T0CON, W
+001e12   6e06     movwf	0x6, 0             	MOVWF	r0x06
+001e14   0e02     movlw	0x2                	MOVLW	0x02
+001e16   6e04     movwf	0x4, 0             	MOVWF	r0x04
+001e18   0e00     movlw	0                  	MOVLW	0x00
+001e1a   6e05     movwf	0x5, 0             	MOVWF	r0x05
+001e1c   5006     movf	0x6, 0, 0           	MOVF	r0x06, W
+001e1e   e006     bz	0x1e2c                	BZ	_00159_DS_
+001e20   6ce8     negf	0xe8, 0             	NEGF	WREG
+001e22   90d8     bcf	0xd8, 0, 0           	BCF	STATUS, 0
+                                           _00165_DS_:
+001e24   3604     rlcf	0x4, 0x1, 0         	RLCF	r0x04, F
+001e26   3605     rlcf	0x5, 0x1, 0         	RLCF	r0x05, F
+001e28   0f01     addlw	0x1                	ADDLW	0x01
+001e2a   e3fc     bnc	0x1e24               	BNC	_00165_DS_
+                                           _00159_DS_:
+001e2c   5005     movf	0x5, 0, 0           	MOVF	r0x05, W
+001e2e   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001e30   5004     movf	0x4, 0, 0           	MOVF	r0x04, W
+001e32   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001e34   0e27     movlw	0x27               	MOVLW	0x27
+001e36   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001e38   0e10     movlw	0x10               	MOVLW	0x10
+001e3a   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001e3c   ecdb     call	0x59b6, 0           	CALL	__divsint
+001e3e   f02c
+001e40   6e04     movwf	0x4, 0             	MOVWF	r0x04
+001e42   cff3     movff	0xff3, 0x5         	MOVFF	PRODL, r0x05
+001e44   f005
+001e46   0e04     movlw	0x4                	MOVLW	0x04
+001e48   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+001e4a   6ae8     clrf	0xe8, 0             	CLRF	WREG
+001e4c   be05     btfsc	0x5, 0x7, 0        	BTFSC	r0x05, 7
+001e4e   0eff     movlw	0xff               	MOVLW	0xff
+001e50   6e06     movwf	0x6, 0             	MOVWF	r0x06
+                                           ; #	MOVWF	r0x07
+                                           ; #	MOVF	r0x07, W
+001e52   6e07     movwf	0x7, 0             	MOVWF	r0x07
+001e54   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001e56   5006     movf	0x6, 0, 0           	MOVF	r0x06, W
+001e58   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001e5a   5005     movf	0x5, 0, 0           	MOVF	r0x05, W
+001e5c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001e5e   5004     movf	0x4, 0, 0           	MOVF	r0x04, W
+001e60   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001e62   5003     movf	0x3, 0, 0           	MOVF	r0x03, W
+001e64   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001e66   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+001e68   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001e6a   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
+001e6c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001e6e   5000     movf	0, 0, 0             	MOVF	r0x00, W
+001e70   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001e72   ecbe     call	0x557c, 0           	CALL	__divulong
+001e74   f02a
+001e76   6e00     movwf	0, 0               	MOVWF	r0x00
+001e78   cff3     movff	0xff3, 0x1         	MOVFF	PRODL, r0x01
+001e7a   f001
+001e7c   cff4     movff	0xff4, 0x2         	MOVFF	PRODH, r0x02
+001e7e   f002
+001e80   cfe9     movff	0xfe9, 0x3         	MOVFF	FSR0L, r0x03
+001e82   f003
+001e84   0e08     movlw	0x8                	MOVLW	0x08
+001e86   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+001e88   0e00     movlw	0                  	MOVLW	0x00
+001e8a   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001e8c   0e00     movlw	0                  	MOVLW	0x00
+001e8e   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001e90   0e03     movlw	0x3                	MOVLW	0x03
+001e92   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001e94   0ee8     movlw	0xe8               	MOVLW	0xe8
+001e96   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001e98   5003     movf	0x3, 0, 0           	MOVF	r0x03, W
+001e9a   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001e9c   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+001e9e   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001ea0   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
+001ea2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001ea4   5000     movf	0, 0, 0             	MOVF	r0x00, W
+001ea6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001ea8   ecbe     call	0x557c, 0           	CALL	__divulong
+001eaa   f02a
+001eac   0107     movlb	0x7                	BANKSEL	_rc_routine_elapsed_time_1_1
+001eae   6ff0     movwf	0xf0, 0x1          	MOVWF	_rc_routine_elapsed_time_1_1, B
+001eb0   cff3     movff	0xff3, 0x7f1       	MOVFF	PRODL, (_rc_routine_elapsed_time_1_1 + 1)
+001eb2   f7f1
+001eb4   cff4     movff	0xff4, 0x7f2       	MOVFF	PRODH, (_rc_routine_elapsed_time_1_1 + 2)
+001eb6   f7f2
+001eb8   cfe9     movff	0xfe9, 0x7f3       	MOVFF	FSR0L, (_rc_routine_elapsed_time_1_1 + 3)
+001eba   f7f3
+001ebc   0e08     movlw	0x8                	MOVLW	0x08
+001ebe   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+001ec0   0107     movlb	0x7                	BANKSEL	(_rc_routine_elapsed_time_1_1 + 3)
+                                           ;	.line	251; firmware.c	if ( elapsed_time > old_time )
+001ec2   51f3     movf	0xf3, 0, 0x1        	MOVF	(_rc_routine_elapsed_time_1_1 + 3), W, B
+001ec4   0107     movlb	0x7                	BANKSEL	(_rc_routine_old_time_1_1 + 3)
+001ec6   5d05     subwf	0x5, 0, 0x1        	SUBWF	(_rc_routine_old_time_1_1 + 3), W, B
+001ec8   e10e     bnz	0x1ee6               	BNZ	_00166_DS_
+001eca   0107     movlb	0x7                	BANKSEL	(_rc_routine_elapsed_time_1_1 + 2)
+001ecc   51f2     movf	0xf2, 0, 0x1        	MOVF	(_rc_routine_elapsed_time_1_1 + 2), W, B
+001ece   0107     movlb	0x7                	BANKSEL	(_rc_routine_old_time_1_1 + 2)
+001ed0   5d04     subwf	0x4, 0, 0x1        	SUBWF	(_rc_routine_old_time_1_1 + 2), W, B
+001ed2   e109     bnz	0x1ee6               	BNZ	_00166_DS_
+001ed4   0107     movlb	0x7                	BANKSEL	(_rc_routine_elapsed_time_1_1 + 1)
+001ed6   51f1     movf	0xf1, 0, 0x1        	MOVF	(_rc_routine_elapsed_time_1_1 + 1), W, B
+001ed8   0107     movlb	0x7                	BANKSEL	(_rc_routine_old_time_1_1 + 1)
+001eda   5d03     subwf	0x3, 0, 0x1        	SUBWF	(_rc_routine_old_time_1_1 + 1), W, B
+001edc   e104     bnz	0x1ee6               	BNZ	_00166_DS_
+001ede   0107     movlb	0x7                	BANKSEL	_rc_routine_elapsed_time_1_1
+001ee0   51f0     movf	0xf0, 0, 0x1        	MOVF	_rc_routine_elapsed_time_1_1, W, B
+001ee2   0107     movlb	0x7                	BANKSEL	_rc_routine_old_time_1_1
+001ee4   5d02     subwf	0x2, 0, 0x1        	SUBWF	_rc_routine_old_time_1_1, W, B
+                                           _00166_DS_:
+001ee6   b0d8     btfsc	0xd8, 0, 0         	BTFSC	STATUS, 0
+001ee8   d111     bra	0x210c               	BRA	_00156_DS_
+                                           ;	.line	253; firmware.c	old_time = elapsed_time;
+001eea   c7f0     movff	0x7f0, 0x702       	MOVFF	_rc_routine_elapsed_time_1_1, _rc_routine_old_time_1_1
+001eec   f702
+001eee   c7f1     movff	0x7f1, 0x703       	MOVFF	(_rc_routine_elapsed_time_1_1 + 1), (_rc_routine_old_time_1_1 + 1)
+001ef0   f703
+001ef2   c7f2     movff	0x7f2, 0x704       	MOVFF	(_rc_routine_elapsed_time_1_1 + 2), (_rc_routine_old_time_1_1 + 2)
+001ef4   f704
+001ef6   c7f3     movff	0x7f3, 0x705       	MOVFF	(_rc_routine_elapsed_time_1_1 + 3), (_rc_routine_old_time_1_1 + 3)
+001ef8   f705
+                                           ;	.line	259; firmware.c	LINE_SENSOR_RIGHT_PORT, &line_sensor);
+001efa   0e07     movlw	0x7                	MOVLW	HIGH(_rc_routine_line_sensor_1_1)
+001efc   6e01     movwf	0x1, 0             	MOVWF	r0x01
+001efe   0eea     movlw	0xea               	MOVLW	LOW(_rc_routine_line_sensor_1_1)
+001f00   6e00     movwf	0, 0               	MOVWF	r0x00
+001f02   0e80     movlw	0x80               	MOVLW	0x80
+                                           ; #	MOVWF	r0x02
+                                           ; #	MOVF	r0x02, W
+001f04   6e02     movwf	0x2, 0             	MOVWF	r0x02
+001f06   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001f08   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
+001f0a   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001f0c   5000     movf	0, 0, 0             	MOVF	r0x00, W
+001f0e   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001f10   0e03     movlw	0x3                	MOVLW	0x03
+001f12   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001f14   0e02     movlw	0x2                	MOVLW	0x02
+001f16   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001f18   0e01     movlw	0x1                	MOVLW	0x01
+001f1a   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001f1c   ec50     call	0x42a0, 0           	CALL	_line_sensor_read
+001f1e   f021
+001f20   0e06     movlw	0x6                	MOVLW	0x06
+001f22   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	264; firmware.c	DPRINTF("ET: %ld  RC: %d %d %d %d %d %d %d  Line: %x %x %x Light %x ",
+001f24   0e07     movlw	0x7                	MOVLW	0x07
+001f26   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001f28   ec21     call	0x6e42, 0           	CALL	_io_read_analog
+001f2a   f037
+001f2c   6e00     movwf	0, 0               	MOVWF	r0x00
+001f2e   cff3     movff	0xff3, 0x1         	MOVFF	PRODL, r0x01
+001f30   f001
+001f32   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+001f34   c7ee     movff	0x7ee, 0x2         	MOVFF	(_rc_routine_line_sensor_1_1 + 4), r0x02
+001f36   f002
+001f38   c7ef     movff	0x7ef, 0x3         	MOVFF	(_rc_routine_line_sensor_1_1 + 5), r0x03
+001f3a   f003
+001f3c   c7ec     movff	0x7ec, 0x4         	MOVFF	(_rc_routine_line_sensor_1_1 + 2), r0x04
+001f3e   f004
+001f40   c7ed     movff	0x7ed, 0x5         	MOVFF	(_rc_routine_line_sensor_1_1 + 3), r0x05
+001f42   f005
+001f44   c7ea     movff	0x7ea, 0x6         	MOVFF	_rc_routine_line_sensor_1_1, r0x06
+001f46   f006
+001f48   c7eb     movff	0x7eb, 0x7         	MOVFF	(_rc_routine_line_sensor_1_1 + 1), r0x07
+001f4a   f007
+001f4c   0e06     movlw	0x6                	MOVLW	0x06
+001f4e   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001f50   ec4b     call	0x5696, 0           	CALL	_rc_read_data
+001f52   f02b
+001f54   6e08     movwf	0x8, 0             	MOVWF	r0x08
+001f56   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+001f58   6a09     clrf	0x9, 0              	CLRF	r0x09
+001f5a   be08     btfsc	0x8, 0x7, 0        	BTFSC	r0x08, 7
+001f5c   6809     setf	0x9, 0              	SETF	r0x09
+001f5e   0e05     movlw	0x5                	MOVLW	0x05
+001f60   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001f62   ec4b     call	0x5696, 0           	CALL	_rc_read_data
+001f64   f02b
+001f66   6e0a     movwf	0xa, 0             	MOVWF	r0x0a
+001f68   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+001f6a   6a0b     clrf	0xb, 0              	CLRF	r0x0b
+001f6c   be0a     btfsc	0xa, 0x7, 0        	BTFSC	r0x0a, 7
+001f6e   680b     setf	0xb, 0              	SETF	r0x0b
+001f70   0e04     movlw	0x4                	MOVLW	0x04
+001f72   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001f74   ec4b     call	0x5696, 0           	CALL	_rc_read_data
+001f76   f02b
+001f78   6e0c     movwf	0xc, 0             	MOVWF	r0x0c
+001f7a   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+001f7c   6a0d     clrf	0xd, 0              	CLRF	r0x0d
+001f7e   be0c     btfsc	0xc, 0x7, 0        	BTFSC	r0x0c, 7
+001f80   680d     setf	0xd, 0              	SETF	r0x0d
+001f82   0e03     movlw	0x3                	MOVLW	0x03
+001f84   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001f86   ec4b     call	0x5696, 0           	CALL	_rc_read_data
+001f88   f02b
+001f8a   6e0e     movwf	0xe, 0             	MOVWF	r0x0e
+001f8c   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+001f8e   6a0f     clrf	0xf, 0              	CLRF	r0x0f
+001f90   be0e     btfsc	0xe, 0x7, 0        	BTFSC	r0x0e, 7
+001f92   680f     setf	0xf, 0              	SETF	r0x0f
+001f94   0e02     movlw	0x2                	MOVLW	0x02
+001f96   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001f98   ec4b     call	0x5696, 0           	CALL	_rc_read_data
+001f9a   f02b
+001f9c   6e10     movwf	0x10, 0            	MOVWF	r0x10
+001f9e   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+001fa0   6a11     clrf	0x11, 0             	CLRF	r0x11
+001fa2   be10     btfsc	0x10, 0x7, 0       	BTFSC	r0x10, 7
+001fa4   6811     setf	0x11, 0             	SETF	r0x11
+001fa6   0e01     movlw	0x1                	MOVLW	0x01
+001fa8   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001faa   ec4b     call	0x5696, 0           	CALL	_rc_read_data
+001fac   f02b
+001fae   6e12     movwf	0x12, 0            	MOVWF	r0x12
+001fb0   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+001fb2   6a13     clrf	0x13, 0             	CLRF	r0x13
+001fb4   be12     btfsc	0x12, 0x7, 0       	BTFSC	r0x12, 7
+001fb6   6813     setf	0x13, 0             	SETF	r0x13
+001fb8   ec76     call	0x6cec, 0           	CALL	_rc_read_status
+001fba   f036
+001fbc   6e14     movwf	0x14, 0            	MOVWF	r0x14
+001fbe   6a15     clrf	0x15, 0             	CLRF	r0x15
+001fc0   be14     btfsc	0x14, 0x7, 0       	BTFSC	r0x14, 7
+001fc2   6815     setf	0x15, 0             	SETF	r0x15
+001fc4   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
+001fc6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001fc8   5000     movf	0, 0, 0             	MOVF	r0x00, W
+001fca   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001fcc   5003     movf	0x3, 0, 0           	MOVF	r0x03, W
+001fce   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001fd0   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+001fd2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001fd4   5005     movf	0x5, 0, 0           	MOVF	r0x05, W
+001fd6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001fd8   5004     movf	0x4, 0, 0           	MOVF	r0x04, W
+001fda   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001fdc   5007     movf	0x7, 0, 0           	MOVF	r0x07, W
+001fde   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001fe0   5006     movf	0x6, 0, 0           	MOVF	r0x06, W
+001fe2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001fe4   5009     movf	0x9, 0, 0           	MOVF	r0x09, W
+001fe6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001fe8   5008     movf	0x8, 0, 0           	MOVF	r0x08, W
+001fea   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001fec   500b     movf	0xb, 0, 0           	MOVF	r0x0b, W
+001fee   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001ff0   500a     movf	0xa, 0, 0           	MOVF	r0x0a, W
+001ff2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001ff4   500d     movf	0xd, 0, 0           	MOVF	r0x0d, W
+001ff6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001ff8   500c     movf	0xc, 0, 0           	MOVF	r0x0c, W
+001ffa   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+001ffc   500f     movf	0xf, 0, 0           	MOVF	r0x0f, W
+001ffe   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002000   500e     movf	0xe, 0, 0           	MOVF	r0x0e, W
+002002   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002004   5011     movf	0x11, 0, 0          	MOVF	r0x11, W
+002006   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002008   5010     movf	0x10, 0, 0          	MOVF	r0x10, W
+00200a   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00200c   5013     movf	0x13, 0, 0          	MOVF	r0x13, W
+00200e   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002010   5012     movf	0x12, 0, 0          	MOVF	r0x12, W
+002012   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002014   5015     movf	0x15, 0, 0          	MOVF	r0x15, W
+002016   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002018   5014     movf	0x14, 0, 0          	MOVF	r0x14, W
+00201a   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00201c   0107     movlb	0x7                	BANKSEL	(_rc_routine_elapsed_time_1_1 + 3)
+00201e   51f3     movf	0xf3, 0, 0x1        	MOVF	(_rc_routine_elapsed_time_1_1 + 3), W, B
+002020   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002022   0107     movlb	0x7                	BANKSEL	(_rc_routine_elapsed_time_1_1 + 2)
+002024   51f2     movf	0xf2, 0, 0x1        	MOVF	(_rc_routine_elapsed_time_1_1 + 2), W, B
+002026   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002028   0107     movlb	0x7                	BANKSEL	(_rc_routine_elapsed_time_1_1 + 1)
+00202a   51f1     movf	0xf1, 0, 0x1        	MOVF	(_rc_routine_elapsed_time_1_1 + 1), W, B
+00202c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00202e   0107     movlb	0x7                	BANKSEL	_rc_routine_elapsed_time_1_1
+002030   51f0     movf	0xf0, 0, 0x1        	MOVF	_rc_routine_elapsed_time_1_1, W, B
+002032   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002034   0e00     movlw	0                  	MOVLW	UPPER(__str_2)
+002036   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002038   0e41     movlw	0x41               	MOVLW	HIGH(__str_2)
+00203a   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00203c   0ee6     movlw	0xe6               	MOVLW	LOW(__str_2)
+00203e   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002040   ecb1     call	0x6d62, 0           	CALL	_printf
+002042   f036
+002044   0e1d     movlw	0x1d               	MOVLW	0x1d
+002046   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	272; firmware.c	DPRINTF("B: %d %d  Shaft I[%d,%d]: %d %d  Sonar[%d]: %d T1: %ld\n",
+002048   0e01     movlw	0x1                	MOVLW	0x01
+00204a   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00204c   ecb5     call	0x216a, 0           	CALL	_timer_read_ms
+00204e   f010
+002050   6e00     movwf	0, 0               	MOVWF	r0x00
+002052   cff3     movff	0xff3, 0x1         	MOVFF	PRODL, r0x01
+002054   f001
+002056   cff4     movff	0xff4, 0x2         	MOVFF	PRODH, r0x02
+002058   f002
+00205a   cfe9     movff	0xfe9, 0x3         	MOVFF	FSR0L, r0x03
+00205c   f003
+00205e   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+002060   0e02     movlw	0x2                	MOVLW	0x02
+002062   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002064   ec1c     call	0x7038, 0           	CALL	_shaft_encoder_read_std
+002066   f038
+002068   6e04     movwf	0x4, 0             	MOVWF	r0x04
+00206a   cff3     movff	0xff3, 0x5         	MOVFF	PRODL, r0x05
+00206c   f005
+00206e   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+002070   0e01     movlw	0x1                	MOVLW	0x01
+002072   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002074   ec1c     call	0x7038, 0           	CALL	_shaft_encoder_read_std
+002076   f038
+002078   6e06     movwf	0x6, 0             	MOVWF	r0x06
+00207a   cff3     movff	0xff3, 0x7         	MOVFF	PRODL, r0x07
+00207c   f007
+00207e   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+002080   0e0b     movlw	0xb                	MOVLW	0x0b
+002082   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002084   ecdf     call	0x45be, 0           	CALL	_io_read_digital
+002086   f022
+002088   6e08     movwf	0x8, 0             	MOVWF	r0x08
+00208a   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+00208c   6a09     clrf	0x9, 0              	CLRF	r0x09
+00208e   be08     btfsc	0x8, 0x7, 0        	BTFSC	r0x08, 7
+002090   6809     setf	0x9, 0              	SETF	r0x09
+002092   0e0a     movlw	0xa                	MOVLW	0x0a
+002094   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002096   ecdf     call	0x45be, 0           	CALL	_io_read_digital
+002098   f022
+00209a   6e0a     movwf	0xa, 0             	MOVWF	r0x0a
+00209c   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+00209e   6a0b     clrf	0xb, 0              	CLRF	r0x0b
+0020a0   be0a     btfsc	0xa, 0x7, 0        	BTFSC	r0x0a, 7
+0020a2   680b     setf	0xb, 0              	SETF	r0x0b
+0020a4   5003     movf	0x3, 0, 0           	MOVF	r0x03, W
+0020a6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020a8   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+0020aa   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020ac   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
+0020ae   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020b0   5000     movf	0, 0, 0             	MOVF	r0x00, W
+0020b2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020b4   0107     movlb	0x7                	BANKSEL	(_rc_routine_sonar_distance_1_1 + 1)
+0020b6   5101     movf	0x1, 0, 0x1         	MOVF	(_rc_routine_sonar_distance_1_1 + 1), W, B
+0020b8   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020ba   0107     movlb	0x7                	BANKSEL	_rc_routine_sonar_distance_1_1
+0020bc   5100     movf	0, 0, 0x1           	MOVF	_rc_routine_sonar_distance_1_1, W, B
+0020be   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020c0   0e00     movlw	0                  	MOVLW	0x00
+0020c2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020c4   0e03     movlw	0x3                	MOVLW	0x03
+0020c6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020c8   5005     movf	0x5, 0, 0           	MOVF	r0x05, W
+0020ca   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020cc   5004     movf	0x4, 0, 0           	MOVF	r0x04, W
+0020ce   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020d0   5007     movf	0x7, 0, 0           	MOVF	r0x07, W
+0020d2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020d4   5006     movf	0x6, 0, 0           	MOVF	r0x06, W
+0020d6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020d8   0e00     movlw	0                  	MOVLW	0x00
+0020da   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020dc   0e02     movlw	0x2                	MOVLW	0x02
+0020de   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020e0   0e00     movlw	0                  	MOVLW	0x00
+0020e2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020e4   0e01     movlw	0x1                	MOVLW	0x01
+0020e6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020e8   5009     movf	0x9, 0, 0           	MOVF	r0x09, W
+0020ea   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020ec   5008     movf	0x8, 0, 0           	MOVF	r0x08, W
+0020ee   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020f0   500b     movf	0xb, 0, 0           	MOVF	r0x0b, W
+0020f2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020f4   500a     movf	0xa, 0, 0           	MOVF	r0x0a, W
+0020f6   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020f8   0e00     movlw	0                  	MOVLW	UPPER(__str_3)
+0020fa   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0020fc   0e42     movlw	0x42               	MOVLW	HIGH(__str_3)
+0020fe   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002100   0e22     movlw	0x22               	MOVLW	LOW(__str_3)
+002102   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002104   ecb1     call	0x6d62, 0           	CALL	_printf
+002106   f036
+002108   0e17     movlw	0x17               	MOVLW	0x17
+00210a   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           _00156_DS_:
+00210c   cfe4     movff	0xfe4, 0x15        	MOVFF	PREINC1, r0x15
+00210e   f015
+002110   cfe4     movff	0xfe4, 0x14        	MOVFF	PREINC1, r0x14
+002112   f014
+002114   cfe4     movff	0xfe4, 0x13        	MOVFF	PREINC1, r0x13
+002116   f013
+002118   cfe4     movff	0xfe4, 0x12        	MOVFF	PREINC1, r0x12
+00211a   f012
+00211c   cfe4     movff	0xfe4, 0x11        	MOVFF	PREINC1, r0x11
+00211e   f011
+002120   cfe4     movff	0xfe4, 0x10        	MOVFF	PREINC1, r0x10
+002122   f010
+002124   cfe4     movff	0xfe4, 0xf         	MOVFF	PREINC1, r0x0f
+002126   f00f
+002128   cfe4     movff	0xfe4, 0xe         	MOVFF	PREINC1, r0x0e
+00212a   f00e
+00212c   cfe4     movff	0xfe4, 0xd         	MOVFF	PREINC1, r0x0d
+00212e   f00d
+002130   cfe4     movff	0xfe4, 0xc         	MOVFF	PREINC1, r0x0c
+002132   f00c
+002134   cfe4     movff	0xfe4, 0xb         	MOVFF	PREINC1, r0x0b
+002136   f00b
+002138   cfe4     movff	0xfe4, 0xa         	MOVFF	PREINC1, r0x0a
+00213a   f00a
+00213c   cfe4     movff	0xfe4, 0x9         	MOVFF	PREINC1, r0x09
+00213e   f009
+002140   cfe4     movff	0xfe4, 0x8         	MOVFF	PREINC1, r0x08
+002142   f008
+002144   cfe4     movff	0xfe4, 0x7         	MOVFF	PREINC1, r0x07
+002146   f007
+002148   cfe4     movff	0xfe4, 0x6         	MOVFF	PREINC1, r0x06
+00214a   f006
+00214c   cfe4     movff	0xfe4, 0x5         	MOVFF	PREINC1, r0x05
+00214e   f005
+002150   cfe4     movff	0xfe4, 0x4         	MOVFF	PREINC1, r0x04
+002152   f004
+002154   cfe4     movff	0xfe4, 0x3         	MOVFF	PREINC1, r0x03
+002156   f003
+002158   cfe4     movff	0xfe4, 0x2         	MOVFF	PREINC1, r0x02
+00215a   f002
+00215c   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
+00215e   f001
+002160   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
+002162   f000
+002164   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
+002166   ffd9
+002168   0012     return	0                 	RETURN	
+                                           
+                                           ; ; Starting pCode block
+                                           S_firmware__custom_init	code
+                                           _custom_init:
+                                           ;	.line	156; firmware.c	void    custom_init(void)
+0040ee   cfd9     movff	0xfd9, 0xfe5       	MOVFF	FSR2L, POSTDEC1
+0040f0   ffe5
+0040f2   cfe1     movff	0xfe1, 0xfd9       	MOVFF	FSR1L, FSR2L
+0040f4   ffd9
+0040f6   c000     movff	0, 0xfe5           	MOVFF	r0x00, POSTDEC1
+0040f8   ffe5
+0040fa   c001     movff	0x1, 0xfe5         	MOVFF	r0x01, POSTDEC1
+0040fc   ffe5
+0040fe   c002     movff	0x2, 0xfe5         	MOVFF	r0x02, POSTDEC1
+004100   ffe5
+                                           ;	.line	167; firmware.c	for (c = 1; c <= 16; ++c)
+004102   0e01     movlw	0x1                	MOVLW	0x01
+004104   6e00     movwf	0, 0               	MOVWF	r0x00
+004106   6a01     clrf	0x1, 0              	CLRF	r0x01
+                                           _00139_DS_:
+004108   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
+00410a   0f80     addlw	0x80               	ADDLW	0x80
+00410c   0f80     addlw	0x80               	ADDLW	0x80
+00410e   e102     bnz	0x4114               	BNZ	_00149_DS_
+004110   0e11     movlw	0x11               	MOVLW	0x11
+004112   5c00     subwf	0, 0, 0            	SUBWF	r0x00, W
+                                           _00149_DS_:
+004114   e20e     bc	0x4132                	BC	_00142_DS_
+                                           ;	.line	168; firmware.c	io_set_direction(c, IO_DIRECTION_IN);
+004116   5000     movf	0, 0, 0             	MOVF	r0x00, W
+004118   6e02     movwf	0x2, 0             	MOVWF	r0x02
+00411a   0e01     movlw	0x1                	MOVLW	0x01
+00411c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00411e   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+004120   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+004122   ecc2     call	0x3784, 0           	CALL	_io_set_direction
+004124   f01b
+004126   0e02     movlw	0x2                	MOVLW	0x02
+004128   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           ;	.line	167; firmware.c	for (c = 1; c <= 16; ++c)
+00412a   2a00     incf	0, 0x1, 0           	INCF	r0x00, F
+00412c   b0d8     btfsc	0xd8, 0, 0         	BTFSC	STATUS, 0
+00412e   2a01     incf	0x1, 0x1, 0         	INCF	r0x01, F
+004130   d7eb     bra	0x4108               	BRA	_00139_DS_
+                                           _00142_DS_:
+                                           ;	.line	174; firmware.c	io_set_analog_port_count(ANALOG_PORTS);
+004132   0e08     movlw	0x8                	MOVLW	0x08
+004134   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+004136   ec62     call	0x72c4, 0           	CALL	_io_set_analog_port_count
+004138   f039
+00413a   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+                                           ;	.line	187; firmware.c	shaft_encoder_enable_std(LEFT_ENCODER_INTERRUPT_PORT);
+00413c   0e01     movlw	0x1                	MOVLW	0x01
+00413e   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+004140   ec69     call	0x64d2, 0           	CALL	_shaft_encoder_enable_std
+004142   f032
+004144   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+                                           ;	.line	188; firmware.c	shaft_encoder_enable_std(RIGHT_ENCODER_INTERRUPT_PORT);
+004146   0e02     movlw	0x2                	MOVLW	0x02
+004148   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00414a   ec69     call	0x64d2, 0           	CALL	_shaft_encoder_enable_std
+00414c   f032
+00414e   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+                                           ;	.line	194; firmware.c	if ( sonar_init(SONAR_INTERRUPT_PORT, SONAR_OUTPUT_PORT) != OV_OK )
+004150   0e09     movlw	0x9                	MOVLW	0x09
+004152   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+004154   0e03     movlw	0x3                	MOVLW	0x03
+004156   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+004158   ec9b     call	0x6136, 0           	CALL	_sonar_init
+00415a   f030
+00415c   6e00     movwf	0, 0               	MOVWF	r0x00
+00415e   0e02     movlw	0x2                	MOVLW	0x02
+004160   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+004162   5000     movf	0, 0, 0             	MOVF	r0x00, W
+004164   e00a     bz	0x417a                	BZ	_00138_DS_
+                                           ;	.line	195; firmware.c	printf("sonar_init() failed.\n");
+004166   0e00     movlw	0                  	MOVLW	UPPER(__str_1)
+004168   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00416a   0e41     movlw	0x41               	MOVLW	HIGH(__str_1)
+00416c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00416e   0ed0     movlw	0xd0               	MOVLW	LOW(__str_1)
+004170   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+004172   ecb1     call	0x6d62, 0           	CALL	_printf
+004174   f036
+004176   0e03     movlw	0x3                	MOVLW	0x03
+004178   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+                                           _00138_DS_:
+                                           ;	.line	197; firmware.c	timer_start(1);
+00417a   0e01     movlw	0x1                	MOVLW	0x01
+00417c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00417e   ec0b     call	0x5e16, 0           	CALL	_timer_start
+004180   f02f
+004182   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+                                           ;	.line	199; firmware.c	controller_print_version();
+004184   ecff     call	0x6bfe, 0           	CALL	_controller_print_version
+004186   f035
+004188   cfe4     movff	0xfe4, 0x2         	MOVFF	PREINC1, r0x02
+00418a   f002
+00418c   cfe4     movff	0xfe4, 0x1         	MOVFF	PREINC1, r0x01
+00418e   f001
+004190   cfe4     movff	0xfe4, 0           	MOVFF	PREINC1, r0x00
+004192   f000
+004194   cfe4     movff	0xfe4, 0xfd9       	MOVFF	PREINC1, FSR2L
+004196   ffd9
+004198   0012     return	0                 	RETURN	
+                                           
+                                           ; ; Starting pCode block
+                                           __str_0:
+00419a   6157     cpfslt	0x57, 0x1         	DB	0x57, 0x61, 0x69, 0x74, 0x69, 0x6e, 0x67, 0x20, 0x66, 0x6f, 0x72, 0x20
+00419c   7469     btg	0x69, 0x2, 0         
+00419e   6e69     movwf	0x69, 0            
+0041a0   2067     addwfc	0x67, 0, 0        
+0041a2   6f66     movwf	0x66, 0x1          
+0041a4   2072     addwfc	0x72, 0, 0        
+0041a6   4352     rrncf	0x52, 0x1, 0x1     	DB	0x52, 0x43, 0x20, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x6c, 0x20, 0x74, 0x6f
+0041a8   7320     btg	0x20, 0x1, 0x1       
+0041aa   6769     tstfsz	0x69, 0x1         
+0041ac   616e     cpfslt	0x6e, 0x1         
+0041ae   206c     addwfc	0x6c, 0, 0        
+0041b0   6f74     movwf	0x74, 0x1          
+0041b2   6220     cpfseq	0x20, 0           	DB	0x20, 0x62, 0x65, 0x67, 0x69, 0x6e, 0x20, 0x61, 0x75, 0x74, 0x6f, 0x6e
+0041b4   6765     tstfsz	0x65, 0x1         
+0041b6   6e69     movwf	0x69, 0            
+0041b8   6120     cpfslt	0x20, 0x1         
+0041ba   7475     btg	0x75, 0x2, 0         
+0041bc   6e6f     movwf	0x6f, 0            
+0041be   6d6f     negf	0x6f, 0x1           	DB	0x6f, 0x6d, 0x6f, 0x75, 0x73, 0x20, 0x70, 0x65, 0x72, 0x69, 0x6f, 0x64
+0041c0   756f     btg	0x6f, 0x2, 0x1       
+0041c2   2073     addwfc	0x73, 0, 0        
+0041c4   6570     cpfsgt	0x70, 0x1         
+0041c6   6972     setf	0x72, 0x1           
+0041c8   646f     cpfsgt	0x6f, 0           
+0041ca   2e2e     decfsz	0x2e, 0x1, 0      	DB	0x2e, 0x2e, 0x2e, 0x0a, 0x00
+0041cc   0a2e     xorlw	0x2e               
+0041ce   0000     nop                      
+                                           ; ; Starting pCode block
+                                           __str_1:
+0041d0   6f73     movwf	0x73, 0x1          	DB	0x73, 0x6f, 0x6e, 0x61, 0x72, 0x5f, 0x69, 0x6e, 0x69, 0x74, 0x28, 0x29
+0041d2   616e     cpfslt	0x6e, 0x1         
+0041d4   5f72     subwf	0x72, 0x1, 0x1     
+0041d6   6e69     movwf	0x69, 0            
+0041d8   7469     btg	0x69, 0x2, 0         
+0041da   2928     incf	0x28, 0, 0x1        
+0041dc   6620     tstfsz	0x20, 0           	DB	0x20, 0x66, 0x61, 0x69, 0x6c, 0x65, 0x64, 0x2e, 0x0a, 0x00
+0041de   6961     setf	0x61, 0x1           
+0041e0   656c     cpfsgt	0x6c, 0x1         
+0041e2   2e64     decfsz	0x64, 0x1, 0      
+0041e4   000a     tblrd	*-                 
+                                           ; ; Starting pCode block
+                                           __str_2:
+0041e6   5445     subfwb	0x45, 0, 0        	DB	0x45, 0x54, 0x3a, 0x20, 0x25, 0x6c, 0x64, 0x20, 0x20, 0x52, 0x43, 0x3a
+0041e8   203a     addwfc	0x3a, 0, 0        
+0041ea   6c25     negf	0x25, 0             
+0041ec   2064     addwfc	0x64, 0, 0        
+0041ee   5220     movf	0x20, 0x1, 0        
+0041f0   3a43     swapf	0x43, 0x1, 0       
+0041f2   2520     addwf	0x20, 0, 0x1       	DB	0x20, 0x25, 0x64, 0x20, 0x25, 0x64, 0x20, 0x25, 0x64, 0x20, 0x25, 0x64
+0041f4   2064     addwfc	0x64, 0, 0        
+0041f6   6425     cpfsgt	0x25, 0           
+0041f8   2520     addwf	0x20, 0, 0x1       
+0041fa   2064     addwfc	0x64, 0, 0        
+0041fc   6425     cpfsgt	0x25, 0           
+0041fe   2520     addwf	0x20, 0, 0x1       	DB	0x20, 0x25, 0x64, 0x20, 0x25, 0x64, 0x20, 0x25, 0x64, 0x20, 0x20, 0x4c
+004200   2064     addwfc	0x64, 0, 0        
+004202   6425     cpfsgt	0x25, 0           
+004204   2520     addwf	0x20, 0, 0x1       
+004206   2064     addwfc	0x64, 0, 0        
+004208   4c20     dcfsnz	0x20, 0, 0        
+00420a   6e69     movwf	0x69, 0            	DB	0x69, 0x6e, 0x65, 0x3a, 0x20, 0x25, 0x78, 0x20, 0x25, 0x78, 0x20, 0x25
+00420c   3a65     swapf	0x65, 0x1, 0       
+00420e   2520     addwf	0x20, 0, 0x1       
+004210   2078     addwfc	0x78, 0, 0        
+004212   7825     btg	0x25, 0x4, 0         
+004214   2520     addwf	0x20, 0, 0x1       
+004216   2078     addwfc	0x78, 0, 0        	DB	0x78, 0x20, 0x4c, 0x69, 0x67, 0x68, 0x74, 0x20, 0x25, 0x78, 0x20, 0x00
+004218   694c     setf	0x4c, 0x1           
+00421a   6867     setf	0x67, 0             
+00421c   2074     addwfc	0x74, 0, 0        
+00421e   7825     btg	0x25, 0x4, 0         
+004220   0020     dw	0x20  ;unknown opcode 
+                                           ; ; Starting pCode block
+                                           __str_3:
+004222   3a42     swapf	0x42, 0x1, 0       	DB	0x42, 0x3a, 0x20, 0x25, 0x64, 0x20, 0x25, 0x64, 0x20, 0x20, 0x53, 0x68
+004224   2520     addwf	0x20, 0, 0x1       
+004226   2064     addwfc	0x64, 0, 0        
+004228   6425     cpfsgt	0x25, 0           
+00422a   2020     addwfc	0x20, 0, 0        
+00422c   6853     setf	0x53, 0             
+00422e   6661     tstfsz	0x61, 0           	DB	0x61, 0x66, 0x74, 0x20, 0x49, 0x5b, 0x25, 0x64, 0x2c, 0x25, 0x64, 0x5d
+004230   2074     addwfc	0x74, 0, 0        
+004232   5b49     subwfb	0x49, 0x1, 0x1    
+004234   6425     cpfsgt	0x25, 0           
+004236   252c     addwf	0x2c, 0, 0x1       
+004238   5d64     subwf	0x64, 0, 0x1       
+00423a   203a     addwfc	0x3a, 0, 0        	DB	0x3a, 0x20, 0x25, 0x64, 0x20, 0x25, 0x64, 0x20, 0x20, 0x53, 0x6f, 0x6e
+00423c   6425     cpfsgt	0x25, 0           
+00423e   2520     addwf	0x20, 0, 0x1       
+004240   2064     addwfc	0x64, 0, 0        
+004242   5320     movf	0x20, 0x1, 0x1      
+004244   6e6f     movwf	0x6f, 0            
+004246   7261     btg	0x61, 0x1, 0         	DB	0x61, 0x72, 0x5b, 0x25, 0x64, 0x5d, 0x3a, 0x20, 0x25, 0x64, 0x20, 0x54
+004248   255b     addwf	0x5b, 0, 0x1       
+00424a   5d64     subwf	0x64, 0, 0x1       
+00424c   203a     addwfc	0x3a, 0, 0        
+00424e   6425     cpfsgt	0x25, 0           
+004250   5420     subfwb	0x20, 0, 0        
+004252   3a31     swapf	0x31, 0x1, 0       	DB	0x31, 0x3a, 0x20, 0x25, 0x6c, 0x64, 0x0a, 0x00
+004254   2520     addwf	0x20, 0, 0x1       
+004256   646c     cpfsgt	0x6c, 0           
+004258   000a     tblrd	*-                 
+                                           ; ; Starting pCode block
+                                           __str_4:
+00425a   6873     setf	0x73, 0             	DB	0x73, 0x68, 0x61, 0x66, 0x74, 0x5f, 0x74, 0x70, 0x73, 0x5f, 0x69, 0x6e
+00425c   6661     tstfsz	0x61, 0           
+00425e   5f74     subwf	0x74, 0x1, 0x1     
+004260   7074     btg	0x74, 0, 0           
+004262   5f73     subwf	0x73, 0x1, 0x1     
+004264   6e69     movwf	0x69, 0            
+004266   7469     btg	0x69, 0x2, 0         	DB	0x69, 0x74, 0x28, 0x29, 0x20, 0x66, 0x61, 0x69, 0x6c, 0x65, 0x64, 0x2e
+004268   2928     incf	0x28, 0, 0x1        
+00426a   6620     tstfsz	0x20, 0           
+00426c   6961     setf	0x61, 0x1           
+00426e   656c     cpfsgt	0x6c, 0x1         
+004270   2e64     decfsz	0x64, 0x1, 0      
+004272   000a     tblrd	*-                 	DB	0x0a, 0x00
+                                           ; ; Starting pCode block
+                                           __str_5:
+004274   7552     btg	0x52, 0x2, 0x1       	DB	0x52, 0x75, 0x6e, 0x6e, 0x69, 0x6e, 0x67, 0x20, 0x63, 0x6f, 0x6d, 0x70
+004276   6e6e     movwf	0x6e, 0            
+004278   6e69     movwf	0x69, 0            
+00427a   2067     addwfc	0x67, 0, 0        
+00427c   6f63     movwf	0x63, 0x1          
+00427e   706d     btg	0x6d, 0, 0           
+004280   7465     btg	0x65, 0x2, 0         	DB	0x65, 0x74, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x20, 0x61, 0x75, 0x74, 0x6f
+004282   7469     btg	0x69, 0x2, 0         
+004284   6f69     movwf	0x69, 0x1          
+004286   206e     addwfc	0x6e, 0, 0        
+004288   7561     btg	0x61, 0x2, 0x1       
+00428a   6f74     movwf	0x74, 0x1          
+00428c   6f6e     movwf	0x6e, 0x1          	DB	0x6e, 0x6f, 0x6d, 0x6f, 0x75, 0x73, 0x20, 0x72, 0x6f, 0x75, 0x74, 0x69
+00428e   6f6d     movwf	0x6d, 0x1          
+004290   7375     btg	0x75, 0x1, 0x1       
+004292   7220     btg	0x20, 0x1, 0         
+004294   756f     btg	0x6f, 0x2, 0x1       
+004296   6974     setf	0x74, 0x1           
+004298   656e     cpfsgt	0x6e, 0x1         	DB	0x6e, 0x65, 0x2e, 0x2e, 0x2e, 0x0a, 0x00
+00429a   2e2e     decfsz	0x2e, 0x1, 0      
+00429c   0a2e     xorlw	0x2e               
+00429e   0000     nop                      
+                                           
+                                           
+                                           ; Statistics:
+                                           ; code size:	 2892 (0x0b4c) bytes ( 2.21%)
+                                           ;           	 1446 (0x05a6) words
+                                           ; udata size:	   71 (0x0047) bytes ( 3.96%)
+                                           ; access size:	   22 (0x0016) bytes
+                                           
+                                           
+                                           	end
+                                           ;--------------------------------------------------------
+                                           ; File Created by SDCC : free open source ANSI-C Compiler
+                                           ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
+                                           ; This file was generated Sat Oct 13 23:44:08 2012
+                                           ;--------------------------------------------------------
+                                           ; PIC16 port for the Microchip 16-bit core micros
+                                           ;--------------------------------------------------------
+                                           	list	p=18f8520
+                                           
+                                           	radix dec
+                                           
+                                           ;--------------------------------------------------------
+                                           ; public variables in this module
+                                           ;--------------------------------------------------------
+                                           	global ___uflags
+                                           	global __entry
+                                           	global __startup
+                                           	global __do_cinit
+                                           
+                                           ;--------------------------------------------------------
+                                           ; extern variables in this module
+                                           ;--------------------------------------------------------
+                                           	extern _stack
+                                           	extern _stack_end
+                                           	extern _TBLPTRU
+                                           	extern _TBLPTRH
+                                           	extern _TBLPTRL
+                                           	extern _FSR0L
+                                           	extern _FSR0H
+                                           	extern _TABLAT
+                                           	extern _POSTINC0
+                                           	extern _POSTDEC0
+                                           	extern _main
+                                           	extern _cinit
+                                           
+                                           
+                                           	idata
+                                           ___uflags	db	0x00
+                                           
+                                           ;--------------------------------------------------------
+                                           ; global & static initialisations
+                                           ;--------------------------------------------------------
+                                           ; ; Starting pCode block
+                                           S_crt0iz___entry	code	0X000800
+                                           __entry:
+000800   efc1     goto	0x7582              	goto __startup 
+000802   f03a
+                                           ; I code from now on!
+                                           ; ; Starting pCode block
+                                           S_crt0iz___do_cinit	code
+                                           __do_cinit:
+                                           	; TBLPTR = &cinit
+0066b8   0e94     movlw	0x94               	movlw low(_cinit)
+0066ba   6ef6     movwf	0xf6, 0            	movwf _TBLPTRL
+0066bc   0e76     movlw	0x76               	movlw high(_cinit)
+0066be   6ef7     movwf	0xf7, 0            	movwf _TBLPTRH
+0066c0   0e00     movlw	0                  	movlw upper(_cinit)
+0066c2   6ef8     movwf	0xf8, 0            	movwf _TBLPTRU
+                                           	; 0x05 = cinit.num_init
+                                           	; movlb 0x07
+0066c4   0009     tblrd	*+                 	tblrd*+
+0066c6   50f5     movf	0xf5, 0, 0          	movf _TABLAT, w
+0066c8   6e05     movwf	0x5, 0             	movwf 0x05
+0066ca   0009     tblrd	*+                 	tblrd*+
+0066cc   50f5     movf	0xf5, 0, 0          	movf _TABLAT, w
+0066ce   6e06     movwf	0x6, 0             	movwf 0x05 +1
+                                           	; while (0x05) {
+                                           test:
+0066d0   e104     bnz	0x66da               	bnz cont1 ;;done1
+0066d2   6705     tstfsz	0x5, 0x1          	tstfsz 0x05, 1
+0066d4   d002     bra	0x66da               	bra cont1
+                                           done1:
+0066d6   efa9     goto	0x6752              	goto done
+0066d8   f033
+                                           cont1:
+                                           	; Count down so we only have to look up the data in _cinit once.
+                                           	; At this point we know that TBLPTR points to the top of the current
+                                           	; entry in _cinit, so we can just start reading the from, to, and
+                                           	; size values.
+                                           	; read the source address low
+0066da   0009     tblrd	*+                 	tblrd*+
+0066dc   50f5     movf	0xf5, 0, 0          	movf _TABLAT, w
+0066de   6e00     movwf	0, 0               	movwf 0x00
+                                           	; source address high
+0066e0   0009     tblrd	*+                 	tblrd*+
+0066e2   50f5     movf	0xf5, 0, 0          	movf _TABLAT, w
+0066e4   6e01     movwf	0x1, 0             	movwf 0x00 + 1
+                                           	; source address upper
+0066e6   0009     tblrd	*+                 	tblrd*+
+0066e8   50f5     movf	0xf5, 0, 0          	movf _TABLAT, w
+0066ea   6e02     movwf	0x2, 0             	movwf 0x00 + 2
+                                           	; skip a byte since it is stored as a 32bit int
+0066ec   0009     tblrd	*+                 	tblrd*+
+                                           	; read the destination address directly into FSR0
+                                           	; destination address low
+0066ee   0009     tblrd	*+                 	tblrd*+
+0066f0   50f5     movf	0xf5, 0, 0          	movf _TABLAT, w
+0066f2   6ee9     movwf	0xe9, 0            	movwf _FSR0L
+                                           	; destination address high
+0066f4   0009     tblrd	*+                 	tblrd*+
+0066f6   50f5     movf	0xf5, 0, 0          	movf _TABLAT, w
+0066f8   6eea     movwf	0xea, 0            	movwf _FSR0H
+                                           	; skip two bytes since it is stored as a 32bit int
+0066fa   0009     tblrd	*+                 	tblrd*+
+0066fc   0009     tblrd	*+                 	tblrd*+
+                                           	; read the size of data to transfer to destination address
+0066fe   0009     tblrd	*+                 	tblrd*+
+006700   50f5     movf	0xf5, 0, 0          	movf _TABLAT, w
+006702   6e03     movwf	0x3, 0             	movwf 0x03
+006704   0009     tblrd	*+                 	tblrd*+
+006706   50f5     movf	0xf5, 0, 0          	movf _TABLAT, w
+006708   6e04     movwf	0x4, 0             	movwf 0x03 +1
+                                           	; skip two bytes since it is stored as a 32bit int
+00670a   0009     tblrd	*+                 	tblrd*+
+00670c   0009     tblrd	*+                 	tblrd*+
+                                           	; 0x00 = 0x07 ->from;
+                                           	; FSR0 = 0x07 ->to;
+                                           	; 0x03 = (unsigned short) 0x07 ->size;
+                                           	; the table pointer now points to the next entry. Save it
+                                           	; off since we will be using the table pointer to do the copying
+                                           	; for the entry
+                                           	; 0x07 = TBLPTR
+00670e   cff6     movff	0xff6, 0x7         	movff _TBLPTRL, 0x07
+006710   f007
+006712   cff7     movff	0xff7, 0x8         	movff _TBLPTRH, 0x07 + 1
+006714   f008
+006716   cff8     movff	0xff8, 0x9         	movff _TBLPTRU, 0x07 + 2
+006718   f009
+                                           	; now assign the source address to the table pointer
+                                           	; TBLPTR = 0x00
+00671a   c000     movff	0, 0xff6           	movff 0x00, _TBLPTRL
+00671c   fff6
+00671e   c001     movff	0x1, 0xff7         	movff 0x00 + 1, _TBLPTRH
+006720   fff7
+006722   c002     movff	0x2, 0xff8         	movff 0x00 + 2, _TBLPTRU
+006724   fff8
+                                           	; do the copy loop
+                                           	; determine if we have any more bytes to copy
+                                           	; movlb 0x03
+006726   5003     movf	0x3, 0, 0           	movf 0x03, w
+                                           copy_loop:
+006728   e102     bnz	0x672e               	bnz copy_one_byte ; copy_one_byte
+00672a   5004     movf	0x4, 0, 0           	movf 0x03 + 1, w
+00672c   e007     bz	0x673c                	bz done_copying
+                                           copy_one_byte:
+00672e   0009     tblrd	*+                 	tblrd*+
+006730   50f5     movf	0xf5, 0, 0          	movf _TABLAT, w
+006732   6eee     movwf	0xee, 0            	movwf _POSTINC0
+                                           	; decrement byte counter
+006734   0603     decf	0x3, 0x1, 0         	decf 0x03, f
+006736   e2f8     bc	0x6728                	bc copy_loop ; copy_loop
+006738   0604     decf	0x4, 0x1, 0         	decf 0x03 + 1, f
+00673a   d7f9     bra	0x672e               	bra copy_one_byte
+                                           done_copying:
+                                           	; restore the table pointer for the next entry
+                                           	; TBLPTR = 0x07
+00673c   c007     movff	0x7, 0xff6         	movff 0x07, _TBLPTRL
+00673e   fff6
+006740   c008     movff	0x8, 0xff7         	movff 0x07 + 1, _TBLPTRH
+006742   fff7
+006744   c009     movff	0x9, 0xff8         	movff 0x07 + 2, _TBLPTRU
+006746   fff8
+006748   0605     decf	0x5, 0x1, 0         	decf 0x05, f
+00674a   e201     bc	0x674e                	bc do_next
+00674c   0606     decf	0x6, 0x1, 0         	decf 0x05 + 1, f
+                                           do_next:
+                                           	; next entry...
+                                           	; _do_cinit_curr_entry--;
+00674e   ef68     goto	0x66d0              	goto test;
+006750   f033
+                                           	; emit done label
+                                           done:
+006752   0012     return	0                 	return
+                                           	
+                                           ; ; Starting pCode block
+                                           S_crt0iz___startup	code
+                                           __startup:
+007582   ee11     lfsr	0x1, 0x1ff          	lfsr 1, _stack_end
+007584   f0ff
+007586   ee21     lfsr	0x2, 0x1ff          	lfsr 2, _stack_end
+007588   f0ff
+00758a   6af8     clrf	0xf8, 0             	clrf _TBLPTRU, 0
+00758c   8ea6     bsf	0xa6, 0x7, 0         	bsf 0xa6, 7, 0
+00758e   9ca6     bcf	0xa6, 0x6, 0         	bcf 0xa6, 6, 0
+                                           	
+                                           	; movlw 0xff
+                                           	; movwf _FSR0L, 0
+007590   68e9     setf	0xe9, 0             	setf _FSR0L
+007592   0e0e     movlw	0xe                	movlw 0x0e
+007594   6eea     movwf	0xea, 0            	movwf _FSR0H, 0
+                                           	; movlw 1
+                                           	; movwf 0x00, 0
+007596   6800     setf	0, 0                	setf 0x00
+007598   0e00     movlw	0                  	movlw 0x00
+                                           clear_loop:
+00759a   6aed     clrf	0xed, 0             	clrf _POSTDEC0
+00759c   5000     movf	0, 0, 0             	movf 0x00, w
+00759e   e1fd     bnz	0x759a               	bnz clear_loop
+                                           	
+                                           ;	.line	112; crt0iz.c	_do_cinit();
+0075a0   ec5c     call	0x66b8, 0           	CALL	__do_cinit
+0075a2   f033
+                                           ;	.line	115; crt0iz.c	main();
+0075a4   ec39     call	0x6072, 0           	CALL	_main
+0075a6   f030
+                                           _00110_DS_:
+                                           ;	.line	119; crt0iz.c	goto loop;
+0075a8   d7ff     bra	0x75a8               	BRA	_00110_DS_
+                                           
+                                           
+                                           ; Statistics:
+                                           ; code size:	  276 (0x0114) bytes ( 0.21%)
+                                           ;           	  138 (0x008a) words
+                                           ; udata size:	    0 (0x0000) bytes ( 0.00%)
+                                           ; access size:	    0 (0x0000) bytes
+                                           
+                                           
+                                           	end

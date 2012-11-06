@@ -1,0 +1,1710 @@
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00001 ;--------------------------------------------------------
+               00002 ; File Created by SDCC : free open source ANSI-C Compiler
+               00003 ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
+               00004 ; This file was generated Fri Nov  2 01:06:41 2012
+               00005 ;--------------------------------------------------------
+               00006 ; PIC16 port for the Microchip 16-bit core micros
+               00007 ;--------------------------------------------------------
+               00008         list    p=18f8520
+               00009 
+               00010         radix dec
+               00011 
+               00012 ;--------------------------------------------------------
+               00013 ; public variables in this module
+               00014 ;--------------------------------------------------------
+               00015         global _rc_read_status
+               00016         global _rc_read_data
+               00017         global _rc_button_sequence
+               00018         global _rc_new_data_available
+               00019         global _controller_in_autonomous_mode
+               00020         global _controller_end_autonomous_mode
+               00021         global _controller_begin_autonomous_mode
+               00022         global _controller_submit_data
+               00023         global _controller_print_version
+               00024         global _pwm_write
+               00025         global _pwm_read
+               00026         global _pwm_select_processor
+               00027         global _pwm_set_output_type
+               00028         global _master_set_user_cmd
+               00029         global _master_clr_user_cmd
+               00030         global _Pwm_disable_mask
+               00031 
+               00032 ;--------------------------------------------------------
+               00033 ; extern variables in this module
+               00034 ;--------------------------------------------------------
+               00035         extern __gptrget1
+               00036         extern __gptrput1
+               00037         extern _stdin
+               00038         extern _stdout
+               00039         extern _RCSTA2bits
+               00040         extern _TXSTA2bits
+               00041         extern _CCP5CONbits
+               00042         extern _CCP4CONbits
+               00043         extern _T4CONbits
+               00044         extern _PORTAbits
+               00045         extern _PORTBbits
+               00046         extern _PORTCbits
+               00047         extern _PORTDbits
+               00048         extern _PORTEbits
+               00049         extern _PORTFbits
+               00050         extern _PORTGbits
+               00051         extern _PORTHbits
+               00052         extern _PORTJbits
+               00053         extern _LATAbits
+               00054         extern _LATBbits
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00055         extern _LATCbits
+               00056         extern _LATDbits
+               00057         extern _LATEbits
+               00058         extern _LATFbits
+               00059         extern _LATGbits
+               00060         extern _LATHbits
+               00061         extern _LATJbits
+               00062         extern _TRISAbits
+               00063         extern _TRISBbits
+               00064         extern _TRISCbits
+               00065         extern _TRISDbits
+               00066         extern _TRISEbits
+               00067         extern _TRISFbits
+               00068         extern _TRISGbits
+               00069         extern _TRISHbits
+               00070         extern _TRISJbits
+               00071         extern _MEMCONbits
+               00072         extern _PIE1bits
+               00073         extern _PIR1bits
+               00074         extern _IPR1bits
+               00075         extern _PIE2bits
+               00076         extern _PIR2bits
+               00077         extern _IPR2bits
+               00078         extern _PIE3bits
+               00079         extern _PIR3bits
+               00080         extern _IPR3bits
+               00081         extern _EECON1bits
+               00082         extern _RCSTA1bits
+               00083         extern _TXSTA1bits
+               00084         extern _RCSTAbits
+               00085         extern _TXSTAbits
+               00086         extern _PSPCONbits
+               00087         extern _T3CONbits
+               00088         extern _CMCONbits
+               00089         extern _CVRCONbits
+               00090         extern _CCP3CONbits
+               00091         extern _CCP2CONbits
+               00092         extern _CCP1CONbits
+               00093         extern _ADCON2bits
+               00094         extern _ADCON1bits
+               00095         extern _ADCON0bits
+               00096         extern _SSPCON2bits
+               00097         extern _SSPCON1bits
+               00098         extern _SSPSTATbits
+               00099         extern _T2CONbits
+               00100         extern _T1CONbits
+               00101         extern _RCONbits
+               00102         extern _WDTCONbits
+               00103         extern _LVDCONbits
+               00104         extern _OSCCONbits
+               00105         extern _STATUSbits
+               00106         extern _INTCON3bits
+               00107         extern _INTCON2bits
+               00108         extern _INTCONbits
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00109         extern _STKPTRbits
+               00110         extern _Rx_buff
+               00111         extern _Rx_user_buff_index
+               00112         extern _User_rxdata
+               00113         extern _Tx_buff
+               00114         extern _Tx_user_buff_index
+               00115         extern _User_txdata
+               00116         extern _Spi_status
+               00117         extern _RCSTA2
+               00118         extern _TXSTA2
+               00119         extern _TXREG2
+               00120         extern _RCREG2
+               00121         extern _SPBRG2
+               00122         extern _CCP5CON
+               00123         extern _CCPR5L
+               00124         extern _CCPR5H
+               00125         extern _CCP4CON
+               00126         extern _CCPR4L
+               00127         extern _CCPR4H
+               00128         extern _T4CON
+               00129         extern _PR4
+               00130         extern _TMR4
+               00131         extern _PORTA
+               00132         extern _PORTB
+               00133         extern _PORTC
+               00134         extern _PORTD
+               00135         extern _PORTE
+               00136         extern _PORTF
+               00137         extern _PORTG
+               00138         extern _PORTH
+               00139         extern _PORTJ
+               00140         extern _LATA
+               00141         extern _LATB
+               00142         extern _LATC
+               00143         extern _LATD
+               00144         extern _LATE
+               00145         extern _LATF
+               00146         extern _LATG
+               00147         extern _LATH
+               00148         extern _LATJ
+               00149         extern _TRISA
+               00150         extern _TRISB
+               00151         extern _TRISC
+               00152         extern _TRISD
+               00153         extern _TRISE
+               00154         extern _TRISF
+               00155         extern _TRISG
+               00156         extern _TRISH
+               00157         extern _TRISJ
+               00158         extern _MEMCON
+               00159         extern _PIE1
+               00160         extern _PIR1
+               00161         extern _IPR1
+               00162         extern _PIE2
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00163         extern _PIR2
+               00164         extern _IPR2
+               00165         extern _PIE3
+               00166         extern _PIR3
+               00167         extern _IPR3
+               00168         extern _EECON1
+               00169         extern _EECON2
+               00170         extern _EEDATA
+               00171         extern _EEADR
+               00172         extern _EEADRH
+               00173         extern _RCSTA1
+               00174         extern _TXSTA1
+               00175         extern _TXREG1
+               00176         extern _RCREG1
+               00177         extern _SPBRG1
+               00178         extern _RCSTA
+               00179         extern _TXSTA
+               00180         extern _TXREG
+               00181         extern _RCREG
+               00182         extern _SPBRG
+               00183         extern _PSPCON
+               00184         extern _T3CON
+               00185         extern _TMR3L
+               00186         extern _TMR3H
+               00187         extern _CMCON
+               00188         extern _CVRCON
+               00189         extern _CCP3CON
+               00190         extern _CCPR3L
+               00191         extern _CCPR3H
+               00192         extern _CCP2CON
+               00193         extern _CCPR2L
+               00194         extern _CCPR2H
+               00195         extern _CCP1CON
+               00196         extern _CCPR1L
+               00197         extern _CCPR1H
+               00198         extern _ADCON2
+               00199         extern _ADCON1
+               00200         extern _ADCON0
+               00201         extern _ADRESL
+               00202         extern _ADRESH
+               00203         extern _SSPCON2
+               00204         extern _SSPCON1
+               00205         extern _SSPSTAT
+               00206         extern _SSPADD
+               00207         extern _SSPBUF
+               00208         extern _T2CON
+               00209         extern _PR2
+               00210         extern _TMR2
+               00211         extern _T1CON
+               00212         extern _TMR1L
+               00213         extern _TMR1H
+               00214         extern _RCON
+               00215         extern _WDTCON
+               00216         extern _LVDCON
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00217         extern _OSCCON
+               00218         extern _T0CON
+               00219         extern _TMR0L
+               00220         extern _TMR0H
+               00221         extern _STATUS
+               00222         extern _FSR2L
+               00223         extern _FSR2H
+               00224         extern _PLUSW2
+               00225         extern _PREINC2
+               00226         extern _POSTDEC2
+               00227         extern _POSTINC2
+               00228         extern _INDF2
+               00229         extern _BSR
+               00230         extern _FSR1L
+               00231         extern _FSR1H
+               00232         extern _PLUSW1
+               00233         extern _PREINC1
+               00234         extern _POSTDEC1
+               00235         extern _POSTINC1
+               00236         extern _INDF1
+               00237         extern _WREG
+               00238         extern _FSR0L
+               00239         extern _FSR0H
+               00240         extern _PLUSW0
+               00241         extern _PREINC0
+               00242         extern _POSTDEC0
+               00243         extern _POSTINC0
+               00244         extern _INDF0
+               00245         extern _INTCON3
+               00246         extern _INTCON2
+               00247         extern _INTCON
+               00248         extern _PRODL
+               00249         extern _PRODH
+               00250         extern _TABLAT
+               00251         extern _TBLPTRL
+               00252         extern _TBLPTRH
+               00253         extern _TBLPTRU
+               00254         extern _PCL
+               00255         extern _PCLATH
+               00256         extern _PCLATU
+               00257         extern _STKPTR
+               00258         extern _TOSL
+               00259         extern _TOSH
+               00260         extern _TOSU
+               00261         extern _printf
+               00262         extern _memcpy
+               00263         extern _check_tx_env
+               00264 ;--------------------------------------------------------
+               00265 ;       Equates to used internal registers
+               00266 ;--------------------------------------------------------
+  00000FD8     00267 STATUS  equ     0xfd8
+  00000FE8     00268 WREG    equ     0xfe8
+  00000FE9     00269 FSR0L   equ     0xfe9
+  00000FEA     00270 FSR0H   equ     0xfea
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+  00000FE1     00271 FSR1L   equ     0xfe1
+  00000FD9     00272 FSR2L   equ     0xfd9
+  00000FEF     00273 INDF0   equ     0xfef
+  00000FE5     00274 POSTDEC1        equ     0xfe5
+  00000FE4     00275 PREINC1 equ     0xfe4
+  00000FDB     00276 PLUSW2  equ     0xfdb
+  00000FF3     00277 PRODL   equ     0xff3
+  00000FF4     00278 PRODH   equ     0xff4
+               00279 
+               00280 
+               00281         idata
+               00282 _rc_button_sequence_count_1_1   db      0x00
+               00283 _rc_button_sequence_val_1_1     db      0x00
+               00284 
+               00285 
+               00286 ; Internal registers
+               00287 .registers      udata_ovr       0x0000
+               00288 r0x00   res     1
+               00289 r0x01   res     1
+               00290 r0x02   res     1
+               00291 r0x03   res     1
+               00292 r0x04   res     1
+               00293 r0x05   res     1
+               00294 r0x06   res     1
+               00295 r0x07   res     1
+               00296 
+               00297 udata_master_0  udata
+               00298 _rc_button_sequence_temp_1_1    res     1
+               00299 
+               00300 udata_master_1  udata
+               00301 _rc_button_sequence_digit_1_1   res     1
+               00302 
+               00303 udata_master_2  udata
+               00304 _rc_button_sequence_button_1_1  res     1
+               00305 
+               00306 udata_master_3  udata
+               00307 _rc_button_sequence_old_button_1_1      res     1
+               00308 
+               00309 udata_master_4  udata
+               00310 _Pwm_disable_mask       res     1
+               00311 
+               00312 ;--------------------------------------------------------
+               00313 ; global & static initialisations
+               00314 ;--------------------------------------------------------
+               00315 ; I code from now on!
+               00316 ; ; Starting pCode block
+               00317 S_master__master_clr_user_cmd   code
+0000 00318 _master_clr_user_cmd:
+               00319 ;       .line   629; master.c   void    master_clr_user_cmd(unsigned char cmd)
+0000 CFD9 FFE5 00320         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00321         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00322         MOVFF   r0x00, POSTDEC1
+000C 0E02      00323         MOVLW   0x02
+000E CFDB F000 00324         MOVFF   PLUSW2, r0x00
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00325 ;       .line   632; master.c   User_txdata.user_cmd &= ~cmd;
+0012 1E00      00326         COMF    r0x00, F
+0014 0000      00327         BANKSEL (_User_txdata + 20)
+0016 5100      00328         MOVF    (_User_txdata + 20), W, B
+0018 1600      00329         ANDWF   r0x00, F
+001A 5000      00330         MOVF    r0x00, W
+001C 0000      00331         BANKSEL (_User_txdata + 20)
+001E 6F00      00332         MOVWF   (_User_txdata + 20), B
+0020 CFE4 F000 00333         MOVFF   PREINC1, r0x00
+0024 CFE4 FFD9 00334         MOVFF   PREINC1, FSR2L
+0028 0012      00335         RETURN  
+               00336 
+               00337 ; ; Starting pCode block
+               00338 S_master__master_set_user_cmd   code
+0000 00339 _master_set_user_cmd:
+               00340 ;       .line   615; master.c   void    master_set_user_cmd(unsigned char cmd)
+0000 CFD9 FFE5 00341         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00342         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00343         MOVFF   r0x00, POSTDEC1
+000C 0E02      00344         MOVLW   0x02
+000E CFDB F000 00345         MOVFF   PLUSW2, r0x00
+0012 0000      00346         BANKSEL (_User_txdata + 20)
+               00347 ;       .line   618; master.c   User_txdata.user_cmd |= cmd;
+0014 5100      00348         MOVF    (_User_txdata + 20), W, B
+0016 1200      00349         IORWF   r0x00, F
+0018 5000      00350         MOVF    r0x00, W
+001A 0000      00351         BANKSEL (_User_txdata + 20)
+001C 6F00      00352         MOVWF   (_User_txdata + 20), B
+001E CFE4 F000 00353         MOVFF   PREINC1, r0x00
+0022 CFE4 FFD9 00354         MOVFF   PREINC1, FSR2L
+0026 0012      00355         RETURN  
+               00356 
+               00357 ; ; Starting pCode block
+               00358 S_master__pwm_set_output_type   code
+0000 00359 _pwm_set_output_type:
+               00360 ;       .line   574; master.c   void    pwm_set_output_type(int pwmSpec1, int pwmSpec2, int pwmSpec3, int pwmSpec4)
+0000 CFD9 FFE5 00361         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00362         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00363         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00364         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00365         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00366         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 00367         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 00368         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 00369         MOVFF   r0x06, POSTDEC1
+0024 C000 FFE5 00370         MOVFF   r0x07, POSTDEC1
+0028 0E02      00371         MOVLW   0x02
+002A CFDB F000 00372         MOVFF   PLUSW2, r0x00
+002E 0E03      00373         MOVLW   0x03
+0030 CFDB F000 00374         MOVFF   PLUSW2, r0x01
+0034 0E04      00375         MOVLW   0x04
+0036 CFDB F000 00376         MOVFF   PLUSW2, r0x02
+003A 0E05      00377         MOVLW   0x05
+003C CFDB F000 00378         MOVFF   PLUSW2, r0x03
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0040 0E06      00379         MOVLW   0x06
+0042 CFDB F000 00380         MOVFF   PLUSW2, r0x04
+0046 0E07      00381         MOVLW   0x07
+0048 CFDB F000 00382         MOVFF   PLUSW2, r0x05
+004C 0E08      00383         MOVLW   0x08
+004E CFDB F000 00384         MOVFF   PLUSW2, r0x06
+0052 0E09      00385         MOVLW   0x09
+0054 CFDB F000 00386         MOVFF   PLUSW2, r0x07
+0058 0000      00387         BANKSEL _Pwm_disable_mask
+               00388 ;       .line   577; master.c   Pwm_disable_mask = 0;
+005A 6B00      00389         CLRF    _Pwm_disable_mask, B
+               00390 ;       .line   579; master.c   if (pwmSpec1 == USER_CCP)
+005C 5000      00391         MOVF    r0x00, W
+005E 0A01      00392         XORLW   0x01
+0060 E100      00393         BNZ     _00289_DS_
+0062 5000      00394         MOVF    r0x01, W
+0064 E000      00395         BZ      _00290_DS_
+0066 00396 _00289_DS_:
+0066 D000      00397         BRA     _00272_DS_
+0068 00398 _00290_DS_:
+               00399 ;       .line   580; master.c   Pwm_disable_mask |= 0x01;
+0068 0E01      00400         MOVLW   0x01
+006A 0000      00401         BANKSEL _Pwm_disable_mask
+006C 6F00      00402         MOVWF   _Pwm_disable_mask, B
+006E D000      00403         BRA     _00273_DS_
+0070 00404 _00272_DS_:
+               00405 ;       .line   582; master.c   CCP2CON = 0;
+0070 6A00      00406         CLRF    _CCP2CON
+0072 00407 _00273_DS_:
+               00408 ;       .line   584; master.c   if (pwmSpec2 == USER_CCP)
+0072 5000      00409         MOVF    r0x02, W
+0074 0A01      00410         XORLW   0x01
+0076 E100      00411         BNZ     _00291_DS_
+0078 5000      00412         MOVF    r0x03, W
+007A E000      00413         BZ      _00292_DS_
+007C 00414 _00291_DS_:
+007C D000      00415         BRA     _00275_DS_
+007E 00416 _00292_DS_:
+007E 0000      00417         BANKSEL _Pwm_disable_mask
+               00418 ;       .line   585; master.c   Pwm_disable_mask |= 0x02;
+0080 8300      00419         BSF     _Pwm_disable_mask, 1, B
+0082 D000      00420         BRA     _00276_DS_
+0084 00421 _00275_DS_:
+               00422 ;       .line   587; master.c   CCP3CON = 0;
+0084 6A00      00423         CLRF    _CCP3CON
+0086 00424 _00276_DS_:
+               00425 ;       .line   589; master.c   if (pwmSpec3 == USER_CCP)
+0086 5000      00426         MOVF    r0x04, W
+0088 0A01      00427         XORLW   0x01
+008A E100      00428         BNZ     _00294_DS_
+008C 5000      00429         MOVF    r0x05, W
+008E E000      00430         BZ      _00295_DS_
+0090 00431 _00294_DS_:
+0090 D000      00432         BRA     _00278_DS_
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0092 00433 _00295_DS_:
+0092 0000      00434         BANKSEL _Pwm_disable_mask
+               00435 ;       .line   590; master.c   Pwm_disable_mask |= 0x04;
+0094 8500      00436         BSF     _Pwm_disable_mask, 2, B
+0096 D000      00437         BRA     _00279_DS_
+0098 00438 _00278_DS_:
+               00439 ;       .line   592; master.c   CCP4CON = 0;
+0098 6A00      00440         CLRF    _CCP4CON
+009A 00441 _00279_DS_:
+               00442 ;       .line   594; master.c   if (pwmSpec4 == USER_CCP)
+009A 5000      00443         MOVF    r0x06, W
+009C 0A01      00444         XORLW   0x01
+009E E100      00445         BNZ     _00297_DS_
+00A0 5000      00446         MOVF    r0x07, W
+00A2 E000      00447         BZ      _00298_DS_
+00A4 00448 _00297_DS_:
+00A4 D000      00449         BRA     _00281_DS_
+00A6 00450 _00298_DS_:
+00A6 0000      00451         BANKSEL _Pwm_disable_mask
+               00452 ;       .line   595; master.c   Pwm_disable_mask |= 0x08;
+00A8 8700      00453         BSF     _Pwm_disable_mask, 3, B
+00AA D000      00454         BRA     _00283_DS_
+00AC 00455 _00281_DS_:
+               00456 ;       .line   597; master.c   CCP5CON = 0;
+00AC 6A00      00457         CLRF    _CCP5CON
+00AE 00458 _00283_DS_:
+00AE CFE4 F000 00459         MOVFF   PREINC1, r0x07
+00B2 CFE4 F000 00460         MOVFF   PREINC1, r0x06
+00B6 CFE4 F000 00461         MOVFF   PREINC1, r0x05
+00BA CFE4 F000 00462         MOVFF   PREINC1, r0x04
+00BE CFE4 F000 00463         MOVFF   PREINC1, r0x03
+00C2 CFE4 F000 00464         MOVFF   PREINC1, r0x02
+00C6 CFE4 F000 00465         MOVFF   PREINC1, r0x01
+00CA CFE4 F000 00466         MOVFF   PREINC1, r0x00
+00CE CFE4 FFD9 00467         MOVFF   PREINC1, FSR2L
+00D2 0012      00468         RETURN  
+               00469 
+               00470 ; ; Starting pCode block
+               00471 S_master__pwm_select_processor  code
+0000 00472 _pwm_select_processor:
+               00473 ;       .line   547; master.c   void    pwm_select_processor(unsigned char port,
+0000 CFD9 FFE5 00474         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00475         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00476         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00477         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00478         MOVFF   r0x02, POSTDEC1
+0014 0E02      00479         MOVLW   0x02
+0016 CFDB F000 00480         MOVFF   PLUSW2, r0x00
+001A 0E03      00481         MOVLW   0x03
+001C CFDB F000 00482         MOVFF   PLUSW2, r0x01
+               00483 ;       .line   550; master.c   switch(controller)
+0020 5000      00484         MOVF    r0x01, W
+0022 E000      00485         BZ      _00252_DS_
+0024 5000      00486         MOVF    r0x01, W
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0026 0A01      00487         XORLW   0x01
+0028 E100      00488         BNZ     _00254_DS_
+               00489 ;       .line   553; master.c   User_txdata.pwm_mask |= (1 << ((port)-1));
+002A 0400      00490         DECF    r0x00, W
+002C 6E00      00491         MOVWF   r0x01
+002E 0E01      00492         MOVLW   0x01
+0030 6E00      00493         MOVWF   r0x02
+0032 5000      00494         MOVF    r0x01, W
+0034 E000      00495         BZ      _00262_DS_
+0036 6CE8      00496         NEGF    WREG
+0038 90D8      00497         BCF     STATUS, 0
+003A 00498 _00263_DS_:
+003A 3600      00499         RLCF    r0x02, F
+003C 0F01      00500         ADDLW   0x01
+003E E300      00501         BNC     _00263_DS_
+0040 00502 _00262_DS_:
+0040 5000      00503         MOVF    r0x02, W
+0042 0000      00504         BANKSEL (_User_txdata + 22)
+0044 1100      00505         IORWF   (_User_txdata + 22), W, B
+               00506 ; #     MOVWF   r0x01
+               00507 ; #     MOVF    r0x01, W
+0046 6E00      00508         MOVWF   r0x01
+0048 0000      00509         BANKSEL (_User_txdata + 22)
+004A 6F00      00510         MOVWF   (_User_txdata + 22), B
+               00511 ;       .line   554; master.c   break;
+004C D000      00512         BRA     _00254_DS_
+004E 00513 _00252_DS_:
+               00514 ;       .line   556; master.c   User_txdata.pwm_mask &= ~(1 << ((port)-1));
+004E 0600      00515         DECF    r0x00, F
+0050 0E01      00516         MOVLW   0x01
+0052 6E00      00517         MOVWF   r0x01
+0054 5000      00518         MOVF    r0x00, W
+0056 E000      00519         BZ      _00265_DS_
+0058 6CE8      00520         NEGF    WREG
+005A 90D8      00521         BCF     STATUS, 0
+005C 00522 _00266_DS_:
+005C 3600      00523         RLCF    r0x01, F
+005E 0F01      00524         ADDLW   0x01
+0060 E300      00525         BNC     _00266_DS_
+0062 00526 _00265_DS_:
+0062 1C00      00527         COMF    r0x01, W
+0064 6E00      00528         MOVWF   r0x00
+0066 0000      00529         BANKSEL (_User_txdata + 22)
+0068 5100      00530         MOVF    (_User_txdata + 22), W, B
+006A 1600      00531         ANDWF   r0x00, F
+006C 5000      00532         MOVF    r0x00, W
+006E 0000      00533         BANKSEL (_User_txdata + 22)
+0070 6F00      00534         MOVWF   (_User_txdata + 22), B
+0072 00535 _00254_DS_:
+               00536 ;       .line   558; master.c   }
+0072 CFE4 F000 00537         MOVFF   PREINC1, r0x02
+0076 CFE4 F000 00538         MOVFF   PREINC1, r0x01
+007A CFE4 F000 00539         MOVFF   PREINC1, r0x00
+007E CFE4 FFD9 00540         MOVFF   PREINC1, FSR2L
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0082 0012      00541         RETURN  
+               00542 
+               00543 ; ; Starting pCode block
+               00544 S_master__pwm_read      code
+0000 00545 _pwm_read:
+               00546 ;       .line   526; master.c   char    pwm_read(unsigned char port)
+0000 CFD9 FFE5 00547         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00548         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00549         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00550         MOVFF   r0x01, POSTDEC1
+0010 0E02      00551         MOVLW   0x02
+0012 CFDB F000 00552         MOVFF   PLUSW2, r0x00
+               00553 ;       .line   528; master.c   if ( VALID_PWM_PORT(port) )
+0016 0E01      00554         MOVLW   0x01
+0018 5C00      00555         SUBWF   r0x00, W
+001A E300      00556         BNC     _00238_DS_
+001C 0E09      00557         MOVLW   0x09
+001E 5C00      00558         SUBWF   r0x00, W
+0020 E200      00559         BC      _00238_DS_
+               00560 ;       .line   529; master.c   return User_txdata.pwm[port-1] - 127;
+0022 0600      00561         DECF    r0x00, F
+0024 6A00      00562         CLRF    r0x01
+0026 0E00      00563         MOVLW   LOW(_User_txdata + 4)
+0028 2600      00564         ADDWF   r0x00, F
+002A 0E00      00565         MOVLW   HIGH(_User_txdata + 4)
+002C 2200      00566         ADDWFC  r0x01, F
+002E C000 FFE9 00567         MOVFF   r0x00, FSR0L
+0032 C000 FFEA 00568         MOVFF   r0x01, FSR0H
+0036 CFEF F000 00569         MOVFF   INDF0, r0x00
+003A 0E81      00570         MOVLW   0x81
+003C 2600      00571         ADDWF   r0x00, F
+003E 5000      00572         MOVF    r0x00, W
+0040 D000      00573         BRA     _00241_DS_
+0042 00574 _00238_DS_:
+               00575 ;       .line   531; master.c   return OV_BAD_PARAM;
+0042 0E80      00576         MOVLW   0x80
+0044 00577 _00241_DS_:
+0044 CFE4 F000 00578         MOVFF   PREINC1, r0x01
+0048 CFE4 F000 00579         MOVFF   PREINC1, r0x00
+004C CFE4 FFD9 00580         MOVFF   PREINC1, FSR2L
+0050 0012      00581         RETURN  
+               00582 
+               00583 ; ; Starting pCode block
+               00584 S_master__pwm_write     code
+0000 00585 _pwm_write:
+               00586 ;       .line   485; master.c   char    pwm_write(unsigned char port,char val)
+0000 CFD9 FFE5 00587         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00588         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00589         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00590         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00591         MOVFF   r0x02, POSTDEC1
+0014 0E02      00592         MOVLW   0x02
+0016 CFDB F000 00593         MOVFF   PLUSW2, r0x00
+001A 0E03      00594         MOVLW   0x03
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+001C CFDB F000 00595         MOVFF   PLUSW2, r0x01
+               00596 ;       .line   496; master.c   if ( val == -128 )
+0020 5000      00597         MOVF    r0x01, W
+0022 0A80      00598         XORLW   0x80
+0024 E100      00599         BNZ     _00219_DS_
+               00600 ;       .line   497; master.c   ++val;
+0026 2A00      00601         INCF    r0x01, F
+0028 00602 _00219_DS_:
+               00603 ;       .line   499; master.c   if ( VALID_PWM_PORT(port) )
+0028 0E01      00604         MOVLW   0x01
+002A 5C00      00605         SUBWF   r0x00, W
+002C E300      00606         BNC     _00221_DS_
+002E 0E09      00607         MOVLW   0x09
+0030 5C00      00608         SUBWF   r0x00, W
+0032 E200      00609         BC      _00221_DS_
+               00610 ;       .line   501; master.c   User_txdata.pwm[port-1] = val + 127;
+0034 0600      00611         DECF    r0x00, F
+0036 6A00      00612         CLRF    r0x02
+0038 0E00      00613         MOVLW   LOW(_User_txdata + 4)
+003A 2600      00614         ADDWF   r0x00, F
+003C 0E00      00615         MOVLW   HIGH(_User_txdata + 4)
+003E 2200      00616         ADDWFC  r0x02, F
+0040 0E7F      00617         MOVLW   0x7f
+0042 2600      00618         ADDWF   r0x01, F
+0044 C000 FFE9 00619         MOVFF   r0x00, FSR0L
+0048 C000 FFEA 00620         MOVFF   r0x02, FSR0H
+004C C000 FFEF 00621         MOVFF   r0x01, INDF0
+               00622 ;       .line   502; master.c   return OV_OK;
+0050 6AE8      00623         CLRF    WREG
+0052 D000      00624         BRA     _00224_DS_
+0054 00625 _00221_DS_:
+               00626 ;       .line   505; master.c   return OV_BAD_PARAM;
+0054 0E80      00627         MOVLW   0x80
+0056 00628 _00224_DS_:
+0056 CFE4 F000 00629         MOVFF   PREINC1, r0x02
+005A CFE4 F000 00630         MOVFF   PREINC1, r0x01
+005E CFE4 F000 00631         MOVFF   PREINC1, r0x00
+0062 CFE4 FFD9 00632         MOVFF   PREINC1, FSR2L
+0066 0012      00633         RETURN  
+               00634 
+               00635 ; ; Starting pCode block
+               00636 S_master__controller_print_version      code
+0000 00637 _controller_print_version:
+               00638 ;       .line   427; master.c   void    controller_print_version(void)
+0000 CFD9 FFE5 00639         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00640         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00641         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00642         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00643         MOVFF   r0x02, POSTDEC1
+               00644 ;       .line   431; master.c   (int)User_rxdata->master_version, CODE_VERSION);
+0014 C000 F000 00645         MOVFF   _User_rxdata, r0x00
+0018 C000 F000 00646         MOVFF   (_User_rxdata + 1), r0x01
+001C C000 F000 00647         MOVFF   (_User_rxdata + 2), r0x02
+0020 0E1F      00648         MOVLW   0x1f
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0022 2600      00649         ADDWF   r0x00, F
+0024 0E00      00650         MOVLW   0x00
+0026 2200      00651         ADDWFC  r0x01, F
+0028 0E00      00652         MOVLW   0x00
+002A 2200      00653         ADDWFC  r0x02, F
+002C C000 FFE9 00654         MOVFF   r0x00, FSR0L
+0030 C000 FFF3 00655         MOVFF   r0x01, PRODL
+0034 5000      00656         MOVF    r0x02, W
+0036 EC00 F000 00657         CALL    __gptrget1
+003A 6E00      00658         MOVWF   r0x00
+003C 6A00      00659         CLRF    r0x01
+               00660 ;       .line   430; master.c   printf("\nVEX master code v%d\n%s\n",
+003E 0E00      00661         MOVLW   UPPER(__str_1)
+0040 6EE5      00662         MOVWF   POSTDEC1
+0042 0E00      00663         MOVLW   HIGH(__str_1)
+0044 6EE5      00664         MOVWF   POSTDEC1
+0046 0E00      00665         MOVLW   LOW(__str_1)
+0048 6EE5      00666         MOVWF   POSTDEC1
+004A 5000      00667         MOVF    r0x01, W
+004C 6EE5      00668         MOVWF   POSTDEC1
+004E 5000      00669         MOVF    r0x00, W
+0050 6EE5      00670         MOVWF   POSTDEC1
+0052 0E00      00671         MOVLW   UPPER(__str_0)
+0054 6EE5      00672         MOVWF   POSTDEC1
+0056 0E00      00673         MOVLW   HIGH(__str_0)
+0058 6EE5      00674         MOVWF   POSTDEC1
+005A 0E00      00675         MOVLW   LOW(__str_0)
+005C 6EE5      00676         MOVWF   POSTDEC1
+005E EC00 F000 00677         CALL    _printf
+0062 0E08      00678         MOVLW   0x08
+0064 26E1      00679         ADDWF   FSR1L, F
+0066 CFE4 F000 00680         MOVFF   PREINC1, r0x02
+006A CFE4 F000 00681         MOVFF   PREINC1, r0x01
+006E CFE4 F000 00682         MOVFF   PREINC1, r0x00
+0072 CFE4 FFD9 00683         MOVFF   PREINC1, FSR2L
+0076 0012      00684         RETURN  
+               00685 
+               00686 ; ; Starting pCode block
+               00687 S_master__controller_submit_data        code
+0000 00688 _controller_submit_data:
+               00689 ;       .line   376; master.c   void    controller_submit_data(unsigned char wait)
+0000 CFD9 FFE5 00690         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00691         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00692         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00693         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00694         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00695         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 00696         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 00697         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 00698         MOVFF   r0x06, POSTDEC1
+0024 0E02      00699         MOVLW   0x02
+0026 CFDB F000 00700         MOVFF   PLUSW2, r0x00
+002A 0000      00701         BANKSEL (_User_txdata + 30)
+               00702 ;       .line   387; master.c   if (User_txdata.current_mode == 2)
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+002C 5100      00703         MOVF    (_User_txdata + 30), W, B
+002E 0A02      00704         XORLW   0x02
+0030 E100      00705         BNZ     _00194_DS_
+               00706 ;       .line   388; master.c   check_tx_env();
+0032 EC00 F000 00707         CALL    _check_tx_env
+0036 00708 _00194_DS_:
+               00709 ;       .line   394; master.c   User_txdata.cmd_byte1 &= 0x7F;
+0036 0E7F      00710         MOVLW   0x7f
+0038 0000      00711         BANKSEL (_User_txdata + 21)
+003A 1500      00712         ANDWF   (_User_txdata + 21), W, B
+               00713 ; #     MOVWF   r0x01
+               00714 ; #     MOVF    r0x01, W
+003C 6E00      00715         MOVWF   r0x01
+003E 0000      00716         BANKSEL (_User_txdata + 21)
+0040 6F00      00717         MOVWF   (_User_txdata + 21), B
+               00718 ; ;multiply lit val:0x20 by variable _Tx_user_buff_index and store in r0x01
+               00719 ; ;Unrolled 8 X 8 multiplication
+               00720 ; ;FIXME: the function does not support result==WREG
+0042 0000      00721         BANKSEL _Tx_user_buff_index
+               00722 ;       .line   399; master.c   memcpy(Tx_buff + Tx_user_buff_index,&User_txdata,sizeof(tx_data_t));
+0044 5100      00723         MOVF    _Tx_user_buff_index, W, B
+0046 0D20      00724         MULLW   0x20
+0048 CFF3 F000 00725         MOVFF   PRODL, r0x01
+004C CFF4 F000 00726         MOVFF   PRODH, r0x02
+0050 0E00      00727         MOVLW   LOW(_Tx_buff)
+0052 2600      00728         ADDWF   r0x01, F
+0054 0E00      00729         MOVLW   HIGH(_Tx_buff)
+0056 2200      00730         ADDWFC  r0x02, F
+               00731 ; #     MOVF    r0x02, W
+               00732 ; #     MOVWF   r0x02
+               00733 ; #     MOVF    r0x02, W
+               00734 ; #     MOVF    r0x01, W
+               00735 ; #     MOVF    r0x01, W
+               00736 ; #     MOVWF   r0x01
+0058 5000      00737         MOVF    r0x01, W
+005A 0E80      00738         MOVLW   0x80
+005C 6E00      00739         MOVWF   r0x03
+005E 0E00      00740         MOVLW   HIGH(_User_txdata)
+0060 6E00      00741         MOVWF   r0x05
+0062 0E00      00742         MOVLW   LOW(_User_txdata)
+0064 6E00      00743         MOVWF   r0x04
+0066 0E80      00744         MOVLW   0x80
+0068 6E00      00745         MOVWF   r0x06
+006A 0E00      00746         MOVLW   0x00
+006C 6EE5      00747         MOVWF   POSTDEC1
+006E 0E20      00748         MOVLW   0x20
+0070 6EE5      00749         MOVWF   POSTDEC1
+0072 5000      00750         MOVF    r0x06, W
+0074 6EE5      00751         MOVWF   POSTDEC1
+0076 5000      00752         MOVF    r0x05, W
+0078 6EE5      00753         MOVWF   POSTDEC1
+007A 5000      00754         MOVF    r0x04, W
+007C 6EE5      00755         MOVWF   POSTDEC1
+007E 5000      00756         MOVF    r0x03, W
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE 15
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0080 6EE5      00757         MOVWF   POSTDEC1
+0082 5000      00758         MOVF    r0x02, W
+0084 6EE5      00759         MOVWF   POSTDEC1
+0086 5000      00760         MOVF    r0x01, W
+0088 6EE5      00761         MOVWF   POSTDEC1
+008A EC00 F000 00762         CALL    _memcpy
+008E 0E08      00763         MOVLW   0x08
+0090 26E1      00764         ADDWF   FSR1L, F
+               00765 ;       .line   406; master.c   PIE1bits.SSPIE = 0;
+0092 9600      00766         BCF     _PIE1bits, 3
+0094 0000      00767         BANKSEL _Tx_user_buff_index
+               00768 ;       .line   407; master.c   Tx_user_buff_index = !Tx_user_buff_index;
+0096 5100      00769         MOVF    _Tx_user_buff_index, W, B
+0098 80D8      00770         BSF     STATUS, 0
+009A 66E8      00771         TSTFSZ  WREG
+009C 90D8      00772         BCF     STATUS, 0
+009E 0000      00773         BANKSEL _Tx_user_buff_index
+00A0 6B00      00774         CLRF    _Tx_user_buff_index, B
+00A2 3700      00775         RLCF    _Tx_user_buff_index, F, B
+00A4 0000      00776         BANKSEL _Spi_status
+               00777 ;       .line   408; master.c   Spi_status.new_tx_data = 1;
+00A6 8300      00778         BSF     _Spi_status, 1, B
+               00779 ;       .line   409; master.c   PIE1bits.SSPIE = 1;
+00A8 8600      00780         BSF     _PIE1bits, 3
+               00781 ;       .line   412; master.c   User_txdata.packet_num++;
+00AA C000 F000 00782         MOVFF   (_User_txdata + 29), r0x01
+00AE 2A00      00783         INCF    r0x01, F
+00B0 5000      00784         MOVF    r0x01, W
+00B2 0000      00785         BANKSEL (_User_txdata + 29)
+00B4 6F00      00786         MOVWF   (_User_txdata + 29), B
+               00787 ;       .line   416; master.c   if ( wait == WAIT )
+00B6 5000      00788         MOVF    r0x00, W
+00B8 0A01      00789         XORLW   0x01
+00BA E100      00790         BNZ     _00200_DS_
+00BC 00791 _00195_DS_:
+               00792 ;       .line   417; master.c   while ( !rc_new_data_available() )
+00BC EC00 F000 00793         CALL    _rc_new_data_available
+00C0 6E00      00794         MOVWF   r0x00
+00C2 5000      00795         MOVF    r0x00, W
+00C4 E000      00796         BZ      _00195_DS_
+00C6 00797 _00200_DS_:
+00C6 CFE4 F000 00798         MOVFF   PREINC1, r0x06
+00CA CFE4 F000 00799         MOVFF   PREINC1, r0x05
+00CE CFE4 F000 00800         MOVFF   PREINC1, r0x04
+00D2 CFE4 F000 00801         MOVFF   PREINC1, r0x03
+00D6 CFE4 F000 00802         MOVFF   PREINC1, r0x02
+00DA CFE4 F000 00803         MOVFF   PREINC1, r0x01
+00DE CFE4 F000 00804         MOVFF   PREINC1, r0x00
+00E2 CFE4 FFD9 00805         MOVFF   PREINC1, FSR2L
+00E6 0012      00806         RETURN  
+               00807 
+               00808 ; ; Starting pCode block
+               00809 S_master__controller_begin_autonomous_mode      code
+0000 00810 _controller_begin_autonomous_mode:
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE 16
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00811 ;       .line   301; master.c   void    controller_begin_autonomous_mode(void)
+0000 CFD9 FFE5 00812         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00813         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00814         MOVFF   r0x00, POSTDEC1
+               00815 ;       .line   305; master.c   master_set_user_cmd(TX_CMD_AUTONOMOUS_MODE);
+000C 0E02      00816         MOVLW   0x02
+000E 6EE5      00817         MOVWF   POSTDEC1
+0010 EC00 F000 00818         CALL    _master_set_user_cmd
+0014 2AE1      00819         INCF    FSR1L, F
+               00820 ;       .line   306; master.c   controller_submit_data(WAIT);
+0016 0E01      00821         MOVLW   0x01
+0018 6EE5      00822         MOVWF   POSTDEC1
+001A EC00 F000 00823         CALL    _controller_submit_data
+001E 2AE1      00824         INCF    FSR1L, F
+0020 00825 _00185_DS_:
+               00826 ;       .line   309; master.c   while ( ! controller_in_autonomous_mode() )
+0020 EC00 F000 00827         CALL    _controller_in_autonomous_mode
+0024 6E00      00828         MOVWF   r0x00
+0026 5000      00829         MOVF    r0x00, W
+0028 E000      00830         BZ      _00185_DS_
+002A CFE4 F000 00831         MOVFF   PREINC1, r0x00
+002E CFE4 FFD9 00832         MOVFF   PREINC1, FSR2L
+0032 0012      00833         RETURN  
+               00834 
+               00835 ; ; Starting pCode block
+               00836 S_master__controller_end_autonomous_mode        code
+0000 00837 _controller_end_autonomous_mode:
+               00838 ;       .line   270; master.c   void    controller_end_autonomous_mode(void)
+0000 CFD9 FFE5 00839         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00840         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00841         MOVFF   r0x00, POSTDEC1
+               00842 ;       .line   274; master.c   master_clr_user_cmd(TX_CMD_AUTONOMOUS_MODE);
+000C 0E02      00843         MOVLW   0x02
+000E 6EE5      00844         MOVWF   POSTDEC1
+0010 EC00 F000 00845         CALL    _master_clr_user_cmd
+0014 2AE1      00846         INCF    FSR1L, F
+               00847 ;       .line   275; master.c   controller_submit_data(WAIT);
+0016 0E01      00848         MOVLW   0x01
+0018 6EE5      00849         MOVWF   POSTDEC1
+001A EC00 F000 00850         CALL    _controller_submit_data
+001E 2AE1      00851         INCF    FSR1L, F
+0020 00852 _00177_DS_:
+               00853 ;       .line   281; master.c   while ( controller_in_autonomous_mode() )
+0020 EC00 F000 00854         CALL    _controller_in_autonomous_mode
+0024 6E00      00855         MOVWF   r0x00
+0026 5000      00856         MOVF    r0x00, W
+0028 E100      00857         BNZ     _00177_DS_
+002A CFE4 F000 00858         MOVFF   PREINC1, r0x00
+002E CFE4 FFD9 00859         MOVFF   PREINC1, FSR2L
+0032 0012      00860         RETURN  
+               00861 
+               00862 ; ; Starting pCode block
+               00863 S_master__controller_in_autonomous_mode code
+0000 00864 _controller_in_autonomous_mode:
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE 17
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00865 ;       .line   253; master.c   char    controller_in_autonomous_mode(void)
+0000 CFD9 FFE5 00866         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00867         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00868         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00869         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00870         MOVFF   r0x02, POSTDEC1
+               00871 ;       .line   256; master.c   return User_rxdata->rc_mode.autonomous;
+0014 C000 F000 00872         MOVFF   _User_rxdata, r0x00
+0018 C000 F000 00873         MOVFF   (_User_rxdata + 1), r0x01
+001C C000 F000 00874         MOVFF   (_User_rxdata + 2), r0x02
+0020 2A00      00875         INCF    r0x00, F
+0022 B0D8      00876         BTFSC   STATUS, 0
+0024 2A00      00877         INCF    r0x01, F
+0026 B0D8      00878         BTFSC   STATUS, 0
+0028 2A00      00879         INCF    r0x02, F
+002A C000 FFE9 00880         MOVFF   r0x00, FSR0L
+002E C000 FFF3 00881         MOVFF   r0x01, PRODL
+0032 5000      00882         MOVF    r0x02, W
+0034 EC00 F000 00883         CALL    __gptrget1
+0038 44E8      00884         RLNCF   WREG, W
+003A 44E8      00885         RLNCF   WREG, W
+003C 0B01      00886         ANDLW   0x01
+               00887 ; #     MOVWF   r0x00
+               00888 ; #     MOVF    r0x00, W
+               00889 ; #; info ==> [localregs] exit begin
+               00890 
+003E 6E00      00891         MOVWF   r0x00
+0040 CFE4 F000 00892         MOVFF   PREINC1, r0x02
+0044 CFE4 F000 00893         MOVFF   PREINC1, r0x01
+0048 CFE4 F000 00894         MOVFF   PREINC1, r0x00
+004C CFE4 FFD9 00895         MOVFF   PREINC1, FSR2L
+0050 0012      00896         RETURN  
+               00897 
+               00898 ; ; Starting pCode block
+               00899 S_master__rc_new_data_available code
+0000 00900 _rc_new_data_available:
+               00901 ;       .line   205; master.c   char   rc_new_data_available(void)
+0000 CFD9 FFE5 00902         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00903         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00904         MOVFF   r0x00, POSTDEC1
+               00905 ;       .line   210; master.c   new_rc_data = Spi_status.new_rc_data;
+000C 6A00      00906         CLRF    r0x00
+000E 0000      00907         BANKSEL _Spi_status
+0010 B100      00908         BTFSC   _Spi_status, 0, B
+0012 2A00      00909         INCF    r0x00, F
+               00910 ;       .line   211; master.c   if ( new_rc_data )
+0014 5000      00911         MOVF    r0x00, W
+0016 E000      00912         BZ      _00166_DS_
+               00913 ;       .line   217; master.c   PIE1bits.SSPIE = 0;
+0018 9600      00914         BCF     _PIE1bits, 3
+001A 0000      00915         BANKSEL _Spi_status
+               00916 ;       .line   218; master.c   MASTER_CLR_NEW_RC_DATA_FLAG(Spi_status);
+001C 9100      00917         BCF     _Spi_status, 0, B
+               00918 ;       .line   219; master.c   PIE1bits.SSPIE = 1;
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE 18
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+001E 8600      00919         BSF     _PIE1bits, 3
+0020 00920 _00166_DS_:
+               00921 ;       .line   226; master.c   return new_rc_data;
+0020 5000      00922         MOVF    r0x00, W
+0022 CFE4 F000 00923         MOVFF   PREINC1, r0x00
+0026 CFE4 FFD9 00924         MOVFF   PREINC1, FSR2L
+002A 0012      00925         RETURN  
+               00926 
+               00927 ; ; Starting pCode block
+               00928 S_master__rc_button_sequence    code
+0000 00929 _rc_button_sequence:
+               00930 ;       .line   141; master.c   unsigned char   rc_button_sequence(unsigned char channel, unsigned char len)
+0000 CFD9 FFE5 00931         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00932         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00933         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00934         MOVFF   r0x01, POSTDEC1
+0010 0E02      00935         MOVLW   0x02
+0012 CFDB F000 00936         MOVFF   PLUSW2, r0x00
+0016 0E03      00937         MOVLW   0x03
+0018 CFDB F000 00938         MOVFF   PLUSW2, r0x01
+               00939 ;       .line   151; master.c   if ( ! VALID_RC_CHANNEL(channel) )
+001C 0E01      00940         MOVLW   0x01
+001E 5C00      00941         SUBWF   r0x00, W
+0020 E300      00942         BNC     _00129_DS_
+0022 0E07      00943         MOVLW   0x07
+0024 5C00      00944         SUBWF   r0x00, W
+0026 E300      00945         BNC     _00130_DS_
+0028 00946 _00129_DS_:
+               00947 ;       .line   152; master.c   return OV_BAD_PARAM;
+0028 0E80      00948         MOVLW   0x80
+002A D000      00949         BRA     _00142_DS_
+002C 00950 _00130_DS_:
+               00951 ;       .line   154; master.c   switch ( (button = rc_read_data(channel)) )
+002C 5000      00952         MOVF    r0x00, W
+002E 6EE5      00953         MOVWF   POSTDEC1
+0030 EC00 F000 00954         CALL    _rc_read_data
+0034 6E00      00955         MOVWF   r0x00
+0036 2AE1      00956         INCF    FSR1L, F
+0038 C000 F000 00957         MOVFF   r0x00, _rc_button_sequence_button_1_1
+003C 5000      00958         MOVF    r0x00, W
+003E 0A81      00959         XORLW   0x81
+0040 E000      00960         BZ      _00132_DS_
+0042 5000      00961         MOVF    r0x00, W
+0044 0A7F      00962         XORLW   0x7f
+0046 E000      00963         BZ      _00133_DS_
+0048 D000      00964         BRA     _00134_DS_
+004A 00965 _00132_DS_:
+004A 0000      00966         BANKSEL _rc_button_sequence_digit_1_1
+               00967 ;       .line   157; master.c   digit = 0;
+004C 6B00      00968         CLRF    _rc_button_sequence_digit_1_1, B
+               00969 ;       .line   158; master.c   break;
+004E D000      00970         BRA     _00135_DS_
+0050 00971 _00133_DS_:
+               00972 ;       .line   160; master.c   digit = 1;
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE 19
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0050 0E01      00973         MOVLW   0x01
+0052 0000      00974         BANKSEL _rc_button_sequence_digit_1_1
+0054 6F00      00975         MOVWF   _rc_button_sequence_digit_1_1, B
+               00976 ;       .line   161; master.c   break;
+0056 D000      00977         BRA     _00135_DS_
+0058 00978 _00134_DS_:
+               00979 ;       .line   163; master.c   digit = 2;
+0058 0E02      00980         MOVLW   0x02
+005A 0000      00981         BANKSEL _rc_button_sequence_digit_1_1
+005C 6F00      00982         MOVWF   _rc_button_sequence_digit_1_1, B
+005E 00983 _00135_DS_:
+               00984 ;       .line   172; master.c   if ( (digit < 2) && (button != old_button) )
+005E 0E02      00985         MOVLW   0x02
+0060 0000      00986         BANKSEL _rc_button_sequence_digit_1_1
+0062 5D00      00987         SUBWF   _rc_button_sequence_digit_1_1, W, B
+0064 E200      00988         BC      _00137_DS_
+0066 0000      00989         BANKSEL _rc_button_sequence_button_1_1
+0068 5100      00990         MOVF    _rc_button_sequence_button_1_1, W, B
+006A 0000      00991         BANKSEL _rc_button_sequence_old_button_1_1
+006C 1900      00992         XORWF   _rc_button_sequence_old_button_1_1, W, B
+006E E000      00993         BZ      _00137_DS_
+0070 00994 _00158_DS_:
+0070 0000      00995         BANKSEL _rc_button_sequence_count_1_1
+               00996 ;       .line   174; master.c   ++count;
+0072 2B00      00997         INCF    _rc_button_sequence_count_1_1, F, B
+0074 0000      00998         BANKSEL _rc_button_sequence_val_1_1
+               00999 ;       .line   175; master.c   val = (val << 1) + digit;     /* Insert new digit in LSB */
+0076 4500      01000         RLNCF   _rc_button_sequence_val_1_1, W, B
+0078 0BFE      01001         ANDLW   0xfe
+007A 6E00      01002         MOVWF   r0x00
+007C 0000      01003         BANKSEL _rc_button_sequence_digit_1_1
+007E 5100      01004         MOVF    _rc_button_sequence_digit_1_1, W, B
+0080 2400      01005         ADDWF   r0x00, W
+0082 0000      01006         BANKSEL _rc_button_sequence_val_1_1
+0084 6F00      01007         MOVWF   _rc_button_sequence_val_1_1, B
+0086 01008 _00137_DS_:
+               01009 ;       .line   177; master.c   old_button = button;
+0086 C000 F000 01010         MOVFF   _rc_button_sequence_button_1_1, _rc_button_sequence_old_button_1_1
+008A 0000      01011         BANKSEL _rc_button_sequence_count_1_1
+               01012 ;       .line   178; master.c   if ( count == len )
+008C 5100      01013         MOVF    _rc_button_sequence_count_1_1, W, B
+008E 1800      01014         XORWF   r0x01, W
+0090 E100      01015         BNZ     _00140_DS_
+               01016 ;       .line   180; master.c   temp = val;
+0092 C000 F000 01017         MOVFF   _rc_button_sequence_val_1_1, _rc_button_sequence_temp_1_1
+0096 0000      01018         BANKSEL _rc_button_sequence_val_1_1
+               01019 ;       .line   181; master.c   count = val = 0;
+0098 6B00      01020         CLRF    _rc_button_sequence_val_1_1, B
+009A 0000      01021         BANKSEL _rc_button_sequence_count_1_1
+009C 6B00      01022         CLRF    _rc_button_sequence_count_1_1, B
+009E 0000      01023         BANKSEL _rc_button_sequence_temp_1_1
+               01024 ;       .line   182; master.c   return temp;
+00A0 5100      01025         MOVF    _rc_button_sequence_temp_1_1, W, B
+00A2 D000      01026         BRA     _00142_DS_
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE 20
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00A4 01027 _00140_DS_:
+               01028 ;       .line   185; master.c   return OV_SEQUENCE_INCOMPLETE;
+00A4 0EFE      01029         MOVLW   0xfe
+00A6 01030 _00142_DS_:
+00A6 CFE4 F000 01031         MOVFF   PREINC1, r0x01
+00AA CFE4 F000 01032         MOVFF   PREINC1, r0x00
+00AE CFE4 FFD9 01033         MOVFF   PREINC1, FSR2L
+00B2 0012      01034         RETURN  
+               01035 
+               01036 ; ; Starting pCode block
+               01037 S_master__rc_read_data  code
+0000 01038 _rc_read_data:
+               01039 ;       .line   88; master.c    char    rc_read_data(unsigned char channel)
+0000 CFD9 FFE5 01040         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01041         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01042         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 01043         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 01044         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 01045         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 01046         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 01047         MOVFF   r0x05, POSTDEC1
+0020 0E02      01048         MOVLW   0x02
+0022 CFDB F000 01049         MOVFF   PLUSW2, r0x00
+               01050 ;       .line   91; master.c    if ( VALID_RC_CHANNEL(channel) )
+0026 0E01      01051         MOVLW   0x01
+0028 5C00      01052         SUBWF   r0x00, W
+002A A0D8      01053         BTFSS   STATUS, 0
+002C D000      01054         BRA     _00113_DS_
+002E 0E07      01055         MOVLW   0x07
+0030 5C00      01056         SUBWF   r0x00, W
+0032 B0D8      01057         BTFSC   STATUS, 0
+0034 D000      01058         BRA     _00113_DS_
+               01059 ;       .line   102; master.c   if ( User_rxdata->oi_analog[channel-1] == 255 )
+0036 C000 F000 01060         MOVFF   _User_rxdata, r0x01
+003A C000 F000 01061         MOVFF   (_User_rxdata + 1), r0x02
+003E C000 F000 01062         MOVFF   (_User_rxdata + 2), r0x03
+0042 0E06      01063         MOVLW   0x06
+0044 2600      01064         ADDWF   r0x01, F
+0046 0E00      01065         MOVLW   0x00
+0048 2200      01066         ADDWFC  r0x02, F
+004A 0E00      01067         MOVLW   0x00
+004C 2200      01068         ADDWFC  r0x03, F
+004E 0600      01069         DECF    r0x00, F
+0050 5000      01070         MOVF    r0x00, W
+0052 2600      01071         ADDWF   r0x01, F
+0054 6AE8      01072         CLRF    WREG
+0056 2200      01073         ADDWFC  r0x02, F
+0058 6AE8      01074         CLRF    WREG
+005A 2200      01075         ADDWFC  r0x03, F
+005C C000 FFE9 01076         MOVFF   r0x01, FSR0L
+0060 C000 FFF3 01077         MOVFF   r0x02, PRODL
+0064 5000      01078         MOVF    r0x03, W
+0066 EC00 F000 01079         CALL    __gptrget1
+               01080 ; #     MOVWF   r0x01
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE 21
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               01081 ; #     MOVF    r0x01, W
+006A 6E00      01082         MOVWF   r0x01
+006C 0AFF      01083         XORLW   0xff
+006E E100      01084         BNZ     _00111_DS_
+               01085 ;       .line   103; master.c   --User_rxdata->oi_analog[channel-1];
+0070 C000 F000 01086         MOVFF   _User_rxdata, r0x01
+0074 C000 F000 01087         MOVFF   (_User_rxdata + 1), r0x02
+0078 C000 F000 01088         MOVFF   (_User_rxdata + 2), r0x03
+007C 0E06      01089         MOVLW   0x06
+007E 2600      01090         ADDWF   r0x01, F
+0080 0E00      01091         MOVLW   0x00
+0082 2200      01092         ADDWFC  r0x02, F
+0084 0E00      01093         MOVLW   0x00
+0086 2200      01094         ADDWFC  r0x03, F
+0088 5000      01095         MOVF    r0x00, W
+008A 2600      01096         ADDWF   r0x01, F
+008C 6AE8      01097         CLRF    WREG
+008E 2200      01098         ADDWFC  r0x02, F
+0090 6AE8      01099         CLRF    WREG
+0092 2200      01100         ADDWFC  r0x03, F
+0094 C000 FFE9 01101         MOVFF   r0x01, FSR0L
+0098 C000 FFF3 01102         MOVFF   r0x02, PRODL
+009C 5000      01103         MOVF    r0x03, W
+009E EC00 F000 01104         CALL    __gptrget1
+00A2 6E00      01105         MOVWF   r0x04
+00A4 0600      01106         DECF    r0x04, F
+00A6 C000 FFE5 01107         MOVFF   r0x04, POSTDEC1
+00AA C000 FFE9 01108         MOVFF   r0x01, FSR0L
+00AE C000 FFF3 01109         MOVFF   r0x02, PRODL
+00B2 5000      01110         MOVF    r0x03, W
+00B4 EC00 F000 01111         CALL    __gptrput1
+00B8 01112 _00111_DS_:
+               01113 ;       .line   104; master.c   return User_rxdata->oi_analog[channel-1] - 127;
+00B8 C000 F000 01114         MOVFF   _User_rxdata, r0x01
+00BC C000 F000 01115         MOVFF   (_User_rxdata + 1), r0x02
+00C0 C000 F000 01116         MOVFF   (_User_rxdata + 2), r0x03
+00C4 0E06      01117         MOVLW   0x06
+00C6 2600      01118         ADDWF   r0x01, F
+00C8 0E00      01119         MOVLW   0x00
+00CA 2200      01120         ADDWFC  r0x02, F
+00CC 0E00      01121         MOVLW   0x00
+00CE 2200      01122         ADDWFC  r0x03, F
+00D0 6A00      01123         CLRF    r0x04
+00D2 6A00      01124         CLRF    r0x05
+00D4 5000      01125         MOVF    r0x01, W
+00D6 2600      01126         ADDWF   r0x00, F
+00D8 5000      01127         MOVF    r0x02, W
+00DA 2200      01128         ADDWFC  r0x04, F
+00DC 5000      01129         MOVF    r0x03, W
+00DE 2200      01130         ADDWFC  r0x05, F
+00E0 C000 FFE9 01131         MOVFF   r0x00, FSR0L
+00E4 C000 FFF3 01132         MOVFF   r0x04, PRODL
+00E8 5000      01133         MOVF    r0x05, W
+00EA EC00 F000 01134         CALL    __gptrget1
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE 22
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00EE 6E00      01135         MOVWF   r0x00
+00F0 0E81      01136         MOVLW   0x81
+00F2 2600      01137         ADDWF   r0x00, F
+00F4 5000      01138         MOVF    r0x00, W
+00F6 D000      01139         BRA     _00116_DS_
+00F8 01140 _00113_DS_:
+               01141 ;       .line   107; master.c   return OV_BAD_PARAM;
+00F8 0E80      01142         MOVLW   0x80
+00FA 01143 _00116_DS_:
+00FA CFE4 F000 01144         MOVFF   PREINC1, r0x05
+00FE CFE4 F000 01145         MOVFF   PREINC1, r0x04
+0102 CFE4 F000 01146         MOVFF   PREINC1, r0x03
+0106 CFE4 F000 01147         MOVFF   PREINC1, r0x02
+010A CFE4 F000 01148         MOVFF   PREINC1, r0x01
+010E CFE4 F000 01149         MOVFF   PREINC1, r0x00
+0112 CFE4 FFD9 01150         MOVFF   PREINC1, FSR2L
+0116 0012      01151         RETURN  
+               01152 
+               01153 ; ; Starting pCode block
+               01154 S_master__rc_read_status        code
+0000 01155 _rc_read_status:
+               01156 ;       .line   63; master.c    char    rc_read_status(void)
+0000 CFD9 FFE5 01157         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01158         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01159         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 01160         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 01161         MOVFF   r0x02, POSTDEC1
+               01162 ;       .line   66; master.c    return User_rxdata->rc_status_byte;
+0014 C000 F000 01163         MOVFF   _User_rxdata, r0x00
+0018 C000 F000 01164         MOVFF   (_User_rxdata + 1), r0x01
+001C C000 F000 01165         MOVFF   (_User_rxdata + 2), r0x02
+0020 0E02      01166         MOVLW   0x02
+0022 2600      01167         ADDWF   r0x00, F
+0024 0E00      01168         MOVLW   0x00
+0026 2200      01169         ADDWFC  r0x01, F
+0028 0E00      01170         MOVLW   0x00
+002A 2200      01171         ADDWFC  r0x02, F
+002C C000 FFE9 01172         MOVFF   r0x00, FSR0L
+0030 C000 FFF3 01173         MOVFF   r0x01, PRODL
+0034 5000      01174         MOVF    r0x02, W
+0036 EC00 F000 01175         CALL    __gptrget1
+               01176 ; #     MOVWF   r0x00
+               01177 ; #     MOVF    r0x00, W
+               01178 ; #; info ==> [localregs] exit begin
+               01179 
+003A 6E00      01180         MOVWF   r0x00
+003C CFE4 F000 01181         MOVFF   PREINC1, r0x02
+0040 CFE4 F000 01182         MOVFF   PREINC1, r0x01
+0044 CFE4 F000 01183         MOVFF   PREINC1, r0x00
+0048 CFE4 FFD9 01184         MOVFF   PREINC1, FSR2L
+004C 0012      01185         RETURN  
+               01186 
+               01187 ; ; Starting pCode block
+004E 01188 __str_0:
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE 23
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+004E 560A 5845 01189         DB      0x0a, 0x56, 0x45, 0x58, 0x20, 0x6d, 0x61, 0x73, 0x74, 0x65, 0x72, 0x20
+     6D20 7361 
+     6574 2072 
+005A 6F63 6564 01190         DB      0x63, 0x6f, 0x64, 0x65, 0x20, 0x76, 0x25, 0x64, 0x0a, 0x25, 0x73, 0x0a
+     7620 6425 
+     250A 0A73 
+0066 0000      01191         DB      0x00
+               01192 ; ; Starting pCode block
+0068 01193 __str_1:
+0068 704F 6E65 01194         DB      0x4f, 0x70, 0x65, 0x6e, 0x56, 0x65, 0x78, 0x2d, 0x30, 0x2e, 0x35, 0x2e
+     6556 2D78 
+     2E30 2E35 
+0074 0030      01195         DB      0x30, 0x00
+               01196 
+               01197 
+               01198 ; Statistics:
+               01199 ; code size:     1742 (0x06ce) bytes ( 1.33%)
+               01200 ;                 871 (0x0367) words
+               01201 ; udata size:       5 (0x0005) bytes ( 0.28%)
+               01202 ; access size:      8 (0x0008) bytes
+               01203 
+               01204 
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE 24
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+FSR0H                             00000FEA
+FSR0L                             00000FE9
+FSR1L                             00000FE1
+FSR2L                             00000FD9
+INDF0                             00000FEF
+PLUSW2                            00000FDB
+POSTDEC1                          00000FE5
+PREINC1                           00000FE4
+PRODH                             00000FF4
+PRODL                             00000FF3
+STATUS                            00000FD8
+WREG                              00000FE8
+_00111_DS_                        000000B8
+_00113_DS_                        000000F8
+_00116_DS_                        000000FA
+_00129_DS_                        00000028
+_00130_DS_                        0000002C
+_00132_DS_                        0000004A
+_00133_DS_                        00000050
+_00134_DS_                        00000058
+_00135_DS_                        0000005E
+_00137_DS_                        00000086
+_00140_DS_                        000000A4
+_00142_DS_                        000000A6
+_00158_DS_                        00000070
+_00166_DS_                        00000020
+_00177_DS_                        00000020
+_00185_DS_                        00000020
+_00194_DS_                        00000036
+_00195_DS_                        000000BC
+_00200_DS_                        000000C6
+_00219_DS_                        00000028
+_00221_DS_                        00000054
+_00224_DS_                        00000056
+_00238_DS_                        00000042
+_00241_DS_                        00000044
+_00252_DS_                        0000004E
+_00254_DS_                        00000072
+_00262_DS_                        00000040
+_00263_DS_                        0000003A
+_00265_DS_                        00000062
+_00266_DS_                        0000005C
+_00272_DS_                        00000070
+_00273_DS_                        00000072
+_00275_DS_                        00000084
+_00276_DS_                        00000086
+_00278_DS_                        00000098
+_00279_DS_                        0000009A
+_00281_DS_                        000000AC
+_00283_DS_                        000000AE
+_00289_DS_                        00000066
+_00290_DS_                        00000068
+_00291_DS_                        0000007C
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE 25
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_00292_DS_                        0000007E
+_00294_DS_                        00000090
+_00295_DS_                        00000092
+_00297_DS_                        000000A4
+_00298_DS_                        000000A6
+_ADCON0                           00000000
+_ADCON0bits                       00000000
+_ADCON1                           00000000
+_ADCON1bits                       00000000
+_ADCON2                           00000000
+_ADCON2bits                       00000000
+_ADRESH                           00000000
+_ADRESL                           00000000
+_BSR                              00000000
+_CCP1CON                          00000000
+_CCP1CONbits                      00000000
+_CCP2CON                          00000000
+_CCP2CONbits                      00000000
+_CCP3CON                          00000000
+_CCP3CONbits                      00000000
+_CCP4CON                          00000000
+_CCP4CONbits                      00000000
+_CCP5CON                          00000000
+_CCP5CONbits                      00000000
+_CCPR1H                           00000000
+_CCPR1L                           00000000
+_CCPR2H                           00000000
+_CCPR2L                           00000000
+_CCPR3H                           00000000
+_CCPR3L                           00000000
+_CCPR4H                           00000000
+_CCPR4L                           00000000
+_CCPR5H                           00000000
+_CCPR5L                           00000000
+_CMCON                            00000000
+_CMCONbits                        00000000
+_CVRCON                           00000000
+_CVRCONbits                       00000000
+_EEADR                            00000000
+_EEADRH                           00000000
+_EECON1                           00000000
+_EECON1bits                       00000000
+_EECON2                           00000000
+_EEDATA                           00000000
+_FSR0H                            00000000
+_FSR0L                            00000000
+_FSR1H                            00000000
+_FSR1L                            00000000
+_FSR2H                            00000000
+_FSR2L                            00000000
+_INDF0                            00000000
+_INDF1                            00000000
+_INDF2                            00000000
+_INTCON                           00000000
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE 26
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_INTCON2                          00000000
+_INTCON2bits                      00000000
+_INTCON3                          00000000
+_INTCON3bits                      00000000
+_INTCONbits                       00000000
+_IPR1                             00000000
+_IPR1bits                         00000000
+_IPR2                             00000000
+_IPR2bits                         00000000
+_IPR3                             00000000
+_IPR3bits                         00000000
+_LATA                             00000000
+_LATAbits                         00000000
+_LATB                             00000000
+_LATBbits                         00000000
+_LATC                             00000000
+_LATCbits                         00000000
+_LATD                             00000000
+_LATDbits                         00000000
+_LATE                             00000000
+_LATEbits                         00000000
+_LATF                             00000000
+_LATFbits                         00000000
+_LATG                             00000000
+_LATGbits                         00000000
+_LATH                             00000000
+_LATHbits                         00000000
+_LATJ                             00000000
+_LATJbits                         00000000
+_LVDCON                           00000000
+_LVDCONbits                       00000000
+_MEMCON                           00000000
+_MEMCONbits                       00000000
+_OSCCON                           00000000
+_OSCCONbits                       00000000
+_PCL                              00000000
+_PCLATH                           00000000
+_PCLATU                           00000000
+_PIE1                             00000000
+_PIE1bits                         00000000
+_PIE2                             00000000
+_PIE2bits                         00000000
+_PIE3                             00000000
+_PIE3bits                         00000000
+_PIR1                             00000000
+_PIR1bits                         00000000
+_PIR2                             00000000
+_PIR2bits                         00000000
+_PIR3                             00000000
+_PIR3bits                         00000000
+_PLUSW0                           00000000
+_PLUSW1                           00000000
+_PLUSW2                           00000000
+_PORTA                            00000000
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE 27
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_PORTAbits                        00000000
+_PORTB                            00000000
+_PORTBbits                        00000000
+_PORTC                            00000000
+_PORTCbits                        00000000
+_PORTD                            00000000
+_PORTDbits                        00000000
+_PORTE                            00000000
+_PORTEbits                        00000000
+_PORTF                            00000000
+_PORTFbits                        00000000
+_PORTG                            00000000
+_PORTGbits                        00000000
+_PORTH                            00000000
+_PORTHbits                        00000000
+_PORTJ                            00000000
+_PORTJbits                        00000000
+_POSTDEC0                         00000000
+_POSTDEC1                         00000000
+_POSTDEC2                         00000000
+_POSTINC0                         00000000
+_POSTINC1                         00000000
+_POSTINC2                         00000000
+_PR2                              00000000
+_PR4                              00000000
+_PREINC0                          00000000
+_PREINC1                          00000000
+_PREINC2                          00000000
+_PRODH                            00000000
+_PRODL                            00000000
+_PSPCON                           00000000
+_PSPCONbits                       00000000
+_Pwm_disable_mask                 00000000
+_RCON                             00000000
+_RCONbits                         00000000
+_RCREG                            00000000
+_RCREG1                           00000000
+_RCREG2                           00000000
+_RCSTA                            00000000
+_RCSTA1                           00000000
+_RCSTA1bits                       00000000
+_RCSTA2                           00000000
+_RCSTA2bits                       00000000
+_RCSTAbits                        00000000
+_Rx_buff                          00000000
+_Rx_user_buff_index               00000000
+_SPBRG                            00000000
+_SPBRG1                           00000000
+_SPBRG2                           00000000
+_SSPADD                           00000000
+_SSPBUF                           00000000
+_SSPCON1                          00000000
+_SSPCON1bits                      00000000
+_SSPCON2                          00000000
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE 28
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_SSPCON2bits                      00000000
+_SSPSTAT                          00000000
+_SSPSTATbits                      00000000
+_STATUS                           00000000
+_STATUSbits                       00000000
+_STKPTR                           00000000
+_STKPTRbits                       00000000
+_Spi_status                       00000000
+_T0CON                            00000000
+_T1CON                            00000000
+_T1CONbits                        00000000
+_T2CON                            00000000
+_T2CONbits                        00000000
+_T3CON                            00000000
+_T3CONbits                        00000000
+_T4CON                            00000000
+_T4CONbits                        00000000
+_TABLAT                           00000000
+_TBLPTRH                          00000000
+_TBLPTRL                          00000000
+_TBLPTRU                          00000000
+_TMR0H                            00000000
+_TMR0L                            00000000
+_TMR1H                            00000000
+_TMR1L                            00000000
+_TMR2                             00000000
+_TMR3H                            00000000
+_TMR3L                            00000000
+_TMR4                             00000000
+_TOSH                             00000000
+_TOSL                             00000000
+_TOSU                             00000000
+_TRISA                            00000000
+_TRISAbits                        00000000
+_TRISB                            00000000
+_TRISBbits                        00000000
+_TRISC                            00000000
+_TRISCbits                        00000000
+_TRISD                            00000000
+_TRISDbits                        00000000
+_TRISE                            00000000
+_TRISEbits                        00000000
+_TRISF                            00000000
+_TRISFbits                        00000000
+_TRISG                            00000000
+_TRISGbits                        00000000
+_TRISH                            00000000
+_TRISHbits                        00000000
+_TRISJ                            00000000
+_TRISJbits                        00000000
+_TXREG                            00000000
+_TXREG1                           00000000
+_TXREG2                           00000000
+_TXSTA                            00000000
+gpasm-0.13.7 beta               master.asm  11-2-2012  01:06:41          PAGE 29
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_TXSTA1                           00000000
+_TXSTA1bits                       00000000
+_TXSTA2                           00000000
+_TXSTA2bits                       00000000
+_TXSTAbits                        00000000
+_Tx_buff                          00000000
+_Tx_user_buff_index               00000000
+_User_rxdata                      00000000
+_User_txdata                      00000000
+_WDTCON                           00000000
+_WDTCONbits                       00000000
+_WREG                             00000000
+__18F8520                         00000001
+__gptrget1                        00000000
+__gptrput1                        00000000
+__str_0                           0000004E
+__str_1                           00000068
+_check_tx_env                     00000000
+_controller_begin_autonomous_mode  00000000
+_controller_end_autonomous_mode   00000000
+_controller_in_autonomous_mode    00000000
+_controller_print_version         00000000
+_controller_submit_data           00000000
+_master_clr_user_cmd              00000000
+_master_set_user_cmd              00000000
+_memcpy                           00000000
+_printf                           00000000
+_pwm_read                         00000000
+_pwm_select_processor             00000000
+_pwm_set_output_type              00000000
+_pwm_write                        00000000
+_rc_button_sequence               00000000
+_rc_button_sequence_button_1_1    00000000
+_rc_button_sequence_count_1_1     00000000
+_rc_button_sequence_digit_1_1     00000000
+_rc_button_sequence_old_button_1_1  00000000
+_rc_button_sequence_temp_1_1      00000000
+_rc_button_sequence_val_1_1       00000001
+_rc_new_data_available            00000000
+_rc_read_data                     00000000
+_rc_read_status                   00000000
+_stdin                            00000000
+_stdout                           00000000
+r0x00                             00000000
+r0x01                             00000001
+r0x02                             00000002
+r0x03                             00000003
+r0x04                             00000004
+r0x05                             00000005
+r0x06                             00000006
+r0x07                             00000007
+
+
+Errors   :       0
+Warnings :       0 reported,       0 suppressed
+Messages :       0 reported,       0 suppressed
+

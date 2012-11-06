@@ -1,0 +1,797 @@
+gpasm-0.13.7 beta               line_sensor.asm10-14-2012  01:17:21         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00001 ;--------------------------------------------------------
+               00002 ; File Created by SDCC : free open source ANSI-C Compiler
+               00003 ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
+               00004 ; This file was generated Sun Oct 14 01:17:21 2012
+               00005 ;--------------------------------------------------------
+               00006 ; PIC16 port for the Microchip 16-bit core micros
+               00007 ;--------------------------------------------------------
+               00008         list    p=18f8520
+               00009 
+               00010         radix dec
+               00011 
+               00012 ;--------------------------------------------------------
+               00013 ; public variables in this module
+               00014 ;--------------------------------------------------------
+               00015         global _line_sensor_read
+               00016 
+               00017 ;--------------------------------------------------------
+               00018 ; extern variables in this module
+               00019 ;--------------------------------------------------------
+               00020         extern __gptrput2
+               00021         extern _stdin
+               00022         extern _stdout
+               00023         extern _RCSTA2bits
+               00024         extern _TXSTA2bits
+               00025         extern _CCP5CONbits
+               00026         extern _CCP4CONbits
+               00027         extern _T4CONbits
+               00028         extern _PORTAbits
+               00029         extern _PORTBbits
+               00030         extern _PORTCbits
+               00031         extern _PORTDbits
+               00032         extern _PORTEbits
+               00033         extern _PORTFbits
+               00034         extern _PORTGbits
+               00035         extern _PORTHbits
+               00036         extern _PORTJbits
+               00037         extern _LATAbits
+               00038         extern _LATBbits
+               00039         extern _LATCbits
+               00040         extern _LATDbits
+               00041         extern _LATEbits
+               00042         extern _LATFbits
+               00043         extern _LATGbits
+               00044         extern _LATHbits
+               00045         extern _LATJbits
+               00046         extern _TRISAbits
+               00047         extern _TRISBbits
+               00048         extern _TRISCbits
+               00049         extern _TRISDbits
+               00050         extern _TRISEbits
+               00051         extern _TRISFbits
+               00052         extern _TRISGbits
+               00053         extern _TRISHbits
+               00054         extern _TRISJbits
+gpasm-0.13.7 beta               line_sensor.asm10-14-2012  01:17:21         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00055         extern _MEMCONbits
+               00056         extern _PIE1bits
+               00057         extern _PIR1bits
+               00058         extern _IPR1bits
+               00059         extern _PIE2bits
+               00060         extern _PIR2bits
+               00061         extern _IPR2bits
+               00062         extern _PIE3bits
+               00063         extern _PIR3bits
+               00064         extern _IPR3bits
+               00065         extern _EECON1bits
+               00066         extern _RCSTA1bits
+               00067         extern _TXSTA1bits
+               00068         extern _RCSTAbits
+               00069         extern _TXSTAbits
+               00070         extern _PSPCONbits
+               00071         extern _T3CONbits
+               00072         extern _CMCONbits
+               00073         extern _CVRCONbits
+               00074         extern _CCP3CONbits
+               00075         extern _CCP2CONbits
+               00076         extern _CCP1CONbits
+               00077         extern _ADCON2bits
+               00078         extern _ADCON1bits
+               00079         extern _ADCON0bits
+               00080         extern _SSPCON2bits
+               00081         extern _SSPCON1bits
+               00082         extern _SSPSTATbits
+               00083         extern _T2CONbits
+               00084         extern _T1CONbits
+               00085         extern _RCONbits
+               00086         extern _WDTCONbits
+               00087         extern _LVDCONbits
+               00088         extern _OSCCONbits
+               00089         extern _STATUSbits
+               00090         extern _INTCON3bits
+               00091         extern _INTCON2bits
+               00092         extern _INTCONbits
+               00093         extern _STKPTRbits
+               00094         extern _Analog_ports
+               00095         extern _RCSTA2
+               00096         extern _TXSTA2
+               00097         extern _TXREG2
+               00098         extern _RCREG2
+               00099         extern _SPBRG2
+               00100         extern _CCP5CON
+               00101         extern _CCPR5L
+               00102         extern _CCPR5H
+               00103         extern _CCP4CON
+               00104         extern _CCPR4L
+               00105         extern _CCPR4H
+               00106         extern _T4CON
+               00107         extern _PR4
+               00108         extern _TMR4
+gpasm-0.13.7 beta               line_sensor.asm10-14-2012  01:17:21         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00109         extern _PORTA
+               00110         extern _PORTB
+               00111         extern _PORTC
+               00112         extern _PORTD
+               00113         extern _PORTE
+               00114         extern _PORTF
+               00115         extern _PORTG
+               00116         extern _PORTH
+               00117         extern _PORTJ
+               00118         extern _LATA
+               00119         extern _LATB
+               00120         extern _LATC
+               00121         extern _LATD
+               00122         extern _LATE
+               00123         extern _LATF
+               00124         extern _LATG
+               00125         extern _LATH
+               00126         extern _LATJ
+               00127         extern _TRISA
+               00128         extern _TRISB
+               00129         extern _TRISC
+               00130         extern _TRISD
+               00131         extern _TRISE
+               00132         extern _TRISF
+               00133         extern _TRISG
+               00134         extern _TRISH
+               00135         extern _TRISJ
+               00136         extern _MEMCON
+               00137         extern _PIE1
+               00138         extern _PIR1
+               00139         extern _IPR1
+               00140         extern _PIE2
+               00141         extern _PIR2
+               00142         extern _IPR2
+               00143         extern _PIE3
+               00144         extern _PIR3
+               00145         extern _IPR3
+               00146         extern _EECON1
+               00147         extern _EECON2
+               00148         extern _EEDATA
+               00149         extern _EEADR
+               00150         extern _EEADRH
+               00151         extern _RCSTA1
+               00152         extern _TXSTA1
+               00153         extern _TXREG1
+               00154         extern _RCREG1
+               00155         extern _SPBRG1
+               00156         extern _RCSTA
+               00157         extern _TXSTA
+               00158         extern _TXREG
+               00159         extern _RCREG
+               00160         extern _SPBRG
+               00161         extern _PSPCON
+               00162         extern _T3CON
+gpasm-0.13.7 beta               line_sensor.asm10-14-2012  01:17:21         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00163         extern _TMR3L
+               00164         extern _TMR3H
+               00165         extern _CMCON
+               00166         extern _CVRCON
+               00167         extern _CCP3CON
+               00168         extern _CCPR3L
+               00169         extern _CCPR3H
+               00170         extern _CCP2CON
+               00171         extern _CCPR2L
+               00172         extern _CCPR2H
+               00173         extern _CCP1CON
+               00174         extern _CCPR1L
+               00175         extern _CCPR1H
+               00176         extern _ADCON2
+               00177         extern _ADCON1
+               00178         extern _ADCON0
+               00179         extern _ADRESL
+               00180         extern _ADRESH
+               00181         extern _SSPCON2
+               00182         extern _SSPCON1
+               00183         extern _SSPSTAT
+               00184         extern _SSPADD
+               00185         extern _SSPBUF
+               00186         extern _T2CON
+               00187         extern _PR2
+               00188         extern _TMR2
+               00189         extern _T1CON
+               00190         extern _TMR1L
+               00191         extern _TMR1H
+               00192         extern _RCON
+               00193         extern _WDTCON
+               00194         extern _LVDCON
+               00195         extern _OSCCON
+               00196         extern _T0CON
+               00197         extern _TMR0L
+               00198         extern _TMR0H
+               00199         extern _STATUS
+               00200         extern _FSR2L
+               00201         extern _FSR2H
+               00202         extern _PLUSW2
+               00203         extern _PREINC2
+               00204         extern _POSTDEC2
+               00205         extern _POSTINC2
+               00206         extern _INDF2
+               00207         extern _BSR
+               00208         extern _FSR1L
+               00209         extern _FSR1H
+               00210         extern _PLUSW1
+               00211         extern _PREINC1
+               00212         extern _POSTDEC1
+               00213         extern _POSTINC1
+               00214         extern _INDF1
+               00215         extern _WREG
+               00216         extern _FSR0L
+gpasm-0.13.7 beta               line_sensor.asm10-14-2012  01:17:21         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00217         extern _FSR0H
+               00218         extern _PLUSW0
+               00219         extern _PREINC0
+               00220         extern _POSTDEC0
+               00221         extern _POSTINC0
+               00222         extern _INDF0
+               00223         extern _INTCON3
+               00224         extern _INTCON2
+               00225         extern _INTCON
+               00226         extern _PRODL
+               00227         extern _PRODH
+               00228         extern _TABLAT
+               00229         extern _TBLPTRL
+               00230         extern _TBLPTRH
+               00231         extern _TBLPTRU
+               00232         extern _PCL
+               00233         extern _PCLATH
+               00234         extern _PCLATU
+               00235         extern _STKPTR
+               00236         extern _TOSL
+               00237         extern _TOSH
+               00238         extern _TOSU
+               00239         extern _io_read_analog
+               00240 ;--------------------------------------------------------
+               00241 ;       Equates to used internal registers
+               00242 ;--------------------------------------------------------
+  00000FD8     00243 STATUS  equ     0xfd8
+  00000FE8     00244 WREG    equ     0xfe8
+  00000FE9     00245 FSR0L   equ     0xfe9
+  00000FE1     00246 FSR1L   equ     0xfe1
+  00000FD9     00247 FSR2L   equ     0xfd9
+  00000FE5     00248 POSTDEC1        equ     0xfe5
+  00000FE4     00249 PREINC1 equ     0xfe4
+  00000FDB     00250 PLUSW2  equ     0xfdb
+  00000FF3     00251 PRODL   equ     0xff3
+  00000FF4     00252 PRODH   equ     0xff4
+               00253 
+               00254 
+               00255 ; Internal registers
+               00256 .registers      udata_ovr       0x0000
+               00257 r0x00   res     1
+               00258 r0x01   res     1
+               00259 r0x02   res     1
+               00260 r0x03   res     1
+               00261 r0x04   res     1
+               00262 r0x05   res     1
+               00263 r0x06   res     1
+               00264 r0x07   res     1
+               00265 r0x08   res     1
+               00266 r0x09   res     1
+               00267 r0x0a   res     1
+               00268 
+               00269 ;--------------------------------------------------------
+               00270 ; global & static initialisations
+gpasm-0.13.7 beta               line_sensor.asm10-14-2012  01:17:21         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00271 ;--------------------------------------------------------
+               00272 ; I code from now on!
+               00273 ; ; Starting pCode block
+               00274 S_line_sensor__line_sensor_read code
+0000 00275 _line_sensor_read:
+               00276 ;       .line   66; line_sensor.c       status_t    line_sensor_read(unsigned char left_port,
+0000 CFD9 FFE5 00277         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00278         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00279         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00280         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00281         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00282         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 00283         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 00284         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 00285         MOVFF   r0x06, POSTDEC1
+0024 C000 FFE5 00286         MOVFF   r0x07, POSTDEC1
+0028 C000 FFE5 00287         MOVFF   r0x08, POSTDEC1
+002C C000 FFE5 00288         MOVFF   r0x09, POSTDEC1
+0030 C000 FFE5 00289         MOVFF   r0x0a, POSTDEC1
+0034 0E02      00290         MOVLW   0x02
+0036 CFDB F000 00291         MOVFF   PLUSW2, r0x00
+003A 0E03      00292         MOVLW   0x03
+003C CFDB F000 00293         MOVFF   PLUSW2, r0x01
+0040 0E04      00294         MOVLW   0x04
+0042 CFDB F000 00295         MOVFF   PLUSW2, r0x02
+0046 0E05      00296         MOVLW   0x05
+0048 CFDB F000 00297         MOVFF   PLUSW2, r0x03
+004C 0E06      00298         MOVLW   0x06
+004E CFDB F000 00299         MOVFF   PLUSW2, r0x04
+0052 0E07      00300         MOVLW   0x07
+0054 CFDB F000 00301         MOVFF   PLUSW2, r0x05
+               00302 ;       .line   72; line_sensor.c       if ( ! VALID_ANALOG_PORT(left_port) ||
+0058 0E01      00303         MOVLW   0x01
+005A 5C00      00304         SUBWF   r0x00, W
+005C E300      00305         BNC     _00105_DS_
+005E 5000      00306         MOVF    r0x00, W
+0060 0000      00307         BANKSEL _Analog_ports
+0062 5D00      00308         SUBWF   _Analog_ports, W, B
+0064 E300      00309         BNC     _00105_DS_
+               00310 ;       .line   73; line_sensor.c       ! VALID_ANALOG_PORT(center_port) ||
+0066 0E01      00311         MOVLW   0x01
+0068 5C00      00312         SUBWF   r0x01, W
+006A E300      00313         BNC     _00105_DS_
+006C 5000      00314         MOVF    r0x01, W
+006E 0000      00315         BANKSEL _Analog_ports
+0070 5D00      00316         SUBWF   _Analog_ports, W, B
+0072 E300      00317         BNC     _00105_DS_
+               00318 ;       .line   74; line_sensor.c       ! VALID_ANALOG_PORT(right_port) )
+0074 0E01      00319         MOVLW   0x01
+0076 5C00      00320         SUBWF   r0x02, W
+0078 E300      00321         BNC     _00105_DS_
+007A 5000      00322         MOVF    r0x02, W
+007C 0000      00323         BANKSEL _Analog_ports
+007E 5D00      00324         SUBWF   _Analog_ports, W, B
+gpasm-0.13.7 beta               line_sensor.asm10-14-2012  01:17:21         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0080 E200      00325         BC      _00106_DS_
+0082 00326 _00105_DS_:
+               00327 ;       .line   75; line_sensor.c       return OV_BAD_PARAM;
+0082 0E80      00328         MOVLW   0x80
+0084 D000      00329         BRA     _00112_DS_
+0086 00330 _00106_DS_:
+               00331 ;       .line   77; line_sensor.c       sensor_data->left = left_port == 0 ? 0 : io_read_analog(left_port);
+0086 C000 F000 00332         MOVFF   r0x03, r0x06
+008A C000 F000 00333         MOVFF   r0x04, r0x07
+008E C000 F000 00334         MOVFF   r0x05, r0x08
+0092 5000      00335         MOVF    r0x00, W
+0094 80D8      00336         BSF     STATUS, 0
+0096 66E8      00337         TSTFSZ  WREG
+0098 90D8      00338         BCF     STATUS, 0
+009A 6A00      00339         CLRF    r0x09
+009C 3600      00340         RLCF    r0x09, F
+009E 5000      00341         MOVF    r0x09, W
+00A0 E000      00342         BZ      _00114_DS_
+00A2 6A00      00343         CLRF    r0x09
+00A4 6A00      00344         CLRF    r0x0a
+00A6 D000      00345         BRA     _00115_DS_
+00A8 00346 _00114_DS_:
+00A8 5000      00347         MOVF    r0x00, W
+00AA 6EE5      00348         MOVWF   POSTDEC1
+00AC EC00 F000 00349         CALL    _io_read_analog
+00B0 6E00      00350         MOVWF   r0x09
+00B2 CFF3 F000 00351         MOVFF   PRODL, r0x0a
+00B6 2AE1      00352         INCF    FSR1L, F
+00B8 00353 _00115_DS_:
+00B8 C000 FFE5 00354         MOVFF   r0x09, POSTDEC1
+00BC C000 FFF4 00355         MOVFF   r0x0a, PRODH
+00C0 C000 FFE9 00356         MOVFF   r0x06, FSR0L
+00C4 C000 FFF3 00357         MOVFF   r0x07, PRODL
+00C8 5000      00358         MOVF    r0x08, W
+00CA EC00 F000 00359         CALL    __gptrput2
+               00360 ;       .line   78; line_sensor.c       sensor_data->center = center_port == 0 ? 0 : io_read_analog(center_port);
+00CE 5000      00361         MOVF    r0x03, W
+00D0 0F02      00362         ADDLW   0x02
+00D2 6E00      00363         MOVWF   r0x00
+00D4 0E00      00364         MOVLW   0x00
+00D6 2000      00365         ADDWFC  r0x04, W
+00D8 6E00      00366         MOVWF   r0x06
+00DA 0E00      00367         MOVLW   0x00
+00DC 2000      00368         ADDWFC  r0x05, W
+00DE 6E00      00369         MOVWF   r0x07
+00E0 5000      00370         MOVF    r0x01, W
+00E2 80D8      00371         BSF     STATUS, 0
+00E4 66E8      00372         TSTFSZ  WREG
+00E6 90D8      00373         BCF     STATUS, 0
+00E8 6A00      00374         CLRF    r0x08
+00EA 3600      00375         RLCF    r0x08, F
+00EC 5000      00376         MOVF    r0x08, W
+00EE E000      00377         BZ      _00116_DS_
+00F0 6A00      00378         CLRF    r0x08
+gpasm-0.13.7 beta               line_sensor.asm10-14-2012  01:17:21         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00F2 6A00      00379         CLRF    r0x09
+00F4 D000      00380         BRA     _00117_DS_
+00F6 00381 _00116_DS_:
+00F6 5000      00382         MOVF    r0x01, W
+00F8 6EE5      00383         MOVWF   POSTDEC1
+00FA EC00 F000 00384         CALL    _io_read_analog
+00FE 6E00      00385         MOVWF   r0x08
+0100 CFF3 F000 00386         MOVFF   PRODL, r0x09
+0104 2AE1      00387         INCF    FSR1L, F
+0106 00388 _00117_DS_:
+0106 C000 FFE5 00389         MOVFF   r0x08, POSTDEC1
+010A C000 FFF4 00390         MOVFF   r0x09, PRODH
+010E C000 FFE9 00391         MOVFF   r0x00, FSR0L
+0112 C000 FFF3 00392         MOVFF   r0x06, PRODL
+0116 5000      00393         MOVF    r0x07, W
+0118 EC00 F000 00394         CALL    __gptrput2
+               00395 ;       .line   79; line_sensor.c       sensor_data->right = right_port == 0 ? 0 : io_read_analog(right_port);
+011C 5000      00396         MOVF    r0x03, W
+011E 0F04      00397         ADDLW   0x04
+0120 6E00      00398         MOVWF   r0x03
+0122 0E00      00399         MOVLW   0x00
+0124 2000      00400         ADDWFC  r0x04, W
+0126 6E00      00401         MOVWF   r0x01
+0128 0E00      00402         MOVLW   0x00
+012A 2000      00403         ADDWFC  r0x05, W
+012C 6E00      00404         MOVWF   r0x00
+012E 5000      00405         MOVF    r0x02, W
+0130 80D8      00406         BSF     STATUS, 0
+0132 66E8      00407         TSTFSZ  WREG
+0134 90D8      00408         BCF     STATUS, 0
+0136 6A00      00409         CLRF    r0x04
+0138 3600      00410         RLCF    r0x04, F
+013A 5000      00411         MOVF    r0x04, W
+013C E000      00412         BZ      _00118_DS_
+013E 6A00      00413         CLRF    r0x04
+0140 6A00      00414         CLRF    r0x05
+0142 D000      00415         BRA     _00119_DS_
+0144 00416 _00118_DS_:
+0144 5000      00417         MOVF    r0x02, W
+0146 6EE5      00418         MOVWF   POSTDEC1
+0148 EC00 F000 00419         CALL    _io_read_analog
+014C 6E00      00420         MOVWF   r0x04
+014E CFF3 F000 00421         MOVFF   PRODL, r0x05
+0152 2AE1      00422         INCF    FSR1L, F
+0154 00423 _00119_DS_:
+0154 C000 FFE5 00424         MOVFF   r0x04, POSTDEC1
+0158 C000 FFF4 00425         MOVFF   r0x05, PRODH
+015C C000 FFE9 00426         MOVFF   r0x03, FSR0L
+0160 C000 FFF3 00427         MOVFF   r0x01, PRODL
+0164 5000      00428         MOVF    r0x00, W
+0166 EC00 F000 00429         CALL    __gptrput2
+               00430 ;       .line   80; line_sensor.c       return OV_OK;
+016A 6AE8      00431         CLRF    WREG
+016C 00432 _00112_DS_:
+gpasm-0.13.7 beta               line_sensor.asm10-14-2012  01:17:21         PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+016C CFE4 F000 00433         MOVFF   PREINC1, r0x0a
+0170 CFE4 F000 00434         MOVFF   PREINC1, r0x09
+0174 CFE4 F000 00435         MOVFF   PREINC1, r0x08
+0178 CFE4 F000 00436         MOVFF   PREINC1, r0x07
+017C CFE4 F000 00437         MOVFF   PREINC1, r0x06
+0180 CFE4 F000 00438         MOVFF   PREINC1, r0x05
+0184 CFE4 F000 00439         MOVFF   PREINC1, r0x04
+0188 CFE4 F000 00440         MOVFF   PREINC1, r0x03
+018C CFE4 F000 00441         MOVFF   PREINC1, r0x02
+0190 CFE4 F000 00442         MOVFF   PREINC1, r0x01
+0194 CFE4 F000 00443         MOVFF   PREINC1, r0x00
+0198 CFE4 FFD9 00444         MOVFF   PREINC1, FSR2L
+019C 0012      00445         RETURN  
+               00446 
+               00447 
+               00448 
+               00449 ; Statistics:
+               00450 ; code size:      414 (0x019e) bytes ( 0.32%)
+               00451 ;                 207 (0x00cf) words
+               00452 ; udata size:       0 (0x0000) bytes ( 0.00%)
+               00453 ; access size:     11 (0x000b) bytes
+               00454 
+               00455 
+gpasm-0.13.7 beta               line_sensor.asm10-14-2012  01:17:21         PAGE 10
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+FSR0L                             00000FE9
+FSR1L                             00000FE1
+FSR2L                             00000FD9
+PLUSW2                            00000FDB
+POSTDEC1                          00000FE5
+PREINC1                           00000FE4
+PRODH                             00000FF4
+PRODL                             00000FF3
+STATUS                            00000FD8
+WREG                              00000FE8
+_00105_DS_                        00000082
+_00106_DS_                        00000086
+_00112_DS_                        0000016C
+_00114_DS_                        000000A8
+_00115_DS_                        000000B8
+_00116_DS_                        000000F6
+_00117_DS_                        00000106
+_00118_DS_                        00000144
+_00119_DS_                        00000154
+_ADCON0                           00000000
+_ADCON0bits                       00000000
+_ADCON1                           00000000
+_ADCON1bits                       00000000
+_ADCON2                           00000000
+_ADCON2bits                       00000000
+_ADRESH                           00000000
+_ADRESL                           00000000
+_Analog_ports                     00000000
+_BSR                              00000000
+_CCP1CON                          00000000
+_CCP1CONbits                      00000000
+_CCP2CON                          00000000
+_CCP2CONbits                      00000000
+_CCP3CON                          00000000
+_CCP3CONbits                      00000000
+_CCP4CON                          00000000
+_CCP4CONbits                      00000000
+_CCP5CON                          00000000
+_CCP5CONbits                      00000000
+_CCPR1H                           00000000
+_CCPR1L                           00000000
+_CCPR2H                           00000000
+_CCPR2L                           00000000
+_CCPR3H                           00000000
+_CCPR3L                           00000000
+_CCPR4H                           00000000
+_CCPR4L                           00000000
+_CCPR5H                           00000000
+_CCPR5L                           00000000
+_CMCON                            00000000
+_CMCONbits                        00000000
+_CVRCON                           00000000
+_CVRCONbits                       00000000
+gpasm-0.13.7 beta               line_sensor.asm10-14-2012  01:17:21         PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_EEADR                            00000000
+_EEADRH                           00000000
+_EECON1                           00000000
+_EECON1bits                       00000000
+_EECON2                           00000000
+_EEDATA                           00000000
+_FSR0H                            00000000
+_FSR0L                            00000000
+_FSR1H                            00000000
+_FSR1L                            00000000
+_FSR2H                            00000000
+_FSR2L                            00000000
+_INDF0                            00000000
+_INDF1                            00000000
+_INDF2                            00000000
+_INTCON                           00000000
+_INTCON2                          00000000
+_INTCON2bits                      00000000
+_INTCON3                          00000000
+_INTCON3bits                      00000000
+_INTCONbits                       00000000
+_IPR1                             00000000
+_IPR1bits                         00000000
+_IPR2                             00000000
+_IPR2bits                         00000000
+_IPR3                             00000000
+_IPR3bits                         00000000
+_LATA                             00000000
+_LATAbits                         00000000
+_LATB                             00000000
+_LATBbits                         00000000
+_LATC                             00000000
+_LATCbits                         00000000
+_LATD                             00000000
+_LATDbits                         00000000
+_LATE                             00000000
+_LATEbits                         00000000
+_LATF                             00000000
+_LATFbits                         00000000
+_LATG                             00000000
+_LATGbits                         00000000
+_LATH                             00000000
+_LATHbits                         00000000
+_LATJ                             00000000
+_LATJbits                         00000000
+_LVDCON                           00000000
+_LVDCONbits                       00000000
+_MEMCON                           00000000
+_MEMCONbits                       00000000
+_OSCCON                           00000000
+_OSCCONbits                       00000000
+_PCL                              00000000
+_PCLATH                           00000000
+_PCLATU                           00000000
+gpasm-0.13.7 beta               line_sensor.asm10-14-2012  01:17:21         PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_PIE1                             00000000
+_PIE1bits                         00000000
+_PIE2                             00000000
+_PIE2bits                         00000000
+_PIE3                             00000000
+_PIE3bits                         00000000
+_PIR1                             00000000
+_PIR1bits                         00000000
+_PIR2                             00000000
+_PIR2bits                         00000000
+_PIR3                             00000000
+_PIR3bits                         00000000
+_PLUSW0                           00000000
+_PLUSW1                           00000000
+_PLUSW2                           00000000
+_PORTA                            00000000
+_PORTAbits                        00000000
+_PORTB                            00000000
+_PORTBbits                        00000000
+_PORTC                            00000000
+_PORTCbits                        00000000
+_PORTD                            00000000
+_PORTDbits                        00000000
+_PORTE                            00000000
+_PORTEbits                        00000000
+_PORTF                            00000000
+_PORTFbits                        00000000
+_PORTG                            00000000
+_PORTGbits                        00000000
+_PORTH                            00000000
+_PORTHbits                        00000000
+_PORTJ                            00000000
+_PORTJbits                        00000000
+_POSTDEC0                         00000000
+_POSTDEC1                         00000000
+_POSTDEC2                         00000000
+_POSTINC0                         00000000
+_POSTINC1                         00000000
+_POSTINC2                         00000000
+_PR2                              00000000
+_PR4                              00000000
+_PREINC0                          00000000
+_PREINC1                          00000000
+_PREINC2                          00000000
+_PRODH                            00000000
+_PRODL                            00000000
+_PSPCON                           00000000
+_PSPCONbits                       00000000
+_RCON                             00000000
+_RCONbits                         00000000
+_RCREG                            00000000
+_RCREG1                           00000000
+_RCREG2                           00000000
+_RCSTA                            00000000
+gpasm-0.13.7 beta               line_sensor.asm10-14-2012  01:17:21         PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_RCSTA1                           00000000
+_RCSTA1bits                       00000000
+_RCSTA2                           00000000
+_RCSTA2bits                       00000000
+_RCSTAbits                        00000000
+_SPBRG                            00000000
+_SPBRG1                           00000000
+_SPBRG2                           00000000
+_SSPADD                           00000000
+_SSPBUF                           00000000
+_SSPCON1                          00000000
+_SSPCON1bits                      00000000
+_SSPCON2                          00000000
+_SSPCON2bits                      00000000
+_SSPSTAT                          00000000
+_SSPSTATbits                      00000000
+_STATUS                           00000000
+_STATUSbits                       00000000
+_STKPTR                           00000000
+_STKPTRbits                       00000000
+_T0CON                            00000000
+_T1CON                            00000000
+_T1CONbits                        00000000
+_T2CON                            00000000
+_T2CONbits                        00000000
+_T3CON                            00000000
+_T3CONbits                        00000000
+_T4CON                            00000000
+_T4CONbits                        00000000
+_TABLAT                           00000000
+_TBLPTRH                          00000000
+_TBLPTRL                          00000000
+_TBLPTRU                          00000000
+_TMR0H                            00000000
+_TMR0L                            00000000
+_TMR1H                            00000000
+_TMR1L                            00000000
+_TMR2                             00000000
+_TMR3H                            00000000
+_TMR3L                            00000000
+_TMR4                             00000000
+_TOSH                             00000000
+_TOSL                             00000000
+_TOSU                             00000000
+_TRISA                            00000000
+_TRISAbits                        00000000
+_TRISB                            00000000
+_TRISBbits                        00000000
+_TRISC                            00000000
+_TRISCbits                        00000000
+_TRISD                            00000000
+_TRISDbits                        00000000
+_TRISE                            00000000
+_TRISEbits                        00000000
+gpasm-0.13.7 beta               line_sensor.asm10-14-2012  01:17:21         PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_TRISF                            00000000
+_TRISFbits                        00000000
+_TRISG                            00000000
+_TRISGbits                        00000000
+_TRISH                            00000000
+_TRISHbits                        00000000
+_TRISJ                            00000000
+_TRISJbits                        00000000
+_TXREG                            00000000
+_TXREG1                           00000000
+_TXREG2                           00000000
+_TXSTA                            00000000
+_TXSTA1                           00000000
+_TXSTA1bits                       00000000
+_TXSTA2                           00000000
+_TXSTA2bits                       00000000
+_TXSTAbits                        00000000
+_WDTCON                           00000000
+_WDTCONbits                       00000000
+_WREG                             00000000
+__18F8520                         00000001
+__gptrput2                        00000000
+_io_read_analog                   00000000
+_line_sensor_read                 00000000
+_stdin                            00000000
+_stdout                           00000000
+r0x00                             00000000
+r0x01                             00000001
+r0x02                             00000002
+r0x03                             00000003
+r0x04                             00000004
+r0x05                             00000005
+r0x06                             00000006
+r0x07                             00000007
+r0x08                             00000008
+r0x09                             00000009
+r0x0a                             0000000A
+
+
+Errors   :       0
+Warnings :       0 reported,       0 suppressed
+Messages :       0 reported,       0 suppressed
+

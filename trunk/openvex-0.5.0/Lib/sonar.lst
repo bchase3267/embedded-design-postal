@@ -1,0 +1,1588 @@
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00001 ;--------------------------------------------------------
+               00002 ; File Created by SDCC : free open source ANSI-C Compiler
+               00003 ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
+               00004 ; This file was generated Fri Nov  2 01:06:41 2012
+               00005 ;--------------------------------------------------------
+               00006 ; PIC16 port for the Microchip 16-bit core micros
+               00007 ;--------------------------------------------------------
+               00008         list    p=18f8520
+               00009 
+               00010         radix dec
+               00011 
+               00012 ;--------------------------------------------------------
+               00013 ; public variables in this module
+               00014 ;--------------------------------------------------------
+               00015         global _sonar_init_spin_wait
+               00016         global _sonar_read_spin_wait
+               00017         global _sonar_init
+               00018         global _sonar_read
+               00019         global _sonar_emit_pulse
+               00020         global _sonar_emit_pulse_interrupt
+               00021 
+               00022 ;--------------------------------------------------------
+               00023 ; extern variables in this module
+               00024 ;--------------------------------------------------------
+               00025         extern _stdin
+               00026         extern _stdout
+               00027         extern _RCSTA2bits
+               00028         extern _TXSTA2bits
+               00029         extern _CCP5CONbits
+               00030         extern _CCP4CONbits
+               00031         extern _T4CONbits
+               00032         extern _PORTAbits
+               00033         extern _PORTBbits
+               00034         extern _PORTCbits
+               00035         extern _PORTDbits
+               00036         extern _PORTEbits
+               00037         extern _PORTFbits
+               00038         extern _PORTGbits
+               00039         extern _PORTHbits
+               00040         extern _PORTJbits
+               00041         extern _LATAbits
+               00042         extern _LATBbits
+               00043         extern _LATCbits
+               00044         extern _LATDbits
+               00045         extern _LATEbits
+               00046         extern _LATFbits
+               00047         extern _LATGbits
+               00048         extern _LATHbits
+               00049         extern _LATJbits
+               00050         extern _TRISAbits
+               00051         extern _TRISBbits
+               00052         extern _TRISCbits
+               00053         extern _TRISDbits
+               00054         extern _TRISEbits
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00055         extern _TRISFbits
+               00056         extern _TRISGbits
+               00057         extern _TRISHbits
+               00058         extern _TRISJbits
+               00059         extern _MEMCONbits
+               00060         extern _PIE1bits
+               00061         extern _PIR1bits
+               00062         extern _IPR1bits
+               00063         extern _PIE2bits
+               00064         extern _PIR2bits
+               00065         extern _IPR2bits
+               00066         extern _PIE3bits
+               00067         extern _PIR3bits
+               00068         extern _IPR3bits
+               00069         extern _EECON1bits
+               00070         extern _RCSTA1bits
+               00071         extern _TXSTA1bits
+               00072         extern _RCSTAbits
+               00073         extern _TXSTAbits
+               00074         extern _PSPCONbits
+               00075         extern _T3CONbits
+               00076         extern _CMCONbits
+               00077         extern _CVRCONbits
+               00078         extern _CCP3CONbits
+               00079         extern _CCP2CONbits
+               00080         extern _CCP1CONbits
+               00081         extern _ADCON2bits
+               00082         extern _ADCON1bits
+               00083         extern _ADCON0bits
+               00084         extern _SSPCON2bits
+               00085         extern _SSPCON1bits
+               00086         extern _SSPSTATbits
+               00087         extern _T2CONbits
+               00088         extern _T1CONbits
+               00089         extern _RCONbits
+               00090         extern _WDTCONbits
+               00091         extern _LVDCONbits
+               00092         extern _OSCCONbits
+               00093         extern _STATUSbits
+               00094         extern _INTCON3bits
+               00095         extern _INTCON2bits
+               00096         extern _INTCONbits
+               00097         extern _STKPTRbits
+               00098         extern _Timer0_overflows
+               00099         extern _Timer1_overflows
+               00100         extern _Timer2_overflows
+               00101         extern _Timer3_overflows
+               00102         extern _Timer4_overflows
+               00103         extern _Interrupt_port_in_use
+               00104         extern _Sonar_on_iport
+               00105         extern _Sonar_output_port
+               00106         extern _Sonar_data_available
+               00107         extern _Sonar_echo_time
+               00108         extern _Timer0_at_emit
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00109         extern _Timer0_at_echo
+               00110         extern _Analog_ports
+               00111         extern _RCSTA2
+               00112         extern _TXSTA2
+               00113         extern _TXREG2
+               00114         extern _RCREG2
+               00115         extern _SPBRG2
+               00116         extern _CCP5CON
+               00117         extern _CCPR5L
+               00118         extern _CCPR5H
+               00119         extern _CCP4CON
+               00120         extern _CCPR4L
+               00121         extern _CCPR4H
+               00122         extern _T4CON
+               00123         extern _PR4
+               00124         extern _TMR4
+               00125         extern _PORTA
+               00126         extern _PORTB
+               00127         extern _PORTC
+               00128         extern _PORTD
+               00129         extern _PORTE
+               00130         extern _PORTF
+               00131         extern _PORTG
+               00132         extern _PORTH
+               00133         extern _PORTJ
+               00134         extern _LATA
+               00135         extern _LATB
+               00136         extern _LATC
+               00137         extern _LATD
+               00138         extern _LATE
+               00139         extern _LATF
+               00140         extern _LATG
+               00141         extern _LATH
+               00142         extern _LATJ
+               00143         extern _TRISA
+               00144         extern _TRISB
+               00145         extern _TRISC
+               00146         extern _TRISD
+               00147         extern _TRISE
+               00148         extern _TRISF
+               00149         extern _TRISG
+               00150         extern _TRISH
+               00151         extern _TRISJ
+               00152         extern _MEMCON
+               00153         extern _PIE1
+               00154         extern _PIR1
+               00155         extern _IPR1
+               00156         extern _PIE2
+               00157         extern _PIR2
+               00158         extern _IPR2
+               00159         extern _PIE3
+               00160         extern _PIR3
+               00161         extern _IPR3
+               00162         extern _EECON1
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00163         extern _EECON2
+               00164         extern _EEDATA
+               00165         extern _EEADR
+               00166         extern _EEADRH
+               00167         extern _RCSTA1
+               00168         extern _TXSTA1
+               00169         extern _TXREG1
+               00170         extern _RCREG1
+               00171         extern _SPBRG1
+               00172         extern _RCSTA
+               00173         extern _TXSTA
+               00174         extern _TXREG
+               00175         extern _RCREG
+               00176         extern _SPBRG
+               00177         extern _PSPCON
+               00178         extern _T3CON
+               00179         extern _TMR3L
+               00180         extern _TMR3H
+               00181         extern _CMCON
+               00182         extern _CVRCON
+               00183         extern _CCP3CON
+               00184         extern _CCPR3L
+               00185         extern _CCPR3H
+               00186         extern _CCP2CON
+               00187         extern _CCPR2L
+               00188         extern _CCPR2H
+               00189         extern _CCP1CON
+               00190         extern _CCPR1L
+               00191         extern _CCPR1H
+               00192         extern _ADCON2
+               00193         extern _ADCON1
+               00194         extern _ADCON0
+               00195         extern _ADRESL
+               00196         extern _ADRESH
+               00197         extern _SSPCON2
+               00198         extern _SSPCON1
+               00199         extern _SSPSTAT
+               00200         extern _SSPADD
+               00201         extern _SSPBUF
+               00202         extern _T2CON
+               00203         extern _PR2
+               00204         extern _TMR2
+               00205         extern _T1CON
+               00206         extern _TMR1L
+               00207         extern _TMR1H
+               00208         extern _RCON
+               00209         extern _WDTCON
+               00210         extern _LVDCON
+               00211         extern _OSCCON
+               00212         extern _T0CON
+               00213         extern _TMR0L
+               00214         extern _TMR0H
+               00215         extern _STATUS
+               00216         extern _FSR2L
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00217         extern _FSR2H
+               00218         extern _PLUSW2
+               00219         extern _PREINC2
+               00220         extern _POSTDEC2
+               00221         extern _POSTINC2
+               00222         extern _INDF2
+               00223         extern _BSR
+               00224         extern _FSR1L
+               00225         extern _FSR1H
+               00226         extern _PLUSW1
+               00227         extern _PREINC1
+               00228         extern _POSTDEC1
+               00229         extern _POSTINC1
+               00230         extern _INDF1
+               00231         extern _WREG
+               00232         extern _FSR0L
+               00233         extern _FSR0H
+               00234         extern _PLUSW0
+               00235         extern _PREINC0
+               00236         extern _POSTDEC0
+               00237         extern _POSTINC0
+               00238         extern _INDF0
+               00239         extern _INTCON3
+               00240         extern _INTCON2
+               00241         extern _INTCON
+               00242         extern _PRODL
+               00243         extern _PRODH
+               00244         extern _TABLAT
+               00245         extern _TBLPTRL
+               00246         extern _TBLPTRH
+               00247         extern _TBLPTRU
+               00248         extern _PCL
+               00249         extern _PCLATH
+               00250         extern _PCLATU
+               00251         extern _STKPTR
+               00252         extern _TOSL
+               00253         extern _TOSH
+               00254         extern _TOSU
+               00255         extern _io_read_digital
+               00256         extern _io_write_digital
+               00257         extern _io_set_direction
+               00258         extern _io_get_direction
+               00259         extern _interrupt_set_edge
+               00260         extern _interrupt_enable
+               00261         extern __mullong
+               00262         extern __divulong
+               00263         extern __divsint
+               00264         extern __divuint
+               00265 ;--------------------------------------------------------
+               00266 ;       Equates to used internal registers
+               00267 ;--------------------------------------------------------
+  00000FD8     00268 STATUS  equ     0xfd8
+  00000FE8     00269 WREG    equ     0xfe8
+  00000FE9     00270 FSR0L   equ     0xfe9
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+  00000FEA     00271 FSR0H   equ     0xfea
+  00000FE1     00272 FSR1L   equ     0xfe1
+  00000FD9     00273 FSR2L   equ     0xfd9
+  00000FEF     00274 INDF0   equ     0xfef
+  00000FEE     00275 POSTINC0        equ     0xfee
+  00000FE5     00276 POSTDEC1        equ     0xfe5
+  00000FE4     00277 PREINC1 equ     0xfe4
+  00000FDB     00278 PLUSW2  equ     0xfdb
+  00000FF3     00279 PRODL   equ     0xff3
+  00000FF4     00280 PRODH   equ     0xff4
+               00281 
+               00282 
+               00283         idata
+               00284 _sonar_read_waiting_for_echo_1_1        db      0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+               00285 _sonar_read_last_distance_1_1   db      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+               00286 
+               00287 
+               00288 ; Internal registers
+               00289 .registers      udata_ovr       0x0000
+               00290 r0x00   res     1
+               00291 r0x01   res     1
+               00292 r0x02   res     1
+               00293 r0x03   res     1
+               00294 r0x04   res     1
+               00295 r0x05   res     1
+               00296 r0x06   res     1
+               00297 r0x07   res     1
+               00298 r0x08   res     1
+               00299 r0x09   res     1
+               00300 r0x0a   res     1
+               00301 
+               00302 ;--------------------------------------------------------
+               00303 ; global & static initialisations
+               00304 ;--------------------------------------------------------
+               00305 ; I code from now on!
+               00306 ; ; Starting pCode block
+               00307 S_sonar__sonar_emit_pulse_interrupt     code
+0000 00308 _sonar_emit_pulse_interrupt:
+               00309 ;       .line   333; sonar.c    status_t    sonar_emit_pulse_interrupt(unsigned char output_port,
+0000 CFD9 FFE5 00310         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00311         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00312         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00313         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00314         MOVFF   r0x02, POSTDEC1
+0014 0E02      00315         MOVLW   0x02
+0016 CFDB F000 00316         MOVFF   PLUSW2, r0x00
+001A 0E03      00317         MOVLW   0x03
+001C CFDB F000 00318         MOVFF   PLUSW2, r0x01
+               00319 ;       .line   345; sonar.c    if ( ! VALID_INTERRUPT_PORT(interrupt_port) ||
+0020 0E01      00320         MOVLW   0x01
+0022 5C00      00321         SUBWF   r0x01, W
+0024 E300      00322         BNC     _00226_DS_
+0026 0E07      00323         MOVLW   0x07
+0028 5C00      00324         SUBWF   r0x01, W
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+002A E200      00325         BC      _00226_DS_
+               00326 ;       .line   346; sonar.c    ! VALID_DIGITAL_OUTPUT_PORT(output_port) )
+002C 5000      00327         MOVF    r0x00, W
+002E 0000      00328         BANKSEL _Analog_ports
+0030 5D00      00329         SUBWF   _Analog_ports, W, B
+0032 E200      00330         BC      _00226_DS_
+0034 0E11      00331         MOVLW   0x11
+0036 5C00      00332         SUBWF   r0x00, W
+0038 E200      00333         BC      _00226_DS_
+003A 5000      00334         MOVF    r0x00, W
+003C 6EE5      00335         MOVWF   POSTDEC1
+003E EC00 F000 00336         CALL    _io_get_direction
+0042 6E00      00337         MOVWF   r0x02
+0044 2AE1      00338         INCF    FSR1L, F
+0046 5000      00339         MOVF    r0x02, W
+0048 E000      00340         BZ      _00227_DS_
+004A 00341 _00226_DS_:
+               00342 ;       .line   347; sonar.c    return OV_BAD_PARAM;
+004A 0E80      00343         MOVLW   0x80
+004C D000      00344         BRA     _00232_DS_
+004E 00345 _00227_DS_:
+               00346 ;       .line   349; sonar.c    interrupt_set_edge(interrupt_port,INTERRUPT_RISING_EDGE);
+004E 0E01      00347         MOVLW   0x01
+0050 6EE5      00348         MOVWF   POSTDEC1
+0052 5000      00349         MOVF    r0x01, W
+0054 6EE5      00350         MOVWF   POSTDEC1
+0056 EC00 F000 00351         CALL    _interrupt_set_edge
+005A 0E02      00352         MOVLW   0x02
+005C 26E1      00353         ADDWF   FSR1L, F
+               00354 ;       .line   350; sonar.c    interrupt_enable(interrupt_port);
+005E 5000      00355         MOVF    r0x01, W
+0060 6EE5      00356         MOVWF   POSTDEC1
+0062 EC00 F000 00357         CALL    _interrupt_enable
+0066 2AE1      00358         INCF    FSR1L, F
+               00359 ;       .line   351; sonar.c    sonar_emit_pulse(output_port);
+0068 5000      00360         MOVF    r0x00, W
+006A 6EE5      00361         MOVWF   POSTDEC1
+006C EC00 F000 00362         CALL    _sonar_emit_pulse
+0070 2AE1      00363         INCF    FSR1L, F
+               00364 ;       .line   352; sonar.c    return OV_OK;
+0072 6AE8      00365         CLRF    WREG
+0074 00366 _00232_DS_:
+0074 CFE4 F000 00367         MOVFF   PREINC1, r0x02
+0078 CFE4 F000 00368         MOVFF   PREINC1, r0x01
+007C CFE4 F000 00369         MOVFF   PREINC1, r0x00
+0080 CFE4 FFD9 00370         MOVFF   PREINC1, FSR2L
+0084 0012      00371         RETURN  
+               00372 
+               00373 ; ; Starting pCode block
+               00374 S_sonar__sonar_emit_pulse       code
+0000 00375 _sonar_emit_pulse:
+               00376 ;       .line   300; sonar.c    status_t    sonar_emit_pulse(unsigned char output_port)
+0000 CFD9 FFE5 00377         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00378         MOVFF   FSR1L, FSR2L
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0008 C000 FFE5 00379         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00380         MOVFF   r0x01, POSTDEC1
+0010 0E02      00381         MOVLW   0x02
+0012 CFDB F000 00382         MOVFF   PLUSW2, r0x00
+               00383 ;       .line   311; sonar.c    if ( ! VALID_DIGITAL_OUTPUT_PORT(output_port) )
+0016 5000      00384         MOVF    r0x00, W
+0018 0000      00385         BANKSEL _Analog_ports
+001A 5D00      00386         SUBWF   _Analog_ports, W, B
+001C E200      00387         BC      _00206_DS_
+001E 0E11      00388         MOVLW   0x11
+0020 5C00      00389         SUBWF   r0x00, W
+0022 E200      00390         BC      _00206_DS_
+0024 5000      00391         MOVF    r0x00, W
+0026 6EE5      00392         MOVWF   POSTDEC1
+0028 EC00 F000 00393         CALL    _io_get_direction
+002C 6E00      00394         MOVWF   r0x01
+002E 2AE1      00395         INCF    FSR1L, F
+0030 5000      00396         MOVF    r0x01, W
+0032 E000      00397         BZ      _00207_DS_
+0034 00398 _00206_DS_:
+               00399 ;       .line   312; sonar.c    return OV_BAD_PARAM;
+0034 0E80      00400         MOVLW   0x80
+0036 D000      00401         BRA     _00213_DS_
+0038 00402 _00207_DS_:
+               00403 ;       .line   314; sonar.c    io_write_digital(output_port,1);    /* Start pulse. */
+0038 0E01      00404         MOVLW   0x01
+003A 6EE5      00405         MOVWF   POSTDEC1
+003C 5000      00406         MOVF    r0x00, W
+003E 6EE5      00407         MOVWF   POSTDEC1
+0040 EC00 F000 00408         CALL    _io_write_digital
+0044 0E02      00409         MOVLW   0x02
+0046 26E1      00410         ADDWF   FSR1L, F
+               00411 ;       .line   315; sonar.c    start = TMR0L;
+0048 C000 F000 00412         MOVFF   _TMR0L, r0x01
+               00413 ;       .line   317; sonar.c    end = start + 16;
+004C 0E10      00414         MOVLW   0x10
+004E 2600      00415         ADDWF   r0x01, F
+0050 00416 _00210_DS_:
+               00417 ;       .line   318; sonar.c    while (TMR0L < end)
+0050 5000      00418         MOVF    r0x01, W
+0052 5C00      00419         SUBWF   _TMR0L, W
+0054 E300      00420         BNC     _00210_DS_
+               00421 ;       .line   320; sonar.c    io_write_digital(output_port,0);    /* End pulse. */
+0056 0E00      00422         MOVLW   0x00
+0058 6EE5      00423         MOVWF   POSTDEC1
+005A 5000      00424         MOVF    r0x00, W
+005C 6EE5      00425         MOVWF   POSTDEC1
+005E EC00 F000 00426         CALL    _io_write_digital
+0062 0E02      00427         MOVLW   0x02
+0064 26E1      00428         ADDWF   FSR1L, F
+               00429 ;       .line   322; sonar.c    return OV_OK;
+0066 6AE8      00430         CLRF    WREG
+0068 00431 _00213_DS_:
+0068 CFE4 F000 00432         MOVFF   PREINC1, r0x01
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+006C CFE4 F000 00433         MOVFF   PREINC1, r0x00
+0070 CFE4 FFD9 00434         MOVFF   PREINC1, FSR2L
+0074 0012      00435         RETURN  
+               00436 
+               00437 ; ; Starting pCode block
+               00438 S_sonar__sonar_read     code
+0000 00439 _sonar_read:
+               00440 ;       .line   240; sonar.c    unsigned int    sonar_read(unsigned char interrupt_port)
+0000 CFD9 FFE5 00441         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00442         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00443         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00444         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00445         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00446         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 00447         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 00448         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 00449         MOVFF   r0x06, POSTDEC1
+0024 C000 FFE5 00450         MOVFF   r0x07, POSTDEC1
+0028 C000 FFE5 00451         MOVFF   r0x08, POSTDEC1
+002C C000 FFE5 00452         MOVFF   r0x09, POSTDEC1
+0030 C000 FFE5 00453         MOVFF   r0x0a, POSTDEC1
+0034 0E02      00454         MOVLW   0x02
+0036 CFDB F000 00455         MOVFF   PLUSW2, r0x00
+               00456 ;       .line   249; sonar.c    if ( ! VALID_INTERRUPT_PORT(interrupt_port) )
+003A 0E01      00457         MOVLW   0x01
+003C 5C00      00458         SUBWF   r0x00, W
+003E E300      00459         BNC     _00168_DS_
+0040 0E07      00460         MOVLW   0x07
+0042 5C00      00461         SUBWF   r0x00, W
+0044 E300      00462         BNC     _00169_DS_
+0046 00463 _00168_DS_:
+               00464 ;       .line   250; sonar.c    return OV_BAD_PARAM;
+0046 68F3      00465         SETF    PRODL
+0048 0E80      00466         MOVLW   0x80
+004A D000      00467         BRA     _00178_DS_
+004C 00468 _00169_DS_:
+               00469 ;       .line   255; sonar.c    if ( !waiting_for_echo[interrupt_port-1] )
+004C 0400      00470         DECF    r0x00, W
+004E 6E00      00471         MOVWF   r0x01
+0050 0E00      00472         MOVLW   LOW(_sonar_read_waiting_for_echo_1_1)
+0052 2400      00473         ADDWF   r0x01, W
+0054 6E00      00474         MOVWF   r0x02
+0056 6A00      00475         CLRF    r0x03
+0058 0E00      00476         MOVLW   HIGH(_sonar_read_waiting_for_echo_1_1)
+005A 2200      00477         ADDWFC  r0x03, F
+005C C000 FFE9 00478         MOVFF   r0x02, FSR0L
+0060 C000 FFEA 00479         MOVFF   r0x03, FSR0H
+0064 CFEF F000 00480         MOVFF   INDF0, r0x04
+0068 5000      00481         MOVF    r0x04, W
+006A A4D8      00482         BTFSS   STATUS, 2
+006C D000      00483         BRA     _00176_DS_
+               00484 ;       .line   261; sonar.c    TIMER0_READ16(t0);
+006E C000 F000 00485         MOVFF   _TMR0L, r0x04
+0072 6A00      00486         CLRF    r0x05
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0074 C000 F000 00487         MOVFF   _TMR0H, r0x06
+0078 6A00      00488         CLRF    r0x07
+007A 5000      00489         MOVF    r0x06, W
+007C 6E00      00490         MOVWF   r0x09
+007E 6A00      00491         CLRF    r0x08
+0080 5000      00492         MOVF    r0x08, W
+0082 1200      00493         IORWF   r0x04, F
+0084 5000      00494         MOVF    r0x09, W
+0086 1200      00495         IORWF   r0x05, F
+               00496 ; ;multiply lit val:0x02 by variable r0x01 and store in r0x06
+               00497 ; ;Unrolled 8 X 8 multiplication
+               00498 ; ;FIXME: the function does not support result==WREG
+               00499 ;       .line   268; sonar.c    echo_time = (t0 - Timer0_at_echo[interrupt_port-1]) / TIMER0_TICKS_PER_MS;
+0088 90D8      00500         BCF     STATUS, 0
+008A 3400      00501         RLCF    r0x01, W
+008C 6E00      00502         MOVWF   r0x06
+008E 6A00      00503         CLRF    r0x07
+0090 0E00      00504         MOVLW   LOW(_Timer0_at_echo)
+0092 2600      00505         ADDWF   r0x06, F
+0094 0E00      00506         MOVLW   HIGH(_Timer0_at_echo)
+0096 2200      00507         ADDWFC  r0x07, F
+0098 C000 FFE9 00508         MOVFF   r0x06, FSR0L
+009C C000 FFEA 00509         MOVFF   r0x07, FSR0H
+00A0 CFEE F000 00510         MOVFF   POSTINC0, r0x06
+00A4 CFEF F000 00511         MOVFF   INDF0, r0x07
+00A8 5000      00512         MOVF    r0x06, W
+00AA 5E00      00513         SUBWF   r0x04, F
+00AC 5000      00514         MOVF    r0x07, W
+00AE 5A00      00515         SUBWFB  r0x05, F
+00B0 A600      00516         BTFSS   _T0CON, 3
+00B2 D000      00517         BRA     _00180_DS_
+00B4 0E01      00518         MOVLW   0x01
+00B6 6E00      00519         MOVWF   r0x06
+00B8 6A00      00520         CLRF    r0x07
+00BA D000      00521         BRA     _00181_DS_
+00BC 00522 _00180_DS_:
+00BC 0E07      00523         MOVLW   0x07
+00BE 1400      00524         ANDWF   _T0CON, W
+00C0 6E00      00525         MOVWF   r0x08
+00C2 0E02      00526         MOVLW   0x02
+00C4 6E00      00527         MOVWF   r0x06
+00C6 0E00      00528         MOVLW   0x00
+00C8 6E00      00529         MOVWF   r0x07
+00CA 5000      00530         MOVF    r0x08, W
+00CC E000      00531         BZ      _00181_DS_
+00CE 6CE8      00532         NEGF    WREG
+00D0 90D8      00533         BCF     STATUS, 0
+00D2 00534 _00196_DS_:
+00D2 3600      00535         RLCF    r0x06, F
+00D4 3600      00536         RLCF    r0x07, F
+00D6 0F01      00537         ADDLW   0x01
+00D8 E300      00538         BNC     _00196_DS_
+00DA 00539 _00181_DS_:
+00DA 5000      00540         MOVF    r0x07, W
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00DC 6EE5      00541         MOVWF   POSTDEC1
+00DE 5000      00542         MOVF    r0x06, W
+00E0 6EE5      00543         MOVWF   POSTDEC1
+00E2 0E27      00544         MOVLW   0x27
+00E4 6EE5      00545         MOVWF   POSTDEC1
+00E6 0E10      00546         MOVLW   0x10
+00E8 6EE5      00547         MOVWF   POSTDEC1
+00EA EC00 F000 00548         CALL    __divsint
+00EE 6E00      00549         MOVWF   r0x06
+00F0 CFF3 F000 00550         MOVFF   PRODL, r0x07
+00F4 0E04      00551         MOVLW   0x04
+00F6 26E1      00552         ADDWF   FSR1L, F
+00F8 5000      00553         MOVF    r0x07, W
+00FA 6EE5      00554         MOVWF   POSTDEC1
+00FC 5000      00555         MOVF    r0x06, W
+00FE 6EE5      00556         MOVWF   POSTDEC1
+0100 5000      00557         MOVF    r0x05, W
+0102 6EE5      00558         MOVWF   POSTDEC1
+0104 5000      00559         MOVF    r0x04, W
+0106 6EE5      00560         MOVWF   POSTDEC1
+0108 EC00 F000 00561         CALL    __divuint
+010C 6E00      00562         MOVWF   r0x04
+010E CFF3 F000 00563         MOVFF   PRODL, r0x05
+0112 0E04      00564         MOVLW   0x04
+0114 26E1      00565         ADDWF   FSR1L, F
+               00566 ;       .line   269; sonar.c    if ( echo_time > 11 )
+0116 0E00      00567         MOVLW   0x00
+0118 5C00      00568         SUBWF   r0x05, W
+011A E100      00569         BNZ     _00197_DS_
+011C 0E0C      00570         MOVLW   0x0c
+011E 5C00      00571         SUBWF   r0x04, W
+0120 00572 _00197_DS_:
+0120 A0D8      00573         BTFSS   STATUS, 0
+0122 D000      00574         BRA     _00177_DS_
+               00575 ;       .line   271; sonar.c    sonar_emit_pulse_interrupt(Sonar_output_port[interrupt_port-1],
+0124 0E00      00576         MOVLW   LOW(_Sonar_output_port)
+0126 2400      00577         ADDWF   r0x01, W
+0128 6E00      00578         MOVWF   r0x04
+012A 6A00      00579         CLRF    r0x05
+012C 0E00      00580         MOVLW   HIGH(_Sonar_output_port)
+012E 2200      00581         ADDWFC  r0x05, F
+0130 C000 FFE9 00582         MOVFF   r0x04, FSR0L
+0134 C000 FFEA 00583         MOVFF   r0x05, FSR0H
+0138 CFEF F000 00584         MOVFF   INDF0, r0x04
+               00585 ;       .line   272; sonar.c    interrupt_port);
+013C 5000      00586         MOVF    r0x00, W
+013E 6EE5      00587         MOVWF   POSTDEC1
+0140 5000      00588         MOVF    r0x04, W
+0142 6EE5      00589         MOVWF   POSTDEC1
+0144 EC00 F000 00590         CALL    _sonar_emit_pulse_interrupt
+0148 0E02      00591         MOVLW   0x02
+014A 26E1      00592         ADDWF   FSR1L, F
+               00593 ;       .line   273; sonar.c    waiting_for_echo[interrupt_port-1] = 1;
+014C 0E00      00594         MOVLW   LOW(_sonar_read_waiting_for_echo_1_1)
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+014E 2400      00595         ADDWF   r0x01, W
+0150 6E00      00596         MOVWF   r0x00
+0152 6A00      00597         CLRF    r0x04
+0154 0E00      00598         MOVLW   HIGH(_sonar_read_waiting_for_echo_1_1)
+0156 2200      00599         ADDWFC  r0x04, F
+0158 C000 FFE9 00600         MOVFF   r0x00, FSR0L
+015C C000 FFEA 00601         MOVFF   r0x04, FSR0H
+0160 0E01      00602         MOVLW   0x01
+0162 6EEF      00603         MOVWF   INDF0
+0164 D000      00604         BRA     _00177_DS_
+0166 00605 _00176_DS_:
+               00606 ;       .line   277; sonar.c    else if ( SONAR_DATA_AVAILABLE(interrupt_port) )
+0166 0E00      00607         MOVLW   LOW(_Sonar_data_available)
+0168 2400      00608         ADDWF   r0x01, W
+016A 6E00      00609         MOVWF   r0x00
+016C 6A00      00610         CLRF    r0x04
+016E 0E00      00611         MOVLW   HIGH(_Sonar_data_available)
+0170 2200      00612         ADDWFC  r0x04, F
+0172 C000 FFE9 00613         MOVFF   r0x00, FSR0L
+0176 C000 FFEA 00614         MOVFF   r0x04, FSR0H
+017A CFEF F000 00615         MOVFF   INDF0, r0x00
+017E 5000      00616         MOVF    r0x00, W
+0180 B4D8      00617         BTFSC   STATUS, 2
+0182 D000      00618         BRA     _00177_DS_
+               00619 ;       .line   279; sonar.c    CLR_SONAR_DATA_AVAILABLE(interrupt_port);
+0184 0E00      00620         MOVLW   LOW(_Sonar_data_available)
+0186 2400      00621         ADDWF   r0x01, W
+0188 6E00      00622         MOVWF   r0x00
+018A 6A00      00623         CLRF    r0x04
+018C 0E00      00624         MOVLW   HIGH(_Sonar_data_available)
+018E 2200      00625         ADDWFC  r0x04, F
+0190 C000 FFE9 00626         MOVFF   r0x00, FSR0L
+0194 C000 FFEA 00627         MOVFF   r0x04, FSR0H
+0198 0E00      00628         MOVLW   0x00
+019A 6EEF      00629         MOVWF   INDF0
+               00630 ;       .line   282; sonar.c    waiting_for_echo[interrupt_port-1] = 0;
+019C C000 FFE9 00631         MOVFF   r0x02, FSR0L
+01A0 C000 FFEA 00632         MOVFF   r0x03, FSR0H
+01A4 0E00      00633         MOVLW   0x00
+01A6 6EEF      00634         MOVWF   INDF0
+               00635 ; ;multiply lit val:0x02 by variable r0x01 and store in r0x00
+               00636 ; ;Unrolled 8 X 8 multiplication
+               00637 ; ;FIXME: the function does not support result==WREG
+               00638 ;       .line   285; sonar.c    last_distance[interrupt_port-1] = 
+01A8 90D8      00639         BCF     STATUS, 0
+01AA 3400      00640         RLCF    r0x01, W
+01AC 6E00      00641         MOVWF   r0x00
+01AE 0E00      00642         MOVLW   LOW(_sonar_read_last_distance_1_1)
+01B0 2400      00643         ADDWF   r0x00, W
+01B2 6E00      00644         MOVWF   r0x02
+01B4 6A00      00645         CLRF    r0x03
+01B6 0E00      00646         MOVLW   HIGH(_sonar_read_last_distance_1_1)
+01B8 2200      00647         ADDWFC  r0x03, F
+               00648 ;       .line   286; sonar.c    ECHO_TIME_TO_CM(SONAR_ECHO_TIME(interrupt_port));
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+01BA A600      00649         BTFSS   _T0CON, 3
+01BC D000      00650         BRA     _00182_DS_
+01BE 0E01      00651         MOVLW   0x01
+01C0 6E00      00652         MOVWF   r0x04
+01C2 6A00      00653         CLRF    r0x05
+01C4 D000      00654         BRA     _00183_DS_
+01C6 00655 _00182_DS_:
+01C6 0E07      00656         MOVLW   0x07
+01C8 1400      00657         ANDWF   _T0CON, W
+01CA 6E00      00658         MOVWF   r0x06
+01CC 0E02      00659         MOVLW   0x02
+01CE 6E00      00660         MOVWF   r0x04
+01D0 0E00      00661         MOVLW   0x00
+01D2 6E00      00662         MOVWF   r0x05
+01D4 5000      00663         MOVF    r0x06, W
+01D6 E000      00664         BZ      _00183_DS_
+01D8 6CE8      00665         NEGF    WREG
+01DA 90D8      00666         BCF     STATUS, 0
+01DC 00667 _00201_DS_:
+01DC 3600      00668         RLCF    r0x04, F
+01DE 3600      00669         RLCF    r0x05, F
+01E0 0F01      00670         ADDLW   0x01
+01E2 E300      00671         BNC     _00201_DS_
+01E4 00672 _00183_DS_:
+01E4 6AE8      00673         CLRF    WREG
+01E6 BE00      00674         BTFSC   r0x05, 7
+01E8 0EFF      00675         MOVLW   0xff
+01EA 6E00      00676         MOVWF   r0x06
+01EC 6E00      00677         MOVWF   r0x07
+01EE 6A00      00678         CLRF    r0x08
+01F0 0E00      00679         MOVLW   LOW(_Sonar_echo_time)
+01F2 2600      00680         ADDWF   r0x00, F
+01F4 0E00      00681         MOVLW   HIGH(_Sonar_echo_time)
+01F6 2200      00682         ADDWFC  r0x08, F
+01F8 C000 FFE9 00683         MOVFF   r0x00, FSR0L
+01FC C000 FFEA 00684         MOVFF   r0x08, FSR0H
+0200 CFEE F000 00685         MOVFF   POSTINC0, r0x00
+0204 CFEF F000 00686         MOVFF   INDF0, r0x08
+0208 6A00      00687         CLRF    r0x09
+020A 6A00      00688         CLRF    r0x0a
+020C 5000      00689         MOVF    r0x0a, W
+020E 6EE5      00690         MOVWF   POSTDEC1
+0210 5000      00691         MOVF    r0x09, W
+0212 6EE5      00692         MOVWF   POSTDEC1
+0214 5000      00693         MOVF    r0x08, W
+0216 6EE5      00694         MOVWF   POSTDEC1
+0218 5000      00695         MOVF    r0x00, W
+021A 6EE5      00696         MOVWF   POSTDEC1
+021C 5000      00697         MOVF    r0x07, W
+021E 6EE5      00698         MOVWF   POSTDEC1
+0220 5000      00699         MOVF    r0x06, W
+0222 6EE5      00700         MOVWF   POSTDEC1
+0224 5000      00701         MOVF    r0x05, W
+0226 6EE5      00702         MOVWF   POSTDEC1
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0228 5000      00703         MOVF    r0x04, W
+022A 6EE5      00704         MOVWF   POSTDEC1
+022C EC00 F000 00705         CALL    __mullong
+0230 6E00      00706         MOVWF   r0x00
+0232 CFF3 F000 00707         MOVFF   PRODL, r0x04
+0236 CFF4 F000 00708         MOVFF   PRODH, r0x05
+023A CFE9 F000 00709         MOVFF   FSR0L, r0x06
+023E 0E08      00710         MOVLW   0x08
+0240 26E1      00711         ADDWF   FSR1L, F
+0242 0E70      00712         MOVLW   0x70
+0244 2600      00713         ADDWF   r0x00, F
+0246 0EFE      00714         MOVLW   0xfe
+0248 2200      00715         ADDWFC  r0x04, F
+024A 0EFF      00716         MOVLW   0xff
+024C 2200      00717         ADDWFC  r0x05, F
+024E 0EFF      00718         MOVLW   0xff
+0250 2200      00719         ADDWFC  r0x06, F
+0252 0E00      00720         MOVLW   0x00
+0254 6EE5      00721         MOVWF   POSTDEC1
+0256 0E00      00722         MOVLW   0x00
+0258 6EE5      00723         MOVWF   POSTDEC1
+025A 0E02      00724         MOVLW   0x02
+025C 6EE5      00725         MOVWF   POSTDEC1
+025E 0E47      00726         MOVLW   0x47
+0260 6EE5      00727         MOVWF   POSTDEC1
+0262 5000      00728         MOVF    r0x06, W
+0264 6EE5      00729         MOVWF   POSTDEC1
+0266 5000      00730         MOVF    r0x05, W
+0268 6EE5      00731         MOVWF   POSTDEC1
+026A 5000      00732         MOVF    r0x04, W
+026C 6EE5      00733         MOVWF   POSTDEC1
+026E 5000      00734         MOVF    r0x00, W
+0270 6EE5      00735         MOVWF   POSTDEC1
+0272 EC00 F000 00736         CALL    __divulong
+0276 6E00      00737         MOVWF   r0x00
+0278 CFF3 F000 00738         MOVFF   PRODL, r0x04
+027C CFF4 F000 00739         MOVFF   PRODH, r0x05
+0280 CFE9 F000 00740         MOVFF   FSR0L, r0x06
+0284 0E08      00741         MOVLW   0x08
+0286 26E1      00742         ADDWF   FSR1L, F
+0288 C000 FFE9 00743         MOVFF   r0x02, FSR0L
+028C C000 FFEA 00744         MOVFF   r0x03, FSR0H
+0290 C000 FFEE 00745         MOVFF   r0x00, POSTINC0
+0294 C000 FFEF 00746         MOVFF   r0x04, INDF0
+               00747 ; ;multiply lit val:0x02 by variable r0x01 and store in r0x01
+               00748 ; ;Unrolled 8 X 8 multiplication
+               00749 ; ;FIXME: the function does not support result==WREG
+0298 00750 _00177_DS_:
+               00751 ;       .line   288; sonar.c    return last_distance[interrupt_port-1];
+0298 90D8      00752         BCF     STATUS, 0
+029A 3600      00753         RLCF    r0x01, F
+029C 6A00      00754         CLRF    r0x00
+029E 0E00      00755         MOVLW   LOW(_sonar_read_last_distance_1_1)
+02A0 2600      00756         ADDWF   r0x01, F
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 15
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+02A2 0E00      00757         MOVLW   HIGH(_sonar_read_last_distance_1_1)
+02A4 2200      00758         ADDWFC  r0x00, F
+02A6 C000 FFE9 00759         MOVFF   r0x01, FSR0L
+02AA C000 FFEA 00760         MOVFF   r0x00, FSR0H
+02AE CFEE F000 00761         MOVFF   POSTINC0, r0x01
+02B2 CFEF F000 00762         MOVFF   INDF0, r0x00
+02B6 C000 FFF3 00763         MOVFF   r0x00, PRODL
+02BA 5000      00764         MOVF    r0x01, W
+02BC 00765 _00178_DS_:
+02BC CFE4 F000 00766         MOVFF   PREINC1, r0x0a
+02C0 CFE4 F000 00767         MOVFF   PREINC1, r0x09
+02C4 CFE4 F000 00768         MOVFF   PREINC1, r0x08
+02C8 CFE4 F000 00769         MOVFF   PREINC1, r0x07
+02CC CFE4 F000 00770         MOVFF   PREINC1, r0x06
+02D0 CFE4 F000 00771         MOVFF   PREINC1, r0x05
+02D4 CFE4 F000 00772         MOVFF   PREINC1, r0x04
+02D8 CFE4 F000 00773         MOVFF   PREINC1, r0x03
+02DC CFE4 F000 00774         MOVFF   PREINC1, r0x02
+02E0 CFE4 F000 00775         MOVFF   PREINC1, r0x01
+02E4 CFE4 F000 00776         MOVFF   PREINC1, r0x00
+02E8 CFE4 FFD9 00777         MOVFF   PREINC1, FSR2L
+02EC 0012      00778         RETURN  
+               00779 
+               00780 ; ; Starting pCode block
+               00781 S_sonar__sonar_init     code
+0000 00782 _sonar_init:
+               00783 ;       .line   196; sonar.c    status_t    sonar_init(unsigned char interrupt_port,
+0000 CFD9 FFE5 00784         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00785         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00786         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00787         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00788         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00789         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 00790         MOVFF   r0x04, POSTDEC1
+001C 0E02      00791         MOVLW   0x02
+001E CFDB F000 00792         MOVFF   PLUSW2, r0x00
+0022 0E03      00793         MOVLW   0x03
+0024 CFDB F000 00794         MOVFF   PLUSW2, r0x01
+               00795 ;       .line   200; sonar.c    if ( ! VALID_INTERRUPT_PORT(interrupt_port) ||
+0028 0E01      00796         MOVLW   0x01
+002A 5C00      00797         SUBWF   r0x00, W
+002C E300      00798         BNC     _00150_DS_
+002E 0E07      00799         MOVLW   0x07
+0030 5C00      00800         SUBWF   r0x00, W
+0032 E200      00801         BC      _00150_DS_
+               00802 ;       .line   201; sonar.c    ! VALID_DIGITAL_PORT(output_port) )
+0034 5000      00803         MOVF    r0x01, W
+0036 0000      00804         BANKSEL _Analog_ports
+0038 5D00      00805         SUBWF   _Analog_ports, W, B
+003A E200      00806         BC      _00150_DS_
+003C 0E11      00807         MOVLW   0x11
+003E 5C00      00808         SUBWF   r0x01, W
+0040 E300      00809         BNC     _00151_DS_
+0042 00810 _00150_DS_:
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 16
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00811 ;       .line   202; sonar.c    return OV_BAD_PARAM;
+0042 0E80      00812         MOVLW   0x80
+0044 D000      00813         BRA     _00155_DS_
+0046 00814 _00151_DS_:
+               00815 ;       .line   204; sonar.c    io_set_direction(output_port,IO_DIRECTION_OUT);
+0046 0E00      00816         MOVLW   0x00
+0048 6EE5      00817         MOVWF   POSTDEC1
+004A 5000      00818         MOVF    r0x01, W
+004C 6EE5      00819         MOVWF   POSTDEC1
+004E EC00 F000 00820         CALL    _io_set_direction
+0052 0E02      00821         MOVLW   0x02
+0054 26E1      00822         ADDWF   FSR1L, F
+               00823 ;       .line   205; sonar.c    io_write_digital(output_port,0);
+0056 0E00      00824         MOVLW   0x00
+0058 6EE5      00825         MOVWF   POSTDEC1
+005A 5000      00826         MOVF    r0x01, W
+005C 6EE5      00827         MOVWF   POSTDEC1
+005E EC00 F000 00828         CALL    _io_write_digital
+0062 0E02      00829         MOVLW   0x02
+0064 26E1      00830         ADDWF   FSR1L, F
+               00831 ;       .line   206; sonar.c    SET_SONAR_ON_IPORT(interrupt_port);
+0066 0400      00832         DECF    r0x00, W
+0068 6E00      00833         MOVWF   r0x02
+006A 0E00      00834         MOVLW   LOW(_Sonar_on_iport)
+006C 2400      00835         ADDWF   r0x02, W
+006E 6E00      00836         MOVWF   r0x03
+0070 6A00      00837         CLRF    r0x04
+0072 0E00      00838         MOVLW   HIGH(_Sonar_on_iport)
+0074 2200      00839         ADDWFC  r0x04, F
+0076 C000 FFE9 00840         MOVFF   r0x03, FSR0L
+007A C000 FFEA 00841         MOVFF   r0x04, FSR0H
+007E 0E01      00842         MOVLW   0x01
+0080 6EEF      00843         MOVWF   INDF0
+               00844 ;       .line   207; sonar.c    Sonar_output_port[interrupt_port-1] = output_port;
+0082 6A00      00845         CLRF    r0x03
+0084 0E00      00846         MOVLW   LOW(_Sonar_output_port)
+0086 2600      00847         ADDWF   r0x02, F
+0088 0E00      00848         MOVLW   HIGH(_Sonar_output_port)
+008A 2200      00849         ADDWFC  r0x03, F
+008C C000 FFE9 00850         MOVFF   r0x02, FSR0L
+0090 C000 FFEA 00851         MOVFF   r0x03, FSR0H
+0094 C000 FFEF 00852         MOVFF   r0x01, INDF0
+               00853 ;       .line   208; sonar.c    sonar_emit_pulse_interrupt(output_port,interrupt_port);
+0098 5000      00854         MOVF    r0x00, W
+009A 6EE5      00855         MOVWF   POSTDEC1
+009C 5000      00856         MOVF    r0x01, W
+009E 6EE5      00857         MOVWF   POSTDEC1
+00A0 EC00 F000 00858         CALL    _sonar_emit_pulse_interrupt
+00A4 0E02      00859         MOVLW   0x02
+00A6 26E1      00860         ADDWF   FSR1L, F
+               00861 ;       .line   209; sonar.c    return OV_OK;
+00A8 6AE8      00862         CLRF    WREG
+00AA 00863 _00155_DS_:
+00AA CFE4 F000 00864         MOVFF   PREINC1, r0x04
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 17
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00AE CFE4 F000 00865         MOVFF   PREINC1, r0x03
+00B2 CFE4 F000 00866         MOVFF   PREINC1, r0x02
+00B6 CFE4 F000 00867         MOVFF   PREINC1, r0x01
+00BA CFE4 F000 00868         MOVFF   PREINC1, r0x00
+00BE CFE4 FFD9 00869         MOVFF   PREINC1, FSR2L
+00C2 0012      00870         RETURN  
+               00871 
+               00872 ; ; Starting pCode block
+               00873 S_sonar__sonar_read_spin_wait   code
+0000 00874 _sonar_read_spin_wait:
+               00875 ;       .line   139; sonar.c    unsigned int    sonar_read_spin_wait(
+0000 CFD9 FFE5 00876         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00877         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00878         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00879         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00880         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00881         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 00882         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 00883         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 00884         MOVFF   r0x06, POSTDEC1
+0024 C000 FFE5 00885         MOVFF   r0x07, POSTDEC1
+0028 0E02      00886         MOVLW   0x02
+002A CFDB F000 00887         MOVFF   PLUSW2, r0x00
+002E 0E03      00888         MOVLW   0x03
+0030 CFDB F000 00889         MOVFF   PLUSW2, r0x01
+               00890 ;       .line   150; sonar.c    sonar_emit_pulse(output_port);
+0034 5000      00891         MOVF    r0x00, W
+0036 6EE5      00892         MOVWF   POSTDEC1
+0038 EC00 F000 00893         CALL    _sonar_emit_pulse
+003C 2AE1      00894         INCF    FSR1L, F
+003E 00895 _00123_DS_:
+               00896 ;       .line   164; sonar.c    while ( io_read_digital(digital_in_port) == 0 )
+003E 5000      00897         MOVF    r0x01, W
+0040 6EE5      00898         MOVWF   POSTDEC1
+0042 EC00 F000 00899         CALL    _io_read_digital
+0046 6E00      00900         MOVWF   r0x00
+0048 2AE1      00901         INCF    FSR1L, F
+004A 5000      00902         MOVF    r0x00, W
+004C E000      00903         BZ      _00123_DS_
+               00904 ;       .line   167; sonar.c    TIMER0_READ16(timer0_at_emit);
+004E C000 F000 00905         MOVFF   _TMR0L, r0x00
+0052 6A00      00906         CLRF    r0x02
+0054 C000 F000 00907         MOVFF   _TMR0H, r0x03
+0058 6A00      00908         CLRF    r0x04
+005A 5000      00909         MOVF    r0x03, W
+005C 6E00      00910         MOVWF   r0x06
+005E 6A00      00911         CLRF    r0x05
+0060 5000      00912         MOVF    r0x05, W
+0062 1200      00913         IORWF   r0x00, F
+0064 5000      00914         MOVF    r0x06, W
+0066 1200      00915         IORWF   r0x02, F
+0068 00916 _00126_DS_:
+               00917 ;       .line   171; sonar.c    while ( io_read_digital(digital_in_port) == 1 )
+0068 5000      00918         MOVF    r0x01, W
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 18
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+006A 6EE5      00919         MOVWF   POSTDEC1
+006C EC00 F000 00920         CALL    _io_read_digital
+0070 6E00      00921         MOVWF   r0x03
+0072 2AE1      00922         INCF    FSR1L, F
+0074 5000      00923         MOVF    r0x03, W
+0076 0A01      00924         XORLW   0x01
+0078 E000      00925         BZ      _00126_DS_
+               00926 ;       .line   174; sonar.c    TIMER0_READ16(timer0_at_echo);
+007A C000 F000 00927         MOVFF   _TMR0L, r0x01
+007E 6A00      00928         CLRF    r0x03
+0080 C000 F000 00929         MOVFF   _TMR0H, r0x04
+0084 6A00      00930         CLRF    r0x05
+0086 5000      00931         MOVF    r0x04, W
+0088 6E00      00932         MOVWF   r0x07
+008A 6A00      00933         CLRF    r0x06
+008C 5000      00934         MOVF    r0x06, W
+008E 1200      00935         IORWF   r0x01, F
+0090 5000      00936         MOVF    r0x07, W
+0092 1200      00937         IORWF   r0x03, F
+               00938 ;       .line   176; sonar.c    sonar_echo_time = timer0_at_echo - timer0_at_emit;
+0094 5000      00939         MOVF    r0x00, W
+0096 5C00      00940         SUBWF   r0x01, W
+0098 6E00      00941         MOVWF   r0x00
+009A 5000      00942         MOVF    r0x02, W
+009C 5800      00943         SUBWFB  r0x03, W
+009E 6E00      00944         MOVWF   r0x01
+               00945 ;       .line   181; sonar.c    return ECHO_TIME_TO_CM(sonar_echo_time);
+00A0 A600      00946         BTFSS   _T0CON, 3
+00A2 D000      00947         BRA     _00131_DS_
+00A4 0E01      00948         MOVLW   0x01
+00A6 6E00      00949         MOVWF   r0x02
+00A8 6A00      00950         CLRF    r0x03
+00AA D000      00951         BRA     _00132_DS_
+00AC 00952 _00131_DS_:
+00AC 0E07      00953         MOVLW   0x07
+00AE 1400      00954         ANDWF   _T0CON, W
+00B0 6E00      00955         MOVWF   r0x04
+00B2 0E02      00956         MOVLW   0x02
+00B4 6E00      00957         MOVWF   r0x02
+00B6 0E00      00958         MOVLW   0x00
+00B8 6E00      00959         MOVWF   r0x03
+00BA 5000      00960         MOVF    r0x04, W
+00BC E000      00961         BZ      _00132_DS_
+00BE 6CE8      00962         NEGF    WREG
+00C0 90D8      00963         BCF     STATUS, 0
+00C2 00964 _00145_DS_:
+00C2 3600      00965         RLCF    r0x02, F
+00C4 3600      00966         RLCF    r0x03, F
+00C6 0F01      00967         ADDLW   0x01
+00C8 E300      00968         BNC     _00145_DS_
+00CA 00969 _00132_DS_:
+00CA 6AE8      00970         CLRF    WREG
+00CC BE00      00971         BTFSC   r0x03, 7
+00CE 0EFF      00972         MOVLW   0xff
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 19
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00D0 6E00      00973         MOVWF   r0x04
+00D2 6E00      00974         MOVWF   r0x05
+00D4 6A00      00975         CLRF    r0x06
+00D6 6A00      00976         CLRF    r0x07
+00D8 5000      00977         MOVF    r0x07, W
+00DA 6EE5      00978         MOVWF   POSTDEC1
+00DC 5000      00979         MOVF    r0x06, W
+00DE 6EE5      00980         MOVWF   POSTDEC1
+00E0 5000      00981         MOVF    r0x01, W
+00E2 6EE5      00982         MOVWF   POSTDEC1
+00E4 5000      00983         MOVF    r0x00, W
+00E6 6EE5      00984         MOVWF   POSTDEC1
+00E8 5000      00985         MOVF    r0x05, W
+00EA 6EE5      00986         MOVWF   POSTDEC1
+00EC 5000      00987         MOVF    r0x04, W
+00EE 6EE5      00988         MOVWF   POSTDEC1
+00F0 5000      00989         MOVF    r0x03, W
+00F2 6EE5      00990         MOVWF   POSTDEC1
+00F4 5000      00991         MOVF    r0x02, W
+00F6 6EE5      00992         MOVWF   POSTDEC1
+00F8 EC00 F000 00993         CALL    __mullong
+00FC 6E00      00994         MOVWF   r0x00
+00FE CFF3 F000 00995         MOVFF   PRODL, r0x01
+0102 CFF4 F000 00996         MOVFF   PRODH, r0x02
+0106 CFE9 F000 00997         MOVFF   FSR0L, r0x03
+010A 0E08      00998         MOVLW   0x08
+010C 26E1      00999         ADDWF   FSR1L, F
+010E 0E70      01000         MOVLW   0x70
+0110 2600      01001         ADDWF   r0x00, F
+0112 0EFE      01002         MOVLW   0xfe
+0114 2200      01003         ADDWFC  r0x01, F
+0116 0EFF      01004         MOVLW   0xff
+0118 2200      01005         ADDWFC  r0x02, F
+011A 0EFF      01006         MOVLW   0xff
+011C 2200      01007         ADDWFC  r0x03, F
+011E 0E00      01008         MOVLW   0x00
+0120 6EE5      01009         MOVWF   POSTDEC1
+0122 0E00      01010         MOVLW   0x00
+0124 6EE5      01011         MOVWF   POSTDEC1
+0126 0E02      01012         MOVLW   0x02
+0128 6EE5      01013         MOVWF   POSTDEC1
+012A 0E47      01014         MOVLW   0x47
+012C 6EE5      01015         MOVWF   POSTDEC1
+012E 5000      01016         MOVF    r0x03, W
+0130 6EE5      01017         MOVWF   POSTDEC1
+0132 5000      01018         MOVF    r0x02, W
+0134 6EE5      01019         MOVWF   POSTDEC1
+0136 5000      01020         MOVF    r0x01, W
+0138 6EE5      01021         MOVWF   POSTDEC1
+013A 5000      01022         MOVF    r0x00, W
+013C 6EE5      01023         MOVWF   POSTDEC1
+013E EC00 F000 01024         CALL    __divulong
+0142 6E00      01025         MOVWF   r0x00
+0144 CFF3 F000 01026         MOVFF   PRODL, r0x01
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 20
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0148 CFF4 F000 01027         MOVFF   PRODH, r0x02
+014C CFE9 F000 01028         MOVFF   FSR0L, r0x03
+0150 0E08      01029         MOVLW   0x08
+0152 26E1      01030         ADDWF   FSR1L, F
+0154 C000 FFF3 01031         MOVFF   r0x01, PRODL
+0158 5000      01032         MOVF    r0x00, W
+015A CFE4 F000 01033         MOVFF   PREINC1, r0x07
+015E CFE4 F000 01034         MOVFF   PREINC1, r0x06
+0162 CFE4 F000 01035         MOVFF   PREINC1, r0x05
+0166 CFE4 F000 01036         MOVFF   PREINC1, r0x04
+016A CFE4 F000 01037         MOVFF   PREINC1, r0x03
+016E CFE4 F000 01038         MOVFF   PREINC1, r0x02
+0172 CFE4 F000 01039         MOVFF   PREINC1, r0x01
+0176 CFE4 F000 01040         MOVFF   PREINC1, r0x00
+017A CFE4 FFD9 01041         MOVFF   PREINC1, FSR2L
+017E 0012      01042         RETURN  
+               01043 
+               01044 ; ; Starting pCode block
+               01045 S_sonar__sonar_init_spin_wait   code
+0000 01046 _sonar_init_spin_wait:
+               01047 ;       .line   92; sonar.c     status_t    sonar_init_spin_wait(unsigned char output_port,
+0000 CFD9 FFE5 01048         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01049         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01050         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 01051         MOVFF   r0x01, POSTDEC1
+0010 0E02      01052         MOVLW   0x02
+0012 CFDB F000 01053         MOVFF   PLUSW2, r0x00
+0016 0E03      01054         MOVLW   0x03
+0018 CFDB F000 01055         MOVFF   PLUSW2, r0x01
+               01056 ;       .line   96; sonar.c     if ( ! VALID_DIGITAL_PORT(input_port) ||
+001C 5000      01057         MOVF    r0x01, W
+001E 0000      01058         BANKSEL _Analog_ports
+0020 5D00      01059         SUBWF   _Analog_ports, W, B
+0022 E200      01060         BC      _00105_DS_
+0024 0E11      01061         MOVLW   0x11
+0026 5C00      01062         SUBWF   r0x01, W
+0028 E200      01063         BC      _00105_DS_
+               01064 ;       .line   97; sonar.c     ! VALID_DIGITAL_PORT(output_port) )
+002A 5000      01065         MOVF    r0x00, W
+002C 0000      01066         BANKSEL _Analog_ports
+002E 5D00      01067         SUBWF   _Analog_ports, W, B
+0030 E200      01068         BC      _00105_DS_
+0032 0E11      01069         MOVLW   0x11
+0034 5C00      01070         SUBWF   r0x00, W
+0036 E300      01071         BNC     _00106_DS_
+0038 01072 _00105_DS_:
+               01073 ;       .line   98; sonar.c     return OV_BAD_PARAM;
+0038 0E80      01074         MOVLW   0x80
+003A D000      01075         BRA     _00110_DS_
+003C 01076 _00106_DS_:
+               01077 ;       .line   100; sonar.c    io_set_direction(output_port,IO_DIRECTION_OUT);
+003C 0E00      01078         MOVLW   0x00
+003E 6EE5      01079         MOVWF   POSTDEC1
+0040 5000      01080         MOVF    r0x00, W
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 21
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0042 6EE5      01081         MOVWF   POSTDEC1
+0044 EC00 F000 01082         CALL    _io_set_direction
+0048 0E02      01083         MOVLW   0x02
+004A 26E1      01084         ADDWF   FSR1L, F
+               01085 ;       .line   101; sonar.c    io_write_digital(output_port,0);
+004C 0E00      01086         MOVLW   0x00
+004E 6EE5      01087         MOVWF   POSTDEC1
+0050 5000      01088         MOVF    r0x00, W
+0052 6EE5      01089         MOVWF   POSTDEC1
+0054 EC00 F000 01090         CALL    _io_write_digital
+0058 0E02      01091         MOVLW   0x02
+005A 26E1      01092         ADDWF   FSR1L, F
+               01093 ;       .line   102; sonar.c    io_set_direction(input_port,IO_DIRECTION_IN);
+005C 0E01      01094         MOVLW   0x01
+005E 6EE5      01095         MOVWF   POSTDEC1
+0060 5000      01096         MOVF    r0x01, W
+0062 6EE5      01097         MOVWF   POSTDEC1
+0064 EC00 F000 01098         CALL    _io_set_direction
+0068 0E02      01099         MOVLW   0x02
+006A 26E1      01100         ADDWF   FSR1L, F
+               01101 ;       .line   103; sonar.c    return OV_OK;
+006C 6AE8      01102         CLRF    WREG
+006E 01103 _00110_DS_:
+006E CFE4 F000 01104         MOVFF   PREINC1, r0x01
+0072 CFE4 F000 01105         MOVFF   PREINC1, r0x00
+0076 CFE4 FFD9 01106         MOVFF   PREINC1, FSR2L
+007A 0012      01107         RETURN  
+               01108 
+               01109 
+               01110 
+               01111 ; Statistics:
+               01112 ; code size:     1706 (0x06aa) bytes ( 1.30%)
+               01113 ;                 853 (0x0355) words
+               01114 ; udata size:       0 (0x0000) bytes ( 0.00%)
+               01115 ; access size:     11 (0x000b) bytes
+               01116 
+               01117 
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 22
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+FSR0H                             00000FEA
+FSR0L                             00000FE9
+FSR1L                             00000FE1
+FSR2L                             00000FD9
+INDF0                             00000FEF
+PLUSW2                            00000FDB
+POSTDEC1                          00000FE5
+POSTINC0                          00000FEE
+PREINC1                           00000FE4
+PRODH                             00000FF4
+PRODL                             00000FF3
+STATUS                            00000FD8
+WREG                              00000FE8
+_00105_DS_                        00000038
+_00106_DS_                        0000003C
+_00110_DS_                        0000006E
+_00123_DS_                        0000003E
+_00126_DS_                        00000068
+_00131_DS_                        000000AC
+_00132_DS_                        000000CA
+_00145_DS_                        000000C2
+_00150_DS_                        00000042
+_00151_DS_                        00000046
+_00155_DS_                        000000AA
+_00168_DS_                        00000046
+_00169_DS_                        0000004C
+_00176_DS_                        00000166
+_00177_DS_                        00000298
+_00178_DS_                        000002BC
+_00180_DS_                        000000BC
+_00181_DS_                        000000DA
+_00182_DS_                        000001C6
+_00183_DS_                        000001E4
+_00196_DS_                        000000D2
+_00197_DS_                        00000120
+_00201_DS_                        000001DC
+_00206_DS_                        00000034
+_00207_DS_                        00000038
+_00210_DS_                        00000050
+_00213_DS_                        00000068
+_00226_DS_                        0000004A
+_00227_DS_                        0000004E
+_00232_DS_                        00000074
+_ADCON0                           00000000
+_ADCON0bits                       00000000
+_ADCON1                           00000000
+_ADCON1bits                       00000000
+_ADCON2                           00000000
+_ADCON2bits                       00000000
+_ADRESH                           00000000
+_ADRESL                           00000000
+_Analog_ports                     00000000
+_BSR                              00000000
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 23
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_CCP1CON                          00000000
+_CCP1CONbits                      00000000
+_CCP2CON                          00000000
+_CCP2CONbits                      00000000
+_CCP3CON                          00000000
+_CCP3CONbits                      00000000
+_CCP4CON                          00000000
+_CCP4CONbits                      00000000
+_CCP5CON                          00000000
+_CCP5CONbits                      00000000
+_CCPR1H                           00000000
+_CCPR1L                           00000000
+_CCPR2H                           00000000
+_CCPR2L                           00000000
+_CCPR3H                           00000000
+_CCPR3L                           00000000
+_CCPR4H                           00000000
+_CCPR4L                           00000000
+_CCPR5H                           00000000
+_CCPR5L                           00000000
+_CMCON                            00000000
+_CMCONbits                        00000000
+_CVRCON                           00000000
+_CVRCONbits                       00000000
+_EEADR                            00000000
+_EEADRH                           00000000
+_EECON1                           00000000
+_EECON1bits                       00000000
+_EECON2                           00000000
+_EEDATA                           00000000
+_FSR0H                            00000000
+_FSR0L                            00000000
+_FSR1H                            00000000
+_FSR1L                            00000000
+_FSR2H                            00000000
+_FSR2L                            00000000
+_INDF0                            00000000
+_INDF1                            00000000
+_INDF2                            00000000
+_INTCON                           00000000
+_INTCON2                          00000000
+_INTCON2bits                      00000000
+_INTCON3                          00000000
+_INTCON3bits                      00000000
+_INTCONbits                       00000000
+_IPR1                             00000000
+_IPR1bits                         00000000
+_IPR2                             00000000
+_IPR2bits                         00000000
+_IPR3                             00000000
+_IPR3bits                         00000000
+_Interrupt_port_in_use            00000000
+_LATA                             00000000
+_LATAbits                         00000000
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 24
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_LATB                             00000000
+_LATBbits                         00000000
+_LATC                             00000000
+_LATCbits                         00000000
+_LATD                             00000000
+_LATDbits                         00000000
+_LATE                             00000000
+_LATEbits                         00000000
+_LATF                             00000000
+_LATFbits                         00000000
+_LATG                             00000000
+_LATGbits                         00000000
+_LATH                             00000000
+_LATHbits                         00000000
+_LATJ                             00000000
+_LATJbits                         00000000
+_LVDCON                           00000000
+_LVDCONbits                       00000000
+_MEMCON                           00000000
+_MEMCONbits                       00000000
+_OSCCON                           00000000
+_OSCCONbits                       00000000
+_PCL                              00000000
+_PCLATH                           00000000
+_PCLATU                           00000000
+_PIE1                             00000000
+_PIE1bits                         00000000
+_PIE2                             00000000
+_PIE2bits                         00000000
+_PIE3                             00000000
+_PIE3bits                         00000000
+_PIR1                             00000000
+_PIR1bits                         00000000
+_PIR2                             00000000
+_PIR2bits                         00000000
+_PIR3                             00000000
+_PIR3bits                         00000000
+_PLUSW0                           00000000
+_PLUSW1                           00000000
+_PLUSW2                           00000000
+_PORTA                            00000000
+_PORTAbits                        00000000
+_PORTB                            00000000
+_PORTBbits                        00000000
+_PORTC                            00000000
+_PORTCbits                        00000000
+_PORTD                            00000000
+_PORTDbits                        00000000
+_PORTE                            00000000
+_PORTEbits                        00000000
+_PORTF                            00000000
+_PORTFbits                        00000000
+_PORTG                            00000000
+_PORTGbits                        00000000
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 25
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_PORTH                            00000000
+_PORTHbits                        00000000
+_PORTJ                            00000000
+_PORTJbits                        00000000
+_POSTDEC0                         00000000
+_POSTDEC1                         00000000
+_POSTDEC2                         00000000
+_POSTINC0                         00000000
+_POSTINC1                         00000000
+_POSTINC2                         00000000
+_PR2                              00000000
+_PR4                              00000000
+_PREINC0                          00000000
+_PREINC1                          00000000
+_PREINC2                          00000000
+_PRODH                            00000000
+_PRODL                            00000000
+_PSPCON                           00000000
+_PSPCONbits                       00000000
+_RCON                             00000000
+_RCONbits                         00000000
+_RCREG                            00000000
+_RCREG1                           00000000
+_RCREG2                           00000000
+_RCSTA                            00000000
+_RCSTA1                           00000000
+_RCSTA1bits                       00000000
+_RCSTA2                           00000000
+_RCSTA2bits                       00000000
+_RCSTAbits                        00000000
+_SPBRG                            00000000
+_SPBRG1                           00000000
+_SPBRG2                           00000000
+_SSPADD                           00000000
+_SSPBUF                           00000000
+_SSPCON1                          00000000
+_SSPCON1bits                      00000000
+_SSPCON2                          00000000
+_SSPCON2bits                      00000000
+_SSPSTAT                          00000000
+_SSPSTATbits                      00000000
+_STATUS                           00000000
+_STATUSbits                       00000000
+_STKPTR                           00000000
+_STKPTRbits                       00000000
+_Sonar_data_available             00000000
+_Sonar_echo_time                  00000000
+_Sonar_on_iport                   00000000
+_Sonar_output_port                00000000
+_T0CON                            00000000
+_T1CON                            00000000
+_T1CONbits                        00000000
+_T2CON                            00000000
+_T2CONbits                        00000000
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 26
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_T3CON                            00000000
+_T3CONbits                        00000000
+_T4CON                            00000000
+_T4CONbits                        00000000
+_TABLAT                           00000000
+_TBLPTRH                          00000000
+_TBLPTRL                          00000000
+_TBLPTRU                          00000000
+_TMR0H                            00000000
+_TMR0L                            00000000
+_TMR1H                            00000000
+_TMR1L                            00000000
+_TMR2                             00000000
+_TMR3H                            00000000
+_TMR3L                            00000000
+_TMR4                             00000000
+_TOSH                             00000000
+_TOSL                             00000000
+_TOSU                             00000000
+_TRISA                            00000000
+_TRISAbits                        00000000
+_TRISB                            00000000
+_TRISBbits                        00000000
+_TRISC                            00000000
+_TRISCbits                        00000000
+_TRISD                            00000000
+_TRISDbits                        00000000
+_TRISE                            00000000
+_TRISEbits                        00000000
+_TRISF                            00000000
+_TRISFbits                        00000000
+_TRISG                            00000000
+_TRISGbits                        00000000
+_TRISH                            00000000
+_TRISHbits                        00000000
+_TRISJ                            00000000
+_TRISJbits                        00000000
+_TXREG                            00000000
+_TXREG1                           00000000
+_TXREG2                           00000000
+_TXSTA                            00000000
+_TXSTA1                           00000000
+_TXSTA1bits                       00000000
+_TXSTA2                           00000000
+_TXSTA2bits                       00000000
+_TXSTAbits                        00000000
+_Timer0_at_echo                   00000000
+_Timer0_at_emit                   00000000
+_Timer0_overflows                 00000000
+_Timer1_overflows                 00000000
+_Timer2_overflows                 00000000
+_Timer3_overflows                 00000000
+_Timer4_overflows                 00000000
+_WDTCON                           00000000
+gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 27
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_WDTCONbits                       00000000
+_WREG                             00000000
+__18F8520                         00000001
+__divsint                         00000000
+__divuint                         00000000
+__divulong                        00000000
+__mullong                         00000000
+_interrupt_enable                 00000000
+_interrupt_set_edge               00000000
+_io_get_direction                 00000000
+_io_read_digital                  00000000
+_io_set_direction                 00000000
+_io_write_digital                 00000000
+_sonar_emit_pulse                 00000000
+_sonar_emit_pulse_interrupt       00000000
+_sonar_init                       00000000
+_sonar_init_spin_wait             00000000
+_sonar_read                       00000000
+_sonar_read_last_distance_1_1     00000006
+_sonar_read_spin_wait             00000000
+_sonar_read_waiting_for_echo_1_1  00000000
+_stdin                            00000000
+_stdout                           00000000
+r0x00                             00000000
+r0x01                             00000001
+r0x02                             00000002
+r0x03                             00000003
+r0x04                             00000004
+r0x05                             00000005
+r0x06                             00000006
+r0x07                             00000007
+r0x08                             00000008
+r0x09                             00000009
+r0x0a                             0000000A
+
+
+Errors   :       0
+Warnings :       0 reported,       0 suppressed
+Messages :       0 reported,       0 suppressed
+

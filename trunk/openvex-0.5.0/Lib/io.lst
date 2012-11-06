@@ -1,0 +1,2127 @@
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00001 ;--------------------------------------------------------
+               00002 ; File Created by SDCC : free open source ANSI-C Compiler
+               00003 ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
+               00004 ; This file was generated Fri Nov  2 01:06:41 2012
+               00005 ;--------------------------------------------------------
+               00006 ; PIC16 port for the Microchip 16-bit core micros
+               00007 ;--------------------------------------------------------
+               00008         list    p=18f8520
+               00009 
+               00010         radix dec
+               00011 
+               00012 ;--------------------------------------------------------
+               00013 ; public variables in this module
+               00014 ;--------------------------------------------------------
+               00015         global _io_set_analog_port_count
+               00016         global _io_get_analog_port_count
+               00017         global _adc_conv
+               00018         global _adc_busy
+               00019         global _io_read_analog
+               00020         global _io_read_digital
+               00021         global _io_write_digital
+               00022         global _io_set_direction
+               00023         global _io_get_direction
+               00024         global _io_update_local_pwm_dir
+               00025         global _Analog_ports
+               00026         global _Analog_ports_const
+               00027         global _adc_open8520
+               00028 
+               00029 ;--------------------------------------------------------
+               00030 ; extern variables in this module
+               00031 ;--------------------------------------------------------
+               00032         extern _stdin
+               00033         extern _stdout
+               00034         extern _RCSTA2bits
+               00035         extern _TXSTA2bits
+               00036         extern _CCP5CONbits
+               00037         extern _CCP4CONbits
+               00038         extern _T4CONbits
+               00039         extern _PORTAbits
+               00040         extern _PORTBbits
+               00041         extern _PORTCbits
+               00042         extern _PORTDbits
+               00043         extern _PORTEbits
+               00044         extern _PORTFbits
+               00045         extern _PORTGbits
+               00046         extern _PORTHbits
+               00047         extern _PORTJbits
+               00048         extern _LATAbits
+               00049         extern _LATBbits
+               00050         extern _LATCbits
+               00051         extern _LATDbits
+               00052         extern _LATEbits
+               00053         extern _LATFbits
+               00054         extern _LATGbits
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00055         extern _LATHbits
+               00056         extern _LATJbits
+               00057         extern _TRISAbits
+               00058         extern _TRISBbits
+               00059         extern _TRISCbits
+               00060         extern _TRISDbits
+               00061         extern _TRISEbits
+               00062         extern _TRISFbits
+               00063         extern _TRISGbits
+               00064         extern _TRISHbits
+               00065         extern _TRISJbits
+               00066         extern _MEMCONbits
+               00067         extern _PIE1bits
+               00068         extern _PIR1bits
+               00069         extern _IPR1bits
+               00070         extern _PIE2bits
+               00071         extern _PIR2bits
+               00072         extern _IPR2bits
+               00073         extern _PIE3bits
+               00074         extern _PIR3bits
+               00075         extern _IPR3bits
+               00076         extern _EECON1bits
+               00077         extern _RCSTA1bits
+               00078         extern _TXSTA1bits
+               00079         extern _RCSTAbits
+               00080         extern _TXSTAbits
+               00081         extern _PSPCONbits
+               00082         extern _T3CONbits
+               00083         extern _CMCONbits
+               00084         extern _CVRCONbits
+               00085         extern _CCP3CONbits
+               00086         extern _CCP2CONbits
+               00087         extern _CCP1CONbits
+               00088         extern _ADCON2bits
+               00089         extern _ADCON1bits
+               00090         extern _ADCON0bits
+               00091         extern _SSPCON2bits
+               00092         extern _SSPCON1bits
+               00093         extern _SSPSTATbits
+               00094         extern _T2CONbits
+               00095         extern _T1CONbits
+               00096         extern _RCONbits
+               00097         extern _WDTCONbits
+               00098         extern _LVDCONbits
+               00099         extern _OSCCONbits
+               00100         extern _STATUSbits
+               00101         extern _INTCON3bits
+               00102         extern _INTCON2bits
+               00103         extern _INTCONbits
+               00104         extern _STKPTRbits
+               00105         extern _RCSTA2
+               00106         extern _TXSTA2
+               00107         extern _TXREG2
+               00108         extern _RCREG2
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00109         extern _SPBRG2
+               00110         extern _CCP5CON
+               00111         extern _CCPR5L
+               00112         extern _CCPR5H
+               00113         extern _CCP4CON
+               00114         extern _CCPR4L
+               00115         extern _CCPR4H
+               00116         extern _T4CON
+               00117         extern _PR4
+               00118         extern _TMR4
+               00119         extern _PORTA
+               00120         extern _PORTB
+               00121         extern _PORTC
+               00122         extern _PORTD
+               00123         extern _PORTE
+               00124         extern _PORTF
+               00125         extern _PORTG
+               00126         extern _PORTH
+               00127         extern _PORTJ
+               00128         extern _LATA
+               00129         extern _LATB
+               00130         extern _LATC
+               00131         extern _LATD
+               00132         extern _LATE
+               00133         extern _LATF
+               00134         extern _LATG
+               00135         extern _LATH
+               00136         extern _LATJ
+               00137         extern _TRISA
+               00138         extern _TRISB
+               00139         extern _TRISC
+               00140         extern _TRISD
+               00141         extern _TRISE
+               00142         extern _TRISF
+               00143         extern _TRISG
+               00144         extern _TRISH
+               00145         extern _TRISJ
+               00146         extern _MEMCON
+               00147         extern _PIE1
+               00148         extern _PIR1
+               00149         extern _IPR1
+               00150         extern _PIE2
+               00151         extern _PIR2
+               00152         extern _IPR2
+               00153         extern _PIE3
+               00154         extern _PIR3
+               00155         extern _IPR3
+               00156         extern _EECON1
+               00157         extern _EECON2
+               00158         extern _EEDATA
+               00159         extern _EEADR
+               00160         extern _EEADRH
+               00161         extern _RCSTA1
+               00162         extern _TXSTA1
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00163         extern _TXREG1
+               00164         extern _RCREG1
+               00165         extern _SPBRG1
+               00166         extern _RCSTA
+               00167         extern _TXSTA
+               00168         extern _TXREG
+               00169         extern _RCREG
+               00170         extern _SPBRG
+               00171         extern _PSPCON
+               00172         extern _T3CON
+               00173         extern _TMR3L
+               00174         extern _TMR3H
+               00175         extern _CMCON
+               00176         extern _CVRCON
+               00177         extern _CCP3CON
+               00178         extern _CCPR3L
+               00179         extern _CCPR3H
+               00180         extern _CCP2CON
+               00181         extern _CCPR2L
+               00182         extern _CCPR2H
+               00183         extern _CCP1CON
+               00184         extern _CCPR1L
+               00185         extern _CCPR1H
+               00186         extern _ADCON2
+               00187         extern _ADCON1
+               00188         extern _ADCON0
+               00189         extern _ADRESL
+               00190         extern _ADRESH
+               00191         extern _SSPCON2
+               00192         extern _SSPCON1
+               00193         extern _SSPSTAT
+               00194         extern _SSPADD
+               00195         extern _SSPBUF
+               00196         extern _T2CON
+               00197         extern _PR2
+               00198         extern _TMR2
+               00199         extern _T1CON
+               00200         extern _TMR1L
+               00201         extern _TMR1H
+               00202         extern _RCON
+               00203         extern _WDTCON
+               00204         extern _LVDCON
+               00205         extern _OSCCON
+               00206         extern _T0CON
+               00207         extern _TMR0L
+               00208         extern _TMR0H
+               00209         extern _STATUS
+               00210         extern _FSR2L
+               00211         extern _FSR2H
+               00212         extern _PLUSW2
+               00213         extern _PREINC2
+               00214         extern _POSTDEC2
+               00215         extern _POSTINC2
+               00216         extern _INDF2
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00217         extern _BSR
+               00218         extern _FSR1L
+               00219         extern _FSR1H
+               00220         extern _PLUSW1
+               00221         extern _PREINC1
+               00222         extern _POSTDEC1
+               00223         extern _POSTINC1
+               00224         extern _INDF1
+               00225         extern _WREG
+               00226         extern _FSR0L
+               00227         extern _FSR0H
+               00228         extern _PLUSW0
+               00229         extern _PREINC0
+               00230         extern _POSTDEC0
+               00231         extern _POSTINC0
+               00232         extern _INDF0
+               00233         extern _INTCON3
+               00234         extern _INTCON2
+               00235         extern _INTCON
+               00236         extern _PRODL
+               00237         extern _PRODH
+               00238         extern _TABLAT
+               00239         extern _TBLPTRL
+               00240         extern _TBLPTRH
+               00241         extern _TBLPTRU
+               00242         extern _PCL
+               00243         extern _PCLATH
+               00244         extern _PCLATU
+               00245         extern _STKPTR
+               00246         extern _TOSL
+               00247         extern _TOSH
+               00248         extern _TOSU
+               00249         extern _delay10tcy
+               00250         extern _adc_close
+               00251         extern _adc_read
+               00252 ;--------------------------------------------------------
+               00253 ;       Equates to used internal registers
+               00254 ;--------------------------------------------------------
+  00000FD8     00255 STATUS  equ     0xfd8
+  00000FF9     00256 PCL     equ     0xff9
+  00000FFA     00257 PCLATH  equ     0xffa
+  00000FFB     00258 PCLATU  equ     0xffb
+  00000FE8     00259 WREG    equ     0xfe8
+  00000FE1     00260 FSR1L   equ     0xfe1
+  00000FD9     00261 FSR2L   equ     0xfd9
+  00000FE5     00262 POSTDEC1        equ     0xfe5
+  00000FE4     00263 PREINC1 equ     0xfe4
+  00000FDB     00264 PLUSW2  equ     0xfdb
+  00000FF3     00265 PRODL   equ     0xff3
+  00000FF4     00266 PRODH   equ     0xff4
+               00267 
+               00268 
+               00269 ; Internal registers
+               00270 .registers      udata_ovr       0x0000
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00271 r0x00   res     1
+               00272 r0x01   res     1
+               00273 r0x02   res     1
+               00274 r0x03   res     1
+               00275 r0x04   res     1
+               00276 r0x05   res     1
+               00277 
+               00278 udata_io_0      udata
+               00279 _Analog_ports   res     1
+               00280 
+               00281 udata_io_1      udata
+               00282 _Analog_ports_const     res     1
+               00283 
+               00284 ;--------------------------------------------------------
+               00285 ; global & static initialisations
+               00286 ;--------------------------------------------------------
+               00287 ; I code from now on!
+               00288 ; ; Starting pCode block
+               00289 S_io__io_update_local_pwm_dir   code
+0000 00290 _io_update_local_pwm_dir:
+               00291 ;       .line   437; io.c       void    io_update_local_pwm_dir(unsigned char txPWM_MASK)
+0000 CFD9 FFE5 00292         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00293         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00294         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00295         MOVFF   r0x01, POSTDEC1
+0010 0E02      00296         MOVLW   0x02
+0012 CFDB F000 00297         MOVFF   PLUSW2, r0x00
+               00298 ;       .line   440; io.c       IO_DIRECTION_PWM1 = txPWM_MASK & 0x01;
+0016 0E01      00299         MOVLW   0x01
+0018 1400      00300         ANDWF   r0x00, W
+               00301 ; #     MOVWF   r0x01
+               00302 ; #     MOVF    r0x01, W
+001A 6E00      00303         MOVWF   r0x01
+001C 0B01      00304         ANDLW   0x01
+001E 40E8      00305         RRNCF   WREG, W
+0020 6EF4      00306         MOVWF   PRODH
+0022 5000      00307         MOVF    _TRISEbits, W
+0024 0B7F      00308         ANDLW   0x7f
+0026 10F4      00309         IORWF   PRODH, W
+0028 6E00      00310         MOVWF   _TRISEbits
+               00311 ;       .line   441; io.c       IO_DIRECTION_PWM2 = txPWM_MASK & 0x02;
+002A 0E02      00312         MOVLW   0x02
+002C 1400      00313         ANDWF   r0x00, W
+               00314 ; #     MOVWF   r0x01
+               00315 ; #     MOVF    r0x01, W
+002E 6E00      00316         MOVWF   r0x01
+0030 0B01      00317         ANDLW   0x01
+0032 6EF4      00318         MOVWF   PRODH
+0034 5000      00319         MOVF    _TRISGbits, W
+0036 0BFE      00320         ANDLW   0xfe
+0038 10F4      00321         IORWF   PRODH, W
+003A 6E00      00322         MOVWF   _TRISGbits
+               00323 ;       .line   442; io.c       IO_DIRECTION_PWM3 = txPWM_MASK & 0x04;
+003C 0E04      00324         MOVLW   0x04
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+003E 1400      00325         ANDWF   r0x00, W
+               00326 ; #     MOVWF   r0x01
+               00327 ; #     MOVF    r0x01, W
+0040 6E00      00328         MOVWF   r0x01
+0042 0B01      00329         ANDLW   0x01
+0044 38E8      00330         SWAPF   WREG, W
+0046 40E8      00331         RRNCF   WREG, W
+0048 6EF4      00332         MOVWF   PRODH
+004A 5000      00333         MOVF    _TRISGbits, W
+004C 0BF7      00334         ANDLW   0xf7
+004E 10F4      00335         IORWF   PRODH, W
+0050 6E00      00336         MOVWF   _TRISGbits
+               00337 ;       .line   443; io.c       IO_DIRECTION_PWM4 = txPWM_MASK & 0x08;
+0052 0E08      00338         MOVLW   0x08
+0054 1400      00339         ANDWF   r0x00, W
+               00340 ; #     MOVWF   r0x01
+               00341 ; #     MOVF    r0x01, W
+0056 6E00      00342         MOVWF   r0x01
+0058 0B01      00343         ANDLW   0x01
+005A 38E8      00344         SWAPF   WREG, W
+005C 6EF4      00345         MOVWF   PRODH
+005E 5000      00346         MOVF    _TRISGbits, W
+0060 0BEF      00347         ANDLW   0xef
+0062 10F4      00348         IORWF   PRODH, W
+0064 6E00      00349         MOVWF   _TRISGbits
+               00350 ;       .line   444; io.c       IO_DIRECTION_PWM5 = txPWM_MASK & 0x10;
+0066 0E10      00351         MOVLW   0x10
+0068 1400      00352         ANDWF   r0x00, W
+               00353 ; #     MOVWF   r0x01
+               00354 ; #     MOVF    r0x01, W
+006A 6E00      00355         MOVWF   r0x01
+006C 0B01      00356         ANDLW   0x01
+006E 6EF4      00357         MOVWF   PRODH
+0070 5000      00358         MOVF    _TRISEbits, W
+0072 0BFE      00359         ANDLW   0xfe
+0074 10F4      00360         IORWF   PRODH, W
+0076 6E00      00361         MOVWF   _TRISEbits
+               00362 ;       .line   445; io.c       IO_DIRECTION_PWM6 = txPWM_MASK & 0x20;
+0078 0E20      00363         MOVLW   0x20
+007A 1400      00364         ANDWF   r0x00, W
+               00365 ; #     MOVWF   r0x01
+               00366 ; #     MOVF    r0x01, W
+007C 6E00      00367         MOVWF   r0x01
+007E 0B01      00368         ANDLW   0x01
+0080 44E8      00369         RLNCF   WREG, W
+0082 6EF4      00370         MOVWF   PRODH
+0084 5000      00371         MOVF    _TRISEbits, W
+0086 0BFD      00372         ANDLW   0xfd
+0088 10F4      00373         IORWF   PRODH, W
+008A 6E00      00374         MOVWF   _TRISEbits
+               00375 ;       .line   446; io.c       IO_DIRECTION_PWM7 = txPWM_MASK & 0x40;
+008C 0E40      00376         MOVLW   0x40
+008E 1400      00377         ANDWF   r0x00, W
+               00378 ; #     MOVWF   r0x01
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00379 ; #     MOVF    r0x01, W
+0090 6E00      00380         MOVWF   r0x01
+0092 0B01      00381         ANDLW   0x01
+0094 44E8      00382         RLNCF   WREG, W
+0096 44E8      00383         RLNCF   WREG, W
+0098 6EF4      00384         MOVWF   PRODH
+009A 5000      00385         MOVF    _TRISEbits, W
+009C 0BFB      00386         ANDLW   0xfb
+009E 10F4      00387         IORWF   PRODH, W
+00A0 6E00      00388         MOVWF   _TRISEbits
+               00389 ;       .line   447; io.c       IO_DIRECTION_PWM8 = txPWM_MASK & 0x80;
+00A2 0E80      00390         MOVLW   0x80
+00A4 1600      00391         ANDWF   r0x00, F
+00A6 5000      00392         MOVF    r0x00, W
+00A8 0B01      00393         ANDLW   0x01
+00AA 38E8      00394         SWAPF   WREG, W
+00AC 40E8      00395         RRNCF   WREG, W
+00AE 6EF4      00396         MOVWF   PRODH
+00B0 5000      00397         MOVF    _TRISEbits, W
+00B2 0BF7      00398         ANDLW   0xf7
+00B4 10F4      00399         IORWF   PRODH, W
+00B6 6E00      00400         MOVWF   _TRISEbits
+00B8 CFE4 F000 00401         MOVFF   PREINC1, r0x01
+00BC CFE4 F000 00402         MOVFF   PREINC1, r0x00
+00C0 CFE4 FFD9 00403         MOVFF   PREINC1, FSR2L
+00C4 0012      00404         RETURN  
+               00405 
+               00406 ; ; Starting pCode block
+               00407 S_io__io_get_direction  code
+0000 00408 _io_get_direction:
+               00409 ;       .line   400; io.c       char    io_get_direction(unsigned char port)
+0000 CFD9 FFE5 00410         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00411         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00412         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00413         MOVFF   r0x01, POSTDEC1
+0010 0E02      00414         MOVLW   0x02
+0012 CFDB F000 00415         MOVFF   PLUSW2, r0x00
+               00416 ;       .line   402; io.c       if ( ! VALID_DIGITAL_PORT(port) )
+0016 5000      00417         MOVF    r0x00, W
+0018 0000      00418         BANKSEL _Analog_ports
+001A 5D00      00419         SUBWF   _Analog_ports, W, B
+001C E200      00420         BC      _00270_DS_
+001E 0E11      00421         MOVLW   0x11
+0020 5C00      00422         SUBWF   r0x00, W
+0022 6A00      00423         CLRF    r0x01
+0024 3600      00424         RLCF    r0x01, F
+0026 5000      00425         MOVF    r0x01, W
+0028 E000      00426         BZ      _00271_DS_
+002A 00427 _00270_DS_:
+               00428 ;       .line   403; io.c       return OV_BAD_PARAM;
+002A 0E80      00429         MOVLW   0x80
+002C D000      00430         BRA     _00291_DS_
+002E 00431 _00271_DS_:
+               00432 ;       .line   405; io.c       switch(port)
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+002E 0E01      00433         MOVLW   0x01
+0030 5C00      00434         SUBWF   r0x00, W
+0032 A0D8      00435         BTFSS   STATUS, 0
+0034 D000      00436         BRA     _00289_DS_
+0036 5000      00437         MOVF    r0x01, W
+0038 A4D8      00438         BTFSS   STATUS, 2
+003A D000      00439         BRA     _00289_DS_
+003C 0600      00440         DECF    r0x00, F
+003E C000 FFE5 00441         MOVFF   r0x02, POSTDEC1
+0042 C000 FFE5 00442         MOVFF   r0x03, POSTDEC1
+0046 6A00      00443         CLRF    r0x03
+0048 3400      00444         RLCF    r0x00, W
+004A 3600      00445         RLCF    r0x03, F
+004C 34E8      00446         RLCF    WREG, W
+004E 3600      00447         RLCF    r0x03, F
+0050 0BFC      00448         ANDLW   0xfc
+0052 6E00      00449         MOVWF   r0x02
+0054 0E00      00450         MOVLW   UPPER(_00300_DS_)
+0056 6EFB      00451         MOVWF   PCLATU
+0058 0E00      00452         MOVLW   HIGH(_00300_DS_)
+005A 6EFA      00453         MOVWF   PCLATH
+005C 0E00      00454         MOVLW   LOW(_00300_DS_)
+005E 2600      00455         ADDWF   r0x02, F
+0060 5000      00456         MOVF    r0x03, W
+0062 22FA      00457         ADDWFC  PCLATH, F
+0064 B0D8      00458         BTFSC   STATUS, 0
+0066 2AFB      00459         INCF    PCLATU, F
+0068 5000      00460         MOVF    r0x02, W
+006A CFE4 F000 00461         MOVFF   PREINC1, r0x03
+006E CFE4 F000 00462         MOVFF   PREINC1, r0x02
+0072 6EF9      00463         MOVWF   PCL
+0074 00464 _00300_DS_:
+0074 EF00 F000 00465         GOTO    _00273_DS_
+0078 EF00 F000 00466         GOTO    _00274_DS_
+007C EF00 F000 00467         GOTO    _00275_DS_
+0080 EF00 F000 00468         GOTO    _00276_DS_
+0084 EF00 F000 00469         GOTO    _00277_DS_
+0088 EF00 F000 00470         GOTO    _00278_DS_
+008C EF00 F000 00471         GOTO    _00279_DS_
+0090 EF00 F000 00472         GOTO    _00280_DS_
+0094 EF00 F000 00473         GOTO    _00281_DS_
+0098 EF00 F000 00474         GOTO    _00282_DS_
+009C EF00 F000 00475         GOTO    _00283_DS_
+00A0 EF00 F000 00476         GOTO    _00284_DS_
+00A4 EF00 F000 00477         GOTO    _00285_DS_
+00A8 EF00 F000 00478         GOTO    _00286_DS_
+00AC EF00 F000 00479         GOTO    _00287_DS_
+00B0 EF00 F000 00480         GOTO    _00288_DS_
+00B4 00481 _00273_DS_:
+               00482 ;       .line   407; io.c       case    1:  return IO_DIRECTION1;
+00B4 6A00      00483         CLRF    r0x00
+00B6 B000      00484         BTFSC   _TRISAbits, 0
+00B8 2A00      00485         INCF    r0x00, F
+00BA 5000      00486         MOVF    r0x00, W
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00BC D000      00487         BRA     _00291_DS_
+00BE 00488 _00274_DS_:
+               00489 ;       .line   408; io.c       case    2:  return IO_DIRECTION2;
+00BE 6A00      00490         CLRF    r0x00
+00C0 B200      00491         BTFSC   _TRISAbits, 1
+00C2 2A00      00492         INCF    r0x00, F
+00C4 5000      00493         MOVF    r0x00, W
+00C6 D000      00494         BRA     _00291_DS_
+00C8 00495 _00275_DS_:
+               00496 ;       .line   409; io.c       case    3:  return IO_DIRECTION3;
+00C8 6A00      00497         CLRF    r0x00
+00CA B400      00498         BTFSC   _TRISAbits, 2
+00CC 2A00      00499         INCF    r0x00, F
+00CE 5000      00500         MOVF    r0x00, W
+00D0 D000      00501         BRA     _00291_DS_
+00D2 00502 _00276_DS_:
+               00503 ;       .line   410; io.c       case    4:  return IO_DIRECTION4;
+00D2 6A00      00504         CLRF    r0x00
+00D4 B600      00505         BTFSC   _TRISAbits, 3
+00D6 2A00      00506         INCF    r0x00, F
+00D8 5000      00507         MOVF    r0x00, W
+00DA D000      00508         BRA     _00291_DS_
+00DC 00509 _00277_DS_:
+               00510 ;       .line   411; io.c       case    5:  return IO_DIRECTION5;
+00DC 6A00      00511         CLRF    r0x00
+00DE BA00      00512         BTFSC   _TRISAbits, 5
+00E0 2A00      00513         INCF    r0x00, F
+00E2 5000      00514         MOVF    r0x00, W
+00E4 D000      00515         BRA     _00291_DS_
+00E6 00516 _00278_DS_:
+               00517 ;       .line   412; io.c       case    6:  return IO_DIRECTION6;
+00E6 6A00      00518         CLRF    r0x00
+00E8 B000      00519         BTFSC   _TRISFbits, 0
+00EA 2A00      00520         INCF    r0x00, F
+00EC 5000      00521         MOVF    r0x00, W
+00EE D000      00522         BRA     _00291_DS_
+00F0 00523 _00279_DS_:
+               00524 ;       .line   413; io.c       case    7:  return IO_DIRECTION7;
+00F0 6A00      00525         CLRF    r0x00
+00F2 B200      00526         BTFSC   _TRISFbits, 1
+00F4 2A00      00527         INCF    r0x00, F
+00F6 5000      00528         MOVF    r0x00, W
+00F8 D000      00529         BRA     _00291_DS_
+00FA 00530 _00280_DS_:
+               00531 ;       .line   414; io.c       case    8:  return IO_DIRECTION8;
+00FA 6A00      00532         CLRF    r0x00
+00FC B400      00533         BTFSC   _TRISFbits, 2
+00FE 2A00      00534         INCF    r0x00, F
+0100 5000      00535         MOVF    r0x00, W
+0102 D000      00536         BRA     _00291_DS_
+0104 00537 _00281_DS_:
+               00538 ;       .line   415; io.c       case    9:  return IO_DIRECTION9;
+0104 6A00      00539         CLRF    r0x00
+0106 B600      00540         BTFSC   _TRISFbits, 3
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0108 2A00      00541         INCF    r0x00, F
+010A 5000      00542         MOVF    r0x00, W
+010C D000      00543         BRA     _00291_DS_
+010E 00544 _00282_DS_:
+               00545 ;       .line   416; io.c       case    10:  return IO_DIRECTION10;
+010E 6A00      00546         CLRF    r0x00
+0110 B800      00547         BTFSC   _TRISFbits, 4
+0112 2A00      00548         INCF    r0x00, F
+0114 5000      00549         MOVF    r0x00, W
+0116 D000      00550         BRA     _00291_DS_
+0118 00551 _00283_DS_:
+               00552 ;       .line   417; io.c       case    11:  return IO_DIRECTION11;
+0118 6A00      00553         CLRF    r0x00
+011A BA00      00554         BTFSC   _TRISFbits, 5
+011C 2A00      00555         INCF    r0x00, F
+011E 5000      00556         MOVF    r0x00, W
+0120 D000      00557         BRA     _00291_DS_
+0122 00558 _00284_DS_:
+               00559 ;       .line   418; io.c       case    12:  return IO_DIRECTION12;
+0122 6A00      00560         CLRF    r0x00
+0124 BC00      00561         BTFSC   _TRISFbits, 6
+0126 2A00      00562         INCF    r0x00, F
+0128 5000      00563         MOVF    r0x00, W
+012A D000      00564         BRA     _00291_DS_
+012C 00565 _00285_DS_:
+               00566 ;       .line   419; io.c       case    13:  return IO_DIRECTION13;
+012C 6A00      00567         CLRF    r0x00
+012E B800      00568         BTFSC   _TRISHbits, 4
+0130 2A00      00569         INCF    r0x00, F
+0132 5000      00570         MOVF    r0x00, W
+0134 D000      00571         BRA     _00291_DS_
+0136 00572 _00286_DS_:
+               00573 ;       .line   420; io.c       case    14:  return IO_DIRECTION14;
+0136 6A00      00574         CLRF    r0x00
+0138 BA00      00575         BTFSC   _TRISHbits, 5
+013A 2A00      00576         INCF    r0x00, F
+013C 5000      00577         MOVF    r0x00, W
+013E D000      00578         BRA     _00291_DS_
+0140 00579 _00287_DS_:
+               00580 ;       .line   421; io.c       case    15:  return IO_DIRECTION15;
+0140 6A00      00581         CLRF    r0x00
+0142 BC00      00582         BTFSC   _TRISHbits, 6
+0144 2A00      00583         INCF    r0x00, F
+0146 5000      00584         MOVF    r0x00, W
+0148 D000      00585         BRA     _00291_DS_
+014A 00586 _00288_DS_:
+               00587 ;       .line   422; io.c       case    16:  return IO_DIRECTION16;
+014A 6A00      00588         CLRF    r0x00
+014C BE00      00589         BTFSC   _TRISHbits, 7
+014E 2A00      00590         INCF    r0x00, F
+0150 5000      00591         MOVF    r0x00, W
+0152 D000      00592         BRA     _00291_DS_
+0154 00593 _00289_DS_:
+               00594 ;       .line   424; io.c       return OV_BAD_PARAM;
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0154 0E80      00595         MOVLW   0x80
+0156 00596 _00291_DS_:
+               00597 ;       .line   425; io.c       }
+0156 CFE4 F000 00598         MOVFF   PREINC1, r0x01
+015A CFE4 F000 00599         MOVFF   PREINC1, r0x00
+015E CFE4 FFD9 00600         MOVFF   PREINC1, FSR2L
+0162 0012      00601         RETURN  
+               00602 
+               00603 ; ; Starting pCode block
+               00604 S_io__io_set_direction  code
+0000 00605 _io_set_direction:
+               00606 ;       .line   370; io.c       status_t    io_set_direction(unsigned char port,io_dir_t dir)
+0000 CFD9 FFE5 00607         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00608         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00609         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00610         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00611         MOVFF   r0x02, POSTDEC1
+0014 0E02      00612         MOVLW   0x02
+0016 CFDB F000 00613         MOVFF   PLUSW2, r0x00
+001A 0E03      00614         MOVLW   0x03
+001C CFDB F000 00615         MOVFF   PLUSW2, r0x01
+               00616 ;       .line   372; io.c       if ( ! VALID_DIGITAL_PORT(port) )
+0020 5000      00617         MOVF    r0x00, W
+0022 0000      00618         BANKSEL _Analog_ports
+0024 5D00      00619         SUBWF   _Analog_ports, W, B
+0026 E200      00620         BC      _00235_DS_
+0028 0E11      00621         MOVLW   0x11
+002A 5C00      00622         SUBWF   r0x00, W
+002C 6A00      00623         CLRF    r0x02
+002E 3600      00624         RLCF    r0x02, F
+0030 5000      00625         MOVF    r0x02, W
+0032 E000      00626         BZ      _00236_DS_
+0034 00627 _00235_DS_:
+               00628 ;       .line   373; io.c       return OV_BAD_PARAM;
+0034 0E80      00629         MOVLW   0x80
+0036 D000      00630         BRA     _00256_DS_
+0038 00631 _00236_DS_:
+               00632 ;       .line   375; io.c       switch(port)
+0038 0E01      00633         MOVLW   0x01
+003A 5C00      00634         SUBWF   r0x00, W
+003C A0D8      00635         BTFSS   STATUS, 0
+003E D000      00636         BRA     _00254_DS_
+0040 5000      00637         MOVF    r0x02, W
+0042 A4D8      00638         BTFSS   STATUS, 2
+0044 D000      00639         BRA     _00254_DS_
+0046 0600      00640         DECF    r0x00, F
+0048 C000 FFE5 00641         MOVFF   r0x03, POSTDEC1
+004C C000 FFE5 00642         MOVFF   r0x04, POSTDEC1
+0050 6A00      00643         CLRF    r0x04
+0052 3400      00644         RLCF    r0x00, W
+0054 3600      00645         RLCF    r0x04, F
+0056 34E8      00646         RLCF    WREG, W
+0058 3600      00647         RLCF    r0x04, F
+005A 0BFC      00648         ANDLW   0xfc
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+005C 6E00      00649         MOVWF   r0x03
+005E 0E00      00650         MOVLW   UPPER(_00265_DS_)
+0060 6EFB      00651         MOVWF   PCLATU
+0062 0E00      00652         MOVLW   HIGH(_00265_DS_)
+0064 6EFA      00653         MOVWF   PCLATH
+0066 0E00      00654         MOVLW   LOW(_00265_DS_)
+0068 2600      00655         ADDWF   r0x03, F
+006A 5000      00656         MOVF    r0x04, W
+006C 22FA      00657         ADDWFC  PCLATH, F
+006E B0D8      00658         BTFSC   STATUS, 0
+0070 2AFB      00659         INCF    PCLATU, F
+0072 5000      00660         MOVF    r0x03, W
+0074 CFE4 F000 00661         MOVFF   PREINC1, r0x04
+0078 CFE4 F000 00662         MOVFF   PREINC1, r0x03
+007C 6EF9      00663         MOVWF   PCL
+007E 00664 _00265_DS_:
+007E EF00 F000 00665         GOTO    _00238_DS_
+0082 EF00 F000 00666         GOTO    _00239_DS_
+0086 EF00 F000 00667         GOTO    _00240_DS_
+008A EF00 F000 00668         GOTO    _00241_DS_
+008E EF00 F000 00669         GOTO    _00242_DS_
+0092 EF00 F000 00670         GOTO    _00243_DS_
+0096 EF00 F000 00671         GOTO    _00244_DS_
+009A EF00 F000 00672         GOTO    _00245_DS_
+009E EF00 F000 00673         GOTO    _00246_DS_
+00A2 EF00 F000 00674         GOTO    _00247_DS_
+00A6 EF00 F000 00675         GOTO    _00248_DS_
+00AA EF00 F000 00676         GOTO    _00249_DS_
+00AE EF00 F000 00677         GOTO    _00250_DS_
+00B2 EF00 F000 00678         GOTO    _00251_DS_
+00B6 EF00 F000 00679         GOTO    _00252_DS_
+00BA EF00 F000 00680         GOTO    _00253_DS_
+00BE 00681 _00238_DS_:
+               00682 ;       .line   377; io.c       case    1:  IO_DIRECTION1 = dir; break;
+00BE 5000      00683         MOVF    r0x01, W
+00C0 0B01      00684         ANDLW   0x01
+00C2 6EF4      00685         MOVWF   PRODH
+00C4 5000      00686         MOVF    _TRISAbits, W
+00C6 0BFE      00687         ANDLW   0xfe
+00C8 10F4      00688         IORWF   PRODH, W
+00CA 6E00      00689         MOVWF   _TRISAbits
+00CC D000      00690         BRA     _00255_DS_
+00CE 00691 _00239_DS_:
+               00692 ;       .line   378; io.c       case    2:  IO_DIRECTION2 = dir; break;
+00CE 5000      00693         MOVF    r0x01, W
+00D0 0B01      00694         ANDLW   0x01
+00D2 44E8      00695         RLNCF   WREG, W
+00D4 6EF4      00696         MOVWF   PRODH
+00D6 5000      00697         MOVF    _TRISAbits, W
+00D8 0BFD      00698         ANDLW   0xfd
+00DA 10F4      00699         IORWF   PRODH, W
+00DC 6E00      00700         MOVWF   _TRISAbits
+00DE D000      00701         BRA     _00255_DS_
+00E0 00702 _00240_DS_:
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00703 ;       .line   379; io.c       case    3:  IO_DIRECTION3 = dir; break;
+00E0 5000      00704         MOVF    r0x01, W
+00E2 0B01      00705         ANDLW   0x01
+00E4 44E8      00706         RLNCF   WREG, W
+00E6 44E8      00707         RLNCF   WREG, W
+00E8 6EF4      00708         MOVWF   PRODH
+00EA 5000      00709         MOVF    _TRISAbits, W
+00EC 0BFB      00710         ANDLW   0xfb
+00EE 10F4      00711         IORWF   PRODH, W
+00F0 6E00      00712         MOVWF   _TRISAbits
+00F2 D000      00713         BRA     _00255_DS_
+00F4 00714 _00241_DS_:
+               00715 ;       .line   380; io.c       case    4:  IO_DIRECTION4 = dir; break;
+00F4 5000      00716         MOVF    r0x01, W
+00F6 0B01      00717         ANDLW   0x01
+00F8 38E8      00718         SWAPF   WREG, W
+00FA 40E8      00719         RRNCF   WREG, W
+00FC 6EF4      00720         MOVWF   PRODH
+00FE 5000      00721         MOVF    _TRISAbits, W
+0100 0BF7      00722         ANDLW   0xf7
+0102 10F4      00723         IORWF   PRODH, W
+0104 6E00      00724         MOVWF   _TRISAbits
+0106 D000      00725         BRA     _00255_DS_
+0108 00726 _00242_DS_:
+               00727 ;       .line   381; io.c       case    5:  IO_DIRECTION5 = dir; break;
+0108 5000      00728         MOVF    r0x01, W
+010A 0B01      00729         ANDLW   0x01
+010C 38E8      00730         SWAPF   WREG, W
+010E 44E8      00731         RLNCF   WREG, W
+0110 6EF4      00732         MOVWF   PRODH
+0112 5000      00733         MOVF    _TRISAbits, W
+0114 0BDF      00734         ANDLW   0xdf
+0116 10F4      00735         IORWF   PRODH, W
+0118 6E00      00736         MOVWF   _TRISAbits
+011A D000      00737         BRA     _00255_DS_
+011C 00738 _00243_DS_:
+               00739 ;       .line   382; io.c       case    6:  IO_DIRECTION6 = dir; break;
+011C 5000      00740         MOVF    r0x01, W
+011E 0B01      00741         ANDLW   0x01
+0120 6EF4      00742         MOVWF   PRODH
+0122 5000      00743         MOVF    _TRISFbits, W
+0124 0BFE      00744         ANDLW   0xfe
+0126 10F4      00745         IORWF   PRODH, W
+0128 6E00      00746         MOVWF   _TRISFbits
+012A D000      00747         BRA     _00255_DS_
+012C 00748 _00244_DS_:
+               00749 ;       .line   383; io.c       case    7:  IO_DIRECTION7 = dir; break;
+012C 5000      00750         MOVF    r0x01, W
+012E 0B01      00751         ANDLW   0x01
+0130 44E8      00752         RLNCF   WREG, W
+0132 6EF4      00753         MOVWF   PRODH
+0134 5000      00754         MOVF    _TRISFbits, W
+0136 0BFD      00755         ANDLW   0xfd
+0138 10F4      00756         IORWF   PRODH, W
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 15
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+013A 6E00      00757         MOVWF   _TRISFbits
+013C D000      00758         BRA     _00255_DS_
+013E 00759 _00245_DS_:
+               00760 ;       .line   384; io.c       case    8:  IO_DIRECTION8 = dir; break;
+013E 5000      00761         MOVF    r0x01, W
+0140 0B01      00762         ANDLW   0x01
+0142 44E8      00763         RLNCF   WREG, W
+0144 44E8      00764         RLNCF   WREG, W
+0146 6EF4      00765         MOVWF   PRODH
+0148 5000      00766         MOVF    _TRISFbits, W
+014A 0BFB      00767         ANDLW   0xfb
+014C 10F4      00768         IORWF   PRODH, W
+014E 6E00      00769         MOVWF   _TRISFbits
+0150 D000      00770         BRA     _00255_DS_
+0152 00771 _00246_DS_:
+               00772 ;       .line   385; io.c       case    9:  IO_DIRECTION9 = dir; break;
+0152 5000      00773         MOVF    r0x01, W
+0154 0B01      00774         ANDLW   0x01
+0156 38E8      00775         SWAPF   WREG, W
+0158 40E8      00776         RRNCF   WREG, W
+015A 6EF4      00777         MOVWF   PRODH
+015C 5000      00778         MOVF    _TRISFbits, W
+015E 0BF7      00779         ANDLW   0xf7
+0160 10F4      00780         IORWF   PRODH, W
+0162 6E00      00781         MOVWF   _TRISFbits
+0164 D000      00782         BRA     _00255_DS_
+0166 00783 _00247_DS_:
+               00784 ;       .line   386; io.c       case    10:  IO_DIRECTION10 = dir; break;
+0166 5000      00785         MOVF    r0x01, W
+0168 0B01      00786         ANDLW   0x01
+016A 38E8      00787         SWAPF   WREG, W
+016C 6EF4      00788         MOVWF   PRODH
+016E 5000      00789         MOVF    _TRISFbits, W
+0170 0BEF      00790         ANDLW   0xef
+0172 10F4      00791         IORWF   PRODH, W
+0174 6E00      00792         MOVWF   _TRISFbits
+0176 D000      00793         BRA     _00255_DS_
+0178 00794 _00248_DS_:
+               00795 ;       .line   387; io.c       case    11:  IO_DIRECTION11 = dir; break;
+0178 5000      00796         MOVF    r0x01, W
+017A 0B01      00797         ANDLW   0x01
+017C 38E8      00798         SWAPF   WREG, W
+017E 44E8      00799         RLNCF   WREG, W
+0180 6EF4      00800         MOVWF   PRODH
+0182 5000      00801         MOVF    _TRISFbits, W
+0184 0BDF      00802         ANDLW   0xdf
+0186 10F4      00803         IORWF   PRODH, W
+0188 6E00      00804         MOVWF   _TRISFbits
+018A D000      00805         BRA     _00255_DS_
+018C 00806 _00249_DS_:
+               00807 ;       .line   388; io.c       case    12:  IO_DIRECTION12 = dir; break;
+018C 5000      00808         MOVF    r0x01, W
+018E 0B01      00809         ANDLW   0x01
+0190 40E8      00810         RRNCF   WREG, W
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 16
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0192 40E8      00811         RRNCF   WREG, W
+0194 6EF4      00812         MOVWF   PRODH
+0196 5000      00813         MOVF    _TRISFbits, W
+0198 0BBF      00814         ANDLW   0xbf
+019A 10F4      00815         IORWF   PRODH, W
+019C 6E00      00816         MOVWF   _TRISFbits
+019E D000      00817         BRA     _00255_DS_
+01A0 00818 _00250_DS_:
+               00819 ;       .line   389; io.c       case    13:  IO_DIRECTION13 = dir; break;
+01A0 5000      00820         MOVF    r0x01, W
+01A2 0B01      00821         ANDLW   0x01
+01A4 38E8      00822         SWAPF   WREG, W
+01A6 6EF4      00823         MOVWF   PRODH
+01A8 5000      00824         MOVF    _TRISHbits, W
+01AA 0BEF      00825         ANDLW   0xef
+01AC 10F4      00826         IORWF   PRODH, W
+01AE 6E00      00827         MOVWF   _TRISHbits
+01B0 D000      00828         BRA     _00255_DS_
+01B2 00829 _00251_DS_:
+               00830 ;       .line   390; io.c       case    14:  IO_DIRECTION14 = dir; break;
+01B2 5000      00831         MOVF    r0x01, W
+01B4 0B01      00832         ANDLW   0x01
+01B6 38E8      00833         SWAPF   WREG, W
+01B8 44E8      00834         RLNCF   WREG, W
+01BA 6EF4      00835         MOVWF   PRODH
+01BC 5000      00836         MOVF    _TRISHbits, W
+01BE 0BDF      00837         ANDLW   0xdf
+01C0 10F4      00838         IORWF   PRODH, W
+01C2 6E00      00839         MOVWF   _TRISHbits
+01C4 D000      00840         BRA     _00255_DS_
+01C6 00841 _00252_DS_:
+               00842 ;       .line   391; io.c       case    15:  IO_DIRECTION15 = dir; break;
+01C6 5000      00843         MOVF    r0x01, W
+01C8 0B01      00844         ANDLW   0x01
+01CA 40E8      00845         RRNCF   WREG, W
+01CC 40E8      00846         RRNCF   WREG, W
+01CE 6EF4      00847         MOVWF   PRODH
+01D0 5000      00848         MOVF    _TRISHbits, W
+01D2 0BBF      00849         ANDLW   0xbf
+01D4 10F4      00850         IORWF   PRODH, W
+01D6 6E00      00851         MOVWF   _TRISHbits
+01D8 D000      00852         BRA     _00255_DS_
+01DA 00853 _00253_DS_:
+               00854 ;       .line   392; io.c       case    16:  IO_DIRECTION16 = dir; break;
+01DA 5000      00855         MOVF    r0x01, W
+01DC 0B01      00856         ANDLW   0x01
+01DE 40E8      00857         RRNCF   WREG, W
+01E0 6EF4      00858         MOVWF   PRODH
+01E2 5000      00859         MOVF    _TRISHbits, W
+01E4 0B7F      00860         ANDLW   0x7f
+01E6 10F4      00861         IORWF   PRODH, W
+01E8 6E00      00862         MOVWF   _TRISHbits
+01EA D000      00863         BRA     _00255_DS_
+01EC 00864 _00254_DS_:
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 17
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00865 ;       .line   394; io.c       return OV_BAD_PARAM;
+01EC 0E80      00866         MOVLW   0x80
+01EE D000      00867         BRA     _00256_DS_
+01F0 00868 _00255_DS_:
+               00869 ;       .line   396; io.c       return OV_OK;
+01F0 6AE8      00870         CLRF    WREG
+01F2 00871 _00256_DS_:
+01F2 CFE4 F000 00872         MOVFF   PREINC1, r0x02
+01F6 CFE4 F000 00873         MOVFF   PREINC1, r0x01
+01FA CFE4 F000 00874         MOVFF   PREINC1, r0x00
+01FE CFE4 FFD9 00875         MOVFF   PREINC1, FSR2L
+0202 0012      00876         RETURN  
+               00877 
+               00878 ; ; Starting pCode block
+               00879 S_io__io_write_digital  code
+0000 00880 _io_write_digital:
+               00881 ;       .line   320; io.c       status_t    io_write_digital(unsigned char port,unsigned char val)
+0000 CFD9 FFE5 00882         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00883         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00884         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00885         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00886         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00887         MOVFF   r0x03, POSTDEC1
+0018 0E02      00888         MOVLW   0x02
+001A CFDB F000 00889         MOVFF   PLUSW2, r0x00
+001E 0E03      00890         MOVLW   0x03
+0020 CFDB F000 00891         MOVFF   PLUSW2, r0x01
+               00892 ;       .line   322; io.c       if ( ! VALID_DIGITAL_OUTPUT_PORT(port) )
+0024 5000      00893         MOVF    r0x00, W
+0026 0000      00894         BANKSEL _Analog_ports
+0028 5D00      00895         SUBWF   _Analog_ports, W, B
+002A E200      00896         BC      _00198_DS_
+002C 0E11      00897         MOVLW   0x11
+002E 5C00      00898         SUBWF   r0x00, W
+0030 6A00      00899         CLRF    r0x02
+0032 3600      00900         RLCF    r0x02, F
+0034 5000      00901         MOVF    r0x02, W
+0036 E100      00902         BNZ     _00198_DS_
+0038 5000      00903         MOVF    r0x00, W
+003A 6EE5      00904         MOVWF   POSTDEC1
+003C EC00 F000 00905         CALL    _io_get_direction
+0040 6E00      00906         MOVWF   r0x03
+0042 2AE1      00907         INCF    FSR1L, F
+0044 5000      00908         MOVF    r0x03, W
+0046 E000      00909         BZ      _00199_DS_
+0048 00910 _00198_DS_:
+               00911 ;       .line   323; io.c       return OV_BAD_PARAM;
+0048 0E80      00912         MOVLW   0x80
+004A D000      00913         BRA     _00220_DS_
+004C 00914 _00199_DS_:
+               00915 ;       .line   327; io.c       switch(port)
+004C 0E01      00916         MOVLW   0x01
+004E 5C00      00917         SUBWF   r0x00, W
+0050 A0D8      00918         BTFSS   STATUS, 0
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 18
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0052 D000      00919         BRA     _00218_DS_
+0054 5000      00920         MOVF    r0x02, W
+0056 A4D8      00921         BTFSS   STATUS, 2
+0058 D000      00922         BRA     _00218_DS_
+005A 0600      00923         DECF    r0x00, F
+005C C000 FFE5 00924         MOVFF   r0x04, POSTDEC1
+0060 C000 FFE5 00925         MOVFF   r0x05, POSTDEC1
+0064 6A00      00926         CLRF    r0x05
+0066 3400      00927         RLCF    r0x00, W
+0068 3600      00928         RLCF    r0x05, F
+006A 34E8      00929         RLCF    WREG, W
+006C 3600      00930         RLCF    r0x05, F
+006E 0BFC      00931         ANDLW   0xfc
+0070 6E00      00932         MOVWF   r0x04
+0072 0E00      00933         MOVLW   UPPER(_00230_DS_)
+0074 6EFB      00934         MOVWF   PCLATU
+0076 0E00      00935         MOVLW   HIGH(_00230_DS_)
+0078 6EFA      00936         MOVWF   PCLATH
+007A 0E00      00937         MOVLW   LOW(_00230_DS_)
+007C 2600      00938         ADDWF   r0x04, F
+007E 5000      00939         MOVF    r0x05, W
+0080 22FA      00940         ADDWFC  PCLATH, F
+0082 B0D8      00941         BTFSC   STATUS, 0
+0084 2AFB      00942         INCF    PCLATU, F
+0086 5000      00943         MOVF    r0x04, W
+0088 CFE4 F000 00944         MOVFF   PREINC1, r0x05
+008C CFE4 F000 00945         MOVFF   PREINC1, r0x04
+0090 6EF9      00946         MOVWF   PCL
+0092 00947 _00230_DS_:
+0092 EF00 F000 00948         GOTO    _00202_DS_
+0096 EF00 F000 00949         GOTO    _00203_DS_
+009A EF00 F000 00950         GOTO    _00204_DS_
+009E EF00 F000 00951         GOTO    _00205_DS_
+00A2 EF00 F000 00952         GOTO    _00206_DS_
+00A6 EF00 F000 00953         GOTO    _00207_DS_
+00AA EF00 F000 00954         GOTO    _00208_DS_
+00AE EF00 F000 00955         GOTO    _00209_DS_
+00B2 EF00 F000 00956         GOTO    _00210_DS_
+00B6 EF00 F000 00957         GOTO    _00211_DS_
+00BA EF00 F000 00958         GOTO    _00212_DS_
+00BE EF00 F000 00959         GOTO    _00213_DS_
+00C2 EF00 F000 00960         GOTO    _00214_DS_
+00C6 EF00 F000 00961         GOTO    _00215_DS_
+00CA EF00 F000 00962         GOTO    _00216_DS_
+00CE EF00 F000 00963         GOTO    _00217_DS_
+00D2 00964 _00202_DS_:
+               00965 ;       .line   329; io.c       case    1:  DIGITAL_OUT1 = val; break;
+00D2 5000      00966         MOVF    r0x01, W
+00D4 0B01      00967         ANDLW   0x01
+00D6 6EF4      00968         MOVWF   PRODH
+00D8 5000      00969         MOVF    _LATAbits, W
+00DA 0BFE      00970         ANDLW   0xfe
+00DC 10F4      00971         IORWF   PRODH, W
+00DE 6E00      00972         MOVWF   _LATAbits
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 19
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00E0 D000      00973         BRA     _00219_DS_
+00E2 00974 _00203_DS_:
+               00975 ;       .line   330; io.c       case    2:  DIGITAL_OUT2 = val; break;
+00E2 5000      00976         MOVF    r0x01, W
+00E4 0B01      00977         ANDLW   0x01
+00E6 44E8      00978         RLNCF   WREG, W
+00E8 6EF4      00979         MOVWF   PRODH
+00EA 5000      00980         MOVF    _LATAbits, W
+00EC 0BFD      00981         ANDLW   0xfd
+00EE 10F4      00982         IORWF   PRODH, W
+00F0 6E00      00983         MOVWF   _LATAbits
+00F2 D000      00984         BRA     _00219_DS_
+00F4 00985 _00204_DS_:
+               00986 ;       .line   331; io.c       case    3:  DIGITAL_OUT3 = val; break;
+00F4 5000      00987         MOVF    r0x01, W
+00F6 0B01      00988         ANDLW   0x01
+00F8 44E8      00989         RLNCF   WREG, W
+00FA 44E8      00990         RLNCF   WREG, W
+00FC 6EF4      00991         MOVWF   PRODH
+00FE 5000      00992         MOVF    _LATAbits, W
+0100 0BFB      00993         ANDLW   0xfb
+0102 10F4      00994         IORWF   PRODH, W
+0104 6E00      00995         MOVWF   _LATAbits
+0106 D000      00996         BRA     _00219_DS_
+0108 00997 _00205_DS_:
+               00998 ;       .line   332; io.c       case    4:  DIGITAL_OUT4 = val; break;
+0108 5000      00999         MOVF    r0x01, W
+010A 0B01      01000         ANDLW   0x01
+010C 38E8      01001         SWAPF   WREG, W
+010E 40E8      01002         RRNCF   WREG, W
+0110 6EF4      01003         MOVWF   PRODH
+0112 5000      01004         MOVF    _LATAbits, W
+0114 0BF7      01005         ANDLW   0xf7
+0116 10F4      01006         IORWF   PRODH, W
+0118 6E00      01007         MOVWF   _LATAbits
+011A D000      01008         BRA     _00219_DS_
+011C 01009 _00206_DS_:
+               01010 ;       .line   333; io.c       case    5:  DIGITAL_OUT5 = val; break;
+011C 5000      01011         MOVF    r0x01, W
+011E 0B01      01012         ANDLW   0x01
+0120 38E8      01013         SWAPF   WREG, W
+0122 44E8      01014         RLNCF   WREG, W
+0124 6EF4      01015         MOVWF   PRODH
+0126 5000      01016         MOVF    _LATAbits, W
+0128 0BDF      01017         ANDLW   0xdf
+012A 10F4      01018         IORWF   PRODH, W
+012C 6E00      01019         MOVWF   _LATAbits
+012E D000      01020         BRA     _00219_DS_
+0130 01021 _00207_DS_:
+               01022 ;       .line   334; io.c       case    6:  DIGITAL_OUT6 = val; break;
+0130 5000      01023         MOVF    r0x01, W
+0132 0B01      01024         ANDLW   0x01
+0134 6EF4      01025         MOVWF   PRODH
+0136 5000      01026         MOVF    _LATFbits, W
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 20
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0138 0BFE      01027         ANDLW   0xfe
+013A 10F4      01028         IORWF   PRODH, W
+013C 6E00      01029         MOVWF   _LATFbits
+013E D000      01030         BRA     _00219_DS_
+0140 01031 _00208_DS_:
+               01032 ;       .line   335; io.c       case    7:  DIGITAL_OUT7 = val; break;
+0140 5000      01033         MOVF    r0x01, W
+0142 0B01      01034         ANDLW   0x01
+0144 44E8      01035         RLNCF   WREG, W
+0146 6EF4      01036         MOVWF   PRODH
+0148 5000      01037         MOVF    _LATFbits, W
+014A 0BFD      01038         ANDLW   0xfd
+014C 10F4      01039         IORWF   PRODH, W
+014E 6E00      01040         MOVWF   _LATFbits
+0150 D000      01041         BRA     _00219_DS_
+0152 01042 _00209_DS_:
+               01043 ;       .line   336; io.c       case    8:  DIGITAL_OUT8 = val; break;
+0152 5000      01044         MOVF    r0x01, W
+0154 0B01      01045         ANDLW   0x01
+0156 44E8      01046         RLNCF   WREG, W
+0158 44E8      01047         RLNCF   WREG, W
+015A 6EF4      01048         MOVWF   PRODH
+015C 5000      01049         MOVF    _LATFbits, W
+015E 0BFB      01050         ANDLW   0xfb
+0160 10F4      01051         IORWF   PRODH, W
+0162 6E00      01052         MOVWF   _LATFbits
+0164 D000      01053         BRA     _00219_DS_
+0166 01054 _00210_DS_:
+               01055 ;       .line   337; io.c       case    9:  DIGITAL_OUT9 = val; break;
+0166 5000      01056         MOVF    r0x01, W
+0168 0B01      01057         ANDLW   0x01
+016A 38E8      01058         SWAPF   WREG, W
+016C 40E8      01059         RRNCF   WREG, W
+016E 6EF4      01060         MOVWF   PRODH
+0170 5000      01061         MOVF    _LATFbits, W
+0172 0BF7      01062         ANDLW   0xf7
+0174 10F4      01063         IORWF   PRODH, W
+0176 6E00      01064         MOVWF   _LATFbits
+0178 D000      01065         BRA     _00219_DS_
+017A 01066 _00211_DS_:
+               01067 ;       .line   338; io.c       case    10:  DIGITAL_OUT10 = val; break;
+017A 5000      01068         MOVF    r0x01, W
+017C 0B01      01069         ANDLW   0x01
+017E 38E8      01070         SWAPF   WREG, W
+0180 6EF4      01071         MOVWF   PRODH
+0182 5000      01072         MOVF    _LATFbits, W
+0184 0BEF      01073         ANDLW   0xef
+0186 10F4      01074         IORWF   PRODH, W
+0188 6E00      01075         MOVWF   _LATFbits
+018A D000      01076         BRA     _00219_DS_
+018C 01077 _00212_DS_:
+               01078 ;       .line   339; io.c       case    11:  DIGITAL_OUT11 = val; break;
+018C 5000      01079         MOVF    r0x01, W
+018E 0B01      01080         ANDLW   0x01
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 21
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0190 38E8      01081         SWAPF   WREG, W
+0192 44E8      01082         RLNCF   WREG, W
+0194 6EF4      01083         MOVWF   PRODH
+0196 5000      01084         MOVF    _LATFbits, W
+0198 0BDF      01085         ANDLW   0xdf
+019A 10F4      01086         IORWF   PRODH, W
+019C 6E00      01087         MOVWF   _LATFbits
+019E D000      01088         BRA     _00219_DS_
+01A0 01089 _00213_DS_:
+               01090 ;       .line   340; io.c       case    12:  DIGITAL_OUT12 = val; break;
+01A0 5000      01091         MOVF    r0x01, W
+01A2 0B01      01092         ANDLW   0x01
+01A4 40E8      01093         RRNCF   WREG, W
+01A6 40E8      01094         RRNCF   WREG, W
+01A8 6EF4      01095         MOVWF   PRODH
+01AA 5000      01096         MOVF    _LATFbits, W
+01AC 0BBF      01097         ANDLW   0xbf
+01AE 10F4      01098         IORWF   PRODH, W
+01B0 6E00      01099         MOVWF   _LATFbits
+01B2 D000      01100         BRA     _00219_DS_
+01B4 01101 _00214_DS_:
+               01102 ;       .line   341; io.c       case    13:  DIGITAL_OUT13 = val; break;
+01B4 5000      01103         MOVF    r0x01, W
+01B6 0B01      01104         ANDLW   0x01
+01B8 38E8      01105         SWAPF   WREG, W
+01BA 6EF4      01106         MOVWF   PRODH
+01BC 5000      01107         MOVF    _LATHbits, W
+01BE 0BEF      01108         ANDLW   0xef
+01C0 10F4      01109         IORWF   PRODH, W
+01C2 6E00      01110         MOVWF   _LATHbits
+01C4 D000      01111         BRA     _00219_DS_
+01C6 01112 _00215_DS_:
+               01113 ;       .line   342; io.c       case    14:  DIGITAL_OUT14 = val; break;
+01C6 5000      01114         MOVF    r0x01, W
+01C8 0B01      01115         ANDLW   0x01
+01CA 38E8      01116         SWAPF   WREG, W
+01CC 44E8      01117         RLNCF   WREG, W
+01CE 6EF4      01118         MOVWF   PRODH
+01D0 5000      01119         MOVF    _LATHbits, W
+01D2 0BDF      01120         ANDLW   0xdf
+01D4 10F4      01121         IORWF   PRODH, W
+01D6 6E00      01122         MOVWF   _LATHbits
+01D8 D000      01123         BRA     _00219_DS_
+01DA 01124 _00216_DS_:
+               01125 ;       .line   343; io.c       case    15:  DIGITAL_OUT15 = val; break;
+01DA 5000      01126         MOVF    r0x01, W
+01DC 0B01      01127         ANDLW   0x01
+01DE 40E8      01128         RRNCF   WREG, W
+01E0 40E8      01129         RRNCF   WREG, W
+01E2 6EF4      01130         MOVWF   PRODH
+01E4 5000      01131         MOVF    _LATHbits, W
+01E6 0BBF      01132         ANDLW   0xbf
+01E8 10F4      01133         IORWF   PRODH, W
+01EA 6E00      01134         MOVWF   _LATHbits
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 22
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+01EC D000      01135         BRA     _00219_DS_
+01EE 01136 _00217_DS_:
+               01137 ;       .line   344; io.c       case    16:  DIGITAL_OUT16 = val; break;
+01EE 5000      01138         MOVF    r0x01, W
+01F0 0B01      01139         ANDLW   0x01
+01F2 40E8      01140         RRNCF   WREG, W
+01F4 6EF4      01141         MOVWF   PRODH
+01F6 5000      01142         MOVF    _LATHbits, W
+01F8 0B7F      01143         ANDLW   0x7f
+01FA 10F4      01144         IORWF   PRODH, W
+01FC 6E00      01145         MOVWF   _LATHbits
+01FE D000      01146         BRA     _00219_DS_
+0200 01147 _00218_DS_:
+               01148 ;       .line   346; io.c       return OV_BAD_PARAM;
+0200 0E80      01149         MOVLW   0x80
+0202 D000      01150         BRA     _00220_DS_
+0204 01151 _00219_DS_:
+               01152 ;       .line   348; io.c       return OV_OK;
+0204 6AE8      01153         CLRF    WREG
+0206 01154 _00220_DS_:
+0206 CFE4 F000 01155         MOVFF   PREINC1, r0x03
+020A CFE4 F000 01156         MOVFF   PREINC1, r0x02
+020E CFE4 F000 01157         MOVFF   PREINC1, r0x01
+0212 CFE4 F000 01158         MOVFF   PREINC1, r0x00
+0216 CFE4 FFD9 01159         MOVFF   PREINC1, FSR2L
+021A 0012      01160         RETURN  
+               01161 
+               01162 ; ; Starting pCode block
+               01163 S_io__io_read_digital   code
+0000 01164 _io_read_digital:
+               01165 ;       .line   271; io.c       char    io_read_digital(unsigned char port)
+0000 CFD9 FFE5 01166         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01167         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01168         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 01169         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 01170         MOVFF   r0x02, POSTDEC1
+0014 0E02      01171         MOVLW   0x02
+0016 CFDB F000 01172         MOVFF   PLUSW2, r0x00
+               01173 ;       .line   274; io.c       if ( ! VALID_DIGITAL_INPUT_PORT(port) )
+001A 5000      01174         MOVF    r0x00, W
+001C 0000      01175         BANKSEL _Analog_ports
+001E 5D00      01176         SUBWF   _Analog_ports, W, B
+0020 E200      01177         BC      _00159_DS_
+0022 0E11      01178         MOVLW   0x11
+0024 5C00      01179         SUBWF   r0x00, W
+0026 6A00      01180         CLRF    r0x01
+0028 3600      01181         RLCF    r0x01, F
+002A 5000      01182         MOVF    r0x01, W
+002C E100      01183         BNZ     _00159_DS_
+002E 5000      01184         MOVF    r0x00, W
+0030 6EE5      01185         MOVWF   POSTDEC1
+0032 EC00 F000 01186         CALL    _io_get_direction
+0036 6E00      01187         MOVWF   r0x02
+0038 2AE1      01188         INCF    FSR1L, F
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 23
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+003A 5000      01189         MOVF    r0x02, W
+003C 0A01      01190         XORLW   0x01
+003E E000      01191         BZ      _00160_DS_
+0040 01192 _00159_DS_:
+               01193 ;       .line   275; io.c       return OV_BAD_PARAM;
+0040 0E80      01194         MOVLW   0x80
+0042 D000      01195         BRA     _00181_DS_
+0044 01196 _00160_DS_:
+               01197 ;       .line   278; io.c       switch(port)
+0044 0E01      01198         MOVLW   0x01
+0046 5C00      01199         SUBWF   r0x00, W
+0048 A0D8      01200         BTFSS   STATUS, 0
+004A D000      01201         BRA     _00179_DS_
+004C 5000      01202         MOVF    r0x01, W
+004E A4D8      01203         BTFSS   STATUS, 2
+0050 D000      01204         BRA     _00179_DS_
+0052 0600      01205         DECF    r0x00, F
+0054 C000 FFE5 01206         MOVFF   r0x03, POSTDEC1
+0058 C000 FFE5 01207         MOVFF   r0x04, POSTDEC1
+005C 6A00      01208         CLRF    r0x04
+005E 3400      01209         RLCF    r0x00, W
+0060 3600      01210         RLCF    r0x04, F
+0062 34E8      01211         RLCF    WREG, W
+0064 3600      01212         RLCF    r0x04, F
+0066 0BFC      01213         ANDLW   0xfc
+0068 6E00      01214         MOVWF   r0x03
+006A 0E00      01215         MOVLW   UPPER(_00193_DS_)
+006C 6EFB      01216         MOVWF   PCLATU
+006E 0E00      01217         MOVLW   HIGH(_00193_DS_)
+0070 6EFA      01218         MOVWF   PCLATH
+0072 0E00      01219         MOVLW   LOW(_00193_DS_)
+0074 2600      01220         ADDWF   r0x03, F
+0076 5000      01221         MOVF    r0x04, W
+0078 22FA      01222         ADDWFC  PCLATH, F
+007A B0D8      01223         BTFSC   STATUS, 0
+007C 2AFB      01224         INCF    PCLATU, F
+007E 5000      01225         MOVF    r0x03, W
+0080 CFE4 F000 01226         MOVFF   PREINC1, r0x04
+0084 CFE4 F000 01227         MOVFF   PREINC1, r0x03
+0088 6EF9      01228         MOVWF   PCL
+008A 01229 _00193_DS_:
+008A EF00 F000 01230         GOTO    _00163_DS_
+008E EF00 F000 01231         GOTO    _00164_DS_
+0092 EF00 F000 01232         GOTO    _00165_DS_
+0096 EF00 F000 01233         GOTO    _00166_DS_
+009A EF00 F000 01234         GOTO    _00167_DS_
+009E EF00 F000 01235         GOTO    _00168_DS_
+00A2 EF00 F000 01236         GOTO    _00169_DS_
+00A6 EF00 F000 01237         GOTO    _00170_DS_
+00AA EF00 F000 01238         GOTO    _00171_DS_
+00AE EF00 F000 01239         GOTO    _00172_DS_
+00B2 EF00 F000 01240         GOTO    _00173_DS_
+00B6 EF00 F000 01241         GOTO    _00174_DS_
+00BA EF00 F000 01242         GOTO    _00175_DS_
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 24
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00BE EF00 F000 01243         GOTO    _00176_DS_
+00C2 EF00 F000 01244         GOTO    _00177_DS_
+00C6 EF00 F000 01245         GOTO    _00178_DS_
+00CA 01246 _00163_DS_:
+               01247 ;       .line   280; io.c       case    1:  return DIGITAL_IN1;
+00CA 6A00      01248         CLRF    r0x00
+00CC B000      01249         BTFSC   _PORTAbits, 0
+00CE 2A00      01250         INCF    r0x00, F
+00D0 5000      01251         MOVF    r0x00, W
+00D2 D000      01252         BRA     _00181_DS_
+00D4 01253 _00164_DS_:
+               01254 ;       .line   281; io.c       case    2:  return DIGITAL_IN2;
+00D4 6A00      01255         CLRF    r0x00
+00D6 B200      01256         BTFSC   _PORTAbits, 1
+00D8 2A00      01257         INCF    r0x00, F
+00DA 5000      01258         MOVF    r0x00, W
+00DC D000      01259         BRA     _00181_DS_
+00DE 01260 _00165_DS_:
+               01261 ;       .line   282; io.c       case    3:  return DIGITAL_IN3;
+00DE 6A00      01262         CLRF    r0x00
+00E0 B400      01263         BTFSC   _PORTAbits, 2
+00E2 2A00      01264         INCF    r0x00, F
+00E4 5000      01265         MOVF    r0x00, W
+00E6 D000      01266         BRA     _00181_DS_
+00E8 01267 _00166_DS_:
+               01268 ;       .line   283; io.c       case    4:  return DIGITAL_IN4;
+00E8 6A00      01269         CLRF    r0x00
+00EA B600      01270         BTFSC   _PORTAbits, 3
+00EC 2A00      01271         INCF    r0x00, F
+00EE 5000      01272         MOVF    r0x00, W
+00F0 D000      01273         BRA     _00181_DS_
+00F2 01274 _00167_DS_:
+               01275 ;       .line   284; io.c       case    5:  return DIGITAL_IN5;
+00F2 6A00      01276         CLRF    r0x00
+00F4 BA00      01277         BTFSC   _PORTAbits, 5
+00F6 2A00      01278         INCF    r0x00, F
+00F8 5000      01279         MOVF    r0x00, W
+00FA D000      01280         BRA     _00181_DS_
+00FC 01281 _00168_DS_:
+               01282 ;       .line   285; io.c       case    6:  return DIGITAL_IN6;
+00FC 6A00      01283         CLRF    r0x00
+00FE B000      01284         BTFSC   _PORTFbits, 0
+0100 2A00      01285         INCF    r0x00, F
+0102 5000      01286         MOVF    r0x00, W
+0104 D000      01287         BRA     _00181_DS_
+0106 01288 _00169_DS_:
+               01289 ;       .line   286; io.c       case    7:  return DIGITAL_IN7;
+0106 6A00      01290         CLRF    r0x00
+0108 B200      01291         BTFSC   _PORTFbits, 1
+010A 2A00      01292         INCF    r0x00, F
+010C 5000      01293         MOVF    r0x00, W
+010E D000      01294         BRA     _00181_DS_
+0110 01295 _00170_DS_:
+               01296 ;       .line   287; io.c       case    8:  return DIGITAL_IN8;
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 25
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0110 6A00      01297         CLRF    r0x00
+0112 B400      01298         BTFSC   _PORTFbits, 2
+0114 2A00      01299         INCF    r0x00, F
+0116 5000      01300         MOVF    r0x00, W
+0118 D000      01301         BRA     _00181_DS_
+011A 01302 _00171_DS_:
+               01303 ;       .line   288; io.c       case    9:  return DIGITAL_IN9;
+011A 6A00      01304         CLRF    r0x00
+011C B600      01305         BTFSC   _PORTFbits, 3
+011E 2A00      01306         INCF    r0x00, F
+0120 5000      01307         MOVF    r0x00, W
+0122 D000      01308         BRA     _00181_DS_
+0124 01309 _00172_DS_:
+               01310 ;       .line   289; io.c       case    10: return DIGITAL_IN10;
+0124 6A00      01311         CLRF    r0x00
+0126 B800      01312         BTFSC   _PORTFbits, 4
+0128 2A00      01313         INCF    r0x00, F
+012A 5000      01314         MOVF    r0x00, W
+012C D000      01315         BRA     _00181_DS_
+012E 01316 _00173_DS_:
+               01317 ;       .line   290; io.c       case    11: return DIGITAL_IN11;
+012E 6A00      01318         CLRF    r0x00
+0130 BA00      01319         BTFSC   _PORTFbits, 5
+0132 2A00      01320         INCF    r0x00, F
+0134 5000      01321         MOVF    r0x00, W
+0136 D000      01322         BRA     _00181_DS_
+0138 01323 _00174_DS_:
+               01324 ;       .line   291; io.c       case    12: return DIGITAL_IN12;
+0138 6A00      01325         CLRF    r0x00
+013A BC00      01326         BTFSC   _PORTFbits, 6
+013C 2A00      01327         INCF    r0x00, F
+013E 5000      01328         MOVF    r0x00, W
+0140 D000      01329         BRA     _00181_DS_
+0142 01330 _00175_DS_:
+               01331 ;       .line   292; io.c       case    13: return DIGITAL_IN13;
+0142 6A00      01332         CLRF    r0x00
+0144 B800      01333         BTFSC   _PORTHbits, 4
+0146 2A00      01334         INCF    r0x00, F
+0148 5000      01335         MOVF    r0x00, W
+014A D000      01336         BRA     _00181_DS_
+014C 01337 _00176_DS_:
+               01338 ;       .line   293; io.c       case    14: return DIGITAL_IN14;
+014C 6A00      01339         CLRF    r0x00
+014E BA00      01340         BTFSC   _PORTHbits, 5
+0150 2A00      01341         INCF    r0x00, F
+0152 5000      01342         MOVF    r0x00, W
+0154 D000      01343         BRA     _00181_DS_
+0156 01344 _00177_DS_:
+               01345 ;       .line   294; io.c       case    15: return DIGITAL_IN15;
+0156 6A00      01346         CLRF    r0x00
+0158 BC00      01347         BTFSC   _PORTHbits, 6
+015A 2A00      01348         INCF    r0x00, F
+015C 5000      01349         MOVF    r0x00, W
+015E D000      01350         BRA     _00181_DS_
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 26
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0160 01351 _00178_DS_:
+               01352 ;       .line   295; io.c       case    16: return DIGITAL_IN16;
+0160 6A00      01353         CLRF    r0x00
+0162 BE00      01354         BTFSC   _PORTHbits, 7
+0164 2A00      01355         INCF    r0x00, F
+0166 5000      01356         MOVF    r0x00, W
+0168 D000      01357         BRA     _00181_DS_
+016A 01358 _00179_DS_:
+               01359 ;       .line   297; io.c       return OV_BAD_PARAM;
+016A 0E80      01360         MOVLW   0x80
+016C 01361 _00181_DS_:
+               01362 ;       .line   298; io.c       }
+016C CFE4 F000 01363         MOVFF   PREINC1, r0x02
+0170 CFE4 F000 01364         MOVFF   PREINC1, r0x01
+0174 CFE4 F000 01365         MOVFF   PREINC1, r0x00
+0178 CFE4 FFD9 01366         MOVFF   PREINC1, FSR2L
+017C 0012      01367         RETURN  
+               01368 
+               01369 ; ; Starting pCode block
+               01370 S_io__io_read_analog    code
+0000 01371 _io_read_analog:
+               01372 ;       .line   199; io.c       unsigned int io_read_analog(unsigned char port)
+0000 CFD9 FFE5 01373         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01374         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01375         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 01376         MOVFF   r0x01, POSTDEC1
+0010 0E02      01377         MOVLW   0x02
+0012 CFDB F000 01378         MOVFF   PLUSW2, r0x00
+               01379 ;       .line   213; io.c       if ( ! VALID_ANALOG_PORT(port) )
+0016 0E01      01380         MOVLW   0x01
+0018 5C00      01381         SUBWF   r0x00, W
+001A E300      01382         BNC     _00142_DS_
+001C 5000      01383         MOVF    r0x00, W
+001E 0000      01384         BANKSEL _Analog_ports
+0020 5D00      01385         SUBWF   _Analog_ports, W, B
+0022 E200      01386         BC      _00143_DS_
+0024 01387 _00142_DS_:
+               01388 ;       .line   214; io.c       return OV_BAD_PARAM;
+0024 68F3      01389         SETF    PRODL
+0026 0E80      01390         MOVLW   0x80
+0028 D000      01391         BRA     _00148_DS_
+002A 01392 _00143_DS_:
+               01393 ;       .line   219; io.c       channel = port - 1;
+002A 0600      01394         DECF    r0x00, F
+               01395 ;       .line   225; io.c       adc_open8520(channel);
+002C 5000      01396         MOVF    r0x00, W
+002E 6EE5      01397         MOVWF   POSTDEC1
+0030 EC00 F000 01398         CALL    _adc_open8520
+0034 2AE1      01399         INCF    FSR1L, F
+               01400 ;       .line   228; io.c       delay10tcy(10);
+0036 0E0A      01401         MOVLW   0x0a
+0038 EC00 F000 01402         CALL    _delay10tcy
+               01403 ;       .line   230; io.c       adc_conv();
+003C EC00 F000 01404         CALL    _adc_conv
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 27
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0040 01405 _00145_DS_:
+               01406 ;       .line   231; io.c       while ( adc_busy() )
+0040 EC00 F000 01407         CALL    _adc_busy
+0044 6E00      01408         MOVWF   r0x00
+0046 5000      01409         MOVF    r0x00, W
+0048 E100      01410         BNZ     _00145_DS_
+               01411 ;       .line   233; io.c       result = adc_read();
+004A EC00 F000 01412         CALL    _adc_read
+004E 6E00      01413         MOVWF   r0x00
+0050 CFF3 F000 01414         MOVFF   PRODL, r0x01
+               01415 ;       .line   234; io.c       adc_close();
+0054 EC00 F000 01416         CALL    _adc_close
+               01417 ;       .line   251; io.c       return result;
+0058 C000 FFF3 01418         MOVFF   r0x01, PRODL
+005C 5000      01419         MOVF    r0x00, W
+005E 01420 _00148_DS_:
+005E CFE4 F000 01421         MOVFF   PREINC1, r0x01
+0062 CFE4 F000 01422         MOVFF   PREINC1, r0x00
+0066 CFE4 FFD9 01423         MOVFF   PREINC1, FSR2L
+006A 0012      01424         RETURN  
+               01425 
+               01426 ; ; Starting pCode block
+               01427 S_io__adc_busy  code
+0000 01428 _adc_busy:
+               01429 ;       .line   174; io.c       return ADCON0bits.GO;
+0000 6A00      01430         CLRF    r0x00
+0002 B200      01431         BTFSC   _ADCON0bits, 1
+0004 2A00      01432         INCF    r0x00, F
+0006 5000      01433         MOVF    r0x00, W
+               01434 ; ; Starting pCode block
+               01435 S_io__adc_conv  code
+0000 01436 _adc_conv:
+               01437 ;       .line   167; io.c       void adc_conv(void)
+0000 CFD9 FFE5 01438         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01439         MOVFF   FSR1L, FSR2L
+               01440 ;       .line   169; io.c       ADCON0bits.GO = 1;
+0008 8200      01441         BSF     _ADCON0bits, 1
+000A CFE4 FFD9 01442         MOVFF   PREINC1, FSR2L
+000E 0012      01443         RETURN  
+               01444 
+               01445 ; ; Starting pCode block
+               01446 S_io__adc_open8520      code
+0000 01447 _adc_open8520:
+               01448 ;       .line   120; io.c       void    adc_open8520(unsigned char channel)
+0000 CFD9 FFE5 01449         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01450         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01451         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 01452         MOVFF   r0x01, POSTDEC1
+0010 0E02      01453         MOVLW   0x02
+0012 CFDB F000 01454         MOVFF   PLUSW2, r0x00
+               01455 ;       .line   124; io.c       ADCON0 = 0;
+0016 6A00      01456         CLRF    _ADCON0
+               01457 ;       .line   127; io.c       ADCON0 |= (channel << 2);
+0018 4400      01458         RLNCF   r0x00, W
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 28
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+001A 44E8      01459         RLNCF   WREG, W
+001C 0BFC      01460         ANDLW   0xfc
+               01461 ; #     MOVWF   r0x01
+               01462 ; #     MOVF    r0x01, W
+001E 6E00      01463         MOVWF   r0x01
+0020 1200      01464         IORWF   _ADCON0, F
+               01465 ;       .line   130; io.c       ADCON0bits.GO = 0;
+0022 9200      01466         BCF     _ADCON0bits, 1
+               01467 ;       .line   133; io.c       ADCON1 = 0;
+0024 6A00      01468         CLRF    _ADCON1
+               01469 ;       .line   136; io.c       ADCON1bits.VCFG1 = 0;
+0026 9A00      01470         BCF     _ADCON1bits, 5
+               01471 ;       .line   137; io.c       ADCON1bits.VCFG0 = 0;
+0028 9800      01472         BCF     _ADCON1bits, 4
+002A 0000      01473         BANKSEL _Analog_ports_const
+               01474 ;       .line   140; io.c       ADCON1 |= Analog_ports_const;
+002C 5100      01475         MOVF    _Analog_ports_const, W, B
+002E 1200      01476         IORWF   _ADCON1, F
+               01477 ;       .line   143; io.c       ADCON2 |= ADC_FRM_RJUST;
+0030 8E00      01478         BSF     _ADCON2, 7
+               01479 ;       .line   146; io.c       ADCON2bits.ADCS2 = 1;
+0032 8400      01480         BSF     _ADCON2bits, 2
+               01481 ;       .line   147; io.c       ADCON2bits.ADCS1 = 1;
+0034 8200      01482         BSF     _ADCON2bits, 1
+               01483 ;       .line   148; io.c       ADCON2bits.ADCS0 = 1;
+0036 8000      01484         BSF     _ADCON2bits, 0
+               01485 ;       .line   151; io.c       PIR1bits.ADIF = ADC_INT_OFF;
+0038 9C00      01486         BCF     _PIR1bits, 6
+               01487 ;       .line   152; io.c       PIE1bits.ADIE = 0;
+003A 9C00      01488         BCF     _PIE1bits, 6
+               01489 ;       .line   155; io.c       ADCON0bits.ADON = 1;
+003C 8000      01490         BSF     _ADCON0bits, 0
+003E CFE4 F000 01491         MOVFF   PREINC1, r0x01
+0042 CFE4 F000 01492         MOVFF   PREINC1, r0x00
+0046 CFE4 FFD9 01493         MOVFF   PREINC1, FSR2L
+004A 0012      01494         RETURN  
+               01495 
+               01496 ; ; Starting pCode block
+               01497 S_io__io_get_analog_port_count  code
+0000 01498 _io_get_analog_port_count:
+               01499 ;       .line   100; io.c       unsigned char   io_get_analog_port_count(void)
+0000 CFD9 FFE5 01500         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01501         MOVFF   FSR1L, FSR2L
+0008 0000      01502         BANKSEL _Analog_ports
+               01503 ;       .line   103; io.c       return Analog_ports;
+000A 5100      01504         MOVF    _Analog_ports, W, B
+000C CFE4 FFD9 01505         MOVFF   PREINC1, FSR2L
+0010 0012      01506         RETURN  
+               01507 
+               01508 ; ; Starting pCode block
+               01509 S_io__io_set_analog_port_count  code
+0000 01510 _io_set_analog_port_count:
+               01511 ;       .line   65; io.c        status_t    io_set_analog_port_count(unsigned char ports)
+0000 CFD9 FFE5 01512         MOVFF   FSR2L, POSTDEC1
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 29
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0004 CFE1 FFD9 01513         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01514         MOVFF   r0x00, POSTDEC1
+000C 0E02      01515         MOVLW   0x02
+000E CFDB F000 01516         MOVFF   PLUSW2, r0x00
+               01517 ;       .line   76; io.c        if ( ports <= 14 )
+0012 0E0F      01518         MOVLW   0x0f
+0014 5C00      01519         SUBWF   r0x00, W
+0016 E200      01520         BC      _00109_DS_
+               01521 ;       .line   78; io.c        Analog_ports = ports;
+0018 C000 F000 01522         MOVFF   r0x00, _Analog_ports
+               01523 ;       .line   79; io.c        Analog_ports_const = (0x0F - ports) | ADC_MASK;
+001C 5000      01524         MOVF    r0x00, W
+001E 080F      01525         SUBLW   0x0f
+0020 0000      01526         BANKSEL _Analog_ports_const
+0022 6F00      01527         MOVWF   _Analog_ports_const, B
+               01528 ;       .line   80; io.c        return OV_OK;
+0024 6AE8      01529         CLRF    WREG
+0026 D000      01530         BRA     _00111_DS_
+0028 01531 _00109_DS_:
+               01532 ;       .line   82; io.c        else if ( ports == 16 )
+0028 5000      01533         MOVF    r0x00, W
+002A 0A10      01534         XORLW   0x10
+002C E100      01535         BNZ     _00106_DS_
+               01536 ;       .line   84; io.c        Analog_ports = ports;
+002E C000 F000 01537         MOVFF   r0x00, _Analog_ports
+0032 0000      01538         BANKSEL _Analog_ports_const
+               01539 ;       .line   85; io.c        Analog_ports_const = 0x00 | ADC_MASK;
+0034 6B00      01540         CLRF    _Analog_ports_const, B
+               01541 ;       .line   86; io.c        return OV_OK;
+0036 6AE8      01542         CLRF    WREG
+0038 D000      01543         BRA     _00111_DS_
+003A 01544 _00106_DS_:
+               01545 ;       .line   89; io.c        return OV_BAD_PARAM;
+003A 0E80      01546         MOVLW   0x80
+003C 01547 _00111_DS_:
+003C CFE4 F000 01548         MOVFF   PREINC1, r0x00
+0040 CFE4 FFD9 01549         MOVFF   PREINC1, FSR2L
+0044 0012      01550         RETURN  
+               01551 
+               01552 
+               01553 
+               01554 ; Statistics:
+               01555 ; code size:     2288 (0x08f0) bytes ( 1.75%)
+               01556 ;                1144 (0x0478) words
+               01557 ; udata size:       2 (0x0002) bytes ( 0.11%)
+               01558 ; access size:      6 (0x0006) bytes
+               01559 
+               01560 
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 30
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+FSR1L                             00000FE1
+FSR2L                             00000FD9
+PCL                               00000FF9
+PCLATH                            00000FFA
+PCLATU                            00000FFB
+PLUSW2                            00000FDB
+POSTDEC1                          00000FE5
+PREINC1                           00000FE4
+PRODH                             00000FF4
+PRODL                             00000FF3
+STATUS                            00000FD8
+WREG                              00000FE8
+_00106_DS_                        0000003A
+_00109_DS_                        00000028
+_00111_DS_                        0000003C
+_00142_DS_                        00000024
+_00143_DS_                        0000002A
+_00145_DS_                        00000040
+_00148_DS_                        0000005E
+_00159_DS_                        00000040
+_00160_DS_                        00000044
+_00163_DS_                        000000CA
+_00164_DS_                        000000D4
+_00165_DS_                        000000DE
+_00166_DS_                        000000E8
+_00167_DS_                        000000F2
+_00168_DS_                        000000FC
+_00169_DS_                        00000106
+_00170_DS_                        00000110
+_00171_DS_                        0000011A
+_00172_DS_                        00000124
+_00173_DS_                        0000012E
+_00174_DS_                        00000138
+_00175_DS_                        00000142
+_00176_DS_                        0000014C
+_00177_DS_                        00000156
+_00178_DS_                        00000160
+_00179_DS_                        0000016A
+_00181_DS_                        0000016C
+_00193_DS_                        0000008A
+_00198_DS_                        00000048
+_00199_DS_                        0000004C
+_00202_DS_                        000000D2
+_00203_DS_                        000000E2
+_00204_DS_                        000000F4
+_00205_DS_                        00000108
+_00206_DS_                        0000011C
+_00207_DS_                        00000130
+_00208_DS_                        00000140
+_00209_DS_                        00000152
+_00210_DS_                        00000166
+_00211_DS_                        0000017A
+_00212_DS_                        0000018C
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 31
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_00213_DS_                        000001A0
+_00214_DS_                        000001B4
+_00215_DS_                        000001C6
+_00216_DS_                        000001DA
+_00217_DS_                        000001EE
+_00218_DS_                        00000200
+_00219_DS_                        00000204
+_00220_DS_                        00000206
+_00230_DS_                        00000092
+_00235_DS_                        00000034
+_00236_DS_                        00000038
+_00238_DS_                        000000BE
+_00239_DS_                        000000CE
+_00240_DS_                        000000E0
+_00241_DS_                        000000F4
+_00242_DS_                        00000108
+_00243_DS_                        0000011C
+_00244_DS_                        0000012C
+_00245_DS_                        0000013E
+_00246_DS_                        00000152
+_00247_DS_                        00000166
+_00248_DS_                        00000178
+_00249_DS_                        0000018C
+_00250_DS_                        000001A0
+_00251_DS_                        000001B2
+_00252_DS_                        000001C6
+_00253_DS_                        000001DA
+_00254_DS_                        000001EC
+_00255_DS_                        000001F0
+_00256_DS_                        000001F2
+_00265_DS_                        0000007E
+_00270_DS_                        0000002A
+_00271_DS_                        0000002E
+_00273_DS_                        000000B4
+_00274_DS_                        000000BE
+_00275_DS_                        000000C8
+_00276_DS_                        000000D2
+_00277_DS_                        000000DC
+_00278_DS_                        000000E6
+_00279_DS_                        000000F0
+_00280_DS_                        000000FA
+_00281_DS_                        00000104
+_00282_DS_                        0000010E
+_00283_DS_                        00000118
+_00284_DS_                        00000122
+_00285_DS_                        0000012C
+_00286_DS_                        00000136
+_00287_DS_                        00000140
+_00288_DS_                        0000014A
+_00289_DS_                        00000154
+_00291_DS_                        00000156
+_00300_DS_                        00000074
+_ADCON0                           00000000
+_ADCON0bits                       00000000
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 32
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_ADCON1                           00000000
+_ADCON1bits                       00000000
+_ADCON2                           00000000
+_ADCON2bits                       00000000
+_ADRESH                           00000000
+_ADRESL                           00000000
+_Analog_ports                     00000000
+_Analog_ports_const               00000000
+_BSR                              00000000
+_CCP1CON                          00000000
+_CCP1CONbits                      00000000
+_CCP2CON                          00000000
+_CCP2CONbits                      00000000
+_CCP3CON                          00000000
+_CCP3CONbits                      00000000
+_CCP4CON                          00000000
+_CCP4CONbits                      00000000
+_CCP5CON                          00000000
+_CCP5CONbits                      00000000
+_CCPR1H                           00000000
+_CCPR1L                           00000000
+_CCPR2H                           00000000
+_CCPR2L                           00000000
+_CCPR3H                           00000000
+_CCPR3L                           00000000
+_CCPR4H                           00000000
+_CCPR4L                           00000000
+_CCPR5H                           00000000
+_CCPR5L                           00000000
+_CMCON                            00000000
+_CMCONbits                        00000000
+_CVRCON                           00000000
+_CVRCONbits                       00000000
+_EEADR                            00000000
+_EEADRH                           00000000
+_EECON1                           00000000
+_EECON1bits                       00000000
+_EECON2                           00000000
+_EEDATA                           00000000
+_FSR0H                            00000000
+_FSR0L                            00000000
+_FSR1H                            00000000
+_FSR1L                            00000000
+_FSR2H                            00000000
+_FSR2L                            00000000
+_INDF0                            00000000
+_INDF1                            00000000
+_INDF2                            00000000
+_INTCON                           00000000
+_INTCON2                          00000000
+_INTCON2bits                      00000000
+_INTCON3                          00000000
+_INTCON3bits                      00000000
+_INTCONbits                       00000000
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 33
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_IPR1                             00000000
+_IPR1bits                         00000000
+_IPR2                             00000000
+_IPR2bits                         00000000
+_IPR3                             00000000
+_IPR3bits                         00000000
+_LATA                             00000000
+_LATAbits                         00000000
+_LATB                             00000000
+_LATBbits                         00000000
+_LATC                             00000000
+_LATCbits                         00000000
+_LATD                             00000000
+_LATDbits                         00000000
+_LATE                             00000000
+_LATEbits                         00000000
+_LATF                             00000000
+_LATFbits                         00000000
+_LATG                             00000000
+_LATGbits                         00000000
+_LATH                             00000000
+_LATHbits                         00000000
+_LATJ                             00000000
+_LATJbits                         00000000
+_LVDCON                           00000000
+_LVDCONbits                       00000000
+_MEMCON                           00000000
+_MEMCONbits                       00000000
+_OSCCON                           00000000
+_OSCCONbits                       00000000
+_PCL                              00000000
+_PCLATH                           00000000
+_PCLATU                           00000000
+_PIE1                             00000000
+_PIE1bits                         00000000
+_PIE2                             00000000
+_PIE2bits                         00000000
+_PIE3                             00000000
+_PIE3bits                         00000000
+_PIR1                             00000000
+_PIR1bits                         00000000
+_PIR2                             00000000
+_PIR2bits                         00000000
+_PIR3                             00000000
+_PIR3bits                         00000000
+_PLUSW0                           00000000
+_PLUSW1                           00000000
+_PLUSW2                           00000000
+_PORTA                            00000000
+_PORTAbits                        00000000
+_PORTB                            00000000
+_PORTBbits                        00000000
+_PORTC                            00000000
+_PORTCbits                        00000000
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 34
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_PORTD                            00000000
+_PORTDbits                        00000000
+_PORTE                            00000000
+_PORTEbits                        00000000
+_PORTF                            00000000
+_PORTFbits                        00000000
+_PORTG                            00000000
+_PORTGbits                        00000000
+_PORTH                            00000000
+_PORTHbits                        00000000
+_PORTJ                            00000000
+_PORTJbits                        00000000
+_POSTDEC0                         00000000
+_POSTDEC1                         00000000
+_POSTDEC2                         00000000
+_POSTINC0                         00000000
+_POSTINC1                         00000000
+_POSTINC2                         00000000
+_PR2                              00000000
+_PR4                              00000000
+_PREINC0                          00000000
+_PREINC1                          00000000
+_PREINC2                          00000000
+_PRODH                            00000000
+_PRODL                            00000000
+_PSPCON                           00000000
+_PSPCONbits                       00000000
+_RCON                             00000000
+_RCONbits                         00000000
+_RCREG                            00000000
+_RCREG1                           00000000
+_RCREG2                           00000000
+_RCSTA                            00000000
+_RCSTA1                           00000000
+_RCSTA1bits                       00000000
+_RCSTA2                           00000000
+_RCSTA2bits                       00000000
+_RCSTAbits                        00000000
+_SPBRG                            00000000
+_SPBRG1                           00000000
+_SPBRG2                           00000000
+_SSPADD                           00000000
+_SSPBUF                           00000000
+_SSPCON1                          00000000
+_SSPCON1bits                      00000000
+_SSPCON2                          00000000
+_SSPCON2bits                      00000000
+_SSPSTAT                          00000000
+_SSPSTATbits                      00000000
+_STATUS                           00000000
+_STATUSbits                       00000000
+_STKPTR                           00000000
+_STKPTRbits                       00000000
+_T0CON                            00000000
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 35
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_T1CON                            00000000
+_T1CONbits                        00000000
+_T2CON                            00000000
+_T2CONbits                        00000000
+_T3CON                            00000000
+_T3CONbits                        00000000
+_T4CON                            00000000
+_T4CONbits                        00000000
+_TABLAT                           00000000
+_TBLPTRH                          00000000
+_TBLPTRL                          00000000
+_TBLPTRU                          00000000
+_TMR0H                            00000000
+_TMR0L                            00000000
+_TMR1H                            00000000
+_TMR1L                            00000000
+_TMR2                             00000000
+_TMR3H                            00000000
+_TMR3L                            00000000
+_TMR4                             00000000
+_TOSH                             00000000
+_TOSL                             00000000
+_TOSU                             00000000
+_TRISA                            00000000
+_TRISAbits                        00000000
+_TRISB                            00000000
+_TRISBbits                        00000000
+_TRISC                            00000000
+_TRISCbits                        00000000
+_TRISD                            00000000
+_TRISDbits                        00000000
+_TRISE                            00000000
+_TRISEbits                        00000000
+_TRISF                            00000000
+_TRISFbits                        00000000
+_TRISG                            00000000
+_TRISGbits                        00000000
+_TRISH                            00000000
+_TRISHbits                        00000000
+_TRISJ                            00000000
+_TRISJbits                        00000000
+_TXREG                            00000000
+_TXREG1                           00000000
+_TXREG2                           00000000
+_TXSTA                            00000000
+_TXSTA1                           00000000
+_TXSTA1bits                       00000000
+_TXSTA2                           00000000
+_TXSTA2bits                       00000000
+_TXSTAbits                        00000000
+_WDTCON                           00000000
+_WDTCONbits                       00000000
+_WREG                             00000000
+__18F8520                         00000001
+gpasm-0.13.7 beta               io.asm      11-2-2012  01:06:41          PAGE 36
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_adc_busy                         00000000
+_adc_close                        00000000
+_adc_conv                         00000000
+_adc_open8520                     00000000
+_adc_read                         00000000
+_delay10tcy                       00000000
+_io_get_analog_port_count         00000000
+_io_get_direction                 00000000
+_io_read_analog                   00000000
+_io_read_digital                  00000000
+_io_set_analog_port_count         00000000
+_io_set_direction                 00000000
+_io_update_local_pwm_dir          00000000
+_io_write_digital                 00000000
+_stdin                            00000000
+_stdout                           00000000
+r0x00                             00000000
+r0x01                             00000001
+r0x02                             00000002
+r0x03                             00000003
+r0x04                             00000004
+r0x05                             00000005
+
+
+Errors   :       0
+Warnings :       0 reported,       0 suppressed
+Messages :       0 reported,       0 suppressed
+

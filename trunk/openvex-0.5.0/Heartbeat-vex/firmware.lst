@@ -1,0 +1,2342 @@
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00001 ;--------------------------------------------------------
+               00002 ; File Created by SDCC : free open source ANSI-C Compiler
+               00003 ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
+               00004 ; This file was generated Thu Oct 25 10:32:21 2012
+               00005 ;--------------------------------------------------------
+               00006 ; PIC16 port for the Microchip 16-bit core micros
+               00007 ;--------------------------------------------------------
+               00008         list    p=18f8520
+               00009 
+               00010         radix dec
+               00011 
+               00012 ;--------------------------------------------------------
+               00013 ; public variables in this module
+               00014 ;--------------------------------------------------------
+               00015         global _main
+               00016         global _custom_init
+               00017         global _rc_routine
+               00018         global _tank_drive_routine
+               00019         global _arcade_drive_routine
+               00020         global _autonomous_routine0
+               00021         global _autonomous_routine1
+               00022         global _autonomous_routine_competition
+               00023         global _heartbeat
+               00024         global _bump_front_left
+               00025         global _bump_front_right
+               00026         global _bump_front
+               00027 
+               00028 ;--------------------------------------------------------
+               00029 ; extern variables in this module
+               00030 ;--------------------------------------------------------
+               00031         extern _stdin
+               00032         extern _stdout
+               00033         extern _RCSTA2bits
+               00034         extern _TXSTA2bits
+               00035         extern _CCP5CONbits
+               00036         extern _CCP4CONbits
+               00037         extern _T4CONbits
+               00038         extern _PORTAbits
+               00039         extern _PORTBbits
+               00040         extern _PORTCbits
+               00041         extern _PORTDbits
+               00042         extern _PORTEbits
+               00043         extern _PORTFbits
+               00044         extern _PORTGbits
+               00045         extern _PORTHbits
+               00046         extern _PORTJbits
+               00047         extern _LATAbits
+               00048         extern _LATBbits
+               00049         extern _LATCbits
+               00050         extern _LATDbits
+               00051         extern _LATEbits
+               00052         extern _LATFbits
+               00053         extern _LATGbits
+               00054         extern _LATHbits
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00055         extern _LATJbits
+               00056         extern _TRISAbits
+               00057         extern _TRISBbits
+               00058         extern _TRISCbits
+               00059         extern _TRISDbits
+               00060         extern _TRISEbits
+               00061         extern _TRISFbits
+               00062         extern _TRISGbits
+               00063         extern _TRISHbits
+               00064         extern _TRISJbits
+               00065         extern _MEMCONbits
+               00066         extern _PIE1bits
+               00067         extern _PIR1bits
+               00068         extern _IPR1bits
+               00069         extern _PIE2bits
+               00070         extern _PIR2bits
+               00071         extern _IPR2bits
+               00072         extern _PIE3bits
+               00073         extern _PIR3bits
+               00074         extern _IPR3bits
+               00075         extern _EECON1bits
+               00076         extern _RCSTA1bits
+               00077         extern _TXSTA1bits
+               00078         extern _RCSTAbits
+               00079         extern _TXSTAbits
+               00080         extern _PSPCONbits
+               00081         extern _T3CONbits
+               00082         extern _CMCONbits
+               00083         extern _CVRCONbits
+               00084         extern _CCP3CONbits
+               00085         extern _CCP2CONbits
+               00086         extern _CCP1CONbits
+               00087         extern _ADCON2bits
+               00088         extern _ADCON1bits
+               00089         extern _ADCON0bits
+               00090         extern _SSPCON2bits
+               00091         extern _SSPCON1bits
+               00092         extern _SSPSTATbits
+               00093         extern _T2CONbits
+               00094         extern _T1CONbits
+               00095         extern _RCONbits
+               00096         extern _WDTCONbits
+               00097         extern _LVDCONbits
+               00098         extern _OSCCONbits
+               00099         extern _STATUSbits
+               00100         extern _INTCON3bits
+               00101         extern _INTCON2bits
+               00102         extern _INTCONbits
+               00103         extern _STKPTRbits
+               00104         extern _Timer0_overflows
+               00105         extern _Timer1_overflows
+               00106         extern _Timer2_overflows
+               00107         extern _Timer3_overflows
+               00108         extern _Timer4_overflows
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00109         extern _Interrupt_port_in_use
+               00110         extern _rxbyte
+               00111         extern _Encoder_on_iport
+               00112         extern _Encoder_ticks
+               00113         extern _Quad_input_port
+               00114         extern _Porta_sample
+               00115         extern _Portf_sample
+               00116         extern _Porth_sample
+               00117         extern _Rx_buff
+               00118         extern _Rx_user_buff_index
+               00119         extern _Spi_status
+               00120         extern _Sonar_data_available
+               00121         extern _Sonar_on_iport
+               00122         extern _User_rxdata
+               00123         extern _User_txdata
+               00124         extern _Tx_buff
+               00125         extern _Tx_user_buff_index
+               00126         extern _RCSTA2
+               00127         extern _TXSTA2
+               00128         extern _TXREG2
+               00129         extern _RCREG2
+               00130         extern _SPBRG2
+               00131         extern _CCP5CON
+               00132         extern _CCPR5L
+               00133         extern _CCPR5H
+               00134         extern _CCP4CON
+               00135         extern _CCPR4L
+               00136         extern _CCPR4H
+               00137         extern _T4CON
+               00138         extern _PR4
+               00139         extern _TMR4
+               00140         extern _PORTA
+               00141         extern _PORTB
+               00142         extern _PORTC
+               00143         extern _PORTD
+               00144         extern _PORTE
+               00145         extern _PORTF
+               00146         extern _PORTG
+               00147         extern _PORTH
+               00148         extern _PORTJ
+               00149         extern _LATA
+               00150         extern _LATB
+               00151         extern _LATC
+               00152         extern _LATD
+               00153         extern _LATE
+               00154         extern _LATF
+               00155         extern _LATG
+               00156         extern _LATH
+               00157         extern _LATJ
+               00158         extern _TRISA
+               00159         extern _TRISB
+               00160         extern _TRISC
+               00161         extern _TRISD
+               00162         extern _TRISE
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00163         extern _TRISF
+               00164         extern _TRISG
+               00165         extern _TRISH
+               00166         extern _TRISJ
+               00167         extern _MEMCON
+               00168         extern _PIE1
+               00169         extern _PIR1
+               00170         extern _IPR1
+               00171         extern _PIE2
+               00172         extern _PIR2
+               00173         extern _IPR2
+               00174         extern _PIE3
+               00175         extern _PIR3
+               00176         extern _IPR3
+               00177         extern _EECON1
+               00178         extern _EECON2
+               00179         extern _EEDATA
+               00180         extern _EEADR
+               00181         extern _EEADRH
+               00182         extern _RCSTA1
+               00183         extern _TXSTA1
+               00184         extern _TXREG1
+               00185         extern _RCREG1
+               00186         extern _SPBRG1
+               00187         extern _RCSTA
+               00188         extern _TXSTA
+               00189         extern _TXREG
+               00190         extern _RCREG
+               00191         extern _SPBRG
+               00192         extern _PSPCON
+               00193         extern _T3CON
+               00194         extern _TMR3L
+               00195         extern _TMR3H
+               00196         extern _CMCON
+               00197         extern _CVRCON
+               00198         extern _CCP3CON
+               00199         extern _CCPR3L
+               00200         extern _CCPR3H
+               00201         extern _CCP2CON
+               00202         extern _CCPR2L
+               00203         extern _CCPR2H
+               00204         extern _CCP1CON
+               00205         extern _CCPR1L
+               00206         extern _CCPR1H
+               00207         extern _ADCON2
+               00208         extern _ADCON1
+               00209         extern _ADCON0
+               00210         extern _ADRESL
+               00211         extern _ADRESH
+               00212         extern _SSPCON2
+               00213         extern _SSPCON1
+               00214         extern _SSPSTAT
+               00215         extern _SSPADD
+               00216         extern _SSPBUF
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00217         extern _T2CON
+               00218         extern _PR2
+               00219         extern _TMR2
+               00220         extern _T1CON
+               00221         extern _TMR1L
+               00222         extern _TMR1H
+               00223         extern _RCON
+               00224         extern _WDTCON
+               00225         extern _LVDCON
+               00226         extern _OSCCON
+               00227         extern _T0CON
+               00228         extern _TMR0L
+               00229         extern _TMR0H
+               00230         extern _STATUS
+               00231         extern _FSR2L
+               00232         extern _FSR2H
+               00233         extern _PLUSW2
+               00234         extern _PREINC2
+               00235         extern _POSTDEC2
+               00236         extern _POSTINC2
+               00237         extern _INDF2
+               00238         extern _BSR
+               00239         extern _FSR1L
+               00240         extern _FSR1H
+               00241         extern _PLUSW1
+               00242         extern _PREINC1
+               00243         extern _POSTDEC1
+               00244         extern _POSTINC1
+               00245         extern _INDF1
+               00246         extern _WREG
+               00247         extern _FSR0L
+               00248         extern _FSR0H
+               00249         extern _PLUSW0
+               00250         extern _PREINC0
+               00251         extern _POSTDEC0
+               00252         extern _POSTINC0
+               00253         extern _INDF0
+               00254         extern _INTCON3
+               00255         extern _INTCON2
+               00256         extern _INTCON
+               00257         extern _PRODL
+               00258         extern _PRODH
+               00259         extern _TABLAT
+               00260         extern _TBLPTRL
+               00261         extern _TBLPTRH
+               00262         extern _TBLPTRU
+               00263         extern _PCL
+               00264         extern _PCLATH
+               00265         extern _PCLATU
+               00266         extern _STKPTR
+               00267         extern _TOSL
+               00268         extern _TOSH
+               00269         extern _TOSU
+               00270         extern _printf
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00271         extern _io_set_analog_port_count
+               00272         extern _io_read_digital
+               00273         extern _io_set_direction
+               00274         extern _timer0_read32
+               00275         extern _rc_read_status
+               00276         extern _rc_read_data
+               00277         extern _rc_new_data_available
+               00278         extern _pwm_write
+               00279         extern _pwm_read
+               00280         extern _controller_submit_data
+               00281         extern _controller_begin_autonomous_mode
+               00282         extern _controller_end_autonomous_mode
+               00283         extern _controller_print_version
+               00284         extern _controller_init
+               00285         extern _delay_msec
+               00286         extern _delay_sec
+               00287         extern _arcade_drive
+               00288         extern __divsint
+               00289         extern __divulong
+               00290 ;--------------------------------------------------------
+               00291 ;       Equates to used internal registers
+               00292 ;--------------------------------------------------------
+  00000FD8     00293 STATUS  equ     0xfd8
+  00000FE8     00294 WREG    equ     0xfe8
+  00000FE9     00295 FSR0L   equ     0xfe9
+  00000FE1     00296 FSR1L   equ     0xfe1
+  00000FD9     00297 FSR2L   equ     0xfd9
+  00000FE5     00298 POSTDEC1        equ     0xfe5
+  00000FE4     00299 PREINC1 equ     0xfe4
+  00000FF3     00300 PRODL   equ     0xff3
+  00000FF4     00301 PRODH   equ     0xff4
+               00302 
+               00303 
+               00304         idata
+               00305 _rc_routine_sonar_distance_1_1  db      0x00, 0x00
+               00306 _rc_routine_old_time_1_1        db      0x00, 0x00, 0x00, 0x00
+               00307 
+               00308 
+               00309 ; Internal registers
+               00310 .registers      udata_ovr       0x0000
+               00311 r0x00   res     1
+               00312 r0x01   res     1
+               00313 r0x02   res     1
+               00314 r0x03   res     1
+               00315 r0x04   res     1
+               00316 r0x05   res     1
+               00317 r0x06   res     1
+               00318 r0x07   res     1
+               00319 r0x08   res     1
+               00320 r0x09   res     1
+               00321 r0x0a   res     1
+               00322 r0x0b   res     1
+               00323 r0x0c   res     1
+               00324 r0x0d   res     1
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00325 r0x0e   res     1
+               00326 r0x0f   res     1
+               00327 
+               00328 udata_firmware_0        udata
+               00329 _rc_routine_elapsed_time_1_1    res     4
+               00330 
+               00331 udata_firmware_1        udata
+               00332 _tank_drive_routine_left_power_1_1      res     1
+               00333 
+               00334 udata_firmware_2        udata
+               00335 _tank_drive_routine_right_power_1_1     res     1
+               00336 
+               00337 udata_firmware_3        udata
+               00338 _tank_drive_routine_impeller_power_1_1  res     1
+               00339 
+               00340 udata_firmware_4        udata
+               00341 _tank_drive_routine_arm_power_1_1       res     1
+               00342 
+               00343 udata_firmware_5        udata
+               00344 _arcade_drive_routine_left_power_1_1    res     1
+               00345 
+               00346 udata_firmware_6        udata
+               00347 _arcade_drive_routine_right_power_1_1   res     1
+               00348 
+               00349 ;--------------------------------------------------------
+               00350 ; interrupt vector 
+               00351 ;--------------------------------------------------------
+               00352 
+               00353 ;--------------------------------------------------------
+               00354 ; global & static initialisations
+               00355 ;--------------------------------------------------------
+               00356         code
+0000 00357 __sdcc_gsinit_startup:
+               00358 ; I code from now on!
+0000 EF00 F000 00359         goto    __sdcc_program_startup
+               00360 ; ; Starting pCode block
+0004 00361 __sdcc_program_startup:
+0004 EC00 F000 00362         CALL    _main
+               00363 ; ;     return from main will lock up
+               00364 
+0008 EF00 F000 00365         GOTO    $
+               00366 ; ; Starting pCode block
+               00367 S_firmware__main        code
+0000 00368 _main:
+               00369 ;       .line   66; firmware.c  controller_init();
+0000 EC00 F000 00370         CALL    _controller_init
+               00371 ;       .line   69; firmware.c  custom_init();
+0004 EC00 F000 00372         CALL    _custom_init
+               00373 ;       .line   80; firmware.c  if ( io_read_digital(COMPETITION_JUMPER_PORT) == 0 )
+0008 0E0F      00374         MOVLW   0x0f
+000A 6EE5      00375         MOVWF   POSTDEC1
+000C EC00 F000 00376         CALL    _io_read_digital
+0010 6E00      00377         MOVWF   r0x00
+0012 2AE1      00378         INCF    FSR1L, F
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0014 5000      00379         MOVF    r0x00, W
+0016 E100      00380         BNZ     _00119_DS_
+               00381 ;       .line   83; firmware.c  printf("Waiting for RC signal to begin autonomous period...\n");
+0018 0E00      00382         MOVLW   UPPER(__str_0)
+001A 6EE5      00383         MOVWF   POSTDEC1
+001C 0E00      00384         MOVLW   HIGH(__str_0)
+001E 6EE5      00385         MOVWF   POSTDEC1
+0020 0E00      00386         MOVLW   LOW(__str_0)
+0022 6EE5      00387         MOVWF   POSTDEC1
+0024 EC00 F000 00388         CALL    _printf
+0028 0E03      00389         MOVLW   0x03
+002A 26E1      00390         ADDWF   FSR1L, F
+002C 00391 _00105_DS_:
+               00392 ;       .line   84; firmware.c  while ( rc_read_status() != 1 )
+002C EC00 F000 00393         CALL    _rc_read_status
+               00394 ; #     MOVWF   r0x00
+               00395 ; #     MOVF    r0x00, W
+0030 6E00      00396         MOVWF   r0x00
+0032 0A01      00397         XORLW   0x01
+0034 E100      00398         BNZ     _00105_DS_
+               00399 ;       .line   87; firmware.c  autonomous_routine_competition(20);
+0036 0E00      00400         MOVLW   0x00
+0038 6EE5      00401         MOVWF   POSTDEC1
+003A 0E14      00402         MOVLW   0x14
+003C 6EE5      00403         MOVWF   POSTDEC1
+003E EC00 F000 00404         CALL    _autonomous_routine_competition
+0042 0E02      00405         MOVLW   0x02
+0044 26E1      00406         ADDWF   FSR1L, F
+0046 00407 _00119_DS_:
+               00408 ;       .line   112; firmware.c if ( rc_new_data_available() )
+0046 EC00 F000 00409         CALL    _rc_new_data_available
+004A 6E00      00410         MOVWF   r0x00
+004C 5000      00411         MOVF    r0x00, W
+004E E000      00412         BZ      _00115_DS_
+               00413 ;       .line   114; firmware.c rc_routine();
+0050 EC00 F000 00414         CALL    _rc_routine
+               00415 ;       .line   117; firmware.c if ( rc_read_data(AUTONOMOUS_TRIGGER_CHAN) == -127 )
+0054 0E05      00416         MOVLW   0x05
+0056 6EE5      00417         MOVWF   POSTDEC1
+0058 EC00 F000 00418         CALL    _rc_read_data
+005C 6E00      00419         MOVWF   r0x00
+005E 2AE1      00420         INCF    FSR1L, F
+0060 5000      00421         MOVF    r0x00, W
+0062 0A81      00422         XORLW   0x81
+0064 E100      00423         BNZ     _00111_DS_
+               00424 ;       .line   118; firmware.c autonomous_routine0();
+0066 EC00 F000 00425         CALL    _autonomous_routine0
+006A 00426 _00111_DS_:
+               00427 ;       .line   119; firmware.c if ( rc_read_data(AUTONOMOUS_TRIGGER_CHAN) == 127 )
+006A 0E05      00428         MOVLW   0x05
+006C 6EE5      00429         MOVWF   POSTDEC1
+006E EC00 F000 00430         CALL    _rc_read_data
+0072 6E00      00431         MOVWF   r0x00
+0074 2AE1      00432         INCF    FSR1L, F
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0076 5000      00433         MOVF    r0x00, W
+0078 0A7F      00434         XORLW   0x7f
+007A E100      00435         BNZ     _00115_DS_
+               00436 ;       .line   120; firmware.c autonomous_routine1();
+007C EC00 F000 00437         CALL    _autonomous_routine1
+0080 00438 _00115_DS_:
+               00439 ;       .line   124; firmware.c if(PIR1bits.RCIF) heartbeat();
+0080 AA00      00440         BTFSS   _PIR1bits, 5
+0082 D000      00441         BRA     _00119_DS_
+0084 EC00 F000 00442         CALL    _heartbeat
+0088 D000      00443         BRA     _00119_DS_
+008A 0012      00444         RETURN  
+               00445 
+               00446 ; ; Starting pCode block
+               00447 S_firmware__bump_front  code
+0000 00448 _bump_front:
+               00449 ;       .line   474; firmware.c void bump_front()
+0000 CFD9 FFE5 00450         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00451         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00452         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00453         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00454         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00455         MOVFF   r0x03, POSTDEC1
+               00456 ;       .line   477; firmware.c reset_right = pwm_read(RIGHT_DRIVE_PORT);
+0018 0E04      00457         MOVLW   0x04
+001A 6EE5      00458         MOVWF   POSTDEC1
+001C EC00 F000 00459         CALL    _pwm_read
+0020 6E00      00460         MOVWF   r0x00
+0022 2AE1      00461         INCF    FSR1L, F
+0024 6A00      00462         CLRF    r0x01
+0026 BE00      00463         BTFSC   r0x00, 7
+0028 6800      00464         SETF    r0x01
+               00465 ;       .line   478; firmware.c reset_left = pwm_read(LEFT_DRIVE_PORT);
+002A 0E03      00466         MOVLW   0x03
+002C 6EE5      00467         MOVWF   POSTDEC1
+002E EC00 F000 00468         CALL    _pwm_read
+0032 6E00      00469         MOVWF   r0x02
+0034 2AE1      00470         INCF    FSR1L, F
+0036 6A00      00471         CLRF    r0x03
+0038 BE00      00472         BTFSC   r0x02, 7
+003A 6800      00473         SETF    r0x03
+               00474 ;       .line   481; firmware.c pwm_write(RIGHT_DRIVE_PORT, -AUTON_DRIVE_SPEED);
+003C 0EBA      00475         MOVLW   0xba
+003E 6EE5      00476         MOVWF   POSTDEC1
+0040 0E04      00477         MOVLW   0x04
+0042 6EE5      00478         MOVWF   POSTDEC1
+0044 EC00 F000 00479         CALL    _pwm_write
+0048 0E02      00480         MOVLW   0x02
+004A 26E1      00481         ADDWF   FSR1L, F
+               00482 ;       .line   482; firmware.c pwm_write(LEFT_DRIVE_PORT, AUTON_DRIVE_SPEED);
+004C 0E46      00483         MOVLW   0x46
+004E 6EE5      00484         MOVWF   POSTDEC1
+0050 0E03      00485         MOVLW   0x03
+0052 6EE5      00486         MOVWF   POSTDEC1
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0054 EC00 F000 00487         CALL    _pwm_write
+0058 0E02      00488         MOVLW   0x02
+005A 26E1      00489         ADDWF   FSR1L, F
+               00490 ;       .line   483; firmware.c controller_submit_data(WAIT);
+005C 0E01      00491         MOVLW   0x01
+005E 6EE5      00492         MOVWF   POSTDEC1
+0060 EC00 F000 00493         CALL    _controller_submit_data
+0064 2AE1      00494         INCF    FSR1L, F
+               00495 ;       .line   484; firmware.c delay_msec(500);
+0066 0E01      00496         MOVLW   0x01
+0068 6EE5      00497         MOVWF   POSTDEC1
+006A 0EF4      00498         MOVLW   0xf4
+006C 6EE5      00499         MOVWF   POSTDEC1
+006E EC00 F000 00500         CALL    _delay_msec
+0072 0E02      00501         MOVLW   0x02
+0074 26E1      00502         ADDWF   FSR1L, F
+               00503 ;       .line   487; firmware.c pwm_write(RIGHT_DRIVE_PORT, AUTON_DRIVE_SPEED);
+0076 0E46      00504         MOVLW   0x46
+0078 6EE5      00505         MOVWF   POSTDEC1
+007A 0E04      00506         MOVLW   0x04
+007C 6EE5      00507         MOVWF   POSTDEC1
+007E EC00 F000 00508         CALL    _pwm_write
+0082 0E02      00509         MOVLW   0x02
+0084 26E1      00510         ADDWF   FSR1L, F
+               00511 ;       .line   488; firmware.c controller_submit_data(WAIT);
+0086 0E01      00512         MOVLW   0x01
+0088 6EE5      00513         MOVWF   POSTDEC1
+008A EC00 F000 00514         CALL    _controller_submit_data
+008E 2AE1      00515         INCF    FSR1L, F
+               00516 ;       .line   489; firmware.c delay_msec(2700);
+0090 0E0A      00517         MOVLW   0x0a
+0092 6EE5      00518         MOVWF   POSTDEC1
+0094 0E8C      00519         MOVLW   0x8c
+0096 6EE5      00520         MOVWF   POSTDEC1
+0098 EC00 F000 00521         CALL    _delay_msec
+009C 0E02      00522         MOVLW   0x02
+009E 26E1      00523         ADDWF   FSR1L, F
+               00524 ;       .line   492; firmware.c pwm_write(RIGHT_DRIVE_PORT, reset_right);
+00A0 5000      00525         MOVF    r0x00, W
+00A2 6EE5      00526         MOVWF   POSTDEC1
+00A4 0E04      00527         MOVLW   0x04
+00A6 6EE5      00528         MOVWF   POSTDEC1
+00A8 EC00 F000 00529         CALL    _pwm_write
+00AC 0E02      00530         MOVLW   0x02
+00AE 26E1      00531         ADDWF   FSR1L, F
+               00532 ;       .line   493; firmware.c pwm_write(LEFT_DRIVE_PORT, reset_left);
+00B0 5000      00533         MOVF    r0x02, W
+00B2 6EE5      00534         MOVWF   POSTDEC1
+00B4 0E03      00535         MOVLW   0x03
+00B6 6EE5      00536         MOVWF   POSTDEC1
+00B8 EC00 F000 00537         CALL    _pwm_write
+00BC 0E02      00538         MOVLW   0x02
+00BE 26E1      00539         ADDWF   FSR1L, F
+               00540 ;       .line   494; firmware.c controller_submit_data(WAIT);
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00C0 0E01      00541         MOVLW   0x01
+00C2 6EE5      00542         MOVWF   POSTDEC1
+00C4 EC00 F000 00543         CALL    _controller_submit_data
+00C8 2AE1      00544         INCF    FSR1L, F
+               00545 ;       .line   495; firmware.c delay_msec(100);
+00CA 0E00      00546         MOVLW   0x00
+00CC 6EE5      00547         MOVWF   POSTDEC1
+00CE 0E64      00548         MOVLW   0x64
+00D0 6EE5      00549         MOVWF   POSTDEC1
+00D2 EC00 F000 00550         CALL    _delay_msec
+00D6 0E02      00551         MOVLW   0x02
+00D8 26E1      00552         ADDWF   FSR1L, F
+00DA CFE4 F000 00553         MOVFF   PREINC1, r0x03
+00DE CFE4 F000 00554         MOVFF   PREINC1, r0x02
+00E2 CFE4 F000 00555         MOVFF   PREINC1, r0x01
+00E6 CFE4 F000 00556         MOVFF   PREINC1, r0x00
+00EA CFE4 FFD9 00557         MOVFF   PREINC1, FSR2L
+00EE 0012      00558         RETURN  
+               00559 
+               00560 ; ; Starting pCode block
+               00561 S_firmware__bump_front_right    code
+0000 00562 _bump_front_right:
+               00563 ;       .line   447; firmware.c void bump_front_right()
+0000 CFD9 FFE5 00564         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00565         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00566         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00567         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00568         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00569         MOVFF   r0x03, POSTDEC1
+               00570 ;       .line   451; firmware.c reset_right = pwm_read(RIGHT_DRIVE_PORT);
+0018 0E04      00571         MOVLW   0x04
+001A 6EE5      00572         MOVWF   POSTDEC1
+001C EC00 F000 00573         CALL    _pwm_read
+0020 6E00      00574         MOVWF   r0x00
+0022 2AE1      00575         INCF    FSR1L, F
+0024 6A00      00576         CLRF    r0x01
+0026 BE00      00577         BTFSC   r0x00, 7
+0028 6800      00578         SETF    r0x01
+               00579 ;       .line   452; firmware.c reset_left = pwm_read(LEFT_DRIVE_PORT);
+002A 0E03      00580         MOVLW   0x03
+002C 6EE5      00581         MOVWF   POSTDEC1
+002E EC00 F000 00582         CALL    _pwm_read
+0032 6E00      00583         MOVWF   r0x02
+0034 2AE1      00584         INCF    FSR1L, F
+0036 6A00      00585         CLRF    r0x03
+0038 BE00      00586         BTFSC   r0x02, 7
+003A 6800      00587         SETF    r0x03
+               00588 ;       .line   455; firmware.c pwm_write(RIGHT_DRIVE_PORT, AUTON_DRIVE_SPEED);
+003C 0E46      00589         MOVLW   0x46
+003E 6EE5      00590         MOVWF   POSTDEC1
+0040 0E04      00591         MOVLW   0x04
+0042 6EE5      00592         MOVWF   POSTDEC1
+0044 EC00 F000 00593         CALL    _pwm_write
+0048 0E02      00594         MOVLW   0x02
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+004A 26E1      00595         ADDWF   FSR1L, F
+               00596 ;       .line   456; firmware.c pwm_write(LEFT_DRIVE_PORT, -AUTON_DRIVE_SPEED);
+004C 0EBA      00597         MOVLW   0xba
+004E 6EE5      00598         MOVWF   POSTDEC1
+0050 0E03      00599         MOVLW   0x03
+0052 6EE5      00600         MOVWF   POSTDEC1
+0054 EC00 F000 00601         CALL    _pwm_write
+0058 0E02      00602         MOVLW   0x02
+005A 26E1      00603         ADDWF   FSR1L, F
+               00604 ;       .line   457; firmware.c controller_submit_data(WAIT);
+005C 0E01      00605         MOVLW   0x01
+005E 6EE5      00606         MOVWF   POSTDEC1
+0060 EC00 F000 00607         CALL    _controller_submit_data
+0064 2AE1      00608         INCF    FSR1L, F
+               00609 ;       .line   458; firmware.c delay_msec(500);
+0066 0E01      00610         MOVLW   0x01
+0068 6EE5      00611         MOVWF   POSTDEC1
+006A 0EF4      00612         MOVLW   0xf4
+006C 6EE5      00613         MOVWF   POSTDEC1
+006E EC00 F000 00614         CALL    _delay_msec
+0072 0E02      00615         MOVLW   0x02
+0074 26E1      00616         ADDWF   FSR1L, F
+               00617 ;       .line   461; firmware.c pwm_write(RIGHT_DRIVE_PORT, -AUTON_DRIVE_SPEED);
+0076 0EBA      00618         MOVLW   0xba
+0078 6EE5      00619         MOVWF   POSTDEC1
+007A 0E04      00620         MOVLW   0x04
+007C 6EE5      00621         MOVWF   POSTDEC1
+007E EC00 F000 00622         CALL    _pwm_write
+0082 0E02      00623         MOVLW   0x02
+0084 26E1      00624         ADDWF   FSR1L, F
+               00625 ;       .line   462; firmware.c pwm_write(LEFT_DRIVE_PORT, -AUTON_DRIVE_SPEED);
+0086 0EBA      00626         MOVLW   0xba
+0088 6EE5      00627         MOVWF   POSTDEC1
+008A 0E03      00628         MOVLW   0x03
+008C 6EE5      00629         MOVWF   POSTDEC1
+008E EC00 F000 00630         CALL    _pwm_write
+0092 0E02      00631         MOVLW   0x02
+0094 26E1      00632         ADDWF   FSR1L, F
+               00633 ;       .line   463; firmware.c controller_submit_data(WAIT);
+0096 0E01      00634         MOVLW   0x01
+0098 6EE5      00635         MOVWF   POSTDEC1
+009A EC00 F000 00636         CALL    _controller_submit_data
+009E 2AE1      00637         INCF    FSR1L, F
+               00638 ;       .line   464; firmware.c delay_msec(500);
+00A0 0E01      00639         MOVLW   0x01
+00A2 6EE5      00640         MOVWF   POSTDEC1
+00A4 0EF4      00641         MOVLW   0xf4
+00A6 6EE5      00642         MOVWF   POSTDEC1
+00A8 EC00 F000 00643         CALL    _delay_msec
+00AC 0E02      00644         MOVLW   0x02
+00AE 26E1      00645         ADDWF   FSR1L, F
+               00646 ;       .line   467; firmware.c pwm_write(RIGHT_DRIVE_PORT, reset_right);
+00B0 5000      00647         MOVF    r0x00, W
+00B2 6EE5      00648         MOVWF   POSTDEC1
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00B4 0E04      00649         MOVLW   0x04
+00B6 6EE5      00650         MOVWF   POSTDEC1
+00B8 EC00 F000 00651         CALL    _pwm_write
+00BC 0E02      00652         MOVLW   0x02
+00BE 26E1      00653         ADDWF   FSR1L, F
+               00654 ;       .line   468; firmware.c pwm_write(LEFT_DRIVE_PORT, reset_left);
+00C0 5000      00655         MOVF    r0x02, W
+00C2 6EE5      00656         MOVWF   POSTDEC1
+00C4 0E03      00657         MOVLW   0x03
+00C6 6EE5      00658         MOVWF   POSTDEC1
+00C8 EC00 F000 00659         CALL    _pwm_write
+00CC 0E02      00660         MOVLW   0x02
+00CE 26E1      00661         ADDWF   FSR1L, F
+               00662 ;       .line   469; firmware.c controller_submit_data(WAIT);
+00D0 0E01      00663         MOVLW   0x01
+00D2 6EE5      00664         MOVWF   POSTDEC1
+00D4 EC00 F000 00665         CALL    _controller_submit_data
+00D8 2AE1      00666         INCF    FSR1L, F
+               00667 ;       .line   470; firmware.c delay_msec(100);
+00DA 0E00      00668         MOVLW   0x00
+00DC 6EE5      00669         MOVWF   POSTDEC1
+00DE 0E64      00670         MOVLW   0x64
+00E0 6EE5      00671         MOVWF   POSTDEC1
+00E2 EC00 F000 00672         CALL    _delay_msec
+00E6 0E02      00673         MOVLW   0x02
+00E8 26E1      00674         ADDWF   FSR1L, F
+00EA CFE4 F000 00675         MOVFF   PREINC1, r0x03
+00EE CFE4 F000 00676         MOVFF   PREINC1, r0x02
+00F2 CFE4 F000 00677         MOVFF   PREINC1, r0x01
+00F6 CFE4 F000 00678         MOVFF   PREINC1, r0x00
+00FA CFE4 FFD9 00679         MOVFF   PREINC1, FSR2L
+00FE 0012      00680         RETURN  
+               00681 
+               00682 ; ; Starting pCode block
+               00683 S_firmware__bump_front_left     code
+0000 00684 _bump_front_left:
+               00685 ;       .line   421; firmware.c void bump_front_left()
+0000 CFD9 FFE5 00686         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00687         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00688         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00689         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00690         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00691         MOVFF   r0x03, POSTDEC1
+               00692 ;       .line   424; firmware.c reset_right = pwm_read(RIGHT_DRIVE_PORT);
+0018 0E04      00693         MOVLW   0x04
+001A 6EE5      00694         MOVWF   POSTDEC1
+001C EC00 F000 00695         CALL    _pwm_read
+0020 6E00      00696         MOVWF   r0x00
+0022 2AE1      00697         INCF    FSR1L, F
+0024 6A00      00698         CLRF    r0x01
+0026 BE00      00699         BTFSC   r0x00, 7
+0028 6800      00700         SETF    r0x01
+               00701 ;       .line   425; firmware.c reset_left = pwm_read(LEFT_DRIVE_PORT);
+002A 0E03      00702         MOVLW   0x03
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+002C 6EE5      00703         MOVWF   POSTDEC1
+002E EC00 F000 00704         CALL    _pwm_read
+0032 6E00      00705         MOVWF   r0x02
+0034 2AE1      00706         INCF    FSR1L, F
+0036 6A00      00707         CLRF    r0x03
+0038 BE00      00708         BTFSC   r0x02, 7
+003A 6800      00709         SETF    r0x03
+               00710 ;       .line   428; firmware.c pwm_write(RIGHT_DRIVE_PORT, AUTON_DRIVE_SPEED);
+003C 0E46      00711         MOVLW   0x46
+003E 6EE5      00712         MOVWF   POSTDEC1
+0040 0E04      00713         MOVLW   0x04
+0042 6EE5      00714         MOVWF   POSTDEC1
+0044 EC00 F000 00715         CALL    _pwm_write
+0048 0E02      00716         MOVLW   0x02
+004A 26E1      00717         ADDWF   FSR1L, F
+               00718 ;       .line   429; firmware.c pwm_write(LEFT_DRIVE_PORT, -AUTON_DRIVE_SPEED);
+004C 0EBA      00719         MOVLW   0xba
+004E 6EE5      00720         MOVWF   POSTDEC1
+0050 0E03      00721         MOVLW   0x03
+0052 6EE5      00722         MOVWF   POSTDEC1
+0054 EC00 F000 00723         CALL    _pwm_write
+0058 0E02      00724         MOVLW   0x02
+005A 26E1      00725         ADDWF   FSR1L, F
+               00726 ;       .line   430; firmware.c controller_submit_data(WAIT);
+005C 0E01      00727         MOVLW   0x01
+005E 6EE5      00728         MOVWF   POSTDEC1
+0060 EC00 F000 00729         CALL    _controller_submit_data
+0064 2AE1      00730         INCF    FSR1L, F
+               00731 ;       .line   431; firmware.c delay_msec(500);
+0066 0E01      00732         MOVLW   0x01
+0068 6EE5      00733         MOVWF   POSTDEC1
+006A 0EF4      00734         MOVLW   0xf4
+006C 6EE5      00735         MOVWF   POSTDEC1
+006E EC00 F000 00736         CALL    _delay_msec
+0072 0E02      00737         MOVLW   0x02
+0074 26E1      00738         ADDWF   FSR1L, F
+               00739 ;       .line   434; firmware.c pwm_write(LEFT_DRIVE_PORT, AUTON_DRIVE_SPEED);
+0076 0E46      00740         MOVLW   0x46
+0078 6EE5      00741         MOVWF   POSTDEC1
+007A 0E03      00742         MOVLW   0x03
+007C 6EE5      00743         MOVWF   POSTDEC1
+007E EC00 F000 00744         CALL    _pwm_write
+0082 0E02      00745         MOVLW   0x02
+0084 26E1      00746         ADDWF   FSR1L, F
+               00747 ;       .line   435; firmware.c pwm_write(RIGHT_DRIVE_PORT, AUTON_DRIVE_SPEED);
+0086 0E46      00748         MOVLW   0x46
+0088 6EE5      00749         MOVWF   POSTDEC1
+008A 0E04      00750         MOVLW   0x04
+008C 6EE5      00751         MOVWF   POSTDEC1
+008E EC00 F000 00752         CALL    _pwm_write
+0092 0E02      00753         MOVLW   0x02
+0094 26E1      00754         ADDWF   FSR1L, F
+               00755 ;       .line   436; firmware.c controller_submit_data(WAIT);
+0096 0E01      00756         MOVLW   0x01
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 15
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0098 6EE5      00757         MOVWF   POSTDEC1
+009A EC00 F000 00758         CALL    _controller_submit_data
+009E 2AE1      00759         INCF    FSR1L, F
+               00760 ;       .line   437; firmware.c delay_msec(500);
+00A0 0E01      00761         MOVLW   0x01
+00A2 6EE5      00762         MOVWF   POSTDEC1
+00A4 0EF4      00763         MOVLW   0xf4
+00A6 6EE5      00764         MOVWF   POSTDEC1
+00A8 EC00 F000 00765         CALL    _delay_msec
+00AC 0E02      00766         MOVLW   0x02
+00AE 26E1      00767         ADDWF   FSR1L, F
+               00768 ;       .line   440; firmware.c pwm_write(RIGHT_DRIVE_PORT, reset_right);
+00B0 5000      00769         MOVF    r0x00, W
+00B2 6EE5      00770         MOVWF   POSTDEC1
+00B4 0E04      00771         MOVLW   0x04
+00B6 6EE5      00772         MOVWF   POSTDEC1
+00B8 EC00 F000 00773         CALL    _pwm_write
+00BC 0E02      00774         MOVLW   0x02
+00BE 26E1      00775         ADDWF   FSR1L, F
+               00776 ;       .line   441; firmware.c pwm_write(LEFT_DRIVE_PORT, reset_left);
+00C0 5000      00777         MOVF    r0x02, W
+00C2 6EE5      00778         MOVWF   POSTDEC1
+00C4 0E03      00779         MOVLW   0x03
+00C6 6EE5      00780         MOVWF   POSTDEC1
+00C8 EC00 F000 00781         CALL    _pwm_write
+00CC 0E02      00782         MOVLW   0x02
+00CE 26E1      00783         ADDWF   FSR1L, F
+               00784 ;       .line   442; firmware.c controller_submit_data(WAIT);
+00D0 0E01      00785         MOVLW   0x01
+00D2 6EE5      00786         MOVWF   POSTDEC1
+00D4 EC00 F000 00787         CALL    _controller_submit_data
+00D8 2AE1      00788         INCF    FSR1L, F
+               00789 ;       .line   443; firmware.c delay_msec(100);
+00DA 0E00      00790         MOVLW   0x00
+00DC 6EE5      00791         MOVWF   POSTDEC1
+00DE 0E64      00792         MOVLW   0x64
+00E0 6EE5      00793         MOVWF   POSTDEC1
+00E2 EC00 F000 00794         CALL    _delay_msec
+00E6 0E02      00795         MOVLW   0x02
+00E8 26E1      00796         ADDWF   FSR1L, F
+00EA CFE4 F000 00797         MOVFF   PREINC1, r0x03
+00EE CFE4 F000 00798         MOVFF   PREINC1, r0x02
+00F2 CFE4 F000 00799         MOVFF   PREINC1, r0x01
+00F6 CFE4 F000 00800         MOVFF   PREINC1, r0x00
+00FA CFE4 FFD9 00801         MOVFF   PREINC1, FSR2L
+00FE 0012      00802         RETURN  
+               00803 
+               00804 ; ; Starting pCode block
+               00805 S_firmware__heartbeat   code
+0000 00806 _heartbeat:
+               00807 ;       .line   405; firmware.c void heartbeat(void)
+0000 CFD9 FFE5 00808         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00809         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00810         MOVFF   r0x00, POSTDEC1
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 16
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00811 ;       .line   409; firmware.c dat = RCREG;
+000C C000 F000 00812         MOVFF   _RCREG, r0x00
+               00813 ;       .line   410; firmware.c if(dat == 'p')
+0010 5000      00814         MOVF    r0x00, W
+0012 0A70      00815         XORLW   0x70
+0014 E100      00816         BNZ     _00227_DS_
+               00817 ;       .line   412; firmware.c printf("Hello, World!\n");
+0016 0E00      00818         MOVLW   UPPER(__str_7)
+0018 6EE5      00819         MOVWF   POSTDEC1
+001A 0E00      00820         MOVLW   HIGH(__str_7)
+001C 6EE5      00821         MOVWF   POSTDEC1
+001E 0E00      00822         MOVLW   LOW(__str_7)
+0020 6EE5      00823         MOVWF   POSTDEC1
+0022 EC00 F000 00824         CALL    _printf
+0026 0E03      00825         MOVLW   0x03
+0028 26E1      00826         ADDWF   FSR1L, F
+               00827 ;       .line   413; firmware.c controller_submit_data(NO_WAIT);
+002A 0E00      00828         MOVLW   0x00
+002C 6EE5      00829         MOVWF   POSTDEC1
+002E EC00 F000 00830         CALL    _controller_submit_data
+0032 2AE1      00831         INCF    FSR1L, F
+0034 00832 _00227_DS_:
+0034 CFE4 F000 00833         MOVFF   PREINC1, r0x00
+0038 CFE4 FFD9 00834         MOVFF   PREINC1, FSR2L
+003C 0012      00835         RETURN  
+               00836 
+               00837 ; ; Starting pCode block
+               00838 S_firmware__autonomous_routine_competition      code
+0000 00839 _autonomous_routine_competition:
+               00840 ;       .line   379; firmware.c void    autonomous_routine_competition(unsigned short seconds)
+0000 CFD9 FFE5 00841         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00842         MOVFF   FSR1L, FSR2L
+               00843 ;       .line   382; firmware.c printf("Running competition autonomous routine...\n");
+0008 0E00      00844         MOVLW   UPPER(__str_6)
+000A 6EE5      00845         MOVWF   POSTDEC1
+000C 0E00      00846         MOVLW   HIGH(__str_6)
+000E 6EE5      00847         MOVWF   POSTDEC1
+0010 0E00      00848         MOVLW   LOW(__str_6)
+0012 6EE5      00849         MOVWF   POSTDEC1
+0014 EC00 F000 00850         CALL    _printf
+0018 0E03      00851         MOVLW   0x03
+001A 26E1      00852         ADDWF   FSR1L, F
+               00853 ;       .line   383; firmware.c controller_begin_autonomous_mode();
+001C EC00 F000 00854         CALL    _controller_begin_autonomous_mode
+               00855 ;       .line   399; firmware.c controller_end_autonomous_mode();
+0020 EC00 F000 00856         CALL    _controller_end_autonomous_mode
+0024 CFE4 FFD9 00857         MOVFF   PREINC1, FSR2L
+0028 0012      00858         RETURN  
+               00859 
+               00860 ; ; Starting pCode block
+               00861 S_firmware__autonomous_routine1 code
+0000 00862 _autonomous_routine1:
+               00863 ;       .line   334; firmware.c void    autonomous_routine1(void)
+0000 CFD9 FFE5 00864         MOVFF   FSR2L, POSTDEC1
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 17
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0004 CFE1 FFD9 00865         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00866         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00867         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00868         MOVFF   r0x02, POSTDEC1
+               00869 ;       .line   338; firmware.c DPRINTF("Starting autonomous routine...\n");
+0014 0E00      00870         MOVLW   UPPER(__str_2)
+0016 6EE5      00871         MOVWF   POSTDEC1
+0018 0E00      00872         MOVLW   HIGH(__str_2)
+001A 6EE5      00873         MOVWF   POSTDEC1
+001C 0E00      00874         MOVLW   LOW(__str_2)
+001E 6EE5      00875         MOVWF   POSTDEC1
+0020 EC00 F000 00876         CALL    _printf
+0024 0E03      00877         MOVLW   0x03
+0026 26E1      00878         ADDWF   FSR1L, F
+               00879 ;       .line   346; firmware.c pwm_write(RIGHT_DRIVE_PORT, -AUTON_DRIVE_SPEED);
+0028 0EBA      00880         MOVLW   0xba
+002A 6EE5      00881         MOVWF   POSTDEC1
+002C 0E04      00882         MOVLW   0x04
+002E 6EE5      00883         MOVWF   POSTDEC1
+0030 EC00 F000 00884         CALL    _pwm_write
+0034 0E02      00885         MOVLW   0x02
+0036 26E1      00886         ADDWF   FSR1L, F
+               00887 ;       .line   347; firmware.c pwm_write(LEFT_DRIVE_PORT, AUTON_DRIVE_SPEED);
+0038 0E46      00888         MOVLW   0x46
+003A 6EE5      00889         MOVWF   POSTDEC1
+003C 0E03      00890         MOVLW   0x03
+003E 6EE5      00891         MOVWF   POSTDEC1
+0040 EC00 F000 00892         CALL    _pwm_write
+0044 0E02      00893         MOVLW   0x02
+0046 26E1      00894         ADDWF   FSR1L, F
+               00895 ;       .line   348; firmware.c controller_submit_data(WAIT);
+0048 0E01      00896         MOVLW   0x01
+004A 6EE5      00897         MOVWF   POSTDEC1
+004C EC00 F000 00898         CALL    _controller_submit_data
+0050 2AE1      00899         INCF    FSR1L, F
+               00900 ;       .line   351; firmware.c for(i=0; (rc_read_data(6) != -127) && (i < 400);i++)
+0052 6A00      00901         CLRF    r0x00
+0054 6A00      00902         CLRF    r0x01
+0056 00903 _00200_DS_:
+0056 0E06      00904         MOVLW   0x06
+0058 6EE5      00905         MOVWF   POSTDEC1
+005A EC00 F000 00906         CALL    _rc_read_data
+005E 6E00      00907         MOVWF   r0x02
+0060 2AE1      00908         INCF    FSR1L, F
+0062 5000      00909         MOVF    r0x02, W
+0064 0A81      00910         XORLW   0x81
+0066 E100      00911         BNZ     _00214_DS_
+0068 D000      00912         BRA     _00203_DS_
+006A 00913 _00214_DS_:
+006A 5000      00914         MOVF    r0x01, W
+006C 0F80      00915         ADDLW   0x80
+006E 0F7F      00916         ADDLW   0x7f
+0070 E100      00917         BNZ     _00215_DS_
+0072 0E90      00918         MOVLW   0x90
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 18
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0074 5C00      00919         SUBWF   r0x00, W
+0076 00920 _00215_DS_:
+0076 B0D8      00921         BTFSC   STATUS, 0
+0078 D000      00922         BRA     _00203_DS_
+               00923 ;       .line   353; firmware.c delay_msec(50);
+007A 0E00      00924         MOVLW   0x00
+007C 6EE5      00925         MOVWF   POSTDEC1
+007E 0E32      00926         MOVLW   0x32
+0080 6EE5      00927         MOVWF   POSTDEC1
+0082 EC00 F000 00928         CALL    _delay_msec
+0086 0E02      00929         MOVLW   0x02
+0088 26E1      00930         ADDWF   FSR1L, F
+               00931 ;       .line   356; firmware.c if ( io_read_digital(LEFT_BUMPER_PORT) == 0 )
+008A 0E09      00932         MOVLW   0x09
+008C 6EE5      00933         MOVWF   POSTDEC1
+008E EC00 F000 00934         CALL    _io_read_digital
+0092 6E00      00935         MOVWF   r0x02
+0094 2AE1      00936         INCF    FSR1L, F
+0096 5000      00937         MOVF    r0x02, W
+0098 E100      00938         BNZ     _00197_DS_
+               00939 ;       .line   358; firmware.c printf("Bump left\n");
+009A 0E00      00940         MOVLW   UPPER(__str_4)
+009C 6EE5      00941         MOVWF   POSTDEC1
+009E 0E00      00942         MOVLW   HIGH(__str_4)
+00A0 6EE5      00943         MOVWF   POSTDEC1
+00A2 0E00      00944         MOVLW   LOW(__str_4)
+00A4 6EE5      00945         MOVWF   POSTDEC1
+00A6 EC00 F000 00946         CALL    _printf
+00AA 0E03      00947         MOVLW   0x03
+00AC 26E1      00948         ADDWF   FSR1L, F
+               00949 ;       .line   359; firmware.c if ( io_read_digital(RIGHT_BUMPER_PORT) == 0 )
+00AE 0E0A      00950         MOVLW   0x0a
+00B0 6EE5      00951         MOVWF   POSTDEC1
+00B2 EC00 F000 00952         CALL    _io_read_digital
+00B6 6E00      00953         MOVWF   r0x02
+00B8 2AE1      00954         INCF    FSR1L, F
+00BA 5000      00955         MOVF    r0x02, W
+00BC E100      00956         BNZ     _00192_DS_
+               00957 ;       .line   360; firmware.c bump_front();
+00BE EC00 F000 00958         CALL    _bump_front
+00C2 D000      00959         BRA     _00198_DS_
+00C4 00960 _00192_DS_:
+               00961 ;       .line   362; firmware.c bump_front_left();
+00C4 EC00 F000 00962         CALL    _bump_front_left
+00C8 D000      00963         BRA     _00198_DS_
+00CA 00964 _00197_DS_:
+               00965 ;       .line   364; firmware.c else if ( io_read_digital(RIGHT_BUMPER_PORT) == 0 )
+00CA 0E0A      00966         MOVLW   0x0a
+00CC 6EE5      00967         MOVWF   POSTDEC1
+00CE EC00 F000 00968         CALL    _io_read_digital
+00D2 6E00      00969         MOVWF   r0x02
+00D4 2AE1      00970         INCF    FSR1L, F
+00D6 5000      00971         MOVF    r0x02, W
+00D8 E100      00972         BNZ     _00198_DS_
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 19
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00973 ;       .line   366; firmware.c printf("Bump right\n");
+00DA 0E00      00974         MOVLW   UPPER(__str_5)
+00DC 6EE5      00975         MOVWF   POSTDEC1
+00DE 0E00      00976         MOVLW   HIGH(__str_5)
+00E0 6EE5      00977         MOVWF   POSTDEC1
+00E2 0E00      00978         MOVLW   LOW(__str_5)
+00E4 6EE5      00979         MOVWF   POSTDEC1
+00E6 EC00 F000 00980         CALL    _printf
+00EA 0E03      00981         MOVLW   0x03
+00EC 26E1      00982         ADDWF   FSR1L, F
+               00983 ;       .line   367; firmware.c bump_front_right();
+00EE EC00 F000 00984         CALL    _bump_front_right
+00F2 00985 _00198_DS_:
+               00986 ;       .line   369; firmware.c controller_submit_data(NO_WAIT);
+00F2 0E00      00987         MOVLW   0x00
+00F4 6EE5      00988         MOVWF   POSTDEC1
+00F6 EC00 F000 00989         CALL    _controller_submit_data
+00FA 2AE1      00990         INCF    FSR1L, F
+               00991 ;       .line   351; firmware.c for(i=0; (rc_read_data(6) != -127) && (i < 400);i++)
+00FC 2A00      00992         INCF    r0x00, F
+00FE B0D8      00993         BTFSC   STATUS, 0
+0100 2A00      00994         INCF    r0x01, F
+0102 D000      00995         BRA     _00200_DS_
+0104 00996 _00203_DS_:
+               00997 ;       .line   371; firmware.c pwm_write(RIGHT_DRIVE_PORT, MOTOR_STOP);
+0104 0E00      00998         MOVLW   0x00
+0106 6EE5      00999         MOVWF   POSTDEC1
+0108 0E04      01000         MOVLW   0x04
+010A 6EE5      01001         MOVWF   POSTDEC1
+010C EC00 F000 01002         CALL    _pwm_write
+0110 0E02      01003         MOVLW   0x02
+0112 26E1      01004         ADDWF   FSR1L, F
+               01005 ;       .line   372; firmware.c pwm_write(LEFT_DRIVE_PORT, MOTOR_STOP);
+0114 0E00      01006         MOVLW   0x00
+0116 6EE5      01007         MOVWF   POSTDEC1
+0118 0E03      01008         MOVLW   0x03
+011A 6EE5      01009         MOVWF   POSTDEC1
+011C EC00 F000 01010         CALL    _pwm_write
+0120 0E02      01011         MOVLW   0x02
+0122 26E1      01012         ADDWF   FSR1L, F
+               01013 ;       .line   373; firmware.c controller_submit_data(WAIT);
+0124 0E01      01014         MOVLW   0x01
+0126 6EE5      01015         MOVWF   POSTDEC1
+0128 EC00 F000 01016         CALL    _controller_submit_data
+012C 2AE1      01017         INCF    FSR1L, F
+               01018 ;       .line   376; firmware.c DPRINTF("Ending autonomous routine...\n");
+012E 0E00      01019         MOVLW   UPPER(__str_3)
+0130 6EE5      01020         MOVWF   POSTDEC1
+0132 0E00      01021         MOVLW   HIGH(__str_3)
+0134 6EE5      01022         MOVWF   POSTDEC1
+0136 0E00      01023         MOVLW   LOW(__str_3)
+0138 6EE5      01024         MOVWF   POSTDEC1
+013A EC00 F000 01025         CALL    _printf
+013E 0E03      01026         MOVLW   0x03
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 20
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0140 26E1      01027         ADDWF   FSR1L, F
+0142 CFE4 F000 01028         MOVFF   PREINC1, r0x02
+0146 CFE4 F000 01029         MOVFF   PREINC1, r0x01
+014A CFE4 F000 01030         MOVFF   PREINC1, r0x00
+014E CFE4 FFD9 01031         MOVFF   PREINC1, FSR2L
+0152 0012      01032         RETURN  
+               01033 
+               01034 ; ; Starting pCode block
+               01035 S_firmware__autonomous_routine0 code
+0000 01036 _autonomous_routine0:
+               01037 ;       .line   307; firmware.c void    autonomous_routine0(void)
+0000 CFD9 FFE5 01038         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01039         MOVFF   FSR1L, FSR2L
+               01040 ;       .line   310; firmware.c DPRINTF("Starting autonomous routine...\n");
+0008 0E00      01041         MOVLW   UPPER(__str_2)
+000A 6EE5      01042         MOVWF   POSTDEC1
+000C 0E00      01043         MOVLW   HIGH(__str_2)
+000E 6EE5      01044         MOVWF   POSTDEC1
+0010 0E00      01045         MOVLW   LOW(__str_2)
+0012 6EE5      01046         MOVWF   POSTDEC1
+0014 EC00 F000 01047         CALL    _printf
+0018 0E03      01048         MOVLW   0x03
+001A 26E1      01049         ADDWF   FSR1L, F
+               01050 ;       .line   311; firmware.c controller_begin_autonomous_mode();
+001C EC00 F000 01051         CALL    _controller_begin_autonomous_mode
+               01052 ;       .line   318; firmware.c pwm_write(RIGHT_DRIVE_PORT, -AUTON_DRIVE_SPEED);
+0020 0EBA      01053         MOVLW   0xba
+0022 6EE5      01054         MOVWF   POSTDEC1
+0024 0E04      01055         MOVLW   0x04
+0026 6EE5      01056         MOVWF   POSTDEC1
+0028 EC00 F000 01057         CALL    _pwm_write
+002C 0E02      01058         MOVLW   0x02
+002E 26E1      01059         ADDWF   FSR1L, F
+               01060 ;       .line   319; firmware.c pwm_write(LEFT_DRIVE_PORT, AUTON_DRIVE_SPEED);
+0030 0E46      01061         MOVLW   0x46
+0032 6EE5      01062         MOVWF   POSTDEC1
+0034 0E03      01063         MOVLW   0x03
+0036 6EE5      01064         MOVWF   POSTDEC1
+0038 EC00 F000 01065         CALL    _pwm_write
+003C 0E02      01066         MOVLW   0x02
+003E 26E1      01067         ADDWF   FSR1L, F
+               01068 ;       .line   320; firmware.c controller_submit_data(WAIT);
+0040 0E01      01069         MOVLW   0x01
+0042 6EE5      01070         MOVWF   POSTDEC1
+0044 EC00 F000 01071         CALL    _controller_submit_data
+0048 2AE1      01072         INCF    FSR1L, F
+               01073 ;       .line   321; firmware.c delay_sec(4);
+004A 0E00      01074         MOVLW   0x00
+004C 6EE5      01075         MOVWF   POSTDEC1
+004E 0E04      01076         MOVLW   0x04
+0050 6EE5      01077         MOVWF   POSTDEC1
+0052 EC00 F000 01078         CALL    _delay_sec
+0056 0E02      01079         MOVLW   0x02
+0058 26E1      01080         ADDWF   FSR1L, F
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 21
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               01081 ;       .line   322; firmware.c pwm_write(RIGHT_DRIVE_PORT, MOTOR_STOP);
+005A 0E00      01082         MOVLW   0x00
+005C 6EE5      01083         MOVWF   POSTDEC1
+005E 0E04      01084         MOVLW   0x04
+0060 6EE5      01085         MOVWF   POSTDEC1
+0062 EC00 F000 01086         CALL    _pwm_write
+0066 0E02      01087         MOVLW   0x02
+0068 26E1      01088         ADDWF   FSR1L, F
+               01089 ;       .line   323; firmware.c pwm_write(LEFT_DRIVE_PORT, MOTOR_STOP);
+006A 0E00      01090         MOVLW   0x00
+006C 6EE5      01091         MOVWF   POSTDEC1
+006E 0E03      01092         MOVLW   0x03
+0070 6EE5      01093         MOVWF   POSTDEC1
+0072 EC00 F000 01094         CALL    _pwm_write
+0076 0E02      01095         MOVLW   0x02
+0078 26E1      01096         ADDWF   FSR1L, F
+               01097 ;       .line   324; firmware.c controller_submit_data(WAIT);
+007A 0E01      01098         MOVLW   0x01
+007C 6EE5      01099         MOVWF   POSTDEC1
+007E EC00 F000 01100         CALL    _controller_submit_data
+0082 2AE1      01101         INCF    FSR1L, F
+               01102 ;       .line   326; firmware.c controller_end_autonomous_mode();
+0084 EC00 F000 01103         CALL    _controller_end_autonomous_mode
+               01104 ;       .line   327; firmware.c DPRINTF("Ending autonomous routine...\n");
+0088 0E00      01105         MOVLW   UPPER(__str_3)
+008A 6EE5      01106         MOVWF   POSTDEC1
+008C 0E00      01107         MOVLW   HIGH(__str_3)
+008E 6EE5      01108         MOVWF   POSTDEC1
+0090 0E00      01109         MOVLW   LOW(__str_3)
+0092 6EE5      01110         MOVWF   POSTDEC1
+0094 EC00 F000 01111         CALL    _printf
+0098 0E03      01112         MOVLW   0x03
+009A 26E1      01113         ADDWF   FSR1L, F
+009C CFE4 FFD9 01114         MOVFF   PREINC1, FSR2L
+00A0 0012      01115         RETURN  
+               01116 
+               01117 ; ; Starting pCode block
+               01118 S_firmware__arcade_drive_routine        code
+0000 01119 _arcade_drive_routine:
+               01120 ;       .line   268; firmware.c void    arcade_drive_routine(void)
+0000 CFD9 FFE5 01121         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01122         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01123         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 01124         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 01125         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 01126         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 01127         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 01128         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 01129         MOVFF   r0x06, POSTDEC1
+0024 C000 FFE5 01130         MOVFF   r0x07, POSTDEC1
+               01131 ;       .line   278; firmware.c joy_x = rc_read_data(ARCADE_DRIVE_X_CHAN);
+0028 0E04      01132         MOVLW   0x04
+002A 6EE5      01133         MOVWF   POSTDEC1
+002C EC00 F000 01134         CALL    _rc_read_data
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 22
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0030 6E00      01135         MOVWF   r0x00
+0032 2AE1      01136         INCF    FSR1L, F
+               01137 ;       .line   279; firmware.c joy_y = -rc_read_data(ARCADE_DRIVE_Y_CHAN);
+0034 0E03      01138         MOVLW   0x03
+0036 6EE5      01139         MOVWF   POSTDEC1
+0038 EC00 F000 01140         CALL    _rc_read_data
+003C 6E00      01141         MOVWF   r0x01
+003E 2AE1      01142         INCF    FSR1L, F
+0040 6C00      01143         NEGF    r0x01
+               01144 ;       .line   280; firmware.c arcade_drive(joy_x, joy_y, PWM_MAX, &left_power, &right_power);
+0042 0E00      01145         MOVLW   HIGH(_arcade_drive_routine_left_power_1_1)
+0044 6E00      01146         MOVWF   r0x03
+0046 0E00      01147         MOVLW   LOW(_arcade_drive_routine_left_power_1_1)
+0048 6E00      01148         MOVWF   r0x02
+004A 0E80      01149         MOVLW   0x80
+004C 6E00      01150         MOVWF   r0x04
+004E 0E00      01151         MOVLW   HIGH(_arcade_drive_routine_right_power_1_1)
+0050 6E00      01152         MOVWF   r0x06
+0052 0E00      01153         MOVLW   LOW(_arcade_drive_routine_right_power_1_1)
+0054 6E00      01154         MOVWF   r0x05
+0056 0E80      01155         MOVLW   0x80
+               01156 ; #     MOVWF   r0x07
+               01157 ; #     MOVF    r0x07, W
+0058 6E00      01158         MOVWF   r0x07
+005A 6EE5      01159         MOVWF   POSTDEC1
+005C 5000      01160         MOVF    r0x06, W
+005E 6EE5      01161         MOVWF   POSTDEC1
+0060 5000      01162         MOVF    r0x05, W
+0062 6EE5      01163         MOVWF   POSTDEC1
+0064 5000      01164         MOVF    r0x04, W
+0066 6EE5      01165         MOVWF   POSTDEC1
+0068 5000      01166         MOVF    r0x03, W
+006A 6EE5      01167         MOVWF   POSTDEC1
+006C 5000      01168         MOVF    r0x02, W
+006E 6EE5      01169         MOVWF   POSTDEC1
+0070 0E7F      01170         MOVLW   0x7f
+0072 6EE5      01171         MOVWF   POSTDEC1
+0074 5000      01172         MOVF    r0x01, W
+0076 6EE5      01173         MOVWF   POSTDEC1
+0078 5000      01174         MOVF    r0x00, W
+007A 6EE5      01175         MOVWF   POSTDEC1
+007C EC00 F000 01176         CALL    _arcade_drive
+0080 0E09      01177         MOVLW   0x09
+0082 26E1      01178         ADDWF   FSR1L, F
+0084 0000      01179         BANKSEL _arcade_drive_routine_left_power_1_1
+               01180 ;       .line   284; firmware.c pwm_write(LEFT_DRIVE_PORT, left_power);//pwm_write(LEFT_DRIVE_PORT, -left_power);
+0086 5100      01181         MOVF    _arcade_drive_routine_left_power_1_1, W, B
+0088 6EE5      01182         MOVWF   POSTDEC1
+008A 0E03      01183         MOVLW   0x03
+008C 6EE5      01184         MOVWF   POSTDEC1
+008E EC00 F000 01185         CALL    _pwm_write
+0092 0E02      01186         MOVLW   0x02
+0094 26E1      01187         ADDWF   FSR1L, F
+0096 0000      01188         BANKSEL _arcade_drive_routine_right_power_1_1
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 23
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               01189 ;       .line   285; firmware.c pwm_write(RIGHT_DRIVE_PORT, -right_power);//pwm_write(RIGHT_DRIVE_PORT, right_power);
+0098 1D00      01190         COMF    _arcade_drive_routine_right_power_1_1, W, B
+009A 6E00      01191         MOVWF   r0x00
+009C 2A00      01192         INCF    r0x00, F
+009E 5000      01193         MOVF    r0x00, W
+00A0 6EE5      01194         MOVWF   POSTDEC1
+00A2 0E04      01195         MOVLW   0x04
+00A4 6EE5      01196         MOVWF   POSTDEC1
+00A6 EC00 F000 01197         CALL    _pwm_write
+00AA 0E02      01198         MOVLW   0x02
+00AC 26E1      01199         ADDWF   FSR1L, F
+               01200 ;       .line   288; firmware.c impeller_power = rc_read_data(ARCADE_IMPELLER_CHAN);
+00AE 0E02      01201         MOVLW   0x02
+00B0 6EE5      01202         MOVWF   POSTDEC1
+00B2 EC00 F000 01203         CALL    _rc_read_data
+00B6 6E00      01204         MOVWF   r0x00
+00B8 2AE1      01205         INCF    FSR1L, F
+               01206 ;       .line   289; firmware.c arm_power = rc_read_data(ARCADE_ARM_CHAN);
+00BA 0E01      01207         MOVLW   0x01
+00BC 6EE5      01208         MOVWF   POSTDEC1
+00BE EC00 F000 01209         CALL    _rc_read_data
+00C2 6E00      01210         MOVWF   r0x01
+00C4 2AE1      01211         INCF    FSR1L, F
+               01212 ;       .line   290; firmware.c pwm_write(IMPELLER_PORT, impeller_power);
+00C6 5000      01213         MOVF    r0x00, W
+00C8 6EE5      01214         MOVWF   POSTDEC1
+00CA 0E05      01215         MOVLW   0x05
+00CC 6EE5      01216         MOVWF   POSTDEC1
+00CE EC00 F000 01217         CALL    _pwm_write
+00D2 0E02      01218         MOVLW   0x02
+00D4 26E1      01219         ADDWF   FSR1L, F
+               01220 ;       .line   291; firmware.c pwm_write(ARM_PORT, arm_power);
+00D6 5000      01221         MOVF    r0x01, W
+00D8 6EE5      01222         MOVWF   POSTDEC1
+00DA 0E06      01223         MOVLW   0x06
+00DC 6EE5      01224         MOVWF   POSTDEC1
+00DE EC00 F000 01225         CALL    _pwm_write
+00E2 0E02      01226         MOVLW   0x02
+00E4 26E1      01227         ADDWF   FSR1L, F
+00E6 CFE4 F000 01228         MOVFF   PREINC1, r0x07
+00EA CFE4 F000 01229         MOVFF   PREINC1, r0x06
+00EE CFE4 F000 01230         MOVFF   PREINC1, r0x05
+00F2 CFE4 F000 01231         MOVFF   PREINC1, r0x04
+00F6 CFE4 F000 01232         MOVFF   PREINC1, r0x03
+00FA CFE4 F000 01233         MOVFF   PREINC1, r0x02
+00FE CFE4 F000 01234         MOVFF   PREINC1, r0x01
+0102 CFE4 F000 01235         MOVFF   PREINC1, r0x00
+0106 CFE4 FFD9 01236         MOVFF   PREINC1, FSR2L
+010A 0012      01237         RETURN  
+               01238 
+               01239 ; ; Starting pCode block
+               01240 S_firmware__tank_drive_routine  code
+0000 01241 _tank_drive_routine:
+               01242 ;       .line   236; firmware.c void    tank_drive_routine(void)
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 24
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0000 CFD9 FFE5 01243         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01244         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01245         MOVFF   r0x00, POSTDEC1
+               01246 ;       .line   245; firmware.c left_power = -rc_read_data(TANK_DRIVE_LEFT_CHAN);
+000C 0E03      01247         MOVLW   0x03
+000E 6EE5      01248         MOVWF   POSTDEC1
+0010 EC00 F000 01249         CALL    _rc_read_data
+0014 6E00      01250         MOVWF   r0x00
+0016 2AE1      01251         INCF    FSR1L, F
+0018 1C00      01252         COMF    r0x00, W
+001A 0000      01253         BANKSEL _tank_drive_routine_left_power_1_1
+001C 6F00      01254         MOVWF   _tank_drive_routine_left_power_1_1, B
+001E 2B00      01255         INCF    _tank_drive_routine_left_power_1_1, F, B
+               01256 ;       .line   246; firmware.c right_power = rc_read_data(TANK_DRIVE_RIGHT_CHAN);
+0020 0E02      01257         MOVLW   0x02
+0022 6EE5      01258         MOVWF   POSTDEC1
+0024 EC00 F000 01259         CALL    _rc_read_data
+0028 0000      01260         BANKSEL _tank_drive_routine_right_power_1_1
+002A 6F00      01261         MOVWF   _tank_drive_routine_right_power_1_1, B
+002C 2AE1      01262         INCF    FSR1L, F
+002E 0000      01263         BANKSEL _tank_drive_routine_right_power_1_1
+               01264 ;       .line   249; firmware.c pwm_write(RIGHT_DRIVE_PORT, right_power);
+0030 5100      01265         MOVF    _tank_drive_routine_right_power_1_1, W, B
+0032 6EE5      01266         MOVWF   POSTDEC1
+0034 0E04      01267         MOVLW   0x04
+0036 6EE5      01268         MOVWF   POSTDEC1
+0038 EC00 F000 01269         CALL    _pwm_write
+003C 0E02      01270         MOVLW   0x02
+003E 26E1      01271         ADDWF   FSR1L, F
+0040 0000      01272         BANKSEL _tank_drive_routine_left_power_1_1
+               01273 ;       .line   250; firmware.c pwm_write(LEFT_DRIVE_PORT, left_power);
+0042 5100      01274         MOVF    _tank_drive_routine_left_power_1_1, W, B
+0044 6EE5      01275         MOVWF   POSTDEC1
+0046 0E03      01276         MOVLW   0x03
+0048 6EE5      01277         MOVWF   POSTDEC1
+004A EC00 F000 01278         CALL    _pwm_write
+004E 0E02      01279         MOVLW   0x02
+0050 26E1      01280         ADDWF   FSR1L, F
+               01281 ;       .line   253; firmware.c impeller_power = rc_read_data(TANK_IMPELLER_CHAN);
+0052 0E05      01282         MOVLW   0x05
+0054 6EE5      01283         MOVWF   POSTDEC1
+0056 EC00 F000 01284         CALL    _rc_read_data
+005A 0000      01285         BANKSEL _tank_drive_routine_impeller_power_1_1
+005C 6F00      01286         MOVWF   _tank_drive_routine_impeller_power_1_1, B
+005E 2AE1      01287         INCF    FSR1L, F
+               01288 ;       .line   254; firmware.c arm_power = rc_read_data(TANK_ARM_CHAN);
+0060 0E06      01289         MOVLW   0x06
+0062 6EE5      01290         MOVWF   POSTDEC1
+0064 EC00 F000 01291         CALL    _rc_read_data
+0068 0000      01292         BANKSEL _tank_drive_routine_arm_power_1_1
+006A 6F00      01293         MOVWF   _tank_drive_routine_arm_power_1_1, B
+006C 2AE1      01294         INCF    FSR1L, F
+006E 0000      01295         BANKSEL _tank_drive_routine_impeller_power_1_1
+               01296 ;       .line   255; firmware.c pwm_write(IMPELLER_PORT, impeller_power);
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 25
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0070 5100      01297         MOVF    _tank_drive_routine_impeller_power_1_1, W, B
+0072 6EE5      01298         MOVWF   POSTDEC1
+0074 0E05      01299         MOVLW   0x05
+0076 6EE5      01300         MOVWF   POSTDEC1
+0078 EC00 F000 01301         CALL    _pwm_write
+007C 0E02      01302         MOVLW   0x02
+007E 26E1      01303         ADDWF   FSR1L, F
+0080 0000      01304         BANKSEL _tank_drive_routine_arm_power_1_1
+               01305 ;       .line   256; firmware.c pwm_write(ARM_PORT, arm_power);
+0082 5100      01306         MOVF    _tank_drive_routine_arm_power_1_1, W, B
+0084 6EE5      01307         MOVWF   POSTDEC1
+0086 0E06      01308         MOVLW   0x06
+0088 6EE5      01309         MOVWF   POSTDEC1
+008A EC00 F000 01310         CALL    _pwm_write
+008E 0E02      01311         MOVLW   0x02
+0090 26E1      01312         ADDWF   FSR1L, F
+0092 CFE4 F000 01313         MOVFF   PREINC1, r0x00
+0096 CFE4 FFD9 01314         MOVFF   PREINC1, FSR2L
+009A 0012      01315         RETURN  
+               01316 
+               01317 ; ; Starting pCode block
+               01318 S_firmware__rc_routine  code
+0000 01319 _rc_routine:
+               01320 ;       .line   176; firmware.c void    rc_routine(void)
+0000 CFD9 FFE5 01321         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01322         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01323         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 01324         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 01325         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 01326         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 01327         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 01328         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 01329         MOVFF   r0x06, POSTDEC1
+0024 C000 FFE5 01330         MOVFF   r0x07, POSTDEC1
+0028 C000 FFE5 01331         MOVFF   r0x08, POSTDEC1
+002C C000 FFE5 01332         MOVFF   r0x09, POSTDEC1
+0030 C000 FFE5 01333         MOVFF   r0x0a, POSTDEC1
+0034 C000 FFE5 01334         MOVFF   r0x0b, POSTDEC1
+0038 C000 FFE5 01335         MOVFF   r0x0c, POSTDEC1
+003C C000 FFE5 01336         MOVFF   r0x0d, POSTDEC1
+0040 C000 FFE5 01337         MOVFF   r0x0e, POSTDEC1
+0044 C000 FFE5 01338         MOVFF   r0x0f, POSTDEC1
+               01339 ;       .line   192; firmware.c if ( io_read_digital(ARCADE_JUMPER_PORT) == 0 )
+0048 0E10      01340         MOVLW   0x10
+004A 6EE5      01341         MOVWF   POSTDEC1
+004C EC00 F000 01342         CALL    _io_read_digital
+0050 6E00      01343         MOVWF   r0x00
+0052 2AE1      01344         INCF    FSR1L, F
+0054 5000      01345         MOVF    r0x00, W
+0056 E100      01346         BNZ     _00156_DS_
+               01347 ;       .line   193; firmware.c arcade_drive_routine();
+0058 EC00 F000 01348         CALL    _arcade_drive_routine
+005C D000      01349         BRA     _00157_DS_
+005E 01350 _00156_DS_:
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 26
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               01351 ;       .line   195; firmware.c tank_drive_routine();
+005E EC00 F000 01352         CALL    _tank_drive_routine
+0062 01353 _00157_DS_:
+               01354 ;       .line   197; firmware.c controller_submit_data(NO_WAIT);
+0062 0E00      01355         MOVLW   0x00
+0064 6EE5      01356         MOVWF   POSTDEC1
+0066 EC00 F000 01357         CALL    _controller_submit_data
+006A 2AE1      01358         INCF    FSR1L, F
+               01359 ;       .line   205; firmware.c elapsed_time = SYSTEM_TIMER_SECONDS();
+006C EC00 F000 01360         CALL    _timer0_read32
+0070 6E00      01361         MOVWF   r0x00
+0072 CFF3 F000 01362         MOVFF   PRODL, r0x01
+0076 CFF4 F000 01363         MOVFF   PRODH, r0x02
+007A CFE9 F000 01364         MOVFF   FSR0L, r0x03
+007E A600      01365         BTFSS   _T0CON, 3
+0080 D000      01366         BRA     _00162_DS_
+0082 0E01      01367         MOVLW   0x01
+0084 6E00      01368         MOVWF   r0x04
+0086 6A00      01369         CLRF    r0x05
+0088 D000      01370         BRA     _00163_DS_
+008A 01371 _00162_DS_:
+008A 0E07      01372         MOVLW   0x07
+008C 1400      01373         ANDWF   _T0CON, W
+008E 6E00      01374         MOVWF   r0x06
+0090 0E02      01375         MOVLW   0x02
+0092 6E00      01376         MOVWF   r0x04
+0094 0E00      01377         MOVLW   0x00
+0096 6E00      01378         MOVWF   r0x05
+0098 5000      01379         MOVF    r0x06, W
+009A E000      01380         BZ      _00163_DS_
+009C 6CE8      01381         NEGF    WREG
+009E 90D8      01382         BCF     STATUS, 0
+00A0 01383 _00170_DS_:
+00A0 3600      01384         RLCF    r0x04, F
+00A2 3600      01385         RLCF    r0x05, F
+00A4 0F01      01386         ADDLW   0x01
+00A6 E300      01387         BNC     _00170_DS_
+00A8 01388 _00163_DS_:
+00A8 5000      01389         MOVF    r0x05, W
+00AA 6EE5      01390         MOVWF   POSTDEC1
+00AC 5000      01391         MOVF    r0x04, W
+00AE 6EE5      01392         MOVWF   POSTDEC1
+00B0 0E27      01393         MOVLW   0x27
+00B2 6EE5      01394         MOVWF   POSTDEC1
+00B4 0E10      01395         MOVLW   0x10
+00B6 6EE5      01396         MOVWF   POSTDEC1
+00B8 EC00 F000 01397         CALL    __divsint
+00BC 6E00      01398         MOVWF   r0x04
+00BE CFF3 F000 01399         MOVFF   PRODL, r0x05
+00C2 0E04      01400         MOVLW   0x04
+00C4 26E1      01401         ADDWF   FSR1L, F
+00C6 6AE8      01402         CLRF    WREG
+00C8 BE00      01403         BTFSC   r0x05, 7
+00CA 0EFF      01404         MOVLW   0xff
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 27
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00CC 6E00      01405         MOVWF   r0x06
+               01406 ; #     MOVWF   r0x07
+               01407 ; #     MOVF    r0x07, W
+00CE 6E00      01408         MOVWF   r0x07
+00D0 6EE5      01409         MOVWF   POSTDEC1
+00D2 5000      01410         MOVF    r0x06, W
+00D4 6EE5      01411         MOVWF   POSTDEC1
+00D6 5000      01412         MOVF    r0x05, W
+00D8 6EE5      01413         MOVWF   POSTDEC1
+00DA 5000      01414         MOVF    r0x04, W
+00DC 6EE5      01415         MOVWF   POSTDEC1
+00DE 5000      01416         MOVF    r0x03, W
+00E0 6EE5      01417         MOVWF   POSTDEC1
+00E2 5000      01418         MOVF    r0x02, W
+00E4 6EE5      01419         MOVWF   POSTDEC1
+00E6 5000      01420         MOVF    r0x01, W
+00E8 6EE5      01421         MOVWF   POSTDEC1
+00EA 5000      01422         MOVF    r0x00, W
+00EC 6EE5      01423         MOVWF   POSTDEC1
+00EE EC00 F000 01424         CALL    __divulong
+00F2 6E00      01425         MOVWF   r0x00
+00F4 CFF3 F000 01426         MOVFF   PRODL, r0x01
+00F8 CFF4 F000 01427         MOVFF   PRODH, r0x02
+00FC CFE9 F000 01428         MOVFF   FSR0L, r0x03
+0100 0E08      01429         MOVLW   0x08
+0102 26E1      01430         ADDWF   FSR1L, F
+0104 0E00      01431         MOVLW   0x00
+0106 6EE5      01432         MOVWF   POSTDEC1
+0108 0E00      01433         MOVLW   0x00
+010A 6EE5      01434         MOVWF   POSTDEC1
+010C 0E03      01435         MOVLW   0x03
+010E 6EE5      01436         MOVWF   POSTDEC1
+0110 0EE8      01437         MOVLW   0xe8
+0112 6EE5      01438         MOVWF   POSTDEC1
+0114 5000      01439         MOVF    r0x03, W
+0116 6EE5      01440         MOVWF   POSTDEC1
+0118 5000      01441         MOVF    r0x02, W
+011A 6EE5      01442         MOVWF   POSTDEC1
+011C 5000      01443         MOVF    r0x01, W
+011E 6EE5      01444         MOVWF   POSTDEC1
+0120 5000      01445         MOVF    r0x00, W
+0122 6EE5      01446         MOVWF   POSTDEC1
+0124 EC00 F000 01447         CALL    __divulong
+0128 0000      01448         BANKSEL _rc_routine_elapsed_time_1_1
+012A 6F00      01449         MOVWF   _rc_routine_elapsed_time_1_1, B
+012C CFF3 F000 01450         MOVFF   PRODL, (_rc_routine_elapsed_time_1_1 + 1)
+0130 CFF4 F000 01451         MOVFF   PRODH, (_rc_routine_elapsed_time_1_1 + 2)
+0134 CFE9 F000 01452         MOVFF   FSR0L, (_rc_routine_elapsed_time_1_1 + 3)
+0138 0E08      01453         MOVLW   0x08
+013A 26E1      01454         ADDWF   FSR1L, F
+013C 0000      01455         BANKSEL (_rc_routine_elapsed_time_1_1 + 3)
+               01456 ;       .line   208; firmware.c if ( elapsed_time > old_time )
+013E 5100      01457         MOVF    (_rc_routine_elapsed_time_1_1 + 3), W, B
+0140 0000      01458         BANKSEL (_rc_routine_old_time_1_1 + 3)
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 28
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0142 5D00      01459         SUBWF   (_rc_routine_old_time_1_1 + 3), W, B
+0144 E100      01460         BNZ     _00171_DS_
+0146 0000      01461         BANKSEL (_rc_routine_elapsed_time_1_1 + 2)
+0148 5100      01462         MOVF    (_rc_routine_elapsed_time_1_1 + 2), W, B
+014A 0000      01463         BANKSEL (_rc_routine_old_time_1_1 + 2)
+014C 5D00      01464         SUBWF   (_rc_routine_old_time_1_1 + 2), W, B
+014E E100      01465         BNZ     _00171_DS_
+0150 0000      01466         BANKSEL (_rc_routine_elapsed_time_1_1 + 1)
+0152 5100      01467         MOVF    (_rc_routine_elapsed_time_1_1 + 1), W, B
+0154 0000      01468         BANKSEL (_rc_routine_old_time_1_1 + 1)
+0156 5D00      01469         SUBWF   (_rc_routine_old_time_1_1 + 1), W, B
+0158 E100      01470         BNZ     _00171_DS_
+015A 0000      01471         BANKSEL _rc_routine_elapsed_time_1_1
+015C 5100      01472         MOVF    _rc_routine_elapsed_time_1_1, W, B
+015E 0000      01473         BANKSEL _rc_routine_old_time_1_1
+0160 5D00      01474         SUBWF   _rc_routine_old_time_1_1, W, B
+0162 01475 _00171_DS_:
+0162 B0D8      01476         BTFSC   STATUS, 0
+0164 D000      01477         BRA     _00160_DS_
+               01478 ;       .line   210; firmware.c old_time = elapsed_time;
+0166 C000 F000 01479         MOVFF   _rc_routine_elapsed_time_1_1, _rc_routine_old_time_1_1
+016A C000 F000 01480         MOVFF   (_rc_routine_elapsed_time_1_1 + 1), (_rc_routine_old_time_1_1 + 1)
+016E C000 F000 01481         MOVFF   (_rc_routine_elapsed_time_1_1 + 2), (_rc_routine_old_time_1_1 + 2)
+0172 C000 F000 01482         MOVFF   (_rc_routine_elapsed_time_1_1 + 3), (_rc_routine_old_time_1_1 + 3)
+               01483 ;       .line   218; firmware.c DPRINTF("ET: %ld  RC: %d %d %d %d %d %d %d  Jumper: %d\n",
+0176 0E10      01484         MOVLW   0x10
+0178 6EE5      01485         MOVWF   POSTDEC1
+017A EC00 F000 01486         CALL    _io_read_digital
+017E 6E00      01487         MOVWF   r0x00
+0180 2AE1      01488         INCF    FSR1L, F
+0182 6A00      01489         CLRF    r0x01
+0184 BE00      01490         BTFSC   r0x00, 7
+0186 6800      01491         SETF    r0x01
+0188 0E06      01492         MOVLW   0x06
+018A 6EE5      01493         MOVWF   POSTDEC1
+018C EC00 F000 01494         CALL    _rc_read_data
+0190 6E00      01495         MOVWF   r0x02
+0192 2AE1      01496         INCF    FSR1L, F
+0194 6A00      01497         CLRF    r0x03
+0196 BE00      01498         BTFSC   r0x02, 7
+0198 6800      01499         SETF    r0x03
+019A 0E05      01500         MOVLW   0x05
+019C 6EE5      01501         MOVWF   POSTDEC1
+019E EC00 F000 01502         CALL    _rc_read_data
+01A2 6E00      01503         MOVWF   r0x04
+01A4 2AE1      01504         INCF    FSR1L, F
+01A6 6A00      01505         CLRF    r0x05
+01A8 BE00      01506         BTFSC   r0x04, 7
+01AA 6800      01507         SETF    r0x05
+01AC 0E04      01508         MOVLW   0x04
+01AE 6EE5      01509         MOVWF   POSTDEC1
+01B0 EC00 F000 01510         CALL    _rc_read_data
+01B4 6E00      01511         MOVWF   r0x06
+01B6 2AE1      01512         INCF    FSR1L, F
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 29
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+01B8 6A00      01513         CLRF    r0x07
+01BA BE00      01514         BTFSC   r0x06, 7
+01BC 6800      01515         SETF    r0x07
+01BE 0E03      01516         MOVLW   0x03
+01C0 6EE5      01517         MOVWF   POSTDEC1
+01C2 EC00 F000 01518         CALL    _rc_read_data
+01C6 6E00      01519         MOVWF   r0x08
+01C8 2AE1      01520         INCF    FSR1L, F
+01CA 6A00      01521         CLRF    r0x09
+01CC BE00      01522         BTFSC   r0x08, 7
+01CE 6800      01523         SETF    r0x09
+01D0 0E02      01524         MOVLW   0x02
+01D2 6EE5      01525         MOVWF   POSTDEC1
+01D4 EC00 F000 01526         CALL    _rc_read_data
+01D8 6E00      01527         MOVWF   r0x0a
+01DA 2AE1      01528         INCF    FSR1L, F
+01DC 6A00      01529         CLRF    r0x0b
+01DE BE00      01530         BTFSC   r0x0a, 7
+01E0 6800      01531         SETF    r0x0b
+01E2 0E01      01532         MOVLW   0x01
+01E4 6EE5      01533         MOVWF   POSTDEC1
+01E6 EC00 F000 01534         CALL    _rc_read_data
+01EA 6E00      01535         MOVWF   r0x0c
+01EC 2AE1      01536         INCF    FSR1L, F
+01EE 6A00      01537         CLRF    r0x0d
+01F0 BE00      01538         BTFSC   r0x0c, 7
+01F2 6800      01539         SETF    r0x0d
+01F4 EC00 F000 01540         CALL    _rc_read_status
+01F8 6E00      01541         MOVWF   r0x0e
+01FA 6A00      01542         CLRF    r0x0f
+01FC BE00      01543         BTFSC   r0x0e, 7
+01FE 6800      01544         SETF    r0x0f
+0200 5000      01545         MOVF    r0x01, W
+0202 6EE5      01546         MOVWF   POSTDEC1
+0204 5000      01547         MOVF    r0x00, W
+0206 6EE5      01548         MOVWF   POSTDEC1
+0208 5000      01549         MOVF    r0x03, W
+020A 6EE5      01550         MOVWF   POSTDEC1
+020C 5000      01551         MOVF    r0x02, W
+020E 6EE5      01552         MOVWF   POSTDEC1
+0210 5000      01553         MOVF    r0x05, W
+0212 6EE5      01554         MOVWF   POSTDEC1
+0214 5000      01555         MOVF    r0x04, W
+0216 6EE5      01556         MOVWF   POSTDEC1
+0218 5000      01557         MOVF    r0x07, W
+021A 6EE5      01558         MOVWF   POSTDEC1
+021C 5000      01559         MOVF    r0x06, W
+021E 6EE5      01560         MOVWF   POSTDEC1
+0220 5000      01561         MOVF    r0x09, W
+0222 6EE5      01562         MOVWF   POSTDEC1
+0224 5000      01563         MOVF    r0x08, W
+0226 6EE5      01564         MOVWF   POSTDEC1
+0228 5000      01565         MOVF    r0x0b, W
+022A 6EE5      01566         MOVWF   POSTDEC1
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 30
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+022C 5000      01567         MOVF    r0x0a, W
+022E 6EE5      01568         MOVWF   POSTDEC1
+0230 5000      01569         MOVF    r0x0d, W
+0232 6EE5      01570         MOVWF   POSTDEC1
+0234 5000      01571         MOVF    r0x0c, W
+0236 6EE5      01572         MOVWF   POSTDEC1
+0238 5000      01573         MOVF    r0x0f, W
+023A 6EE5      01574         MOVWF   POSTDEC1
+023C 5000      01575         MOVF    r0x0e, W
+023E 6EE5      01576         MOVWF   POSTDEC1
+0240 0000      01577         BANKSEL (_rc_routine_elapsed_time_1_1 + 3)
+0242 5100      01578         MOVF    (_rc_routine_elapsed_time_1_1 + 3), W, B
+0244 6EE5      01579         MOVWF   POSTDEC1
+0246 0000      01580         BANKSEL (_rc_routine_elapsed_time_1_1 + 2)
+0248 5100      01581         MOVF    (_rc_routine_elapsed_time_1_1 + 2), W, B
+024A 6EE5      01582         MOVWF   POSTDEC1
+024C 0000      01583         BANKSEL (_rc_routine_elapsed_time_1_1 + 1)
+024E 5100      01584         MOVF    (_rc_routine_elapsed_time_1_1 + 1), W, B
+0250 6EE5      01585         MOVWF   POSTDEC1
+0252 0000      01586         BANKSEL _rc_routine_elapsed_time_1_1
+0254 5100      01587         MOVF    _rc_routine_elapsed_time_1_1, W, B
+0256 6EE5      01588         MOVWF   POSTDEC1
+0258 0E00      01589         MOVLW   UPPER(__str_1)
+025A 6EE5      01590         MOVWF   POSTDEC1
+025C 0E00      01591         MOVLW   HIGH(__str_1)
+025E 6EE5      01592         MOVWF   POSTDEC1
+0260 0E00      01593         MOVLW   LOW(__str_1)
+0262 6EE5      01594         MOVWF   POSTDEC1
+0264 EC00 F000 01595         CALL    _printf
+0268 0E17      01596         MOVLW   0x17
+026A 26E1      01597         ADDWF   FSR1L, F
+026C 01598 _00160_DS_:
+026C CFE4 F000 01599         MOVFF   PREINC1, r0x0f
+0270 CFE4 F000 01600         MOVFF   PREINC1, r0x0e
+0274 CFE4 F000 01601         MOVFF   PREINC1, r0x0d
+0278 CFE4 F000 01602         MOVFF   PREINC1, r0x0c
+027C CFE4 F000 01603         MOVFF   PREINC1, r0x0b
+0280 CFE4 F000 01604         MOVFF   PREINC1, r0x0a
+0284 CFE4 F000 01605         MOVFF   PREINC1, r0x09
+0288 CFE4 F000 01606         MOVFF   PREINC1, r0x08
+028C CFE4 F000 01607         MOVFF   PREINC1, r0x07
+0290 CFE4 F000 01608         MOVFF   PREINC1, r0x06
+0294 CFE4 F000 01609         MOVFF   PREINC1, r0x05
+0298 CFE4 F000 01610         MOVFF   PREINC1, r0x04
+029C CFE4 F000 01611         MOVFF   PREINC1, r0x03
+02A0 CFE4 F000 01612         MOVFF   PREINC1, r0x02
+02A4 CFE4 F000 01613         MOVFF   PREINC1, r0x01
+02A8 CFE4 F000 01614         MOVFF   PREINC1, r0x00
+02AC CFE4 FFD9 01615         MOVFF   PREINC1, FSR2L
+02B0 0012      01616         RETURN  
+               01617 
+               01618 ; ; Starting pCode block
+               01619 S_firmware__custom_init code
+0000 01620 _custom_init:
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 31
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               01621 ;       .line   138; firmware.c void    custom_init(void)
+0000 CFD9 FFE5 01622         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01623         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01624         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 01625         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 01626         MOVFF   r0x02, POSTDEC1
+               01627 ;       .line   149; firmware.c for (c = 1; c <= 16; ++c)
+0014 0E01      01628         MOVLW   0x01
+0016 6E00      01629         MOVWF   r0x00
+0018 6A00      01630         CLRF    r0x01
+001A 01631 _00141_DS_:
+001A 5000      01632         MOVF    r0x01, W
+001C 0F80      01633         ADDLW   0x80
+001E 0F80      01634         ADDLW   0x80
+0020 E100      01635         BNZ     _00150_DS_
+0022 0E11      01636         MOVLW   0x11
+0024 5C00      01637         SUBWF   r0x00, W
+0026 01638 _00150_DS_:
+0026 E200      01639         BC      _00144_DS_
+               01640 ;       .line   150; firmware.c io_set_direction(c, IO_DIRECTION_IN);
+0028 5000      01641         MOVF    r0x00, W
+002A 6E00      01642         MOVWF   r0x02
+002C 0E01      01643         MOVLW   0x01
+002E 6EE5      01644         MOVWF   POSTDEC1
+0030 5000      01645         MOVF    r0x02, W
+0032 6EE5      01646         MOVWF   POSTDEC1
+0034 EC00 F000 01647         CALL    _io_set_direction
+0038 0E02      01648         MOVLW   0x02
+003A 26E1      01649         ADDWF   FSR1L, F
+               01650 ;       .line   149; firmware.c for (c = 1; c <= 16; ++c)
+003C 2A00      01651         INCF    r0x00, F
+003E B0D8      01652         BTFSC   STATUS, 0
+0040 2A00      01653         INCF    r0x01, F
+0042 D000      01654         BRA     _00141_DS_
+0044 01655 _00144_DS_:
+               01656 ;       .line   156; firmware.c io_set_analog_port_count(ANALOG_PORTS);
+0044 0E04      01657         MOVLW   0x04
+0046 6EE5      01658         MOVWF   POSTDEC1
+0048 EC00 F000 01659         CALL    _io_set_analog_port_count
+004C 2AE1      01660         INCF    FSR1L, F
+               01661 ;       .line   167; firmware.c controller_print_version();
+004E EC00 F000 01662         CALL    _controller_print_version
+0052 CFE4 F000 01663         MOVFF   PREINC1, r0x02
+0056 CFE4 F000 01664         MOVFF   PREINC1, r0x01
+005A CFE4 F000 01665         MOVFF   PREINC1, r0x00
+005E CFE4 FFD9 01666         MOVFF   PREINC1, FSR2L
+0062 0012      01667         RETURN  
+               01668 
+               01669 ; ; Starting pCode block
+0064 01670 __str_0:
+0064 6157 7469 01671         DB      0x57, 0x61, 0x69, 0x74, 0x69, 0x6e, 0x67, 0x20, 0x66, 0x6f, 0x72, 0x20
+     6E69 2067 
+     6F66 2072 
+0070 4352 7320 01672         DB      0x52, 0x43, 0x20, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x6c, 0x20, 0x74, 0x6f
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 32
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+     6769 616E 
+     206C 6F74 
+007C 6220 6765 01673         DB      0x20, 0x62, 0x65, 0x67, 0x69, 0x6e, 0x20, 0x61, 0x75, 0x74, 0x6f, 0x6e
+     6E69 6120 
+     7475 6E6F 
+0088 6D6F 756F 01674         DB      0x6f, 0x6d, 0x6f, 0x75, 0x73, 0x20, 0x70, 0x65, 0x72, 0x69, 0x6f, 0x64
+     2073 6570 
+     6972 646F 
+0094 2E2E 0A2E 01675         DB      0x2e, 0x2e, 0x2e, 0x0a, 0x00
+     0000      
+               01676 ; ; Starting pCode block
+009A 01677 __str_1:
+009A 5445 203A 01678         DB      0x45, 0x54, 0x3a, 0x20, 0x25, 0x6c, 0x64, 0x20, 0x20, 0x52, 0x43, 0x3a
+     6C25 2064 
+     5220 3A43 
+00A6 2520 2064 01679         DB      0x20, 0x25, 0x64, 0x20, 0x25, 0x64, 0x20, 0x25, 0x64, 0x20, 0x25, 0x64
+     6425 2520 
+     2064 6425 
+00B2 2520 2064 01680         DB      0x20, 0x25, 0x64, 0x20, 0x25, 0x64, 0x20, 0x25, 0x64, 0x20, 0x20, 0x4a
+     6425 2520 
+     2064 4A20 
+00BE 6D75 6570 01681         DB      0x75, 0x6d, 0x70, 0x65, 0x72, 0x3a, 0x20, 0x25, 0x64, 0x0a, 0x00
+     3A72 2520 
+     0A64 0000 
+               01682 ; ; Starting pCode block
+00CA 01683 __str_2:
+00CA 7453 7261 01684         DB      0x53, 0x74, 0x61, 0x72, 0x74, 0x69, 0x6e, 0x67, 0x20, 0x61, 0x75, 0x74
+     6974 676E 
+     6120 7475 
+00D6 6E6F 6D6F 01685         DB      0x6f, 0x6e, 0x6f, 0x6d, 0x6f, 0x75, 0x73, 0x20, 0x72, 0x6f, 0x75, 0x74
+     756F 2073 
+     6F72 7475 
+00E2 6E69 2E65 01686         DB      0x69, 0x6e, 0x65, 0x2e, 0x2e, 0x2e, 0x0a, 0x00
+     2E2E 000A 
+               01687 ; ; Starting pCode block
+00EA 01688 __str_3:
+00EA 6E45 6964 01689         DB      0x45, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x20, 0x61, 0x75, 0x74, 0x6f, 0x6e
+     676E 6120 
+     7475 6E6F 
+00F6 6D6F 756F 01690         DB      0x6f, 0x6d, 0x6f, 0x75, 0x73, 0x20, 0x72, 0x6f, 0x75, 0x74, 0x69, 0x6e
+     2073 6F72 
+     7475 6E69 
+0102 2E65 2E2E 01691         DB      0x65, 0x2e, 0x2e, 0x2e, 0x0a, 0x00
+     000A      
+               01692 ; ; Starting pCode block
+0108 01693 __str_4:
+0108 7542 706D 01694         DB      0x42, 0x75, 0x6d, 0x70, 0x20, 0x6c, 0x65, 0x66, 0x74, 0x0a, 0x00
+     6C20 6665 
+     0A74 0000 
+               01695 ; ; Starting pCode block
+0114 01696 __str_5:
+0114 7542 706D 01697         DB      0x42, 0x75, 0x6d, 0x70, 0x20, 0x72, 0x69, 0x67, 0x68, 0x74, 0x0a, 0x00
+     7220 6769 
+     7468 000A 
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 33
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               01698 ; ; Starting pCode block
+0120 01699 __str_6:
+0120 7552 6E6E 01700         DB      0x52, 0x75, 0x6e, 0x6e, 0x69, 0x6e, 0x67, 0x20, 0x63, 0x6f, 0x6d, 0x70
+     6E69 2067 
+     6F63 706D 
+012C 7465 7469 01701         DB      0x65, 0x74, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x20, 0x61, 0x75, 0x74, 0x6f
+     6F69 206E 
+     7561 6F74 
+0138 6F6E 6F6D 01702         DB      0x6e, 0x6f, 0x6d, 0x6f, 0x75, 0x73, 0x20, 0x72, 0x6f, 0x75, 0x74, 0x69
+     7375 7220 
+     756F 6974 
+0144 656E 2E2E 01703         DB      0x6e, 0x65, 0x2e, 0x2e, 0x2e, 0x0a, 0x00
+     0A2E 0000 
+               01704 ; ; Starting pCode block
+014C 01705 __str_7:
+014C 6548 6C6C 01706         DB      0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x2c, 0x20, 0x57, 0x6f, 0x72, 0x6c, 0x64
+     2C6F 5720 
+     726F 646C 
+0158 0A21 0000 01707         DB      0x21, 0x0a, 0x00
+               01708 
+               01709 
+               01710 ; Statistics:
+               01711 ; code size:     2766 (0x0ace) bytes ( 2.11%)
+               01712 ;                1383 (0x0567) words
+               01713 ; udata size:      10 (0x000a) bytes ( 0.56%)
+               01714 ; access size:     16 (0x0010) bytes
+               01715 
+               01716 
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 34
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+FSR0L                             00000FE9
+FSR1L                             00000FE1
+FSR2L                             00000FD9
+POSTDEC1                          00000FE5
+PREINC1                           00000FE4
+PRODH                             00000FF4
+PRODL                             00000FF3
+STATUS                            00000FD8
+WREG                              00000FE8
+_.code_000008                     00000008
+_.code_00000a                     0000000A
+_00105_DS_                        0000002C
+_00111_DS_                        0000006A
+_00115_DS_                        00000080
+_00119_DS_                        00000046
+_00141_DS_                        0000001A
+_00144_DS_                        00000044
+_00150_DS_                        00000026
+_00156_DS_                        0000005E
+_00157_DS_                        00000062
+_00160_DS_                        0000026C
+_00162_DS_                        0000008A
+_00163_DS_                        000000A8
+_00170_DS_                        000000A0
+_00171_DS_                        00000162
+_00192_DS_                        000000C4
+_00197_DS_                        000000CA
+_00198_DS_                        000000F2
+_00200_DS_                        00000056
+_00203_DS_                        00000104
+_00214_DS_                        0000006A
+_00215_DS_                        00000076
+_00227_DS_                        00000034
+_ADCON0                           00000000
+_ADCON0bits                       00000000
+_ADCON1                           00000000
+_ADCON1bits                       00000000
+_ADCON2                           00000000
+_ADCON2bits                       00000000
+_ADRESH                           00000000
+_ADRESL                           00000000
+_BSR                              00000000
+_CCP1CON                          00000000
+_CCP1CONbits                      00000000
+_CCP2CON                          00000000
+_CCP2CONbits                      00000000
+_CCP3CON                          00000000
+_CCP3CONbits                      00000000
+_CCP4CON                          00000000
+_CCP4CONbits                      00000000
+_CCP5CON                          00000000
+_CCP5CONbits                      00000000
+_CCPR1H                           00000000
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 35
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_CCPR1L                           00000000
+_CCPR2H                           00000000
+_CCPR2L                           00000000
+_CCPR3H                           00000000
+_CCPR3L                           00000000
+_CCPR4H                           00000000
+_CCPR4L                           00000000
+_CCPR5H                           00000000
+_CCPR5L                           00000000
+_CMCON                            00000000
+_CMCONbits                        00000000
+_CVRCON                           00000000
+_CVRCONbits                       00000000
+_EEADR                            00000000
+_EEADRH                           00000000
+_EECON1                           00000000
+_EECON1bits                       00000000
+_EECON2                           00000000
+_EEDATA                           00000000
+_Encoder_on_iport                 00000000
+_Encoder_ticks                    00000000
+_FSR0H                            00000000
+_FSR0L                            00000000
+_FSR1H                            00000000
+_FSR1L                            00000000
+_FSR2H                            00000000
+_FSR2L                            00000000
+_INDF0                            00000000
+_INDF1                            00000000
+_INDF2                            00000000
+_INTCON                           00000000
+_INTCON2                          00000000
+_INTCON2bits                      00000000
+_INTCON3                          00000000
+_INTCON3bits                      00000000
+_INTCONbits                       00000000
+_IPR1                             00000000
+_IPR1bits                         00000000
+_IPR2                             00000000
+_IPR2bits                         00000000
+_IPR3                             00000000
+_IPR3bits                         00000000
+_Interrupt_port_in_use            00000000
+_LATA                             00000000
+_LATAbits                         00000000
+_LATB                             00000000
+_LATBbits                         00000000
+_LATC                             00000000
+_LATCbits                         00000000
+_LATD                             00000000
+_LATDbits                         00000000
+_LATE                             00000000
+_LATEbits                         00000000
+_LATF                             00000000
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 36
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_LATFbits                         00000000
+_LATG                             00000000
+_LATGbits                         00000000
+_LATH                             00000000
+_LATHbits                         00000000
+_LATJ                             00000000
+_LATJbits                         00000000
+_LVDCON                           00000000
+_LVDCONbits                       00000000
+_MEMCON                           00000000
+_MEMCONbits                       00000000
+_OSCCON                           00000000
+_OSCCONbits                       00000000
+_PCL                              00000000
+_PCLATH                           00000000
+_PCLATU                           00000000
+_PIE1                             00000000
+_PIE1bits                         00000000
+_PIE2                             00000000
+_PIE2bits                         00000000
+_PIE3                             00000000
+_PIE3bits                         00000000
+_PIR1                             00000000
+_PIR1bits                         00000000
+_PIR2                             00000000
+_PIR2bits                         00000000
+_PIR3                             00000000
+_PIR3bits                         00000000
+_PLUSW0                           00000000
+_PLUSW1                           00000000
+_PLUSW2                           00000000
+_PORTA                            00000000
+_PORTAbits                        00000000
+_PORTB                            00000000
+_PORTBbits                        00000000
+_PORTC                            00000000
+_PORTCbits                        00000000
+_PORTD                            00000000
+_PORTDbits                        00000000
+_PORTE                            00000000
+_PORTEbits                        00000000
+_PORTF                            00000000
+_PORTFbits                        00000000
+_PORTG                            00000000
+_PORTGbits                        00000000
+_PORTH                            00000000
+_PORTHbits                        00000000
+_PORTJ                            00000000
+_PORTJbits                        00000000
+_POSTDEC0                         00000000
+_POSTDEC1                         00000000
+_POSTDEC2                         00000000
+_POSTINC0                         00000000
+_POSTINC1                         00000000
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 37
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_POSTINC2                         00000000
+_PR2                              00000000
+_PR4                              00000000
+_PREINC0                          00000000
+_PREINC1                          00000000
+_PREINC2                          00000000
+_PRODH                            00000000
+_PRODL                            00000000
+_PSPCON                           00000000
+_PSPCONbits                       00000000
+_Porta_sample                     00000000
+_Portf_sample                     00000000
+_Porth_sample                     00000000
+_Quad_input_port                  00000000
+_RCON                             00000000
+_RCONbits                         00000000
+_RCREG                            00000000
+_RCREG1                           00000000
+_RCREG2                           00000000
+_RCSTA                            00000000
+_RCSTA1                           00000000
+_RCSTA1bits                       00000000
+_RCSTA2                           00000000
+_RCSTA2bits                       00000000
+_RCSTAbits                        00000000
+_Rx_buff                          00000000
+_Rx_user_buff_index               00000000
+_SPBRG                            00000000
+_SPBRG1                           00000000
+_SPBRG2                           00000000
+_SSPADD                           00000000
+_SSPBUF                           00000000
+_SSPCON1                          00000000
+_SSPCON1bits                      00000000
+_SSPCON2                          00000000
+_SSPCON2bits                      00000000
+_SSPSTAT                          00000000
+_SSPSTATbits                      00000000
+_STATUS                           00000000
+_STATUSbits                       00000000
+_STKPTR                           00000000
+_STKPTRbits                       00000000
+_Sonar_data_available             00000000
+_Sonar_on_iport                   00000000
+_Spi_status                       00000000
+_T0CON                            00000000
+_T1CON                            00000000
+_T1CONbits                        00000000
+_T2CON                            00000000
+_T2CONbits                        00000000
+_T3CON                            00000000
+_T3CONbits                        00000000
+_T4CON                            00000000
+_T4CONbits                        00000000
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 38
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_TABLAT                           00000000
+_TBLPTRH                          00000000
+_TBLPTRL                          00000000
+_TBLPTRU                          00000000
+_TMR0H                            00000000
+_TMR0L                            00000000
+_TMR1H                            00000000
+_TMR1L                            00000000
+_TMR2                             00000000
+_TMR3H                            00000000
+_TMR3L                            00000000
+_TMR4                             00000000
+_TOSH                             00000000
+_TOSL                             00000000
+_TOSU                             00000000
+_TRISA                            00000000
+_TRISAbits                        00000000
+_TRISB                            00000000
+_TRISBbits                        00000000
+_TRISC                            00000000
+_TRISCbits                        00000000
+_TRISD                            00000000
+_TRISDbits                        00000000
+_TRISE                            00000000
+_TRISEbits                        00000000
+_TRISF                            00000000
+_TRISFbits                        00000000
+_TRISG                            00000000
+_TRISGbits                        00000000
+_TRISH                            00000000
+_TRISHbits                        00000000
+_TRISJ                            00000000
+_TRISJbits                        00000000
+_TXREG                            00000000
+_TXREG1                           00000000
+_TXREG2                           00000000
+_TXSTA                            00000000
+_TXSTA1                           00000000
+_TXSTA1bits                       00000000
+_TXSTA2                           00000000
+_TXSTA2bits                       00000000
+_TXSTAbits                        00000000
+_Timer0_overflows                 00000000
+_Timer1_overflows                 00000000
+_Timer2_overflows                 00000000
+_Timer3_overflows                 00000000
+_Timer4_overflows                 00000000
+_Tx_buff                          00000000
+_Tx_user_buff_index               00000000
+_User_rxdata                      00000000
+_User_txdata                      00000000
+_WDTCON                           00000000
+_WDTCONbits                       00000000
+_WREG                             00000000
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 39
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+__18F8520                         00000001
+__divsint                         00000000
+__divulong                        00000000
+__sdcc_gsinit_startup             00000000
+__sdcc_program_startup            00000004
+__str_0                           00000064
+__str_1                           0000009A
+__str_2                           000000CA
+__str_3                           000000EA
+__str_4                           00000108
+__str_5                           00000114
+__str_6                           00000120
+__str_7                           0000014C
+_arcade_drive                     00000000
+_arcade_drive_routine             00000000
+_arcade_drive_routine_left_power_1_1  00000000
+_arcade_drive_routine_right_power_1_1  00000000
+_autonomous_routine0              00000000
+_autonomous_routine1              00000000
+_autonomous_routine_competition   00000000
+_bump_front                       00000000
+_bump_front_left                  00000000
+_bump_front_right                 00000000
+_controller_begin_autonomous_mode  00000000
+_controller_end_autonomous_mode   00000000
+_controller_init                  00000000
+_controller_print_version         00000000
+_controller_submit_data           00000000
+_custom_init                      00000000
+_delay_msec                       00000000
+_delay_sec                        00000000
+_heartbeat                        00000000
+_io_read_digital                  00000000
+_io_set_analog_port_count         00000000
+_io_set_direction                 00000000
+_main                             00000000
+_printf                           00000000
+_pwm_read                         00000000
+_pwm_write                        00000000
+_rc_new_data_available            00000000
+_rc_read_data                     00000000
+_rc_read_status                   00000000
+_rc_routine                       00000000
+_rc_routine_elapsed_time_1_1      00000000
+_rc_routine_old_time_1_1          00000002
+_rc_routine_sonar_distance_1_1    00000000
+_rxbyte                           00000000
+_stdin                            00000000
+_stdout                           00000000
+_tank_drive_routine               00000000
+_tank_drive_routine_arm_power_1_1  00000000
+_tank_drive_routine_impeller_power_1_1  00000000
+_tank_drive_routine_left_power_1_1  00000000
+_tank_drive_routine_right_power_1_1  00000000
+gpasm-0.13.7 beta               firmware.asm10-25-2012  10:32:21         PAGE 40
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_timer0_read32                    00000000
+r0x00                             00000000
+r0x01                             00000001
+r0x02                             00000002
+r0x03                             00000003
+r0x04                             00000004
+r0x05                             00000005
+r0x06                             00000006
+r0x07                             00000007
+r0x08                             00000008
+r0x09                             00000009
+r0x0a                             0000000A
+r0x0b                             0000000B
+r0x0c                             0000000C
+r0x0d                             0000000D
+r0x0e                             0000000E
+r0x0f                             0000000F
+
+
+Errors   :       0
+Warnings :       0 reported,       0 suppressed
+Messages :       0 reported,       0 suppressed
+

@@ -1,0 +1,683 @@
+gplink-0.13.7 beta
+Copyright (c) 1998-2005 gputils project
+Listing File Generated: 11-2-2012  19:26:56
+ 
+ 
+Address  Value    Disassembly              Source
+-------  -----    -----------              ------
+                                           ;--------------------------------------------------------
+                                           ; File Created by SDCC : free open source ANSI-C Compiler
+                                           ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
+                                           ; This file was generated Fri Nov  2 19:26:56 2012
+                                           ;--------------------------------------------------------
+                                           ; PIC16 port for the Microchip 16-bit core micros
+                                           ;--------------------------------------------------------
+                                           	list	p=18f8520
+                                           
+                                           	radix dec
+                                           
+                                           ;--------------------------------------------------------
+                                           ; public variables in this module
+                                           ;--------------------------------------------------------
+                                           	global _main
+                                           
+                                           ;--------------------------------------------------------
+                                           ; extern variables in this module
+                                           ;--------------------------------------------------------
+                                           	extern _stdin
+                                           	extern _stdout
+                                           	extern _RCSTA2bits
+                                           	extern _TXSTA2bits
+                                           	extern _CCP5CONbits
+                                           	extern _CCP4CONbits
+                                           	extern _T4CONbits
+                                           	extern _PORTAbits
+                                           	extern _PORTBbits
+                                           	extern _PORTCbits
+                                           	extern _PORTDbits
+                                           	extern _PORTEbits
+                                           	extern _PORTFbits
+                                           	extern _PORTGbits
+                                           	extern _PORTHbits
+                                           	extern _PORTJbits
+                                           	extern _LATAbits
+                                           	extern _LATBbits
+                                           	extern _LATCbits
+                                           	extern _LATDbits
+                                           	extern _LATEbits
+                                           	extern _LATFbits
+                                           	extern _LATGbits
+                                           	extern _LATHbits
+                                           	extern _LATJbits
+                                           	extern _TRISAbits
+                                           	extern _TRISBbits
+                                           	extern _TRISCbits
+                                           	extern _TRISDbits
+                                           	extern _TRISEbits
+                                           	extern _TRISFbits
+                                           	extern _TRISGbits
+                                           	extern _TRISHbits
+                                           	extern _TRISJbits
+                                           	extern _MEMCONbits
+                                           	extern _PIE1bits
+                                           	extern _PIR1bits
+                                           	extern _IPR1bits
+                                           	extern _PIE2bits
+                                           	extern _PIR2bits
+                                           	extern _IPR2bits
+                                           	extern _PIE3bits
+                                           	extern _PIR3bits
+                                           	extern _IPR3bits
+                                           	extern _EECON1bits
+                                           	extern _RCSTA1bits
+                                           	extern _TXSTA1bits
+                                           	extern _RCSTAbits
+                                           	extern _TXSTAbits
+                                           	extern _PSPCONbits
+                                           	extern _T3CONbits
+                                           	extern _CMCONbits
+                                           	extern _CVRCONbits
+                                           	extern _CCP3CONbits
+                                           	extern _CCP2CONbits
+                                           	extern _CCP1CONbits
+                                           	extern _ADCON2bits
+                                           	extern _ADCON1bits
+                                           	extern _ADCON0bits
+                                           	extern _SSPCON2bits
+                                           	extern _SSPCON1bits
+                                           	extern _SSPSTATbits
+                                           	extern _T2CONbits
+                                           	extern _T1CONbits
+                                           	extern _RCONbits
+                                           	extern _WDTCONbits
+                                           	extern _LVDCONbits
+                                           	extern _OSCCONbits
+                                           	extern _STATUSbits
+                                           	extern _INTCON3bits
+                                           	extern _INTCON2bits
+                                           	extern _INTCONbits
+                                           	extern _STKPTRbits
+                                           	extern _Timer0_overflows
+                                           	extern _Timer1_overflows
+                                           	extern _Timer2_overflows
+                                           	extern _Timer3_overflows
+                                           	extern _Timer4_overflows
+                                           	extern _Interrupt_port_in_use
+                                           	extern _Encoder_on_iport
+                                           	extern _Encoder_ticks
+                                           	extern _Quad_input_port
+                                           	extern _Porta_sample
+                                           	extern _Portf_sample
+                                           	extern _Porth_sample
+                                           	extern _Rx_buff
+                                           	extern _Rx_user_buff_index
+                                           	extern _Spi_status
+                                           	extern _Sonar_data_available
+                                           	extern _Sonar_on_iport
+                                           	extern _User_rxdata
+                                           	extern _User_txdata
+                                           	extern _Tx_buff
+                                           	extern _Tx_user_buff_index
+                                           	extern _RCSTA2
+                                           	extern _TXSTA2
+                                           	extern _TXREG2
+                                           	extern _RCREG2
+                                           	extern _SPBRG2
+                                           	extern _CCP5CON
+                                           	extern _CCPR5L
+                                           	extern _CCPR5H
+                                           	extern _CCP4CON
+                                           	extern _CCPR4L
+                                           	extern _CCPR4H
+                                           	extern _T4CON
+                                           	extern _PR4
+                                           	extern _TMR4
+                                           	extern _PORTA
+                                           	extern _PORTB
+                                           	extern _PORTC
+                                           	extern _PORTD
+                                           	extern _PORTE
+                                           	extern _PORTF
+                                           	extern _PORTG
+                                           	extern _PORTH
+                                           	extern _PORTJ
+                                           	extern _LATA
+                                           	extern _LATB
+                                           	extern _LATC
+                                           	extern _LATD
+                                           	extern _LATE
+                                           	extern _LATF
+                                           	extern _LATG
+                                           	extern _LATH
+                                           	extern _LATJ
+                                           	extern _TRISA
+                                           	extern _TRISB
+                                           	extern _TRISC
+                                           	extern _TRISD
+                                           	extern _TRISE
+                                           	extern _TRISF
+                                           	extern _TRISG
+                                           	extern _TRISH
+                                           	extern _TRISJ
+                                           	extern _MEMCON
+                                           	extern _PIE1
+                                           	extern _PIR1
+                                           	extern _IPR1
+                                           	extern _PIE2
+                                           	extern _PIR2
+                                           	extern _IPR2
+                                           	extern _PIE3
+                                           	extern _PIR3
+                                           	extern _IPR3
+                                           	extern _EECON1
+                                           	extern _EECON2
+                                           	extern _EEDATA
+                                           	extern _EEADR
+                                           	extern _EEADRH
+                                           	extern _RCSTA1
+                                           	extern _TXSTA1
+                                           	extern _TXREG1
+                                           	extern _RCREG1
+                                           	extern _SPBRG1
+                                           	extern _RCSTA
+                                           	extern _TXSTA
+                                           	extern _TXREG
+                                           	extern _RCREG
+                                           	extern _SPBRG
+                                           	extern _PSPCON
+                                           	extern _T3CON
+                                           	extern _TMR3L
+                                           	extern _TMR3H
+                                           	extern _CMCON
+                                           	extern _CVRCON
+                                           	extern _CCP3CON
+                                           	extern _CCPR3L
+                                           	extern _CCPR3H
+                                           	extern _CCP2CON
+                                           	extern _CCPR2L
+                                           	extern _CCPR2H
+                                           	extern _CCP1CON
+                                           	extern _CCPR1L
+                                           	extern _CCPR1H
+                                           	extern _ADCON2
+                                           	extern _ADCON1
+                                           	extern _ADCON0
+                                           	extern _ADRESL
+                                           	extern _ADRESH
+                                           	extern _SSPCON2
+                                           	extern _SSPCON1
+                                           	extern _SSPSTAT
+                                           	extern _SSPADD
+                                           	extern _SSPBUF
+                                           	extern _T2CON
+                                           	extern _PR2
+                                           	extern _TMR2
+                                           	extern _T1CON
+                                           	extern _TMR1L
+                                           	extern _TMR1H
+                                           	extern _RCON
+                                           	extern _WDTCON
+                                           	extern _LVDCON
+                                           	extern _OSCCON
+                                           	extern _T0CON
+                                           	extern _TMR0L
+                                           	extern _TMR0H
+                                           	extern _STATUS
+                                           	extern _FSR2L
+                                           	extern _FSR2H
+                                           	extern _PLUSW2
+                                           	extern _PREINC2
+                                           	extern _POSTDEC2
+                                           	extern _POSTINC2
+                                           	extern _INDF2
+                                           	extern _BSR
+                                           	extern _FSR1L
+                                           	extern _FSR1H
+                                           	extern _PLUSW1
+                                           	extern _PREINC1
+                                           	extern _POSTDEC1
+                                           	extern _POSTINC1
+                                           	extern _INDF1
+                                           	extern _WREG
+                                           	extern _FSR0L
+                                           	extern _FSR0H
+                                           	extern _PLUSW0
+                                           	extern _PREINC0
+                                           	extern _POSTDEC0
+                                           	extern _POSTINC0
+                                           	extern _INDF0
+                                           	extern _INTCON3
+                                           	extern _INTCON2
+                                           	extern _INTCON
+                                           	extern _PRODL
+                                           	extern _PRODH
+                                           	extern _TABLAT
+                                           	extern _TBLPTRL
+                                           	extern _TBLPTRH
+                                           	extern _TBLPTRU
+                                           	extern _PCL
+                                           	extern _PCLATH
+                                           	extern _PCLATU
+                                           	extern _STKPTR
+                                           	extern _TOSL
+                                           	extern _TOSH
+                                           	extern _TOSU
+                                           	extern _printf
+                                           	extern _pwm_read
+                                           	extern _controller_init
+                                           ;--------------------------------------------------------
+                                           ;	Equates to used internal registers
+                                           ;--------------------------------------------------------
+                                           FSR1L	equ	0xfe1
+                                           POSTDEC1	equ	0xfe5
+                                           
+                                           
+                                           ; Internal registers
+                                           .registers	udata_ovr	0x0000
+                                           r0x00	res	1
+                                           r0x01	res	1
+                                           r0x02	res	1
+                                           r0x03	res	1
+                                           r0x04	res	1
+                                           r0x05	res	1
+                                           r0x06	res	1
+                                           r0x07	res	1
+                                           r0x08	res	1
+                                           r0x09	res	1
+                                           r0x0a	res	1
+                                           r0x0b	res	1
+                                           r0x0c	res	1
+                                           r0x0d	res	1
+                                           r0x0e	res	1
+                                           r0x0f	res	1
+                                           
+                                           ;--------------------------------------------------------
+                                           ; interrupt vector 
+                                           ;--------------------------------------------------------
+                                           
+                                           ;--------------------------------------------------------
+                                           ; global & static initialisations
+                                           ;--------------------------------------------------------
+                                           	code
+                                           __sdcc_gsinit_startup:
+                                           ; I code from now on!
+003b52   efab     goto	0x3b56              	goto	__sdcc_program_startup
+003b54   f01d
+                                           ; ; Starting pCode block
+                                           __sdcc_program_startup:
+003b56   ec9f     call	0x293e, 0           	CALL	_main
+003b58   f014
+                                           ; ;	return from main will lock up
+                                           
+003b5a   efad     goto	0x3b5a              	GOTO	$
+003b5c   f01d
+                                           ; ; Starting pCode block
+                                           S_firmware__main	code
+                                           _main:
+                                           ;	.line	6; firmware.c	controller_init();/* This must be done first! */
+00293e   ec90     call	0x2d20, 0           	CALL	_controller_init
+002940   f016
+                                           _00106_DS_:
+                                           ;	.line	18; firmware.c	pwm_read(5),pwm_read(6),pwm_read(7),pwm_read(2));
+002942   0e02     movlw	0x2                	MOVLW	0x02
+002944   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002946   ec30     call	0x3a60, 0           	CALL	_pwm_read
+002948   f01d
+00294a   6e00     movwf	0, 0               	MOVWF	r0x00
+00294c   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+00294e   6a01     clrf	0x1, 0              	CLRF	r0x01
+002950   be00     btfsc	0, 0x7, 0          	BTFSC	r0x00, 7
+002952   6801     setf	0x1, 0              	SETF	r0x01
+002954   0e07     movlw	0x7                	MOVLW	0x07
+002956   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002958   ec30     call	0x3a60, 0           	CALL	_pwm_read
+00295a   f01d
+00295c   6e02     movwf	0x2, 0             	MOVWF	r0x02
+00295e   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+002960   6a03     clrf	0x3, 0              	CLRF	r0x03
+002962   be02     btfsc	0x2, 0x7, 0        	BTFSC	r0x02, 7
+002964   6803     setf	0x3, 0              	SETF	r0x03
+002966   0e06     movlw	0x6                	MOVLW	0x06
+002968   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00296a   ec30     call	0x3a60, 0           	CALL	_pwm_read
+00296c   f01d
+00296e   6e04     movwf	0x4, 0             	MOVWF	r0x04
+002970   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+002972   6a05     clrf	0x5, 0              	CLRF	r0x05
+002974   be04     btfsc	0x4, 0x7, 0        	BTFSC	r0x04, 7
+002976   6805     setf	0x5, 0              	SETF	r0x05
+002978   0e05     movlw	0x5                	MOVLW	0x05
+00297a   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00297c   ec30     call	0x3a60, 0           	CALL	_pwm_read
+00297e   f01d
+002980   6e06     movwf	0x6, 0             	MOVWF	r0x06
+002982   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+002984   6a07     clrf	0x7, 0              	CLRF	r0x07
+002986   be06     btfsc	0x6, 0x7, 0        	BTFSC	r0x06, 7
+002988   6807     setf	0x7, 0              	SETF	r0x07
+                                           ;	.line	17; firmware.c	pwm_read(1),pwm_read(2),pwm_read(3),pwm_read(4),
+00298a   0e04     movlw	0x4                	MOVLW	0x04
+00298c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+00298e   ec30     call	0x3a60, 0           	CALL	_pwm_read
+002990   f01d
+002992   6e08     movwf	0x8, 0             	MOVWF	r0x08
+002994   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+002996   6a09     clrf	0x9, 0              	CLRF	r0x09
+002998   be08     btfsc	0x8, 0x7, 0        	BTFSC	r0x08, 7
+00299a   6809     setf	0x9, 0              	SETF	r0x09
+00299c   0e03     movlw	0x3                	MOVLW	0x03
+00299e   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0029a0   ec30     call	0x3a60, 0           	CALL	_pwm_read
+0029a2   f01d
+0029a4   6e0a     movwf	0xa, 0             	MOVWF	r0x0a
+0029a6   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+0029a8   6a0b     clrf	0xb, 0              	CLRF	r0x0b
+0029aa   be0a     btfsc	0xa, 0x7, 0        	BTFSC	r0x0a, 7
+0029ac   680b     setf	0xb, 0              	SETF	r0x0b
+0029ae   0e02     movlw	0x2                	MOVLW	0x02
+0029b0   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0029b2   ec30     call	0x3a60, 0           	CALL	_pwm_read
+0029b4   f01d
+0029b6   6e0c     movwf	0xc, 0             	MOVWF	r0x0c
+0029b8   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+0029ba   6a0d     clrf	0xd, 0              	CLRF	r0x0d
+0029bc   be0c     btfsc	0xc, 0x7, 0        	BTFSC	r0x0c, 7
+0029be   680d     setf	0xd, 0              	SETF	r0x0d
+0029c0   0e01     movlw	0x1                	MOVLW	0x01
+0029c2   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0029c4   ec30     call	0x3a60, 0           	CALL	_pwm_read
+0029c6   f01d
+0029c8   6e0e     movwf	0xe, 0             	MOVWF	r0x0e
+0029ca   2ae1     incf	0xe1, 0x1, 0        	INCF	FSR1L, F
+0029cc   6a0f     clrf	0xf, 0              	CLRF	r0x0f
+0029ce   be0e     btfsc	0xe, 0x7, 0        	BTFSC	r0x0e, 7
+0029d0   680f     setf	0xf, 0              	SETF	r0x0f
+                                           ;	.line	16; firmware.c	printf("%d,%d,%d,%d,%d,%d,%d,%d\n",
+0029d2   5001     movf	0x1, 0, 0           	MOVF	r0x01, W
+0029d4   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0029d6   5000     movf	0, 0, 0             	MOVF	r0x00, W
+0029d8   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0029da   5003     movf	0x3, 0, 0           	MOVF	r0x03, W
+0029dc   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0029de   5002     movf	0x2, 0, 0           	MOVF	r0x02, W
+0029e0   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0029e2   5005     movf	0x5, 0, 0           	MOVF	r0x05, W
+0029e4   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0029e6   5004     movf	0x4, 0, 0           	MOVF	r0x04, W
+0029e8   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0029ea   5007     movf	0x7, 0, 0           	MOVF	r0x07, W
+0029ec   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0029ee   5006     movf	0x6, 0, 0           	MOVF	r0x06, W
+0029f0   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0029f2   5009     movf	0x9, 0, 0           	MOVF	r0x09, W
+0029f4   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0029f6   5008     movf	0x8, 0, 0           	MOVF	r0x08, W
+0029f8   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0029fa   500b     movf	0xb, 0, 0           	MOVF	r0x0b, W
+0029fc   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+0029fe   500a     movf	0xa, 0, 0           	MOVF	r0x0a, W
+002a00   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002a02   500d     movf	0xd, 0, 0           	MOVF	r0x0d, W
+002a04   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002a06   500c     movf	0xc, 0, 0           	MOVF	r0x0c, W
+002a08   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002a0a   500f     movf	0xf, 0, 0           	MOVF	r0x0f, W
+002a0c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002a0e   500e     movf	0xe, 0, 0           	MOVF	r0x0e, W
+002a10   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002a12   0e00     movlw	0                  	MOVLW	UPPER(__str_0)
+002a14   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002a16   0e2a     movlw	0x2a               	MOVLW	HIGH(__str_0)
+002a18   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002a1a   0e2a     movlw	0x2a               	MOVLW	LOW(__str_0)
+002a1c   6ee5     movwf	0xe5, 0            	MOVWF	POSTDEC1
+002a1e   ec95     call	0x392a, 0           	CALL	_printf
+002a20   f01c
+002a22   0e13     movlw	0x13               	MOVLW	0x13
+002a24   26e1     addwf	0xe1, 0x1, 0       	ADDWF	FSR1L, F
+002a26   d78d     bra	0x2942               	BRA	_00106_DS_
+002a28   0012     return	0                 	RETURN	
+                                           
+                                           ; ; Starting pCode block
+                                           __str_0:
+002a2a   6425     cpfsgt	0x25, 0           	DB	0x25, 0x64, 0x2c, 0x25, 0x64, 0x2c, 0x25, 0x64, 0x2c, 0x25, 0x64, 0x2c
+002a2c   252c     addwf	0x2c, 0, 0x1       
+002a2e   2c64     decfsz	0x64, 0, 0        
+002a30   6425     cpfsgt	0x25, 0           
+002a32   252c     addwf	0x2c, 0, 0x1       
+002a34   2c64     decfsz	0x64, 0, 0        
+002a36   6425     cpfsgt	0x25, 0           	DB	0x25, 0x64, 0x2c, 0x25, 0x64, 0x2c, 0x25, 0x64, 0x2c, 0x25, 0x64, 0x0a
+002a38   252c     addwf	0x2c, 0, 0x1       
+002a3a   2c64     decfsz	0x64, 0, 0        
+002a3c   6425     cpfsgt	0x25, 0           
+002a3e   252c     addwf	0x2c, 0, 0x1       
+002a40   0a64     xorlw	0x64               
+002a42   0000     nop                      	DB	0x00
+                                           
+                                           
+                                           ; Statistics:
+                                           ; code size:	  250 (0x00fa) bytes ( 0.19%)
+                                           ;           	  125 (0x007d) words
+                                           ; udata size:	    0 (0x0000) bytes ( 0.00%)
+                                           ; access size:	   16 (0x0010) bytes
+                                           
+                                           
+                                           	end
+                                           ;--------------------------------------------------------
+                                           ; File Created by SDCC : free open source ANSI-C Compiler
+                                           ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
+                                           ; This file was generated Sat Oct 13 23:44:08 2012
+                                           ;--------------------------------------------------------
+                                           ; PIC16 port for the Microchip 16-bit core micros
+                                           ;--------------------------------------------------------
+                                           	list	p=18f8520
+                                           
+                                           	radix dec
+                                           
+                                           ;--------------------------------------------------------
+                                           ; public variables in this module
+                                           ;--------------------------------------------------------
+                                           	global ___uflags
+                                           	global __entry
+                                           	global __startup
+                                           	global __do_cinit
+                                           
+                                           ;--------------------------------------------------------
+                                           ; extern variables in this module
+                                           ;--------------------------------------------------------
+                                           	extern _stack
+                                           	extern _stack_end
+                                           	extern _TBLPTRU
+                                           	extern _TBLPTRH
+                                           	extern _TBLPTRL
+                                           	extern _FSR0L
+                                           	extern _FSR0H
+                                           	extern _TABLAT
+                                           	extern _POSTINC0
+                                           	extern _POSTDEC0
+                                           	extern _main
+                                           	extern _cinit
+                                           
+                                           
+                                           	idata
+                                           ___uflags	db	0x00
+                                           
+                                           ;--------------------------------------------------------
+                                           ; global & static initialisations
+                                           ;--------------------------------------------------------
+                                           ; ; Starting pCode block
+                                           S_crt0iz___entry	code	0X000800
+                                           __entry:
+000800   ef16     goto	0x3e2c              	goto __startup 
+000802   f01f
+                                           ; I code from now on!
+                                           ; ; Starting pCode block
+                                           S_crt0iz___do_cinit	code
+                                           __do_cinit:
+                                           	; TBLPTR = &cinit
+0033f8   0ee4     movlw	0xe4               	movlw low(_cinit)
+0033fa   6ef6     movwf	0xf6, 0            	movwf _TBLPTRL
+0033fc   0e3e     movlw	0x3e               	movlw high(_cinit)
+0033fe   6ef7     movwf	0xf7, 0            	movwf _TBLPTRH
+003400   0e00     movlw	0                  	movlw upper(_cinit)
+003402   6ef8     movwf	0xf8, 0            	movwf _TBLPTRU
+                                           	; 0x05 = cinit.num_init
+                                           	; movlb 0x07
+003404   0009     tblrd	*+                 	tblrd*+
+003406   50f5     movf	0xf5, 0, 0          	movf _TABLAT, w
+003408   6e05     movwf	0x5, 0             	movwf 0x05
+00340a   0009     tblrd	*+                 	tblrd*+
+00340c   50f5     movf	0xf5, 0, 0          	movf _TABLAT, w
+00340e   6e06     movwf	0x6, 0             	movwf 0x05 +1
+                                           	; while (0x05) {
+                                           test:
+003410   e104     bnz	0x341a               	bnz cont1 ;;done1
+003412   6705     tstfsz	0x5, 0x1          	tstfsz 0x05, 1
+003414   d002     bra	0x341a               	bra cont1
+                                           done1:
+003416   ef49     goto	0x3492              	goto done
+003418   f01a
+                                           cont1:
+                                           	; Count down so we only have to look up the data in _cinit once.
+                                           	; At this point we know that TBLPTR points to the top of the current
+                                           	; entry in _cinit, so we can just start reading the from, to, and
+                                           	; size values.
+                                           	; read the source address low
+00341a   0009     tblrd	*+                 	tblrd*+
+00341c   50f5     movf	0xf5, 0, 0          	movf _TABLAT, w
+00341e   6e00     movwf	0, 0               	movwf 0x00
+                                           	; source address high
+003420   0009     tblrd	*+                 	tblrd*+
+003422   50f5     movf	0xf5, 0, 0          	movf _TABLAT, w
+003424   6e01     movwf	0x1, 0             	movwf 0x00 + 1
+                                           	; source address upper
+003426   0009     tblrd	*+                 	tblrd*+
+003428   50f5     movf	0xf5, 0, 0          	movf _TABLAT, w
+00342a   6e02     movwf	0x2, 0             	movwf 0x00 + 2
+                                           	; skip a byte since it is stored as a 32bit int
+00342c   0009     tblrd	*+                 	tblrd*+
+                                           	; read the destination address directly into FSR0
+                                           	; destination address low
+00342e   0009     tblrd	*+                 	tblrd*+
+003430   50f5     movf	0xf5, 0, 0          	movf _TABLAT, w
+003432   6ee9     movwf	0xe9, 0            	movwf _FSR0L
+                                           	; destination address high
+003434   0009     tblrd	*+                 	tblrd*+
+003436   50f5     movf	0xf5, 0, 0          	movf _TABLAT, w
+003438   6eea     movwf	0xea, 0            	movwf _FSR0H
+                                           	; skip two bytes since it is stored as a 32bit int
+00343a   0009     tblrd	*+                 	tblrd*+
+00343c   0009     tblrd	*+                 	tblrd*+
+                                           	; read the size of data to transfer to destination address
+00343e   0009     tblrd	*+                 	tblrd*+
+003440   50f5     movf	0xf5, 0, 0          	movf _TABLAT, w
+003442   6e03     movwf	0x3, 0             	movwf 0x03
+003444   0009     tblrd	*+                 	tblrd*+
+003446   50f5     movf	0xf5, 0, 0          	movf _TABLAT, w
+003448   6e04     movwf	0x4, 0             	movwf 0x03 +1
+                                           	; skip two bytes since it is stored as a 32bit int
+00344a   0009     tblrd	*+                 	tblrd*+
+00344c   0009     tblrd	*+                 	tblrd*+
+                                           	; 0x00 = 0x07 ->from;
+                                           	; FSR0 = 0x07 ->to;
+                                           	; 0x03 = (unsigned short) 0x07 ->size;
+                                           	; the table pointer now points to the next entry. Save it
+                                           	; off since we will be using the table pointer to do the copying
+                                           	; for the entry
+                                           	; 0x07 = TBLPTR
+00344e   cff6     movff	0xff6, 0x7         	movff _TBLPTRL, 0x07
+003450   f007
+003452   cff7     movff	0xff7, 0x8         	movff _TBLPTRH, 0x07 + 1
+003454   f008
+003456   cff8     movff	0xff8, 0x9         	movff _TBLPTRU, 0x07 + 2
+003458   f009
+                                           	; now assign the source address to the table pointer
+                                           	; TBLPTR = 0x00
+00345a   c000     movff	0, 0xff6           	movff 0x00, _TBLPTRL
+00345c   fff6
+00345e   c001     movff	0x1, 0xff7         	movff 0x00 + 1, _TBLPTRH
+003460   fff7
+003462   c002     movff	0x2, 0xff8         	movff 0x00 + 2, _TBLPTRU
+003464   fff8
+                                           	; do the copy loop
+                                           	; determine if we have any more bytes to copy
+                                           	; movlb 0x03
+003466   5003     movf	0x3, 0, 0           	movf 0x03, w
+                                           copy_loop:
+003468   e102     bnz	0x346e               	bnz copy_one_byte ; copy_one_byte
+00346a   5004     movf	0x4, 0, 0           	movf 0x03 + 1, w
+00346c   e007     bz	0x347c                	bz done_copying
+                                           copy_one_byte:
+00346e   0009     tblrd	*+                 	tblrd*+
+003470   50f5     movf	0xf5, 0, 0          	movf _TABLAT, w
+003472   6eee     movwf	0xee, 0            	movwf _POSTINC0
+                                           	; decrement byte counter
+003474   0603     decf	0x3, 0x1, 0         	decf 0x03, f
+003476   e2f8     bc	0x3468                	bc copy_loop ; copy_loop
+003478   0604     decf	0x4, 0x1, 0         	decf 0x03 + 1, f
+00347a   d7f9     bra	0x346e               	bra copy_one_byte
+                                           done_copying:
+                                           	; restore the table pointer for the next entry
+                                           	; TBLPTR = 0x07
+00347c   c007     movff	0x7, 0xff6         	movff 0x07, _TBLPTRL
+00347e   fff6
+003480   c008     movff	0x8, 0xff7         	movff 0x07 + 1, _TBLPTRH
+003482   fff7
+003484   c009     movff	0x9, 0xff8         	movff 0x07 + 2, _TBLPTRU
+003486   fff8
+003488   0605     decf	0x5, 0x1, 0         	decf 0x05, f
+00348a   e201     bc	0x348e                	bc do_next
+00348c   0606     decf	0x6, 0x1, 0         	decf 0x05 + 1, f
+                                           do_next:
+                                           	; next entry...
+                                           	; _do_cinit_curr_entry--;
+00348e   ef08     goto	0x3410              	goto test;
+003490   f01a
+                                           	; emit done label
+                                           done:
+003492   0012     return	0                 	return
+                                           	
+                                           ; ; Starting pCode block
+                                           S_crt0iz___startup	code
+                                           __startup:
+003e2c   ee11     lfsr	0x1, 0x1ff          	lfsr 1, _stack_end
+003e2e   f0ff
+003e30   ee21     lfsr	0x2, 0x1ff          	lfsr 2, _stack_end
+003e32   f0ff
+003e34   6af8     clrf	0xf8, 0             	clrf _TBLPTRU, 0
+003e36   8ea6     bsf	0xa6, 0x7, 0         	bsf 0xa6, 7, 0
+003e38   9ca6     bcf	0xa6, 0x6, 0         	bcf 0xa6, 6, 0
+                                           	
+                                           	; movlw 0xff
+                                           	; movwf _FSR0L, 0
+003e3a   68e9     setf	0xe9, 0             	setf _FSR0L
+003e3c   0e0e     movlw	0xe                	movlw 0x0e
+003e3e   6eea     movwf	0xea, 0            	movwf _FSR0H, 0
+                                           	; movlw 1
+                                           	; movwf 0x00, 0
+003e40   6800     setf	0, 0                	setf 0x00
+003e42   0e00     movlw	0                  	movlw 0x00
+                                           clear_loop:
+003e44   6aed     clrf	0xed, 0             	clrf _POSTDEC0
+003e46   5000     movf	0, 0, 0             	movf 0x00, w
+003e48   e1fd     bnz	0x3e44               	bnz clear_loop
+                                           	
+                                           ;	.line	112; crt0iz.c	_do_cinit();
+003e4a   ecfc     call	0x33f8, 0           	CALL	__do_cinit
+003e4c   f019
+                                           ;	.line	115; crt0iz.c	main();
+003e4e   ec9f     call	0x293e, 0           	CALL	_main
+003e50   f014
+                                           _00110_DS_:
+                                           ;	.line	119; crt0iz.c	goto loop;
+003e52   d7ff     bra	0x3e52               	BRA	_00110_DS_
+                                           
+                                           
+                                           ; Statistics:
+                                           ; code size:	  276 (0x0114) bytes ( 0.21%)
+                                           ;           	  138 (0x008a) words
+                                           ; udata size:	    0 (0x0000) bytes ( 0.00%)
+                                           ; access size:	    0 (0x0000) bytes
+                                           
+                                           
+                                           	end

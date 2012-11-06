@@ -1,0 +1,264 @@
+gpasm-0.13.7 beta               crt0iz.asm  9-22-2012  17:28:00          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00001 ;--------------------------------------------------------
+               00002 ; File Created by SDCC : free open source ANSI-C Compiler
+               00003 ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
+               00004 ; This file was generated Sat Sep 22 17:28:00 2012
+               00005 ;--------------------------------------------------------
+               00006 ; PIC16 port for the Microchip 16-bit core micros
+               00007 ;--------------------------------------------------------
+               00008         list    p=18f8520
+               00009 
+               00010         radix dec
+               00011 
+               00012 ;--------------------------------------------------------
+               00013 ; public variables in this module
+               00014 ;--------------------------------------------------------
+               00015         global ___uflags
+               00016         global __entry
+               00017         global __startup
+               00018         global __do_cinit
+               00019 
+               00020 ;--------------------------------------------------------
+               00021 ; extern variables in this module
+               00022 ;--------------------------------------------------------
+               00023         extern _stack
+               00024         extern _stack_end
+               00025         extern _TBLPTRU
+               00026         extern _TBLPTRH
+               00027         extern _TBLPTRL
+               00028         extern _FSR0L
+               00029         extern _FSR0H
+               00030         extern _TABLAT
+               00031         extern _POSTINC0
+               00032         extern _POSTDEC0
+               00033         extern _main
+               00034         extern _cinit
+               00035 
+               00036 
+               00037         idata
+               00038 ___uflags       db      0x00
+               00039 
+               00040 ;--------------------------------------------------------
+               00041 ; global & static initialisations
+               00042 ;--------------------------------------------------------
+               00043 ; ; Starting pCode block
+               00044 S_crt0iz___entry        code    0X000800
+0800 00045 __entry:
+0800 EF00 F000 00046         goto __startup 
+               00047 ; I code from now on!
+               00048 ; ; Starting pCode block
+               00049 S_crt0iz___do_cinit     code
+0000 00050 __do_cinit:
+               00051         ; TBLPTR = &cinit
+0000 0E00      00052         movlw low(_cinit)
+0002 6E00      00053         movwf _TBLPTRL
+0004 0E00      00054         movlw high(_cinit)
+gpasm-0.13.7 beta               crt0iz.asm  9-22-2012  17:28:00          PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0006 6E00      00055         movwf _TBLPTRH
+0008 0E00      00056         movlw upper(_cinit)
+000A 6E00      00057         movwf _TBLPTRU
+               00058         ; 0x05 = cinit.num_init
+               00059         ; movlb 0x07
+000C 0009      00060         tblrd*+
+000E 5000      00061         movf _TABLAT, w
+0010 6E05      00062         movwf 0x05
+0012 0009      00063         tblrd*+
+0014 5000      00064         movf _TABLAT, w
+0016 6E06      00065         movwf 0x05 +1
+               00066         ; while (0x05) {
+0018 00067 test:
+0018 E100      00068         bnz cont1 ;;done1
+001A 6705      00069         tstfsz 0x05, 1
+001C D000      00070         bra cont1
+001E 00071 done1:
+001E EF00 F000 00072         goto done
+0022 00073 cont1:
+               00074         ; Count down so we only have to look up the data in _cinit once.
+               00075         ; At this point we know that TBLPTR points to the top of the current
+               00076         ; entry in _cinit, so we can just start reading the from, to, and
+               00077         ; size values.
+               00078         ; read the source address low
+0022 0009      00079         tblrd*+
+0024 5000      00080         movf _TABLAT, w
+0026 6E00      00081         movwf 0x00
+               00082         ; source address high
+0028 0009      00083         tblrd*+
+002A 5000      00084         movf _TABLAT, w
+002C 6E01      00085         movwf 0x00 + 1
+               00086         ; source address upper
+002E 0009      00087         tblrd*+
+0030 5000      00088         movf _TABLAT, w
+0032 6E02      00089         movwf 0x00 + 2
+               00090         ; skip a byte since it is stored as a 32bit int
+0034 0009      00091         tblrd*+
+               00092         ; read the destination address directly into FSR0
+               00093         ; destination address low
+0036 0009      00094         tblrd*+
+0038 5000      00095         movf _TABLAT, w
+003A 6E00      00096         movwf _FSR0L
+               00097         ; destination address high
+003C 0009      00098         tblrd*+
+003E 5000      00099         movf _TABLAT, w
+0040 6E00      00100         movwf _FSR0H
+               00101         ; skip two bytes since it is stored as a 32bit int
+0042 0009      00102         tblrd*+
+0044 0009      00103         tblrd*+
+               00104         ; read the size of data to transfer to destination address
+0046 0009      00105         tblrd*+
+0048 5000      00106         movf _TABLAT, w
+004A 6E03      00107         movwf 0x03
+004C 0009      00108         tblrd*+
+gpasm-0.13.7 beta               crt0iz.asm  9-22-2012  17:28:00          PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+004E 5000      00109         movf _TABLAT, w
+0050 6E04      00110         movwf 0x03 +1
+               00111         ; skip two bytes since it is stored as a 32bit int
+0052 0009      00112         tblrd*+
+0054 0009      00113         tblrd*+
+               00114         ; 0x00 = 0x07 ->from;
+               00115         ; FSR0 = 0x07 ->to;
+               00116         ; 0x03 = (unsigned short) 0x07 ->size;
+               00117         ; the table pointer now points to the next entry. Save it
+               00118         ; off since we will be using the table pointer to do the copying
+               00119         ; for the entry
+               00120         ; 0x07 = TBLPTR
+0056 C000 F007 00121         movff _TBLPTRL, 0x07
+005A C000 F008 00122         movff _TBLPTRH, 0x07 + 1
+005E C000 F009 00123         movff _TBLPTRU, 0x07 + 2
+               00124         ; now assign the source address to the table pointer
+               00125         ; TBLPTR = 0x00
+0062 C000 F000 00126         movff 0x00, _TBLPTRL
+0066 C001 F000 00127         movff 0x00 + 1, _TBLPTRH
+006A C002 F000 00128         movff 0x00 + 2, _TBLPTRU
+               00129         ; do the copy loop
+               00130         ; determine if we have any more bytes to copy
+               00131         ; movlb 0x03
+006E 5003      00132         movf 0x03, w
+0070 00133 copy_loop:
+0070 E100      00134         bnz copy_one_byte ; copy_one_byte
+0072 5004      00135         movf 0x03 + 1, w
+0074 E000      00136         bz done_copying
+0076 00137 copy_one_byte:
+0076 0009      00138         tblrd*+
+0078 5000      00139         movf _TABLAT, w
+007A 6E00      00140         movwf _POSTINC0
+               00141         ; decrement byte counter
+007C 0603      00142         decf 0x03, f
+007E E200      00143         bc copy_loop ; copy_loop
+0080 0604      00144         decf 0x03 + 1, f
+0082 D000      00145         bra copy_one_byte
+0084 00146 done_copying:
+               00147         ; restore the table pointer for the next entry
+               00148         ; TBLPTR = 0x07
+0084 C007 F000 00149         movff 0x07, _TBLPTRL
+0088 C008 F000 00150         movff 0x07 + 1, _TBLPTRH
+008C C009 F000 00151         movff 0x07 + 2, _TBLPTRU
+0090 0605      00152         decf 0x05, f
+0092 E200      00153         bc do_next
+0094 0606      00154         decf 0x05 + 1, f
+0096 00155 do_next:
+               00156         ; next entry...
+               00157         ; _do_cinit_curr_entry--;
+0096 EF00 F000 00158         goto test;
+               00159         ; emit done label
+009A 00160 done:
+009A 0012      00161         return
+               00162         
+gpasm-0.13.7 beta               crt0iz.asm  9-22-2012  17:28:00          PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00163 ; ; Starting pCode block
+               00164 S_crt0iz___startup      code
+0000 00165 __startup:
+0000 EE10 F000 00166         lfsr 1, _stack_end
+0004 EE20 F000 00167         lfsr 2, _stack_end
+0008 6A00      00168         clrf _TBLPTRU, 0
+000A 8EA6      00169         bsf 0xa6, 7, 0
+000C 9CA6      00170         bcf 0xa6, 6, 0
+               00171         
+               00172         ; movlw 0xff
+               00173         ; movwf _FSR0L, 0
+000E 6800      00174         setf _FSR0L
+0010 0E0E      00175         movlw 0x0e
+0012 6E00      00176         movwf _FSR0H, 0
+               00177         ; movlw 1
+               00178         ; movwf 0x00, 0
+0014 6800      00179         setf 0x00
+0016 0E00      00180         movlw 0x00
+0018 00181 clear_loop:
+0018 6A00      00182         clrf _POSTDEC0
+001A 5000      00183         movf 0x00, w
+001C E100      00184         bnz clear_loop
+               00185         
+               00186 ;       .line   112; crt0iz.c   _do_cinit();
+001E EC00 F000 00187         CALL    __do_cinit
+               00188 ;       .line   115; crt0iz.c   main();
+0022 EC00 F000 00189         CALL    _main
+0026 00190 _00110_DS_:
+               00191 ;       .line   119; crt0iz.c   goto loop;
+0026 D000      00192         BRA     _00110_DS_
+               00193 
+               00194 
+               00195 ; Statistics:
+               00196 ; code size:      276 (0x0114) bytes ( 0.21%)
+               00197 ;                 138 (0x008a) words
+               00198 ; udata size:       0 (0x0000) bytes ( 0.00%)
+               00199 ; access size:      0 (0x0000) bytes
+               00200 
+               00201 
+gpasm-0.13.7 beta               crt0iz.asm  9-22-2012  17:28:00          PAGE  5
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_00110_DS_                        00000026
+_FSR0H                            00000000
+_FSR0L                            00000000
+_POSTDEC0                         00000000
+_POSTINC0                         00000000
+_TABLAT                           00000000
+_TBLPTRH                          00000000
+_TBLPTRL                          00000000
+_TBLPTRU                          00000000
+__18F8520                         00000001
+___uflags                         00000000
+__do_cinit                        00000000
+__entry                           00000800
+__startup                         00000000
+_cinit                            00000000
+_main                             00000000
+_stack                            00000000
+_stack_end                        00000000
+clear_loop                        00000018
+cont1                             00000022
+copy_loop                         00000070
+copy_one_byte                     00000076
+do_next                           00000096
+done                              0000009A
+done1                             0000001E
+done_copying                      00000084
+test                              00000018
+
+
+Errors   :       0
+Warnings :       0 reported,       0 suppressed
+Messages :       0 reported,       0 suppressed
+

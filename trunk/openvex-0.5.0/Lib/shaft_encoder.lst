@@ -1,0 +1,3429 @@
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00001 ;--------------------------------------------------------
+               00002 ; File Created by SDCC : free open source ANSI-C Compiler
+               00003 ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
+               00004 ; This file was generated Fri Nov  2 01:06:40 2012
+               00005 ;--------------------------------------------------------
+               00006 ; PIC16 port for the Microchip 16-bit core micros
+               00007 ;--------------------------------------------------------
+               00008         list    p=18f8520
+               00009 
+               00010         radix dec
+               00011 
+               00012 ;--------------------------------------------------------
+               00013 ; public variables in this module
+               00014 ;--------------------------------------------------------
+               00015         global _shaft_encoder_enable_std
+               00016         global _shaft_encoder_enable_quad
+               00017         global _shaft_encoder_enable
+               00018         global _shaft_encoder_disable
+               00019         global _shaft_encoder_reset
+               00020         global _shaft_encoder_read_std
+               00021         global _shaft_encoder_read_quad
+               00022         global _shaft_tps_run
+               00023         global _shaft_tps_init
+               00024 
+               00025 ;--------------------------------------------------------
+               00026 ; extern variables in this module
+               00027 ;--------------------------------------------------------
+               00028         extern __gptrget1
+               00029         extern __gptrput1
+               00030         extern __gptrput2
+               00031         extern __gptrget4
+               00032         extern __gptrget2
+               00033         extern __gptrput4
+               00034         extern _stdin
+               00035         extern _stdout
+               00036         extern _RCSTA2bits
+               00037         extern _TXSTA2bits
+               00038         extern _CCP5CONbits
+               00039         extern _CCP4CONbits
+               00040         extern _T4CONbits
+               00041         extern _PORTAbits
+               00042         extern _PORTBbits
+               00043         extern _PORTCbits
+               00044         extern _PORTDbits
+               00045         extern _PORTEbits
+               00046         extern _PORTFbits
+               00047         extern _PORTGbits
+               00048         extern _PORTHbits
+               00049         extern _PORTJbits
+               00050         extern _LATAbits
+               00051         extern _LATBbits
+               00052         extern _LATCbits
+               00053         extern _LATDbits
+               00054         extern _LATEbits
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00055         extern _LATFbits
+               00056         extern _LATGbits
+               00057         extern _LATHbits
+               00058         extern _LATJbits
+               00059         extern _TRISAbits
+               00060         extern _TRISBbits
+               00061         extern _TRISCbits
+               00062         extern _TRISDbits
+               00063         extern _TRISEbits
+               00064         extern _TRISFbits
+               00065         extern _TRISGbits
+               00066         extern _TRISHbits
+               00067         extern _TRISJbits
+               00068         extern _MEMCONbits
+               00069         extern _PIE1bits
+               00070         extern _PIR1bits
+               00071         extern _IPR1bits
+               00072         extern _PIE2bits
+               00073         extern _PIR2bits
+               00074         extern _IPR2bits
+               00075         extern _PIE3bits
+               00076         extern _PIR3bits
+               00077         extern _IPR3bits
+               00078         extern _EECON1bits
+               00079         extern _RCSTA1bits
+               00080         extern _TXSTA1bits
+               00081         extern _RCSTAbits
+               00082         extern _TXSTAbits
+               00083         extern _PSPCONbits
+               00084         extern _T3CONbits
+               00085         extern _CMCONbits
+               00086         extern _CVRCONbits
+               00087         extern _CCP3CONbits
+               00088         extern _CCP2CONbits
+               00089         extern _CCP1CONbits
+               00090         extern _ADCON2bits
+               00091         extern _ADCON1bits
+               00092         extern _ADCON0bits
+               00093         extern _SSPCON2bits
+               00094         extern _SSPCON1bits
+               00095         extern _SSPSTATbits
+               00096         extern _T2CONbits
+               00097         extern _T1CONbits
+               00098         extern _RCONbits
+               00099         extern _WDTCONbits
+               00100         extern _LVDCONbits
+               00101         extern _OSCCONbits
+               00102         extern _STATUSbits
+               00103         extern _INTCON3bits
+               00104         extern _INTCON2bits
+               00105         extern _INTCONbits
+               00106         extern _STKPTRbits
+               00107         extern _Interrupt_port_in_use
+               00108         extern _Timer0_overflows
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00109         extern _Timer1_overflows
+               00110         extern _Timer2_overflows
+               00111         extern _Timer3_overflows
+               00112         extern _Timer4_overflows
+               00113         extern _Porta_sample
+               00114         extern _Portf_sample
+               00115         extern _Porth_sample
+               00116         extern _Encoder_ticks
+               00117         extern _Encoder_on_iport
+               00118         extern _Quad_input_port
+               00119         extern _Analog_ports
+               00120         extern _RCSTA2
+               00121         extern _TXSTA2
+               00122         extern _TXREG2
+               00123         extern _RCREG2
+               00124         extern _SPBRG2
+               00125         extern _CCP5CON
+               00126         extern _CCPR5L
+               00127         extern _CCPR5H
+               00128         extern _CCP4CON
+               00129         extern _CCPR4L
+               00130         extern _CCPR4H
+               00131         extern _T4CON
+               00132         extern _PR4
+               00133         extern _TMR4
+               00134         extern _PORTA
+               00135         extern _PORTB
+               00136         extern _PORTC
+               00137         extern _PORTD
+               00138         extern _PORTE
+               00139         extern _PORTF
+               00140         extern _PORTG
+               00141         extern _PORTH
+               00142         extern _PORTJ
+               00143         extern _LATA
+               00144         extern _LATB
+               00145         extern _LATC
+               00146         extern _LATD
+               00147         extern _LATE
+               00148         extern _LATF
+               00149         extern _LATG
+               00150         extern _LATH
+               00151         extern _LATJ
+               00152         extern _TRISA
+               00153         extern _TRISB
+               00154         extern _TRISC
+               00155         extern _TRISD
+               00156         extern _TRISE
+               00157         extern _TRISF
+               00158         extern _TRISG
+               00159         extern _TRISH
+               00160         extern _TRISJ
+               00161         extern _MEMCON
+               00162         extern _PIE1
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00163         extern _PIR1
+               00164         extern _IPR1
+               00165         extern _PIE2
+               00166         extern _PIR2
+               00167         extern _IPR2
+               00168         extern _PIE3
+               00169         extern _PIR3
+               00170         extern _IPR3
+               00171         extern _EECON1
+               00172         extern _EECON2
+               00173         extern _EEDATA
+               00174         extern _EEADR
+               00175         extern _EEADRH
+               00176         extern _RCSTA1
+               00177         extern _TXSTA1
+               00178         extern _TXREG1
+               00179         extern _RCREG1
+               00180         extern _SPBRG1
+               00181         extern _RCSTA
+               00182         extern _TXSTA
+               00183         extern _TXREG
+               00184         extern _RCREG
+               00185         extern _SPBRG
+               00186         extern _PSPCON
+               00187         extern _T3CON
+               00188         extern _TMR3L
+               00189         extern _TMR3H
+               00190         extern _CMCON
+               00191         extern _CVRCON
+               00192         extern _CCP3CON
+               00193         extern _CCPR3L
+               00194         extern _CCPR3H
+               00195         extern _CCP2CON
+               00196         extern _CCPR2L
+               00197         extern _CCPR2H
+               00198         extern _CCP1CON
+               00199         extern _CCPR1L
+               00200         extern _CCPR1H
+               00201         extern _ADCON2
+               00202         extern _ADCON1
+               00203         extern _ADCON0
+               00204         extern _ADRESL
+               00205         extern _ADRESH
+               00206         extern _SSPCON2
+               00207         extern _SSPCON1
+               00208         extern _SSPSTAT
+               00209         extern _SSPADD
+               00210         extern _SSPBUF
+               00211         extern _T2CON
+               00212         extern _PR2
+               00213         extern _TMR2
+               00214         extern _T1CON
+               00215         extern _TMR1L
+               00216         extern _TMR1H
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00217         extern _RCON
+               00218         extern _WDTCON
+               00219         extern _LVDCON
+               00220         extern _OSCCON
+               00221         extern _T0CON
+               00222         extern _TMR0L
+               00223         extern _TMR0H
+               00224         extern _STATUS
+               00225         extern _FSR2L
+               00226         extern _FSR2H
+               00227         extern _PLUSW2
+               00228         extern _PREINC2
+               00229         extern _POSTDEC2
+               00230         extern _POSTINC2
+               00231         extern _INDF2
+               00232         extern _BSR
+               00233         extern _FSR1L
+               00234         extern _FSR1H
+               00235         extern _PLUSW1
+               00236         extern _PREINC1
+               00237         extern _POSTDEC1
+               00238         extern _POSTINC1
+               00239         extern _INDF1
+               00240         extern _WREG
+               00241         extern _FSR0L
+               00242         extern _FSR0H
+               00243         extern _PLUSW0
+               00244         extern _PREINC0
+               00245         extern _POSTDEC0
+               00246         extern _POSTINC0
+               00247         extern _INDF0
+               00248         extern _INTCON3
+               00249         extern _INTCON2
+               00250         extern _INTCON
+               00251         extern _PRODL
+               00252         extern _PRODH
+               00253         extern _TABLAT
+               00254         extern _TBLPTRL
+               00255         extern _TBLPTRH
+               00256         extern _TBLPTRU
+               00257         extern _PCL
+               00258         extern _PCLATH
+               00259         extern _PCLATU
+               00260         extern _STKPTR
+               00261         extern _TOSL
+               00262         extern _TOSH
+               00263         extern _TOSU
+               00264         extern _printf
+               00265         extern _timer0_read32
+               00266         extern _pwm_write
+               00267         extern _controller_submit_data
+               00268         extern _io_set_direction
+               00269         extern _io_get_direction
+               00270         extern __divsint
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00271         extern __divulong
+               00272         extern __modulong
+               00273         extern __mullong
+               00274         extern __mulint
+               00275 ;--------------------------------------------------------
+               00276 ;       Equates to used internal registers
+               00277 ;--------------------------------------------------------
+  00000FD8     00278 STATUS  equ     0xfd8
+  00000FF9     00279 PCL     equ     0xff9
+  00000FFA     00280 PCLATH  equ     0xffa
+  00000FFB     00281 PCLATU  equ     0xffb
+  00000FE8     00282 WREG    equ     0xfe8
+  00000FF6     00283 TBLPTRL equ     0xff6
+  00000FF7     00284 TBLPTRH equ     0xff7
+  00000FE9     00285 FSR0L   equ     0xfe9
+  00000FEA     00286 FSR0H   equ     0xfea
+  00000FE1     00287 FSR1L   equ     0xfe1
+  00000FD9     00288 FSR2L   equ     0xfd9
+  00000FEF     00289 INDF0   equ     0xfef
+  00000FEE     00290 POSTINC0        equ     0xfee
+  00000FE5     00291 POSTDEC1        equ     0xfe5
+  00000FE4     00292 PREINC1 equ     0xfe4
+  00000FDB     00293 PLUSW2  equ     0xfdb
+  00000FF3     00294 PRODL   equ     0xff3
+  00000FF4     00295 PRODH   equ     0xff4
+               00296 
+               00297 
+               00298         idata
+               00299 _shaft_tps_run_kpn_1_1  db      0x01, 0x00
+               00300 _shaft_tps_run_kpd_1_1  db      0x0c, 0x00
+               00301 _shaft_tps_run_kin_1_1  db      0x00, 0x00
+               00302 _shaft_tps_run_kid_1_1  db      0x01, 0x00
+               00303 _shaft_tps_run_kdn_1_1  db      0x01, 0x00
+               00304 _shaft_tps_run_kdd_1_1  db      0x01, 0x00
+               00305 _shaft_tps_run_sample_interval_1_1      db      0x32, 0x00
+               00306 
+               00307 
+               00308 ; Internal registers
+               00309 .registers      udata_ovr       0x0000
+               00310 r0x00   res     1
+               00311 r0x01   res     1
+               00312 r0x02   res     1
+               00313 r0x03   res     1
+               00314 r0x04   res     1
+               00315 r0x05   res     1
+               00316 r0x06   res     1
+               00317 r0x07   res     1
+               00318 r0x08   res     1
+               00319 r0x09   res     1
+               00320 r0x0a   res     1
+               00321 r0x0b   res     1
+               00322 r0x0c   res     1
+               00323 r0x0d   res     1
+               00324 r0x0e   res     1
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00325 r0x0f   res     1
+               00326 r0x10   res     1
+               00327 r0x11   res     1
+               00328 r0x12   res     1
+               00329 r0x13   res     1
+               00330 r0x14   res     1
+               00331 r0x15   res     1
+               00332 r0x16   res     1
+               00333 
+               00334 udata_shaft_encoder_0   udata
+               00335 _shaft_tps_run_active_timers_1_1        res     1
+               00336 
+               00337 udata_shaft_encoder_1   udata
+               00338 _shaft_tps_run_active_counters_1_1      res     1
+               00339 
+               00340 udata_shaft_encoder_2   udata
+               00341 _shaft_tps_run_sp_1_1   res     3
+               00342 
+               00343 udata_shaft_encoder_3   udata
+               00344 _shaft_tps_run_start_time_1_1   res     4
+               00345 
+               00346 udata_shaft_encoder_4   udata
+               00347 _shaft_tps_run_elapsed_time_1_1 res     4
+               00348 
+               00349 udata_shaft_encoder_5   udata
+               00350 _shaft_tps_run_actual_ticks_1_1 res     4
+               00351 
+               00352 udata_shaft_encoder_6   udata
+               00353 _shaft_tps_run_expected_ticks_1_1       res     4
+               00354 
+               00355 ;--------------------------------------------------------
+               00356 ; global & static initialisations
+               00357 ;--------------------------------------------------------
+               00358 ; I code from now on!
+               00359 ; ; Starting pCode block
+               00360 S_shaft_encoder__shaft_tps_init code
+0000 00361 _shaft_tps_init:
+               00362 ;       .line   510; shaft_encoder.c    status_t    shaft_tps_init(shaft_t *sp,
+0000 CFD9 FFE5 00363         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00364         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00365         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00366         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00367         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00368         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 00369         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 00370         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 00371         MOVFF   r0x06, POSTDEC1
+0024 C000 FFE5 00372         MOVFF   r0x07, POSTDEC1
+0028 C000 FFE5 00373         MOVFF   r0x08, POSTDEC1
+002C C000 FFE5 00374         MOVFF   r0x09, POSTDEC1
+0030 C000 FFE5 00375         MOVFF   r0x0a, POSTDEC1
+0034 C000 FFE5 00376         MOVFF   r0x0b, POSTDEC1
+0038 C000 FFE5 00377         MOVFF   r0x0c, POSTDEC1
+003C C000 FFE5 00378         MOVFF   r0x0d, POSTDEC1
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0040 C000 FFE5 00379         MOVFF   r0x0e, POSTDEC1
+0044 C000 FFE5 00380         MOVFF   r0x0f, POSTDEC1
+0048 C000 FFE5 00381         MOVFF   r0x10, POSTDEC1
+004C C000 FFE5 00382         MOVFF   r0x11, POSTDEC1
+0050 C000 FFE5 00383         MOVFF   r0x12, POSTDEC1
+0054 C000 FFE5 00384         MOVFF   r0x13, POSTDEC1
+0058 0E02      00385         MOVLW   0x02
+005A CFDB F000 00386         MOVFF   PLUSW2, r0x00
+005E 0E03      00387         MOVLW   0x03
+0060 CFDB F000 00388         MOVFF   PLUSW2, r0x01
+0064 0E04      00389         MOVLW   0x04
+0066 CFDB F000 00390         MOVFF   PLUSW2, r0x02
+006A 0E05      00391         MOVLW   0x05
+006C CFDB F000 00392         MOVFF   PLUSW2, r0x03
+0070 0E06      00393         MOVLW   0x06
+0072 CFDB F000 00394         MOVFF   PLUSW2, r0x04
+0076 0E07      00395         MOVLW   0x07
+0078 CFDB F000 00396         MOVFF   PLUSW2, r0x05
+007C 0E08      00397         MOVLW   0x08
+007E CFDB F000 00398         MOVFF   PLUSW2, r0x06
+0082 0E09      00399         MOVLW   0x09
+0084 CFDB F000 00400         MOVFF   PLUSW2, r0x07
+0088 0E0A      00401         MOVLW   0x0a
+008A CFDB F000 00402         MOVFF   PLUSW2, r0x08
+008E 0E0B      00403         MOVLW   0x0b
+0090 CFDB F000 00404         MOVFF   PLUSW2, r0x09
+0094 0E0C      00405         MOVLW   0x0c
+0096 CFDB F000 00406         MOVFF   PLUSW2, r0x0a
+009A 0E0D      00407         MOVLW   0x0d
+009C CFDB F000 00408         MOVFF   PLUSW2, r0x0b
+00A0 0E0E      00409         MOVLW   0x0e
+00A2 CFDB F000 00410         MOVFF   PLUSW2, r0x0c
+00A6 0E0F      00411         MOVLW   0x0f
+00A8 CFDB F000 00412         MOVFF   PLUSW2, r0x0d
+               00413 ;       .line   516; shaft_encoder.c    printf("%d %d %d\n", motor_port, interrupt_port, input_port);
+00AC C000 F000 00414         MOVFF   r0x0b, r0x0e
+00B0 6A00      00415         CLRF    r0x0f
+00B2 C000 F000 00416         MOVFF   r0x0a, r0x10
+00B6 6A00      00417         CLRF    r0x11
+00B8 C000 F000 00418         MOVFF   r0x09, r0x12
+00BC 6A00      00419         CLRF    r0x13
+00BE 5000      00420         MOVF    r0x0f, W
+00C0 6EE5      00421         MOVWF   POSTDEC1
+00C2 5000      00422         MOVF    r0x0e, W
+00C4 6EE5      00423         MOVWF   POSTDEC1
+00C6 5000      00424         MOVF    r0x11, W
+00C8 6EE5      00425         MOVWF   POSTDEC1
+00CA 5000      00426         MOVF    r0x10, W
+00CC 6EE5      00427         MOVWF   POSTDEC1
+00CE 5000      00428         MOVF    r0x13, W
+00D0 6EE5      00429         MOVWF   POSTDEC1
+00D2 5000      00430         MOVF    r0x12, W
+00D4 6EE5      00431         MOVWF   POSTDEC1
+00D6 0E00      00432         MOVLW   UPPER(__str_1)
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00D8 6EE5      00433         MOVWF   POSTDEC1
+00DA 0E00      00434         MOVLW   HIGH(__str_1)
+00DC 6EE5      00435         MOVWF   POSTDEC1
+00DE 0E00      00436         MOVLW   LOW(__str_1)
+00E0 6EE5      00437         MOVWF   POSTDEC1
+00E2 EC00 F000 00438         CALL    _printf
+00E6 0E09      00439         MOVLW   0x09
+00E8 26E1      00440         ADDWF   FSR1L, F
+               00441 ;       .line   517; shaft_encoder.c    if ( ! VALID_PWM_PORT(motor_port) ||
+00EA 0E01      00442         MOVLW   0x01
+00EC 5C00      00443         SUBWF   r0x09, W
+00EE E300      00444         BNC     _00327_DS_
+00F0 0E09      00445         MOVLW   0x09
+00F2 5C00      00446         SUBWF   r0x09, W
+00F4 E200      00447         BC      _00327_DS_
+               00448 ;       .line   518; shaft_encoder.c    ! VALID_INTERRUPT_PORT(interrupt_port) ||
+00F6 0E01      00449         MOVLW   0x01
+00F8 5C00      00450         SUBWF   r0x0a, W
+00FA E300      00451         BNC     _00327_DS_
+00FC 0E07      00452         MOVLW   0x07
+00FE 5C00      00453         SUBWF   r0x0a, W
+0100 E200      00454         BC      _00327_DS_
+               00455 ;       .line   519; shaft_encoder.c    ((input_port != 0) && ! VALID_DIGITAL_PORT(input_port)) )
+0102 5000      00456         MOVF    r0x0b, W
+0104 E000      00457         BZ      _00328_DS_
+0106 5000      00458         MOVF    r0x0b, W
+0108 0000      00459         BANKSEL _Analog_ports
+010A 5D00      00460         SUBWF   _Analog_ports, W, B
+010C E200      00461         BC      _00327_DS_
+010E 0E11      00462         MOVLW   0x11
+0110 5C00      00463         SUBWF   r0x0b, W
+0112 E300      00464         BNC     _00328_DS_
+0114 00465 _00327_DS_:
+               00466 ;       .line   520; shaft_encoder.c    return OV_BAD_PARAM;
+0114 0E80      00467         MOVLW   0x80
+0116 D000      00468         BRA     _00335_DS_
+0118 00469 _00328_DS_:
+               00470 ;       .line   522; shaft_encoder.c    io_set_direction(input_port, IO_DIRECTION_IN);
+0118 0E01      00471         MOVLW   0x01
+011A 6EE5      00472         MOVWF   POSTDEC1
+011C 5000      00473         MOVF    r0x0b, W
+011E 6EE5      00474         MOVWF   POSTDEC1
+0120 EC00 F000 00475         CALL    _io_set_direction
+0124 0E02      00476         MOVLW   0x02
+0126 26E1      00477         ADDWF   FSR1L, F
+               00478 ;       .line   524; shaft_encoder.c    sp->timer_limit = timer_limit;
+0128 C000 FFE5 00479         MOVFF   r0x03, POSTDEC1
+012C C000 FFF4 00480         MOVFF   r0x04, PRODH
+0130 C000 FFF6 00481         MOVFF   r0x05, TBLPTRL
+0134 C000 FFF7 00482         MOVFF   r0x06, TBLPTRH
+0138 C000 FFE9 00483         MOVFF   r0x00, FSR0L
+013C C000 FFF3 00484         MOVFF   r0x01, PRODL
+0140 5000      00485         MOVF    r0x02, W
+0142 EC00 F000 00486         CALL    __gptrput4
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00487 ;       .line   525; shaft_encoder.c    sp->tick_limit = tick_limit;
+0146 5000      00488         MOVF    r0x00, W
+0148 0F04      00489         ADDLW   0x04
+014A 6E00      00490         MOVWF   r0x03
+014C 0E00      00491         MOVLW   0x00
+014E 2000      00492         ADDWFC  r0x01, W
+0150 6E00      00493         MOVWF   r0x04
+0152 0E00      00494         MOVLW   0x00
+0154 2000      00495         ADDWFC  r0x02, W
+0156 6E00      00496         MOVWF   r0x05
+0158 C000 FFE5 00497         MOVFF   r0x07, POSTDEC1
+015C C000 FFF4 00498         MOVFF   r0x08, PRODH
+0160 C000 FFE9 00499         MOVFF   r0x03, FSR0L
+0164 C000 FFF3 00500         MOVFF   r0x04, PRODL
+0168 5000      00501         MOVF    r0x05, W
+016A EC00 F000 00502         CALL    __gptrput2
+               00503 ;       .line   526; shaft_encoder.c    sp->motor_port = motor_port;
+016E 5000      00504         MOVF    r0x00, W
+0170 0F08      00505         ADDLW   0x08
+0172 6E00      00506         MOVWF   r0x03
+0174 0E00      00507         MOVLW   0x00
+0176 2000      00508         ADDWFC  r0x01, W
+0178 6E00      00509         MOVWF   r0x04
+017A 0E00      00510         MOVLW   0x00
+017C 2000      00511         ADDWFC  r0x02, W
+017E 6E00      00512         MOVWF   r0x05
+0180 5000      00513         MOVF    r0x09, W
+0182 0B07      00514         ANDLW   0x07
+0184 6EF4      00515         MOVWF   PRODH
+0186 C000 FFE9 00516         MOVFF   r0x03, FSR0L
+018A C000 FFF3 00517         MOVFF   r0x04, PRODL
+018E 5000      00518         MOVF    r0x05, W
+0190 EC00 F000 00519         CALL    __gptrget1
+0194 0BF8      00520         ANDLW   0xf8
+0196 10F4      00521         IORWF   PRODH, W
+0198 6EE5      00522         MOVWF   POSTDEC1
+019A C000 FFE9 00523         MOVFF   r0x03, FSR0L
+019E C000 FFF3 00524         MOVFF   r0x04, PRODL
+01A2 5000      00525         MOVF    r0x05, W
+01A4 EC00 F000 00526         CALL    __gptrput1
+               00527 ;       .line   527; shaft_encoder.c    sp->interrupt_port = interrupt_port;
+01A8 5000      00528         MOVF    r0x00, W
+01AA 0F08      00529         ADDLW   0x08
+01AC 6E00      00530         MOVWF   r0x03
+01AE 0E00      00531         MOVLW   0x00
+01B0 2000      00532         ADDWFC  r0x01, W
+01B2 6E00      00533         MOVWF   r0x04
+01B4 0E00      00534         MOVLW   0x00
+01B6 2000      00535         ADDWFC  r0x02, W
+01B8 6E00      00536         MOVWF   r0x05
+01BA 5000      00537         MOVF    r0x0a, W
+01BC 0B0F      00538         ANDLW   0x0f
+01BE 38E8      00539         SWAPF   WREG, W
+01C0 6EF4      00540         MOVWF   PRODH
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+01C2 C000 FFE9 00541         MOVFF   r0x03, FSR0L
+01C6 C000 FFF3 00542         MOVFF   r0x04, PRODL
+01CA 5000      00543         MOVF    r0x05, W
+01CC EC00 F000 00544         CALL    __gptrget1
+01D0 0B0F      00545         ANDLW   0x0f
+01D2 10F4      00546         IORWF   PRODH, W
+01D4 6EE5      00547         MOVWF   POSTDEC1
+01D6 C000 FFE9 00548         MOVFF   r0x03, FSR0L
+01DA C000 FFF3 00549         MOVFF   r0x04, PRODL
+01DE 5000      00550         MOVF    r0x05, W
+01E0 EC00 F000 00551         CALL    __gptrput1
+               00552 ;       .line   528; shaft_encoder.c    sp->input_port = input_port;
+01E4 5000      00553         MOVF    r0x00, W
+01E6 0F09      00554         ADDLW   0x09
+01E8 6E00      00555         MOVWF   r0x03
+01EA 0E00      00556         MOVLW   0x00
+01EC 2000      00557         ADDWFC  r0x01, W
+01EE 6E00      00558         MOVWF   r0x04
+01F0 0E00      00559         MOVLW   0x00
+01F2 2000      00560         ADDWFC  r0x02, W
+01F4 6E00      00561         MOVWF   r0x05
+01F6 5000      00562         MOVF    r0x0b, W
+01F8 0B0F      00563         ANDLW   0x0f
+01FA 6EF4      00564         MOVWF   PRODH
+01FC C000 FFE9 00565         MOVFF   r0x03, FSR0L
+0200 C000 FFF3 00566         MOVFF   r0x04, PRODL
+0204 5000      00567         MOVF    r0x05, W
+0206 EC00 F000 00568         CALL    __gptrget1
+020A 0BF0      00569         ANDLW   0xf0
+020C 10F4      00570         IORWF   PRODH, W
+020E 6EE5      00571         MOVWF   POSTDEC1
+0210 C000 FFE9 00572         MOVFF   r0x03, FSR0L
+0214 C000 FFF3 00573         MOVFF   r0x04, PRODL
+0218 5000      00574         MOVF    r0x05, W
+021A EC00 F000 00575         CALL    __gptrput1
+               00576 ;       .line   529; shaft_encoder.c    sp->tps = MIN(ticks_per_second, 1699);
+021E 0E06      00577         MOVLW   0x06
+0220 2600      00578         ADDWF   r0x00, F
+0222 0E00      00579         MOVLW   0x00
+0224 2200      00580         ADDWFC  r0x01, F
+0226 0E00      00581         MOVLW   0x00
+0228 2200      00582         ADDWFC  r0x02, F
+022A 5000      00583         MOVF    r0x0d, W
+022C 0F80      00584         ADDLW   0x80
+022E 0F7A      00585         ADDLW   0x7a
+0230 E100      00586         BNZ     _00352_DS_
+0232 0EA3      00587         MOVLW   0xa3
+0234 5C00      00588         SUBWF   r0x0c, W
+0236 00589 _00352_DS_:
+0236 E200      00590         BC      _00337_DS_
+0238 C000 F000 00591         MOVFF   r0x0c, r0x03
+023C C000 F000 00592         MOVFF   r0x0d, r0x04
+0240 D000      00593         BRA     _00338_DS_
+0242 00594 _00337_DS_:
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0242 0EA3      00595         MOVLW   0xa3
+0244 6E00      00596         MOVWF   r0x03
+0246 0E06      00597         MOVLW   0x06
+0248 6E00      00598         MOVWF   r0x04
+024A 00599 _00338_DS_:
+024A C000 FFE5 00600         MOVFF   r0x03, POSTDEC1
+024E C000 FFF4 00601         MOVFF   r0x04, PRODH
+0252 C000 FFE9 00602         MOVFF   r0x00, FSR0L
+0256 C000 FFF3 00603         MOVFF   r0x01, PRODL
+025A 5000      00604         MOVF    r0x02, W
+025C EC00 F000 00605         CALL    __gptrput2
+               00606 ;       .line   531; shaft_encoder.c    return OV_OK;
+0260 6AE8      00607         CLRF    WREG
+0262 00608 _00335_DS_:
+0262 CFE4 F000 00609         MOVFF   PREINC1, r0x13
+0266 CFE4 F000 00610         MOVFF   PREINC1, r0x12
+026A CFE4 F000 00611         MOVFF   PREINC1, r0x11
+026E CFE4 F000 00612         MOVFF   PREINC1, r0x10
+0272 CFE4 F000 00613         MOVFF   PREINC1, r0x0f
+0276 CFE4 F000 00614         MOVFF   PREINC1, r0x0e
+027A CFE4 F000 00615         MOVFF   PREINC1, r0x0d
+027E CFE4 F000 00616         MOVFF   PREINC1, r0x0c
+0282 CFE4 F000 00617         MOVFF   PREINC1, r0x0b
+0286 CFE4 F000 00618         MOVFF   PREINC1, r0x0a
+028A CFE4 F000 00619         MOVFF   PREINC1, r0x09
+028E CFE4 F000 00620         MOVFF   PREINC1, r0x08
+0292 CFE4 F000 00621         MOVFF   PREINC1, r0x07
+0296 CFE4 F000 00622         MOVFF   PREINC1, r0x06
+029A CFE4 F000 00623         MOVFF   PREINC1, r0x05
+029E CFE4 F000 00624         MOVFF   PREINC1, r0x04
+02A2 CFE4 F000 00625         MOVFF   PREINC1, r0x03
+02A6 CFE4 F000 00626         MOVFF   PREINC1, r0x02
+02AA CFE4 F000 00627         MOVFF   PREINC1, r0x01
+02AE CFE4 F000 00628         MOVFF   PREINC1, r0x00
+02B2 CFE4 FFD9 00629         MOVFF   PREINC1, FSR2L
+02B6 0012      00630         RETURN  
+               00631 
+               00632 ; ; Starting pCode block
+               00633 S_shaft_encoder__shaft_tps_run  code
+0000 00634 _shaft_tps_run:
+               00635 ;       .line   353; shaft_encoder.c    status_t    shaft_tps_run(shaft_t shafts[], unsigned char count)
+0000 CFD9 FFE5 00636         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00637         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00638         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00639         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00640         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00641         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 00642         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 00643         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 00644         MOVFF   r0x06, POSTDEC1
+0024 C000 FFE5 00645         MOVFF   r0x07, POSTDEC1
+0028 C000 FFE5 00646         MOVFF   r0x08, POSTDEC1
+002C C000 FFE5 00647         MOVFF   r0x09, POSTDEC1
+0030 C000 FFE5 00648         MOVFF   r0x0a, POSTDEC1
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0034 C000 FFE5 00649         MOVFF   r0x0b, POSTDEC1
+0038 C000 FFE5 00650         MOVFF   r0x0c, POSTDEC1
+003C C000 FFE5 00651         MOVFF   r0x0d, POSTDEC1
+0040 C000 FFE5 00652         MOVFF   r0x0e, POSTDEC1
+0044 C000 FFE5 00653         MOVFF   r0x0f, POSTDEC1
+0048 C000 FFE5 00654         MOVFF   r0x10, POSTDEC1
+004C C000 FFE5 00655         MOVFF   r0x11, POSTDEC1
+0050 C000 FFE5 00656         MOVFF   r0x12, POSTDEC1
+0054 C000 FFE5 00657         MOVFF   r0x13, POSTDEC1
+0058 C000 FFE5 00658         MOVFF   r0x14, POSTDEC1
+005C C000 FFE5 00659         MOVFF   r0x15, POSTDEC1
+0060 C000 FFE5 00660         MOVFF   r0x16, POSTDEC1
+0064 0E02      00661         MOVLW   0x02
+0066 CFDB F000 00662         MOVFF   PLUSW2, r0x00
+006A 0E03      00663         MOVLW   0x03
+006C CFDB F000 00664         MOVFF   PLUSW2, r0x01
+0070 0E04      00665         MOVLW   0x04
+0072 CFDB F000 00666         MOVFF   PLUSW2, r0x02
+0076 0E05      00667         MOVLW   0x05
+0078 CFDB F000 00668         MOVFF   PLUSW2, r0x03
+               00669 ;       .line   390; shaft_encoder.c    if ( ! VALID_ENCODER_COUNT(count) )
+007C 0E01      00670         MOVLW   0x01
+007E 5C00      00671         SUBWF   r0x03, W
+0080 E300      00672         BNC     _00234_DS_
+0082 0E07      00673         MOVLW   0x07
+0084 5C00      00674         SUBWF   r0x03, W
+0086 E300      00675         BNC     _00235_DS_
+0088 00676 _00234_DS_:
+               00677 ;       .line   391; shaft_encoder.c    return OV_BAD_PARAM;
+0088 0E80      00678         MOVLW   0x80
+008A EF00 F000 00679         GOTO    _00266_DS_
+008E 00680 _00235_DS_:
+               00681 ;       .line   394; shaft_encoder.c    start_time = TIMER0_ELAPSED_MS;
+008E EC00 F000 00682         CALL    _timer0_read32
+0092 6E00      00683         MOVWF   r0x04
+0094 CFF3 F000 00684         MOVFF   PRODL, r0x05
+0098 CFF4 F000 00685         MOVFF   PRODH, r0x06
+009C CFE9 F000 00686         MOVFF   FSR0L, r0x07
+00A0 A600      00687         BTFSS   _T0CON, 3
+00A2 D000      00688         BRA     _00268_DS_
+00A4 0E01      00689         MOVLW   0x01
+00A6 6E00      00690         MOVWF   r0x08
+00A8 6A00      00691         CLRF    r0x09
+00AA D000      00692         BRA     _00269_DS_
+00AC 00693 _00268_DS_:
+00AC 0E07      00694         MOVLW   0x07
+00AE 1400      00695         ANDWF   _T0CON, W
+00B0 6E00      00696         MOVWF   r0x0a
+00B2 0E02      00697         MOVLW   0x02
+00B4 6E00      00698         MOVWF   r0x08
+00B6 0E00      00699         MOVLW   0x00
+00B8 6E00      00700         MOVWF   r0x09
+00BA 5000      00701         MOVF    r0x0a, W
+00BC E000      00702         BZ      _00269_DS_
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00BE 6CE8      00703         NEGF    WREG
+00C0 90D8      00704         BCF     STATUS, 0
+00C2 00705 _00307_DS_:
+00C2 3600      00706         RLCF    r0x08, F
+00C4 3600      00707         RLCF    r0x09, F
+00C6 0F01      00708         ADDLW   0x01
+00C8 E300      00709         BNC     _00307_DS_
+00CA 00710 _00269_DS_:
+00CA 5000      00711         MOVF    r0x09, W
+00CC 6EE5      00712         MOVWF   POSTDEC1
+00CE 5000      00713         MOVF    r0x08, W
+00D0 6EE5      00714         MOVWF   POSTDEC1
+00D2 0E27      00715         MOVLW   0x27
+00D4 6EE5      00716         MOVWF   POSTDEC1
+00D6 0E10      00717         MOVLW   0x10
+00D8 6EE5      00718         MOVWF   POSTDEC1
+00DA EC00 F000 00719         CALL    __divsint
+00DE 6E00      00720         MOVWF   r0x08
+00E0 CFF3 F000 00721         MOVFF   PRODL, r0x09
+00E4 0E04      00722         MOVLW   0x04
+00E6 26E1      00723         ADDWF   FSR1L, F
+00E8 6AE8      00724         CLRF    WREG
+00EA BE00      00725         BTFSC   r0x09, 7
+00EC 0EFF      00726         MOVLW   0xff
+00EE 6E00      00727         MOVWF   r0x0a
+               00728 ; #     MOVWF   r0x0b
+               00729 ; #     MOVF    r0x0b, W
+00F0 6E00      00730         MOVWF   r0x0b
+00F2 6EE5      00731         MOVWF   POSTDEC1
+00F4 5000      00732         MOVF    r0x0a, W
+00F6 6EE5      00733         MOVWF   POSTDEC1
+00F8 5000      00734         MOVF    r0x09, W
+00FA 6EE5      00735         MOVWF   POSTDEC1
+00FC 5000      00736         MOVF    r0x08, W
+00FE 6EE5      00737         MOVWF   POSTDEC1
+0100 5000      00738         MOVF    r0x07, W
+0102 6EE5      00739         MOVWF   POSTDEC1
+0104 5000      00740         MOVF    r0x06, W
+0106 6EE5      00741         MOVWF   POSTDEC1
+0108 5000      00742         MOVF    r0x05, W
+010A 6EE5      00743         MOVWF   POSTDEC1
+010C 5000      00744         MOVF    r0x04, W
+010E 6EE5      00745         MOVWF   POSTDEC1
+0110 EC00 F000 00746         CALL    __divulong
+0114 0000      00747         BANKSEL _shaft_tps_run_start_time_1_1
+0116 6F00      00748         MOVWF   _shaft_tps_run_start_time_1_1, B
+0118 CFF3 F000 00749         MOVFF   PRODL, (_shaft_tps_run_start_time_1_1 + 1)
+011C CFF4 F000 00750         MOVFF   PRODH, (_shaft_tps_run_start_time_1_1 + 2)
+0120 CFE9 F000 00751         MOVFF   FSR0L, (_shaft_tps_run_start_time_1_1 + 3)
+0124 0E08      00752         MOVLW   0x08
+0126 26E1      00753         ADDWF   FSR1L, F
+               00754 ;       .line   397; shaft_encoder.c    for (sp = shafts; sp < shafts + count; ++sp)
+0128 C000 F000 00755         MOVFF   r0x00, _shaft_tps_run_sp_1_1
+012C C000 F000 00756         MOVFF   r0x01, (_shaft_tps_run_sp_1_1 + 1)
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 15
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0130 C000 F000 00757         MOVFF   r0x02, (_shaft_tps_run_sp_1_1 + 2)
+               00758 ; ;multiply lit val:0x0e by variable r0x03 and store in r0x04
+               00759 ; ;Unrolled 8 X 8 multiplication
+               00760 ; ;FIXME: the function does not support result==WREG
+0134 5000      00761         MOVF    r0x03, W
+0136 0D0E      00762         MULLW   0x0e
+0138 CFF3 F000 00763         MOVFF   PRODL, r0x04
+013C CFF4 F000 00764         MOVFF   PRODH, r0x05
+0140 6A00      00765         CLRF    r0x06
+0142 5000      00766         MOVF    r0x00, W
+0144 2600      00767         ADDWF   r0x04, F
+0146 5000      00768         MOVF    r0x01, W
+0148 2200      00769         ADDWFC  r0x05, F
+014A 5000      00770         MOVF    r0x02, W
+014C 2200      00771         ADDWFC  r0x06, F
+014E 00772 _00254_DS_:
+014E 0000      00773         BANKSEL (_shaft_tps_run_sp_1_1 + 2)
+0150 5100      00774         MOVF    (_shaft_tps_run_sp_1_1 + 2), W, B
+0152 0F80      00775         ADDLW   0x80
+0154 6EF3      00776         MOVWF   PRODL
+0156 5000      00777         MOVF    r0x06, W
+0158 0F80      00778         ADDLW   0x80
+015A 5CF3      00779         SUBWF   PRODL, W
+015C E100      00780         BNZ     _00308_DS_
+015E 5000      00781         MOVF    r0x05, W
+0160 0000      00782         BANKSEL (_shaft_tps_run_sp_1_1 + 1)
+0162 5D00      00783         SUBWF   (_shaft_tps_run_sp_1_1 + 1), W, B
+0164 E100      00784         BNZ     _00308_DS_
+0166 5000      00785         MOVF    r0x04, W
+0168 0000      00786         BANKSEL _shaft_tps_run_sp_1_1
+016A 5D00      00787         SUBWF   _shaft_tps_run_sp_1_1, W, B
+016C 00788 _00308_DS_:
+016C B0D8      00789         BTFSC   STATUS, 0
+016E D000      00790         BRA     _00296_DS_
+               00791 ;       .line   399; shaft_encoder.c    if ( ENCODER_ON_IPORT(sp->interrupt_port) )
+0170 C000 F000 00792         MOVFF   _shaft_tps_run_sp_1_1, r0x07
+0174 C000 F000 00793         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x08
+0178 C000 F000 00794         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x09
+017C 0E08      00795         MOVLW   0x08
+017E 2600      00796         ADDWF   r0x07, F
+0180 0E00      00797         MOVLW   0x00
+0182 2200      00798         ADDWFC  r0x08, F
+0184 0E00      00799         MOVLW   0x00
+0186 2200      00800         ADDWFC  r0x09, F
+0188 C000 FFE9 00801         MOVFF   r0x07, FSR0L
+018C C000 FFF3 00802         MOVFF   r0x08, PRODL
+0190 5000      00803         MOVF    r0x09, W
+0192 EC00 F000 00804         CALL    __gptrget1
+0196 38E8      00805         SWAPF   WREG, W
+0198 0B0F      00806         ANDLW   0x0f
+019A 6E00      00807         MOVWF   r0x07
+019C 0600      00808         DECF    r0x07, F
+019E 6A00      00809         CLRF    r0x08
+01A0 BE00      00810         BTFSC   r0x07, 7
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 16
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+01A2 6800      00811         SETF    r0x08
+01A4 0E00      00812         MOVLW   LOW(_Encoder_on_iport)
+01A6 2600      00813         ADDWF   r0x07, F
+01A8 0E00      00814         MOVLW   HIGH(_Encoder_on_iport)
+01AA 2200      00815         ADDWFC  r0x08, F
+01AC C000 FFE9 00816         MOVFF   r0x07, FSR0L
+01B0 C000 FFEA 00817         MOVFF   r0x08, FSR0H
+01B4 CFEF F000 00818         MOVFF   INDF0, r0x07
+01B8 5000      00819         MOVF    r0x07, W
+01BA E000      00820         BZ      _00238_DS_
+               00821 ;       .line   401; shaft_encoder.c    shaft_encoder_reset(sp->interrupt_port);
+01BC C000 F000 00822         MOVFF   _shaft_tps_run_sp_1_1, r0x07
+01C0 C000 F000 00823         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x08
+01C4 C000 F000 00824         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x09
+01C8 0E08      00825         MOVLW   0x08
+01CA 2600      00826         ADDWF   r0x07, F
+01CC 0E00      00827         MOVLW   0x00
+01CE 2200      00828         ADDWFC  r0x08, F
+01D0 0E00      00829         MOVLW   0x00
+01D2 2200      00830         ADDWFC  r0x09, F
+01D4 C000 FFE9 00831         MOVFF   r0x07, FSR0L
+01D8 C000 FFF3 00832         MOVFF   r0x08, PRODL
+01DC 5000      00833         MOVF    r0x09, W
+01DE EC00 F000 00834         CALL    __gptrget1
+01E2 38E8      00835         SWAPF   WREG, W
+01E4 0B0F      00836         ANDLW   0x0f
+               00837 ; #     MOVWF   r0x07
+               00838 ; #     MOVF    r0x07, W
+01E6 6E00      00839         MOVWF   r0x07
+01E8 6EE5      00840         MOVWF   POSTDEC1
+01EA EC00 F000 00841         CALL    _shaft_encoder_reset
+01EE 2AE1      00842         INCF    FSR1L, F
+               00843 ;       .line   402; shaft_encoder.c    sp->leave_encoder_on = 1;
+01F0 C000 F000 00844         MOVFF   _shaft_tps_run_sp_1_1, r0x07
+01F4 C000 F000 00845         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x08
+01F8 C000 F000 00846         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x09
+01FC 0E08      00847         MOVLW   0x08
+01FE 2600      00848         ADDWF   r0x07, F
+0200 0E00      00849         MOVLW   0x00
+0202 2200      00850         ADDWFC  r0x08, F
+0204 0E00      00851         MOVLW   0x00
+0206 2200      00852         ADDWFC  r0x09, F
+0208 C000 FFE9 00853         MOVFF   r0x07, FSR0L
+020C C000 FFF3 00854         MOVFF   r0x08, PRODL
+0210 5000      00855         MOVF    r0x09, W
+0212 EC00 F000 00856         CALL    __gptrget1
+0216 86E8      00857         BSF     WREG, 3
+0218 6EE5      00858         MOVWF   POSTDEC1
+021A C000 FFE9 00859         MOVFF   r0x07, FSR0L
+021E C000 FFF3 00860         MOVFF   r0x08, PRODL
+0222 5000      00861         MOVF    r0x09, W
+0224 EC00 F000 00862         CALL    __gptrput1
+0228 D000      00863         BRA     _00239_DS_
+022A 00864 _00238_DS_:
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 17
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00865 ;       .line   406; shaft_encoder.c    shaft_encoder_enable(sp->interrupt_port);
+022A C000 F000 00866         MOVFF   _shaft_tps_run_sp_1_1, r0x07
+022E C000 F000 00867         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x08
+0232 C000 F000 00868         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x09
+0236 0E08      00869         MOVLW   0x08
+0238 2600      00870         ADDWF   r0x07, F
+023A 0E00      00871         MOVLW   0x00
+023C 2200      00872         ADDWFC  r0x08, F
+023E 0E00      00873         MOVLW   0x00
+0240 2200      00874         ADDWFC  r0x09, F
+0242 C000 FFE9 00875         MOVFF   r0x07, FSR0L
+0246 C000 FFF3 00876         MOVFF   r0x08, PRODL
+024A 5000      00877         MOVF    r0x09, W
+024C EC00 F000 00878         CALL    __gptrget1
+0250 38E8      00879         SWAPF   WREG, W
+0252 0B0F      00880         ANDLW   0x0f
+               00881 ; #     MOVWF   r0x07
+               00882 ; #     MOVF    r0x07, W
+0254 6E00      00883         MOVWF   r0x07
+0256 6EE5      00884         MOVWF   POSTDEC1
+0258 EC00 F000 00885         CALL    _shaft_encoder_enable
+025C 2AE1      00886         INCF    FSR1L, F
+               00887 ;       .line   407; shaft_encoder.c    sp->leave_encoder_on = 0;
+025E C000 F000 00888         MOVFF   _shaft_tps_run_sp_1_1, r0x07
+0262 C000 F000 00889         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x08
+0266 C000 F000 00890         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x09
+026A 0E08      00891         MOVLW   0x08
+026C 2600      00892         ADDWF   r0x07, F
+026E 0E00      00893         MOVLW   0x00
+0270 2200      00894         ADDWFC  r0x08, F
+0272 0E00      00895         MOVLW   0x00
+0274 2200      00896         ADDWFC  r0x09, F
+0276 C000 FFE9 00897         MOVFF   r0x07, FSR0L
+027A C000 FFF3 00898         MOVFF   r0x08, PRODL
+027E 5000      00899         MOVF    r0x09, W
+0280 EC00 F000 00900         CALL    __gptrget1
+0284 96E8      00901         BCF     WREG, 3
+0286 6EE5      00902         MOVWF   POSTDEC1
+0288 C000 FFE9 00903         MOVFF   r0x07, FSR0L
+028C C000 FFF3 00904         MOVFF   r0x08, PRODL
+0290 5000      00905         MOVF    r0x09, W
+0292 EC00 F000 00906         CALL    __gptrput1
+0296 00907 _00239_DS_:
+               00908 ;       .line   409; shaft_encoder.c    sp->power = 0;
+0296 C000 F000 00909         MOVFF   _shaft_tps_run_sp_1_1, r0x07
+029A C000 F000 00910         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x08
+029E C000 F000 00911         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x09
+02A2 0E0D      00912         MOVLW   0x0d
+02A4 2600      00913         ADDWF   r0x07, F
+02A6 0E00      00914         MOVLW   0x00
+02A8 2200      00915         ADDWFC  r0x08, F
+02AA 0E00      00916         MOVLW   0x00
+02AC 2200      00917         ADDWFC  r0x09, F
+02AE 0E00      00918         MOVLW   0x00
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 18
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+02B0 6EE5      00919         MOVWF   POSTDEC1
+02B2 C000 FFE9 00920         MOVFF   r0x07, FSR0L
+02B6 C000 FFF3 00921         MOVFF   r0x08, PRODL
+02BA 5000      00922         MOVF    r0x09, W
+02BC EC00 F000 00923         CALL    __gptrput1
+               00924 ;       .line   410; shaft_encoder.c    sp->integral = 0;
+02C0 C000 F000 00925         MOVFF   _shaft_tps_run_sp_1_1, r0x07
+02C4 C000 F000 00926         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x08
+02C8 C000 F000 00927         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x09
+02CC 0E0A      00928         MOVLW   0x0a
+02CE 2600      00929         ADDWF   r0x07, F
+02D0 0E00      00930         MOVLW   0x00
+02D2 2200      00931         ADDWFC  r0x08, F
+02D4 0E00      00932         MOVLW   0x00
+02D6 2200      00933         ADDWFC  r0x09, F
+02D8 0E00      00934         MOVLW   0x00
+02DA 6EE5      00935         MOVWF   POSTDEC1
+02DC 0E00      00936         MOVLW   0x00
+02DE 6EF4      00937         MOVWF   PRODH
+02E0 C000 FFE9 00938         MOVFF   r0x07, FSR0L
+02E4 C000 FFF3 00939         MOVFF   r0x08, PRODL
+02E8 5000      00940         MOVF    r0x09, W
+02EA EC00 F000 00941         CALL    __gptrput2
+               00942 ;       .line   397; shaft_encoder.c    for (sp = shafts; sp < shafts + count; ++sp)
+02EE 0E0E      00943         MOVLW   0x0e
+02F0 0000      00944         BANKSEL _shaft_tps_run_sp_1_1
+02F2 2700      00945         ADDWF   _shaft_tps_run_sp_1_1, F, B
+02F4 0E00      00946         MOVLW   0x00
+02F6 0000      00947         BANKSEL (_shaft_tps_run_sp_1_1 + 1)
+02F8 2300      00948         ADDWFC  (_shaft_tps_run_sp_1_1 + 1), F, B
+02FA 0E00      00949         MOVLW   0x00
+02FC 0000      00950         BANKSEL (_shaft_tps_run_sp_1_1 + 2)
+02FE 2300      00951         ADDWFC  (_shaft_tps_run_sp_1_1 + 2), F, B
+0300 D000      00952         BRA     _00254_DS_
+0302 00953 _00296_DS_:
+               00954 ;       .line   417; shaft_encoder.c    do
+0302 5000      00955         MOVF    r0x04, W
+0304 0FF2      00956         ADDLW   0xf2
+0306 6E00      00957         MOVWF   r0x07
+0308 0EFF      00958         MOVLW   0xff
+030A 2000      00959         ADDWFC  r0x05, W
+030C 6E00      00960         MOVWF   r0x08
+030E 0EFF      00961         MOVLW   0xff
+0310 2000      00962         ADDWFC  r0x06, W
+0312 6E00      00963         MOVWF   r0x09
+0314 00964 _00249_DS_:
+               00965 ;       .line   419; shaft_encoder.c    active_timers = active_counters = count;
+0314 C000 F000 00966         MOVFF   r0x03, _shaft_tps_run_active_counters_1_1
+0318 C000 F000 00967         MOVFF   r0x03, _shaft_tps_run_active_timers_1_1
+               00968 ;       .line   422; shaft_encoder.c    elapsed_time = TIMER0_ELAPSED_MS - start_time;
+031C EC00 F000 00969         CALL    _timer0_read32
+0320 6E00      00970         MOVWF   r0x0a
+0322 CFF3 F000 00971         MOVFF   PRODL, r0x0b
+0326 CFF4 F000 00972         MOVFF   PRODH, r0x0c
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 19
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+032A CFE9 F000 00973         MOVFF   FSR0L, r0x0d
+032E A600      00974         BTFSS   _T0CON, 3
+0330 D000      00975         BRA     _00270_DS_
+0332 0E01      00976         MOVLW   0x01
+0334 6E00      00977         MOVWF   r0x0e
+0336 6A00      00978         CLRF    r0x0f
+0338 D000      00979         BRA     _00271_DS_
+033A 00980 _00270_DS_:
+033A 0E07      00981         MOVLW   0x07
+033C 1400      00982         ANDWF   _T0CON, W
+033E 6E00      00983         MOVWF   r0x10
+0340 0E02      00984         MOVLW   0x02
+0342 6E00      00985         MOVWF   r0x0e
+0344 0E00      00986         MOVLW   0x00
+0346 6E00      00987         MOVWF   r0x0f
+0348 5000      00988         MOVF    r0x10, W
+034A E000      00989         BZ      _00271_DS_
+034C 6CE8      00990         NEGF    WREG
+034E 90D8      00991         BCF     STATUS, 0
+0350 00992 _00312_DS_:
+0350 3600      00993         RLCF    r0x0e, F
+0352 3600      00994         RLCF    r0x0f, F
+0354 0F01      00995         ADDLW   0x01
+0356 E300      00996         BNC     _00312_DS_
+0358 00997 _00271_DS_:
+0358 5000      00998         MOVF    r0x0f, W
+035A 6EE5      00999         MOVWF   POSTDEC1
+035C 5000      01000         MOVF    r0x0e, W
+035E 6EE5      01001         MOVWF   POSTDEC1
+0360 0E27      01002         MOVLW   0x27
+0362 6EE5      01003         MOVWF   POSTDEC1
+0364 0E10      01004         MOVLW   0x10
+0366 6EE5      01005         MOVWF   POSTDEC1
+0368 EC00 F000 01006         CALL    __divsint
+036C 6E00      01007         MOVWF   r0x0e
+036E CFF3 F000 01008         MOVFF   PRODL, r0x0f
+0372 0E04      01009         MOVLW   0x04
+0374 26E1      01010         ADDWF   FSR1L, F
+0376 6AE8      01011         CLRF    WREG
+0378 BE00      01012         BTFSC   r0x0f, 7
+037A 0EFF      01013         MOVLW   0xff
+037C 6E00      01014         MOVWF   r0x10
+               01015 ; #     MOVWF   r0x11
+               01016 ; #     MOVF    r0x11, W
+037E 6E00      01017         MOVWF   r0x11
+0380 6EE5      01018         MOVWF   POSTDEC1
+0382 5000      01019         MOVF    r0x10, W
+0384 6EE5      01020         MOVWF   POSTDEC1
+0386 5000      01021         MOVF    r0x0f, W
+0388 6EE5      01022         MOVWF   POSTDEC1
+038A 5000      01023         MOVF    r0x0e, W
+038C 6EE5      01024         MOVWF   POSTDEC1
+038E 5000      01025         MOVF    r0x0d, W
+0390 6EE5      01026         MOVWF   POSTDEC1
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 20
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0392 5000      01027         MOVF    r0x0c, W
+0394 6EE5      01028         MOVWF   POSTDEC1
+0396 5000      01029         MOVF    r0x0b, W
+0398 6EE5      01030         MOVWF   POSTDEC1
+039A 5000      01031         MOVF    r0x0a, W
+039C 6EE5      01032         MOVWF   POSTDEC1
+039E EC00 F000 01033         CALL    __divulong
+03A2 6E00      01034         MOVWF   r0x0a
+03A4 CFF3 F000 01035         MOVFF   PRODL, r0x0b
+03A8 CFF4 F000 01036         MOVFF   PRODH, r0x0c
+03AC CFE9 F000 01037         MOVFF   FSR0L, r0x0d
+03B0 0E08      01038         MOVLW   0x08
+03B2 26E1      01039         ADDWF   FSR1L, F
+03B4 0000      01040         BANKSEL _shaft_tps_run_start_time_1_1
+03B6 5100      01041         MOVF    _shaft_tps_run_start_time_1_1, W, B
+03B8 5C00      01042         SUBWF   r0x0a, W
+03BA 0000      01043         BANKSEL _shaft_tps_run_elapsed_time_1_1
+03BC 6F00      01044         MOVWF   _shaft_tps_run_elapsed_time_1_1, B
+03BE 0000      01045         BANKSEL (_shaft_tps_run_start_time_1_1 + 1)
+03C0 5100      01046         MOVF    (_shaft_tps_run_start_time_1_1 + 1), W, B
+03C2 5800      01047         SUBWFB  r0x0b, W
+03C4 0000      01048         BANKSEL (_shaft_tps_run_elapsed_time_1_1 + 1)
+03C6 6F00      01049         MOVWF   (_shaft_tps_run_elapsed_time_1_1 + 1), B
+03C8 0000      01050         BANKSEL (_shaft_tps_run_start_time_1_1 + 2)
+03CA 5100      01051         MOVF    (_shaft_tps_run_start_time_1_1 + 2), W, B
+03CC 5800      01052         SUBWFB  r0x0c, W
+03CE 0000      01053         BANKSEL (_shaft_tps_run_elapsed_time_1_1 + 2)
+03D0 6F00      01054         MOVWF   (_shaft_tps_run_elapsed_time_1_1 + 2), B
+03D2 0000      01055         BANKSEL (_shaft_tps_run_start_time_1_1 + 3)
+03D4 5100      01056         MOVF    (_shaft_tps_run_start_time_1_1 + 3), W, B
+03D6 5800      01057         SUBWFB  r0x0d, W
+03D8 0000      01058         BANKSEL (_shaft_tps_run_elapsed_time_1_1 + 3)
+03DA 6F00      01059         MOVWF   (_shaft_tps_run_elapsed_time_1_1 + 3), B
+               01060 ;       .line   425; shaft_encoder.c    if ( elapsed_time % sample_interval == 0 )
+03DC C000 F000 01061         MOVFF   _shaft_tps_run_sample_interval_1_1, r0x0a
+03E0 C000 F000 01062         MOVFF   (_shaft_tps_run_sample_interval_1_1 + 1), r0x0b
+03E4 6AE8      01063         CLRF    WREG
+03E6 0000      01064         BANKSEL (_shaft_tps_run_sample_interval_1_1 + 1)
+03E8 BE00      01065         BTFSC   (_shaft_tps_run_sample_interval_1_1 + 1), 7
+03EA 0EFF      01066         MOVLW   0xff
+03EC 6E00      01067         MOVWF   r0x0c
+               01068 ; #     MOVWF   r0x0d
+               01069 ; #     MOVF    r0x0d, W
+03EE 6E00      01070         MOVWF   r0x0d
+03F0 6EE5      01071         MOVWF   POSTDEC1
+03F2 5000      01072         MOVF    r0x0c, W
+03F4 6EE5      01073         MOVWF   POSTDEC1
+03F6 5000      01074         MOVF    r0x0b, W
+03F8 6EE5      01075         MOVWF   POSTDEC1
+03FA 5000      01076         MOVF    r0x0a, W
+03FC 6EE5      01077         MOVWF   POSTDEC1
+03FE 0000      01078         BANKSEL (_shaft_tps_run_elapsed_time_1_1 + 3)
+0400 5100      01079         MOVF    (_shaft_tps_run_elapsed_time_1_1 + 3), W, B
+0402 6EE5      01080         MOVWF   POSTDEC1
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 21
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0404 0000      01081         BANKSEL (_shaft_tps_run_elapsed_time_1_1 + 2)
+0406 5100      01082         MOVF    (_shaft_tps_run_elapsed_time_1_1 + 2), W, B
+0408 6EE5      01083         MOVWF   POSTDEC1
+040A 0000      01084         BANKSEL (_shaft_tps_run_elapsed_time_1_1 + 1)
+040C 5100      01085         MOVF    (_shaft_tps_run_elapsed_time_1_1 + 1), W, B
+040E 6EE5      01086         MOVWF   POSTDEC1
+0410 0000      01087         BANKSEL _shaft_tps_run_elapsed_time_1_1
+0412 5100      01088         MOVF    _shaft_tps_run_elapsed_time_1_1, W, B
+0414 6EE5      01089         MOVWF   POSTDEC1
+0416 EC00 F000 01090         CALL    __modulong
+041A 6E00      01091         MOVWF   r0x0a
+041C CFF3 F000 01092         MOVFF   PRODL, r0x0b
+0420 CFF4 F000 01093         MOVFF   PRODH, r0x0c
+0424 CFE9 F000 01094         MOVFF   FSR0L, r0x0d
+0428 0E08      01095         MOVLW   0x08
+042A 26E1      01096         ADDWF   FSR1L, F
+042C 5000      01097         MOVF    r0x0a, W
+042E 1000      01098         IORWF   r0x0b, W
+0430 1000      01099         IORWF   r0x0c, W
+0432 1000      01100         IORWF   r0x0d, W
+0434 A4D8      01101         BTFSS   STATUS, 2
+0436 EF00 F000 01102         GOTO    _00250_DS_
+               01103 ;       .line   432; shaft_encoder.c    for (sp = shafts + count - 1; sp >= shafts; --sp)
+043A C000 F000 01104         MOVFF   r0x07, _shaft_tps_run_sp_1_1
+043E C000 F000 01105         MOVFF   r0x08, (_shaft_tps_run_sp_1_1 + 1)
+0442 C000 F000 01106         MOVFF   r0x09, (_shaft_tps_run_sp_1_1 + 2)
+0446 01107 _00258_DS_:
+0446 0000      01108         BANKSEL (_shaft_tps_run_sp_1_1 + 2)
+0448 5100      01109         MOVF    (_shaft_tps_run_sp_1_1 + 2), W, B
+044A 0F80      01110         ADDLW   0x80
+044C 6EF3      01111         MOVWF   PRODL
+044E 5000      01112         MOVF    r0x02, W
+0450 0F80      01113         ADDLW   0x80
+0452 5CF3      01114         SUBWF   PRODL, W
+0454 E100      01115         BNZ     _00313_DS_
+0456 5000      01116         MOVF    r0x01, W
+0458 0000      01117         BANKSEL (_shaft_tps_run_sp_1_1 + 1)
+045A 5D00      01118         SUBWF   (_shaft_tps_run_sp_1_1 + 1), W, B
+045C E100      01119         BNZ     _00313_DS_
+045E 5000      01120         MOVF    r0x00, W
+0460 0000      01121         BANKSEL _shaft_tps_run_sp_1_1
+0462 5D00      01122         SUBWF   _shaft_tps_run_sp_1_1, W, B
+0464 01123 _00313_DS_:
+0464 A0D8      01124         BTFSS   STATUS, 0
+0466 EF00 F000 01125         GOTO    _00261_DS_
+               01126 ;       .line   435; shaft_encoder.c    if ( elapsed_time >= sp->timer_limit )
+046A C000 F000 01127         MOVFF   _shaft_tps_run_sp_1_1, r0x0a
+046E C000 F000 01128         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x0b
+0472 C000 F000 01129         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x0c
+0476 C000 FFE9 01130         MOVFF   r0x0a, FSR0L
+047A C000 FFF3 01131         MOVFF   r0x0b, PRODL
+047E 5000      01132         MOVF    r0x0c, W
+0480 EC00 F000 01133         CALL    __gptrget4
+0484 6E00      01134         MOVWF   r0x0a
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 22
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0486 CFF3 F000 01135         MOVFF   PRODL, r0x0b
+048A CFF4 F000 01136         MOVFF   PRODH, r0x0c
+048E CFE9 F000 01137         MOVFF   FSR0L, r0x0d
+0492 5000      01138         MOVF    r0x0d, W
+0494 0000      01139         BANKSEL (_shaft_tps_run_elapsed_time_1_1 + 3)
+0496 5D00      01140         SUBWF   (_shaft_tps_run_elapsed_time_1_1 + 3), W, B
+0498 E100      01141         BNZ     _00314_DS_
+049A 5000      01142         MOVF    r0x0c, W
+049C 0000      01143         BANKSEL (_shaft_tps_run_elapsed_time_1_1 + 2)
+049E 5D00      01144         SUBWF   (_shaft_tps_run_elapsed_time_1_1 + 2), W, B
+04A0 E100      01145         BNZ     _00314_DS_
+04A2 5000      01146         MOVF    r0x0b, W
+04A4 0000      01147         BANKSEL (_shaft_tps_run_elapsed_time_1_1 + 1)
+04A6 5D00      01148         SUBWF   (_shaft_tps_run_elapsed_time_1_1 + 1), W, B
+04A8 E100      01149         BNZ     _00314_DS_
+04AA 5000      01150         MOVF    r0x0a, W
+04AC 0000      01151         BANKSEL _shaft_tps_run_elapsed_time_1_1
+04AE 5D00      01152         SUBWF   _shaft_tps_run_elapsed_time_1_1, W, B
+04B0 01153 _00314_DS_:
+04B0 E300      01154         BNC     _00241_DS_
+04B2 0000      01155         BANKSEL _shaft_tps_run_active_timers_1_1
+               01156 ;       .line   436; shaft_encoder.c    --active_timers;
+04B4 0700      01157         DECF    _shaft_tps_run_active_timers_1_1, F, B
+04B6 01158 _00241_DS_:
+               01159 ;       .line   438; shaft_encoder.c    actual_ticks = SHAFT_ENCODER_READ_STD(sp->interrupt_port);
+04B6 C000 F000 01160         MOVFF   _shaft_tps_run_sp_1_1, r0x0a
+04BA C000 F000 01161         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x0b
+04BE C000 F000 01162         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x0c
+04C2 0E08      01163         MOVLW   0x08
+04C4 2600      01164         ADDWF   r0x0a, F
+04C6 0E00      01165         MOVLW   0x00
+04C8 2200      01166         ADDWFC  r0x0b, F
+04CA 0E00      01167         MOVLW   0x00
+04CC 2200      01168         ADDWFC  r0x0c, F
+04CE C000 FFE9 01169         MOVFF   r0x0a, FSR0L
+04D2 C000 FFF3 01170         MOVFF   r0x0b, PRODL
+04D6 5000      01171         MOVF    r0x0c, W
+04D8 EC00 F000 01172         CALL    __gptrget1
+04DC 38E8      01173         SWAPF   WREG, W
+04DE 0B0F      01174         ANDLW   0x0f
+04E0 6E00      01175         MOVWF   r0x0a
+04E2 0600      01176         DECF    r0x0a, F
+               01177 ; ;multiply lit val:0x02 by variable r0x0a and store in r0x0a
+               01178 ; ;Unrolled 8 X 8 multiplication
+               01179 ; ;FIXME: the function does not support result==WREG
+04E4 90D8      01180         BCF     STATUS, 0
+04E6 3600      01181         RLCF    r0x0a, F
+04E8 6A00      01182         CLRF    r0x0b
+04EA BE00      01183         BTFSC   r0x0a, 7
+04EC 6800      01184         SETF    r0x0b
+04EE 0E00      01185         MOVLW   LOW(_Encoder_ticks)
+04F0 2600      01186         ADDWF   r0x0a, F
+04F2 0E00      01187         MOVLW   HIGH(_Encoder_ticks)
+04F4 2200      01188         ADDWFC  r0x0b, F
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 23
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+04F6 C000 FFE9 01189         MOVFF   r0x0a, FSR0L
+04FA C000 FFEA 01190         MOVFF   r0x0b, FSR0H
+04FE CFEE F000 01191         MOVFF   POSTINC0, r0x0a
+0502 CFEF F000 01192         MOVFF   INDF0, r0x0b
+0506 C000 F000 01193         MOVFF   r0x0a, _shaft_tps_run_actual_ticks_1_1
+050A C000 F000 01194         MOVFF   r0x0b, (_shaft_tps_run_actual_ticks_1_1 + 1)
+050E 0000      01195         BANKSEL (_shaft_tps_run_actual_ticks_1_1 + 2)
+0510 6B00      01196         CLRF    (_shaft_tps_run_actual_ticks_1_1 + 2), B
+0512 0000      01197         BANKSEL (_shaft_tps_run_actual_ticks_1_1 + 3)
+0514 6B00      01198         CLRF    (_shaft_tps_run_actual_ticks_1_1 + 3), B
+               01199 ;       .line   439; shaft_encoder.c    if ( actual_ticks >= sp->tick_limit )
+0516 C000 F000 01200         MOVFF   _shaft_tps_run_sp_1_1, r0x0a
+051A C000 F000 01201         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x0b
+051E C000 F000 01202         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x0c
+0522 0E04      01203         MOVLW   0x04
+0524 2600      01204         ADDWF   r0x0a, F
+0526 0E00      01205         MOVLW   0x00
+0528 2200      01206         ADDWFC  r0x0b, F
+052A 0E00      01207         MOVLW   0x00
+052C 2200      01208         ADDWFC  r0x0c, F
+052E C000 FFE9 01209         MOVFF   r0x0a, FSR0L
+0532 C000 FFF3 01210         MOVFF   r0x0b, PRODL
+0536 5000      01211         MOVF    r0x0c, W
+0538 EC00 F000 01212         CALL    __gptrget2
+053C 6E00      01213         MOVWF   r0x0a
+053E CFF3 F000 01214         MOVFF   PRODL, r0x0b
+0542 6A00      01215         CLRF    r0x0c
+0544 6A00      01216         CLRF    r0x0d
+0546 5000      01217         MOVF    r0x0d, W
+0548 0000      01218         BANKSEL (_shaft_tps_run_actual_ticks_1_1 + 3)
+054A 5D00      01219         SUBWF   (_shaft_tps_run_actual_ticks_1_1 + 3), W, B
+054C E100      01220         BNZ     _00315_DS_
+054E 5000      01221         MOVF    r0x0c, W
+0550 0000      01222         BANKSEL (_shaft_tps_run_actual_ticks_1_1 + 2)
+0552 5D00      01223         SUBWF   (_shaft_tps_run_actual_ticks_1_1 + 2), W, B
+0554 E100      01224         BNZ     _00315_DS_
+0556 5000      01225         MOVF    r0x0b, W
+0558 0000      01226         BANKSEL (_shaft_tps_run_actual_ticks_1_1 + 1)
+055A 5D00      01227         SUBWF   (_shaft_tps_run_actual_ticks_1_1 + 1), W, B
+055C E100      01228         BNZ     _00315_DS_
+055E 5000      01229         MOVF    r0x0a, W
+0560 0000      01230         BANKSEL _shaft_tps_run_actual_ticks_1_1
+0562 5D00      01231         SUBWF   _shaft_tps_run_actual_ticks_1_1, W, B
+0564 01232 _00315_DS_:
+0564 E300      01233         BNC     _00243_DS_
+0566 0000      01234         BANKSEL _shaft_tps_run_active_counters_1_1
+               01235 ;       .line   440; shaft_encoder.c    --active_counters;
+0568 0700      01236         DECF    _shaft_tps_run_active_counters_1_1, F, B
+056A 01237 _00243_DS_:
+               01238 ;       .line   443; shaft_encoder.c    expected_ticks = ABS(sp->tps) * elapsed_time / MS_PER_SEC;
+056A C000 F000 01239         MOVFF   _shaft_tps_run_sp_1_1, r0x0a
+056E C000 F000 01240         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x0b
+0572 C000 F000 01241         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x0c
+0576 0E06      01242         MOVLW   0x06
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 24
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0578 2600      01243         ADDWF   r0x0a, F
+057A 0E00      01244         MOVLW   0x00
+057C 2200      01245         ADDWFC  r0x0b, F
+057E 0E00      01246         MOVLW   0x00
+0580 2200      01247         ADDWFC  r0x0c, F
+0582 C000 FFE9 01248         MOVFF   r0x0a, FSR0L
+0586 C000 FFF3 01249         MOVFF   r0x0b, PRODL
+058A 5000      01250         MOVF    r0x0c, W
+058C EC00 F000 01251         CALL    __gptrget2
+0590 6E00      01252         MOVWF   r0x0a
+0592 CFF3 F000 01253         MOVFF   PRODL, r0x0b
+0596 80D8      01254         BSF     STATUS, 0
+0598 AE00      01255         BTFSS   r0x0b, 7
+059A 90D8      01256         BCF     STATUS, 0
+059C 6A00      01257         CLRF    r0x0a
+059E 3600      01258         RLCF    r0x0a, F
+05A0 5000      01259         MOVF    r0x0a, W
+05A2 80D8      01260         BSF     STATUS, 0
+05A4 66E8      01261         TSTFSZ  WREG
+05A6 90D8      01262         BCF     STATUS, 0
+05A8 6A00      01263         CLRF    r0x0a
+05AA 3600      01264         RLCF    r0x0a, F
+05AC 5000      01265         MOVF    r0x0a, W
+05AE E000      01266         BZ      _00272_DS_
+05B0 C000 F000 01267         MOVFF   _shaft_tps_run_sp_1_1, r0x0a
+05B4 C000 F000 01268         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x0b
+05B8 C000 F000 01269         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x0c
+05BC 0E06      01270         MOVLW   0x06
+05BE 2600      01271         ADDWF   r0x0a, F
+05C0 0E00      01272         MOVLW   0x00
+05C2 2200      01273         ADDWFC  r0x0b, F
+05C4 0E00      01274         MOVLW   0x00
+05C6 2200      01275         ADDWFC  r0x0c, F
+05C8 C000 FFE9 01276         MOVFF   r0x0a, FSR0L
+05CC C000 FFF3 01277         MOVFF   r0x0b, PRODL
+05D0 5000      01278         MOVF    r0x0c, W
+05D2 EC00 F000 01279         CALL    __gptrget2
+05D6 6E00      01280         MOVWF   r0x0a
+05D8 CFF3 F000 01281         MOVFF   PRODL, r0x0b
+05DC D000      01282         BRA     _00273_DS_
+05DE 01283 _00272_DS_:
+05DE C000 F000 01284         MOVFF   _shaft_tps_run_sp_1_1, r0x0c
+05E2 C000 F000 01285         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x0d
+05E6 C000 F000 01286         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x0e
+05EA 0E06      01287         MOVLW   0x06
+05EC 2600      01288         ADDWF   r0x0c, F
+05EE 0E00      01289         MOVLW   0x00
+05F0 2200      01290         ADDWFC  r0x0d, F
+05F2 0E00      01291         MOVLW   0x00
+05F4 2200      01292         ADDWFC  r0x0e, F
+05F6 C000 FFE9 01293         MOVFF   r0x0c, FSR0L
+05FA C000 FFF3 01294         MOVFF   r0x0d, PRODL
+05FE 5000      01295         MOVF    r0x0e, W
+0600 EC00 F000 01296         CALL    __gptrget2
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 25
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0604 6E00      01297         MOVWF   r0x0c
+0606 CFF3 F000 01298         MOVFF   PRODL, r0x0d
+060A 1C00      01299         COMF    r0x0d, W
+060C 6E00      01300         MOVWF   r0x0b
+060E 1C00      01301         COMF    r0x0c, W
+0610 6E00      01302         MOVWF   r0x0a
+0612 4A00      01303         INFSNZ  r0x0a, F
+0614 2A00      01304         INCF    r0x0b, F
+0616 01305 _00273_DS_:
+0616 6AE8      01306         CLRF    WREG
+0618 BE00      01307         BTFSC   r0x0b, 7
+061A 0EFF      01308         MOVLW   0xff
+061C 6E00      01309         MOVWF   r0x0c
+061E 6E00      01310         MOVWF   r0x0d
+0620 0000      01311         BANKSEL (_shaft_tps_run_elapsed_time_1_1 + 3)
+0622 5100      01312         MOVF    (_shaft_tps_run_elapsed_time_1_1 + 3), W, B
+0624 6EE5      01313         MOVWF   POSTDEC1
+0626 0000      01314         BANKSEL (_shaft_tps_run_elapsed_time_1_1 + 2)
+0628 5100      01315         MOVF    (_shaft_tps_run_elapsed_time_1_1 + 2), W, B
+062A 6EE5      01316         MOVWF   POSTDEC1
+062C 0000      01317         BANKSEL (_shaft_tps_run_elapsed_time_1_1 + 1)
+062E 5100      01318         MOVF    (_shaft_tps_run_elapsed_time_1_1 + 1), W, B
+0630 6EE5      01319         MOVWF   POSTDEC1
+0632 0000      01320         BANKSEL _shaft_tps_run_elapsed_time_1_1
+0634 5100      01321         MOVF    _shaft_tps_run_elapsed_time_1_1, W, B
+0636 6EE5      01322         MOVWF   POSTDEC1
+0638 5000      01323         MOVF    r0x0d, W
+063A 6EE5      01324         MOVWF   POSTDEC1
+063C 5000      01325         MOVF    r0x0c, W
+063E 6EE5      01326         MOVWF   POSTDEC1
+0640 5000      01327         MOVF    r0x0b, W
+0642 6EE5      01328         MOVWF   POSTDEC1
+0644 5000      01329         MOVF    r0x0a, W
+0646 6EE5      01330         MOVWF   POSTDEC1
+0648 EC00 F000 01331         CALL    __mullong
+064C 6E00      01332         MOVWF   r0x0a
+064E CFF3 F000 01333         MOVFF   PRODL, r0x0b
+0652 CFF4 F000 01334         MOVFF   PRODH, r0x0c
+0656 CFE9 F000 01335         MOVFF   FSR0L, r0x0d
+065A 0E08      01336         MOVLW   0x08
+065C 26E1      01337         ADDWF   FSR1L, F
+065E 0E00      01338         MOVLW   0x00
+0660 6EE5      01339         MOVWF   POSTDEC1
+0662 0E00      01340         MOVLW   0x00
+0664 6EE5      01341         MOVWF   POSTDEC1
+0666 0E03      01342         MOVLW   0x03
+0668 6EE5      01343         MOVWF   POSTDEC1
+066A 0EE8      01344         MOVLW   0xe8
+066C 6EE5      01345         MOVWF   POSTDEC1
+066E 5000      01346         MOVF    r0x0d, W
+0670 6EE5      01347         MOVWF   POSTDEC1
+0672 5000      01348         MOVF    r0x0c, W
+0674 6EE5      01349         MOVWF   POSTDEC1
+0676 5000      01350         MOVF    r0x0b, W
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 26
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0678 6EE5      01351         MOVWF   POSTDEC1
+067A 5000      01352         MOVF    r0x0a, W
+067C 6EE5      01353         MOVWF   POSTDEC1
+067E EC00 F000 01354         CALL    __divulong
+0682 0000      01355         BANKSEL _shaft_tps_run_expected_ticks_1_1
+0684 6F00      01356         MOVWF   _shaft_tps_run_expected_ticks_1_1, B
+0686 CFF3 F000 01357         MOVFF   PRODL, (_shaft_tps_run_expected_ticks_1_1 + 1)
+068A CFF4 F000 01358         MOVFF   PRODH, (_shaft_tps_run_expected_ticks_1_1 + 2)
+068E CFE9 F000 01359         MOVFF   FSR0L, (_shaft_tps_run_expected_ticks_1_1 + 3)
+0692 0E08      01360         MOVLW   0x08
+0694 26E1      01361         ADDWF   FSR1L, F
+0696 0000      01362         BANKSEL _shaft_tps_run_actual_ticks_1_1
+               01363 ;       .line   445; shaft_encoder.c    error = expected_ticks - actual_ticks;
+0698 5100      01364         MOVF    _shaft_tps_run_actual_ticks_1_1, W, B
+069A 0000      01365         BANKSEL _shaft_tps_run_expected_ticks_1_1
+069C 5D00      01366         SUBWF   _shaft_tps_run_expected_ticks_1_1, W, B
+069E 6E00      01367         MOVWF   r0x0a
+06A0 0000      01368         BANKSEL (_shaft_tps_run_actual_ticks_1_1 + 1)
+06A2 5100      01369         MOVF    (_shaft_tps_run_actual_ticks_1_1 + 1), W, B
+06A4 0000      01370         BANKSEL (_shaft_tps_run_expected_ticks_1_1 + 1)
+06A6 5900      01371         SUBWFB  (_shaft_tps_run_expected_ticks_1_1 + 1), W, B
+06A8 6E00      01372         MOVWF   r0x0b
+06AA 0000      01373         BANKSEL (_shaft_tps_run_actual_ticks_1_1 + 2)
+06AC 5100      01374         MOVF    (_shaft_tps_run_actual_ticks_1_1 + 2), W, B
+06AE 0000      01375         BANKSEL (_shaft_tps_run_expected_ticks_1_1 + 2)
+06B0 5900      01376         SUBWFB  (_shaft_tps_run_expected_ticks_1_1 + 2), W, B
+06B2 6E00      01377         MOVWF   r0x0c
+06B4 0000      01378         BANKSEL (_shaft_tps_run_actual_ticks_1_1 + 3)
+06B6 5100      01379         MOVF    (_shaft_tps_run_actual_ticks_1_1 + 3), W, B
+06B8 0000      01380         BANKSEL (_shaft_tps_run_expected_ticks_1_1 + 3)
+06BA 5900      01381         SUBWFB  (_shaft_tps_run_expected_ticks_1_1 + 3), W, B
+06BC 6E00      01382         MOVWF   r0x0d
+               01383 ;       .line   448; shaft_encoder.c    proportional = kpn * error / kpd;
+06BE 5000      01384         MOVF    r0x0b, W
+06C0 6EE5      01385         MOVWF   POSTDEC1
+06C2 5000      01386         MOVF    r0x0a, W
+06C4 6EE5      01387         MOVWF   POSTDEC1
+06C6 0000      01388         BANKSEL (_shaft_tps_run_kpn_1_1 + 1)
+06C8 5100      01389         MOVF    (_shaft_tps_run_kpn_1_1 + 1), W, B
+06CA 6EE5      01390         MOVWF   POSTDEC1
+06CC 0000      01391         BANKSEL _shaft_tps_run_kpn_1_1
+06CE 5100      01392         MOVF    _shaft_tps_run_kpn_1_1, W, B
+06D0 6EE5      01393         MOVWF   POSTDEC1
+06D2 EC00 F000 01394         CALL    __mulint
+06D6 6E00      01395         MOVWF   r0x0c
+06D8 CFF3 F000 01396         MOVFF   PRODL, r0x0d
+06DC 0E04      01397         MOVLW   0x04
+06DE 26E1      01398         ADDWF   FSR1L, F
+06E0 0000      01399         BANKSEL (_shaft_tps_run_kpd_1_1 + 1)
+06E2 5100      01400         MOVF    (_shaft_tps_run_kpd_1_1 + 1), W, B
+06E4 6EE5      01401         MOVWF   POSTDEC1
+06E6 0000      01402         BANKSEL _shaft_tps_run_kpd_1_1
+06E8 5100      01403         MOVF    _shaft_tps_run_kpd_1_1, W, B
+06EA 6EE5      01404         MOVWF   POSTDEC1
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 27
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+06EC 5000      01405         MOVF    r0x0d, W
+06EE 6EE5      01406         MOVWF   POSTDEC1
+06F0 5000      01407         MOVF    r0x0c, W
+06F2 6EE5      01408         MOVWF   POSTDEC1
+06F4 EC00 F000 01409         CALL    __divsint
+06F8 6E00      01410         MOVWF   r0x0c
+06FA CFF3 F000 01411         MOVFF   PRODL, r0x0d
+06FE 0E04      01412         MOVLW   0x04
+0700 26E1      01413         ADDWF   FSR1L, F
+               01414 ;       .line   456; shaft_encoder.c    sp->integral = (sp->integral * 2 / 3 + (kin * error)) / kid;
+0702 C000 F000 01415         MOVFF   _shaft_tps_run_sp_1_1, r0x0e
+0706 C000 F000 01416         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x0f
+070A C000 F000 01417         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x10
+070E 0E0A      01418         MOVLW   0x0a
+0710 2600      01419         ADDWF   r0x0e, F
+0712 0E00      01420         MOVLW   0x00
+0714 2200      01421         ADDWFC  r0x0f, F
+0716 0E00      01422         MOVLW   0x00
+0718 2200      01423         ADDWFC  r0x10, F
+071A C000 F000 01424         MOVFF   _shaft_tps_run_sp_1_1, r0x11
+071E C000 F000 01425         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x12
+0722 C000 F000 01426         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x13
+0726 0E0A      01427         MOVLW   0x0a
+0728 2600      01428         ADDWF   r0x11, F
+072A 0E00      01429         MOVLW   0x00
+072C 2200      01430         ADDWFC  r0x12, F
+072E 0E00      01431         MOVLW   0x00
+0730 2200      01432         ADDWFC  r0x13, F
+0732 C000 FFE9 01433         MOVFF   r0x11, FSR0L
+0736 C000 FFF3 01434         MOVFF   r0x12, PRODL
+073A 5000      01435         MOVF    r0x13, W
+073C EC00 F000 01436         CALL    __gptrget2
+0740 6E00      01437         MOVWF   r0x11
+0742 CFF3 F000 01438         MOVFF   PRODL, r0x12
+0746 5000      01439         MOVF    r0x12, W
+0748 6EE5      01440         MOVWF   POSTDEC1
+074A 5000      01441         MOVF    r0x11, W
+074C 6EE5      01442         MOVWF   POSTDEC1
+074E 0E00      01443         MOVLW   0x00
+0750 6EE5      01444         MOVWF   POSTDEC1
+0752 0E02      01445         MOVLW   0x02
+0754 6EE5      01446         MOVWF   POSTDEC1
+0756 EC00 F000 01447         CALL    __mulint
+075A 6E00      01448         MOVWF   r0x11
+075C CFF3 F000 01449         MOVFF   PRODL, r0x12
+0760 0E04      01450         MOVLW   0x04
+0762 26E1      01451         ADDWF   FSR1L, F
+0764 0E00      01452         MOVLW   0x00
+0766 6EE5      01453         MOVWF   POSTDEC1
+0768 0E03      01454         MOVLW   0x03
+076A 6EE5      01455         MOVWF   POSTDEC1
+076C 5000      01456         MOVF    r0x12, W
+076E 6EE5      01457         MOVWF   POSTDEC1
+0770 5000      01458         MOVF    r0x11, W
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 28
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0772 6EE5      01459         MOVWF   POSTDEC1
+0774 EC00 F000 01460         CALL    __divsint
+0778 6E00      01461         MOVWF   r0x11
+077A CFF3 F000 01462         MOVFF   PRODL, r0x12
+077E 0E04      01463         MOVLW   0x04
+0780 26E1      01464         ADDWF   FSR1L, F
+0782 5000      01465         MOVF    r0x0b, W
+0784 6EE5      01466         MOVWF   POSTDEC1
+0786 5000      01467         MOVF    r0x0a, W
+0788 6EE5      01468         MOVWF   POSTDEC1
+078A 0000      01469         BANKSEL (_shaft_tps_run_kin_1_1 + 1)
+078C 5100      01470         MOVF    (_shaft_tps_run_kin_1_1 + 1), W, B
+078E 6EE5      01471         MOVWF   POSTDEC1
+0790 0000      01472         BANKSEL _shaft_tps_run_kin_1_1
+0792 5100      01473         MOVF    _shaft_tps_run_kin_1_1, W, B
+0794 6EE5      01474         MOVWF   POSTDEC1
+0796 EC00 F000 01475         CALL    __mulint
+079A 6E00      01476         MOVWF   r0x13
+079C CFF3 F000 01477         MOVFF   PRODL, r0x14
+07A0 0E04      01478         MOVLW   0x04
+07A2 26E1      01479         ADDWF   FSR1L, F
+07A4 5000      01480         MOVF    r0x13, W
+07A6 2600      01481         ADDWF   r0x11, F
+07A8 5000      01482         MOVF    r0x14, W
+07AA 2200      01483         ADDWFC  r0x12, F
+07AC 0000      01484         BANKSEL (_shaft_tps_run_kid_1_1 + 1)
+07AE 5100      01485         MOVF    (_shaft_tps_run_kid_1_1 + 1), W, B
+07B0 6EE5      01486         MOVWF   POSTDEC1
+07B2 0000      01487         BANKSEL _shaft_tps_run_kid_1_1
+07B4 5100      01488         MOVF    _shaft_tps_run_kid_1_1, W, B
+07B6 6EE5      01489         MOVWF   POSTDEC1
+07B8 5000      01490         MOVF    r0x12, W
+07BA 6EE5      01491         MOVWF   POSTDEC1
+07BC 5000      01492         MOVF    r0x11, W
+07BE 6EE5      01493         MOVWF   POSTDEC1
+07C0 EC00 F000 01494         CALL    __divsint
+07C4 6E00      01495         MOVWF   r0x11
+07C6 CFF3 F000 01496         MOVFF   PRODL, r0x12
+07CA 0E04      01497         MOVLW   0x04
+07CC 26E1      01498         ADDWF   FSR1L, F
+07CE C000 FFE5 01499         MOVFF   r0x11, POSTDEC1
+07D2 C000 FFF4 01500         MOVFF   r0x12, PRODH
+07D6 C000 FFE9 01501         MOVFF   r0x0e, FSR0L
+07DA C000 FFF3 01502         MOVFF   r0x0f, PRODL
+07DE 5000      01503         MOVF    r0x10, W
+07E0 EC00 F000 01504         CALL    __gptrput2
+               01505 ;       .line   459; shaft_encoder.c    derivative = kdn * (error - sp->previous_error) / kdd;
+07E4 C000 F000 01506         MOVFF   _shaft_tps_run_sp_1_1, r0x0e
+07E8 C000 F000 01507         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x0f
+07EC C000 F000 01508         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x10
+07F0 0E0C      01509         MOVLW   0x0c
+07F2 2600      01510         ADDWF   r0x0e, F
+07F4 0E00      01511         MOVLW   0x00
+07F6 2200      01512         ADDWFC  r0x0f, F
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 29
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+07F8 0E00      01513         MOVLW   0x00
+07FA 2200      01514         ADDWFC  r0x10, F
+07FC C000 FFE9 01515         MOVFF   r0x0e, FSR0L
+0800 C000 FFF3 01516         MOVFF   r0x0f, PRODL
+0804 5000      01517         MOVF    r0x10, W
+0806 EC00 F000 01518         CALL    __gptrget1
+080A 6E00      01519         MOVWF   r0x0e
+080C 6A00      01520         CLRF    r0x0f
+080E BE00      01521         BTFSC   r0x0e, 7
+0810 6800      01522         SETF    r0x0f
+0812 5000      01523         MOVF    r0x0e, W
+0814 5C00      01524         SUBWF   r0x0a, W
+0816 6E00      01525         MOVWF   r0x0e
+0818 5000      01526         MOVF    r0x0f, W
+081A 5800      01527         SUBWFB  r0x0b, W
+               01528 ; #     MOVWF   r0x0f
+               01529 ; #     MOVF    r0x0f, W
+081C 6E00      01530         MOVWF   r0x0f
+081E 6EE5      01531         MOVWF   POSTDEC1
+0820 5000      01532         MOVF    r0x0e, W
+0822 6EE5      01533         MOVWF   POSTDEC1
+0824 0000      01534         BANKSEL (_shaft_tps_run_kdn_1_1 + 1)
+0826 5100      01535         MOVF    (_shaft_tps_run_kdn_1_1 + 1), W, B
+0828 6EE5      01536         MOVWF   POSTDEC1
+082A 0000      01537         BANKSEL _shaft_tps_run_kdn_1_1
+082C 5100      01538         MOVF    _shaft_tps_run_kdn_1_1, W, B
+082E 6EE5      01539         MOVWF   POSTDEC1
+0830 EC00 F000 01540         CALL    __mulint
+0834 6E00      01541         MOVWF   r0x0e
+0836 CFF3 F000 01542         MOVFF   PRODL, r0x0f
+083A 0E04      01543         MOVLW   0x04
+083C 26E1      01544         ADDWF   FSR1L, F
+083E 0000      01545         BANKSEL (_shaft_tps_run_kdd_1_1 + 1)
+0840 5100      01546         MOVF    (_shaft_tps_run_kdd_1_1 + 1), W, B
+0842 6EE5      01547         MOVWF   POSTDEC1
+0844 0000      01548         BANKSEL _shaft_tps_run_kdd_1_1
+0846 5100      01549         MOVF    _shaft_tps_run_kdd_1_1, W, B
+0848 6EE5      01550         MOVWF   POSTDEC1
+084A 5000      01551         MOVF    r0x0f, W
+084C 6EE5      01552         MOVWF   POSTDEC1
+084E 5000      01553         MOVF    r0x0e, W
+0850 6EE5      01554         MOVWF   POSTDEC1
+0852 EC00 F000 01555         CALL    __divsint
+0856 6E00      01556         MOVWF   r0x0e
+0858 CFF3 F000 01557         MOVFF   PRODL, r0x0f
+085C 0E04      01558         MOVLW   0x04
+085E 26E1      01559         ADDWF   FSR1L, F
+               01560 ;       .line   460; shaft_encoder.c    sp->previous_error = error;
+0860 C000 F000 01561         MOVFF   _shaft_tps_run_sp_1_1, r0x10
+0864 C000 F000 01562         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x11
+0868 C000 F000 01563         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x12
+086C 0E0C      01564         MOVLW   0x0c
+086E 2600      01565         ADDWF   r0x10, F
+0870 0E00      01566         MOVLW   0x00
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 30
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0872 2200      01567         ADDWFC  r0x11, F
+0874 0E00      01568         MOVLW   0x00
+0876 2200      01569         ADDWFC  r0x12, F
+0878 C000 FFE5 01570         MOVFF   r0x0a, POSTDEC1
+087C C000 FFE9 01571         MOVFF   r0x10, FSR0L
+0880 C000 FFF3 01572         MOVFF   r0x11, PRODL
+0884 5000      01573         MOVF    r0x12, W
+0886 EC00 F000 01574         CALL    __gptrput1
+               01575 ;       .line   463; shaft_encoder.c    new_power = ABS(sp->power) + 
+088A C000 F000 01576         MOVFF   _shaft_tps_run_sp_1_1, r0x0a
+088E C000 F000 01577         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x0b
+0892 C000 F000 01578         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x10
+0896 0E0D      01579         MOVLW   0x0d
+0898 2600      01580         ADDWF   r0x0a, F
+089A 0E00      01581         MOVLW   0x00
+089C 2200      01582         ADDWFC  r0x0b, F
+089E 0E00      01583         MOVLW   0x00
+08A0 2200      01584         ADDWFC  r0x10, F
+08A2 C000 FFE9 01585         MOVFF   r0x0a, FSR0L
+08A6 C000 FFF3 01586         MOVFF   r0x0b, PRODL
+08AA 5000      01587         MOVF    r0x10, W
+08AC EC00 F000 01588         CALL    __gptrget1
+08B0 6E00      01589         MOVWF   r0x0a
+08B2 80D8      01590         BSF     STATUS, 0
+08B4 AE00      01591         BTFSS   r0x0a, 7
+08B6 90D8      01592         BCF     STATUS, 0
+08B8 6A00      01593         CLRF    r0x0a
+08BA 3600      01594         RLCF    r0x0a, F
+08BC 5000      01595         MOVF    r0x0a, W
+08BE 80D8      01596         BSF     STATUS, 0
+08C0 66E8      01597         TSTFSZ  WREG
+08C2 90D8      01598         BCF     STATUS, 0
+08C4 6A00      01599         CLRF    r0x0a
+08C6 3600      01600         RLCF    r0x0a, F
+08C8 5000      01601         MOVF    r0x0a, W
+08CA E000      01602         BZ      _00274_DS_
+08CC C000 F000 01603         MOVFF   _shaft_tps_run_sp_1_1, r0x0a
+08D0 C000 F000 01604         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x0b
+08D4 C000 F000 01605         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x10
+08D8 0E0D      01606         MOVLW   0x0d
+08DA 2600      01607         ADDWF   r0x0a, F
+08DC 0E00      01608         MOVLW   0x00
+08DE 2200      01609         ADDWFC  r0x0b, F
+08E0 0E00      01610         MOVLW   0x00
+08E2 2200      01611         ADDWFC  r0x10, F
+08E4 C000 FFE9 01612         MOVFF   r0x0a, FSR0L
+08E8 C000 FFF3 01613         MOVFF   r0x0b, PRODL
+08EC 5000      01614         MOVF    r0x10, W
+08EE EC00 F000 01615         CALL    __gptrget1
+08F2 6E00      01616         MOVWF   r0x0a
+08F4 6A00      01617         CLRF    r0x0b
+08F6 BE00      01618         BTFSC   r0x0a, 7
+08F8 6800      01619         SETF    r0x0b
+08FA D000      01620         BRA     _00275_DS_
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 31
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+08FC 01621 _00274_DS_:
+08FC C000 F000 01622         MOVFF   _shaft_tps_run_sp_1_1, r0x10
+0900 C000 F000 01623         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x11
+0904 C000 F000 01624         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x12
+0908 0E0D      01625         MOVLW   0x0d
+090A 2600      01626         ADDWF   r0x10, F
+090C 0E00      01627         MOVLW   0x00
+090E 2200      01628         ADDWFC  r0x11, F
+0910 0E00      01629         MOVLW   0x00
+0912 2200      01630         ADDWFC  r0x12, F
+0914 C000 FFE9 01631         MOVFF   r0x10, FSR0L
+0918 C000 FFF3 01632         MOVFF   r0x11, PRODL
+091C 5000      01633         MOVF    r0x12, W
+091E EC00 F000 01634         CALL    __gptrget1
+0922 6E00      01635         MOVWF   r0x10
+0924 6A00      01636         CLRF    r0x11
+0926 BE00      01637         BTFSC   r0x10, 7
+0928 6800      01638         SETF    r0x11
+092A 1C00      01639         COMF    r0x11, W
+092C 6E00      01640         MOVWF   r0x0b
+092E 1C00      01641         COMF    r0x10, W
+0930 6E00      01642         MOVWF   r0x0a
+0932 4A00      01643         INFSNZ  r0x0a, F
+0934 2A00      01644         INCF    r0x0b, F
+0936 01645 _00275_DS_:
+0936 5000      01646         MOVF    r0x0c, W
+0938 2600      01647         ADDWF   r0x0a, F
+093A 5000      01648         MOVF    r0x0d, W
+093C 2200      01649         ADDWFC  r0x0b, F
+               01650 ;       .line   464; shaft_encoder.c    proportional + sp->integral + derivative;
+093E C000 F000 01651         MOVFF   _shaft_tps_run_sp_1_1, r0x10
+0942 C000 F000 01652         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x11
+0946 C000 F000 01653         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x12
+094A 0E0A      01654         MOVLW   0x0a
+094C 2600      01655         ADDWF   r0x10, F
+094E 0E00      01656         MOVLW   0x00
+0950 2200      01657         ADDWFC  r0x11, F
+0952 0E00      01658         MOVLW   0x00
+0954 2200      01659         ADDWFC  r0x12, F
+0956 C000 FFE9 01660         MOVFF   r0x10, FSR0L
+095A C000 FFF3 01661         MOVFF   r0x11, PRODL
+095E 5000      01662         MOVF    r0x12, W
+0960 EC00 F000 01663         CALL    __gptrget2
+0964 6E00      01664         MOVWF   r0x10
+0966 CFF3 F000 01665         MOVFF   PRODL, r0x11
+096A 5000      01666         MOVF    r0x10, W
+096C 2600      01667         ADDWF   r0x0a, F
+096E 5000      01668         MOVF    r0x11, W
+0970 2200      01669         ADDWFC  r0x0b, F
+0972 5000      01670         MOVF    r0x0e, W
+0974 2600      01671         ADDWF   r0x0a, F
+0976 5000      01672         MOVF    r0x0f, W
+0978 2200      01673         ADDWFC  r0x0b, F
+               01674 ;       .line   465; shaft_encoder.c    sp->power = new_power > 127 ? 127 :
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 32
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+097A C000 F000 01675         MOVFF   _shaft_tps_run_sp_1_1, r0x10
+097E C000 F000 01676         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x11
+0982 C000 F000 01677         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x12
+0986 0E0D      01678         MOVLW   0x0d
+0988 2600      01679         ADDWF   r0x10, F
+098A 0E00      01680         MOVLW   0x00
+098C 2200      01681         ADDWFC  r0x11, F
+098E 0E00      01682         MOVLW   0x00
+0990 2200      01683         ADDWFC  r0x12, F
+0992 5000      01684         MOVF    r0x0b, W
+0994 0F80      01685         ADDLW   0x80
+0996 0F80      01686         ADDLW   0x80
+0998 E100      01687         BNZ     _00320_DS_
+099A 0E80      01688         MOVLW   0x80
+099C 5C00      01689         SUBWF   r0x0a, W
+099E 01690 _00320_DS_:
+099E E300      01691         BNC     _00276_DS_
+09A0 0E7F      01692         MOVLW   0x7f
+09A2 6E00      01693         MOVWF   r0x13
+09A4 6A00      01694         CLRF    r0x14
+09A6 D000      01695         BRA     _00277_DS_
+09A8 01696 _00276_DS_:
+               01697 ;       .line   466; shaft_encoder.c    (new_power < 0 ? 0 : new_power);
+09A8 80D8      01698         BSF     STATUS, 0
+09AA AE00      01699         BTFSS   r0x0b, 7
+09AC 90D8      01700         BCF     STATUS, 0
+09AE E300      01701         BNC     _00278_DS_
+09B0 6A00      01702         CLRF    r0x15
+09B2 6A00      01703         CLRF    r0x16
+09B4 D000      01704         BRA     _00279_DS_
+09B6 01705 _00278_DS_:
+09B6 C000 F000 01706         MOVFF   r0x0a, r0x15
+09BA C000 F000 01707         MOVFF   r0x0b, r0x16
+09BE 01708 _00279_DS_:
+09BE C000 F000 01709         MOVFF   r0x15, r0x13
+09C2 C000 F000 01710         MOVFF   r0x16, r0x14
+09C6 01711 _00277_DS_:
+09C6 C000 FFE5 01712         MOVFF   r0x13, POSTDEC1
+09CA C000 FFE9 01713         MOVFF   r0x10, FSR0L
+09CE C000 FFF3 01714         MOVFF   r0x11, PRODL
+09D2 5000      01715         MOVF    r0x12, W
+09D4 EC00 F000 01716         CALL    __gptrput1
+               01717 ;       .line   467; shaft_encoder.c    if ( sp->tps < 0 )
+09D8 C000 F000 01718         MOVFF   _shaft_tps_run_sp_1_1, r0x10
+09DC C000 F000 01719         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x11
+09E0 C000 F000 01720         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x12
+09E4 0E06      01721         MOVLW   0x06
+09E6 2600      01722         ADDWF   r0x10, F
+09E8 0E00      01723         MOVLW   0x00
+09EA 2200      01724         ADDWFC  r0x11, F
+09EC 0E00      01725         MOVLW   0x00
+09EE 2200      01726         ADDWFC  r0x12, F
+09F0 C000 FFE9 01727         MOVFF   r0x10, FSR0L
+09F4 C000 FFF3 01728         MOVFF   r0x11, PRODL
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 33
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+09F8 5000      01729         MOVF    r0x12, W
+09FA EC00 F000 01730         CALL    __gptrget2
+09FE 6E00      01731         MOVWF   r0x10
+0A00 CFF3 F000 01732         MOVFF   PRODL, r0x11
+0A04 80D8      01733         BSF     STATUS, 0
+0A06 AE00      01734         BTFSS   r0x11, 7
+0A08 90D8      01735         BCF     STATUS, 0
+0A0A E300      01736         BNC     _00245_DS_
+               01737 ;       .line   468; shaft_encoder.c    sp->power = -sp->power;
+0A0C C000 F000 01738         MOVFF   _shaft_tps_run_sp_1_1, r0x10
+0A10 C000 F000 01739         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x11
+0A14 C000 F000 01740         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x12
+0A18 0E0D      01741         MOVLW   0x0d
+0A1A 2600      01742         ADDWF   r0x10, F
+0A1C 0E00      01743         MOVLW   0x00
+0A1E 2200      01744         ADDWFC  r0x11, F
+0A20 0E00      01745         MOVLW   0x00
+0A22 2200      01746         ADDWFC  r0x12, F
+0A24 C000 F000 01747         MOVFF   _shaft_tps_run_sp_1_1, r0x13
+0A28 C000 F000 01748         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x14
+0A2C C000 F000 01749         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x15
+0A30 0E0D      01750         MOVLW   0x0d
+0A32 2600      01751         ADDWF   r0x13, F
+0A34 0E00      01752         MOVLW   0x00
+0A36 2200      01753         ADDWFC  r0x14, F
+0A38 0E00      01754         MOVLW   0x00
+0A3A 2200      01755         ADDWFC  r0x15, F
+0A3C C000 FFE9 01756         MOVFF   r0x13, FSR0L
+0A40 C000 FFF3 01757         MOVFF   r0x14, PRODL
+0A44 5000      01758         MOVF    r0x15, W
+0A46 EC00 F000 01759         CALL    __gptrget1
+0A4A 6E00      01760         MOVWF   r0x13
+0A4C 6C00      01761         NEGF    r0x13
+0A4E C000 FFE5 01762         MOVFF   r0x13, POSTDEC1
+0A52 C000 FFE9 01763         MOVFF   r0x10, FSR0L
+0A56 C000 FFF3 01764         MOVFF   r0x11, PRODL
+0A5A 5000      01765         MOVF    r0x12, W
+0A5C EC00 F000 01766         CALL    __gptrput1
+0A60 01767 _00245_DS_:
+               01768 ;       .line   470; shaft_encoder.c    DPRINTF("t: %6lu  m: %u  et: %ld  at: %ld  p: %d  i: %d  d: %d  np: %d %d\n",
+0A60 C000 F000 01769         MOVFF   _shaft_tps_run_sp_1_1, r0x10
+0A64 C000 F000 01770         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x11
+0A68 C000 F000 01771         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x12
+0A6C 0E0D      01772         MOVLW   0x0d
+0A6E 2600      01773         ADDWF   r0x10, F
+0A70 0E00      01774         MOVLW   0x00
+0A72 2200      01775         ADDWFC  r0x11, F
+0A74 0E00      01776         MOVLW   0x00
+0A76 2200      01777         ADDWFC  r0x12, F
+0A78 C000 FFE9 01778         MOVFF   r0x10, FSR0L
+0A7C C000 FFF3 01779         MOVFF   r0x11, PRODL
+0A80 5000      01780         MOVF    r0x12, W
+0A82 EC00 F000 01781         CALL    __gptrget1
+0A86 6E00      01782         MOVWF   r0x10
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 34
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0A88 6A00      01783         CLRF    r0x11
+0A8A BE00      01784         BTFSC   r0x10, 7
+0A8C 6800      01785         SETF    r0x11
+0A8E C000 F000 01786         MOVFF   _shaft_tps_run_sp_1_1, r0x12
+0A92 C000 F000 01787         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x13
+0A96 C000 F000 01788         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x14
+0A9A 0E0A      01789         MOVLW   0x0a
+0A9C 2600      01790         ADDWF   r0x12, F
+0A9E 0E00      01791         MOVLW   0x00
+0AA0 2200      01792         ADDWFC  r0x13, F
+0AA2 0E00      01793         MOVLW   0x00
+0AA4 2200      01794         ADDWFC  r0x14, F
+0AA6 C000 FFE9 01795         MOVFF   r0x12, FSR0L
+0AAA C000 FFF3 01796         MOVFF   r0x13, PRODL
+0AAE 5000      01797         MOVF    r0x14, W
+0AB0 EC00 F000 01798         CALL    __gptrget2
+0AB4 6E00      01799         MOVWF   r0x12
+0AB6 CFF3 F000 01800         MOVFF   PRODL, r0x13
+0ABA C000 F000 01801         MOVFF   _shaft_tps_run_sp_1_1, r0x14
+0ABE C000 F000 01802         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x15
+0AC2 C000 F000 01803         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x16
+0AC6 0E08      01804         MOVLW   0x08
+0AC8 2600      01805         ADDWF   r0x14, F
+0ACA 0E00      01806         MOVLW   0x00
+0ACC 2200      01807         ADDWFC  r0x15, F
+0ACE 0E00      01808         MOVLW   0x00
+0AD0 2200      01809         ADDWFC  r0x16, F
+0AD2 C000 FFE9 01810         MOVFF   r0x14, FSR0L
+0AD6 C000 FFF3 01811         MOVFF   r0x15, PRODL
+0ADA 5000      01812         MOVF    r0x16, W
+0ADC EC00 F000 01813         CALL    __gptrget1
+0AE0 0B07      01814         ANDLW   0x07
+0AE2 6E00      01815         MOVWF   r0x14
+0AE4 6A00      01816         CLRF    r0x15
+0AE6 5000      01817         MOVF    r0x11, W
+0AE8 6EE5      01818         MOVWF   POSTDEC1
+0AEA 5000      01819         MOVF    r0x10, W
+0AEC 6EE5      01820         MOVWF   POSTDEC1
+0AEE 5000      01821         MOVF    r0x0b, W
+0AF0 6EE5      01822         MOVWF   POSTDEC1
+0AF2 5000      01823         MOVF    r0x0a, W
+0AF4 6EE5      01824         MOVWF   POSTDEC1
+0AF6 5000      01825         MOVF    r0x0f, W
+0AF8 6EE5      01826         MOVWF   POSTDEC1
+0AFA 5000      01827         MOVF    r0x0e, W
+0AFC 6EE5      01828         MOVWF   POSTDEC1
+0AFE 5000      01829         MOVF    r0x13, W
+0B00 6EE5      01830         MOVWF   POSTDEC1
+0B02 5000      01831         MOVF    r0x12, W
+0B04 6EE5      01832         MOVWF   POSTDEC1
+0B06 5000      01833         MOVF    r0x0d, W
+0B08 6EE5      01834         MOVWF   POSTDEC1
+0B0A 5000      01835         MOVF    r0x0c, W
+0B0C 6EE5      01836         MOVWF   POSTDEC1
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 35
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0B0E 0000      01837         BANKSEL (_shaft_tps_run_actual_ticks_1_1 + 3)
+0B10 5100      01838         MOVF    (_shaft_tps_run_actual_ticks_1_1 + 3), W, B
+0B12 6EE5      01839         MOVWF   POSTDEC1
+0B14 0000      01840         BANKSEL (_shaft_tps_run_actual_ticks_1_1 + 2)
+0B16 5100      01841         MOVF    (_shaft_tps_run_actual_ticks_1_1 + 2), W, B
+0B18 6EE5      01842         MOVWF   POSTDEC1
+0B1A 0000      01843         BANKSEL (_shaft_tps_run_actual_ticks_1_1 + 1)
+0B1C 5100      01844         MOVF    (_shaft_tps_run_actual_ticks_1_1 + 1), W, B
+0B1E 6EE5      01845         MOVWF   POSTDEC1
+0B20 0000      01846         BANKSEL _shaft_tps_run_actual_ticks_1_1
+0B22 5100      01847         MOVF    _shaft_tps_run_actual_ticks_1_1, W, B
+0B24 6EE5      01848         MOVWF   POSTDEC1
+0B26 0000      01849         BANKSEL (_shaft_tps_run_expected_ticks_1_1 + 3)
+0B28 5100      01850         MOVF    (_shaft_tps_run_expected_ticks_1_1 + 3), W, B
+0B2A 6EE5      01851         MOVWF   POSTDEC1
+0B2C 0000      01852         BANKSEL (_shaft_tps_run_expected_ticks_1_1 + 2)
+0B2E 5100      01853         MOVF    (_shaft_tps_run_expected_ticks_1_1 + 2), W, B
+0B30 6EE5      01854         MOVWF   POSTDEC1
+0B32 0000      01855         BANKSEL (_shaft_tps_run_expected_ticks_1_1 + 1)
+0B34 5100      01856         MOVF    (_shaft_tps_run_expected_ticks_1_1 + 1), W, B
+0B36 6EE5      01857         MOVWF   POSTDEC1
+0B38 0000      01858         BANKSEL _shaft_tps_run_expected_ticks_1_1
+0B3A 5100      01859         MOVF    _shaft_tps_run_expected_ticks_1_1, W, B
+0B3C 6EE5      01860         MOVWF   POSTDEC1
+0B3E 5000      01861         MOVF    r0x15, W
+0B40 6EE5      01862         MOVWF   POSTDEC1
+0B42 5000      01863         MOVF    r0x14, W
+0B44 6EE5      01864         MOVWF   POSTDEC1
+0B46 0000      01865         BANKSEL (_shaft_tps_run_elapsed_time_1_1 + 3)
+0B48 5100      01866         MOVF    (_shaft_tps_run_elapsed_time_1_1 + 3), W, B
+0B4A 6EE5      01867         MOVWF   POSTDEC1
+0B4C 0000      01868         BANKSEL (_shaft_tps_run_elapsed_time_1_1 + 2)
+0B4E 5100      01869         MOVF    (_shaft_tps_run_elapsed_time_1_1 + 2), W, B
+0B50 6EE5      01870         MOVWF   POSTDEC1
+0B52 0000      01871         BANKSEL (_shaft_tps_run_elapsed_time_1_1 + 1)
+0B54 5100      01872         MOVF    (_shaft_tps_run_elapsed_time_1_1 + 1), W, B
+0B56 6EE5      01873         MOVWF   POSTDEC1
+0B58 0000      01874         BANKSEL _shaft_tps_run_elapsed_time_1_1
+0B5A 5100      01875         MOVF    _shaft_tps_run_elapsed_time_1_1, W, B
+0B5C 6EE5      01876         MOVWF   POSTDEC1
+0B5E 0E00      01877         MOVLW   UPPER(__str_0)
+0B60 6EE5      01878         MOVWF   POSTDEC1
+0B62 0E00      01879         MOVLW   HIGH(__str_0)
+0B64 6EE5      01880         MOVWF   POSTDEC1
+0B66 0E00      01881         MOVLW   LOW(__str_0)
+0B68 6EE5      01882         MOVWF   POSTDEC1
+0B6A EC00 F000 01883         CALL    _printf
+0B6E 0E1B      01884         MOVLW   0x1b
+0B70 26E1      01885         ADDWF   FSR1L, F
+               01886 ;       .line   474; shaft_encoder.c    pwm_write(sp->motor_port, sp->power);
+0B72 C000 F000 01887         MOVFF   _shaft_tps_run_sp_1_1, r0x0a
+0B76 C000 F000 01888         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x0b
+0B7A C000 F000 01889         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x0c
+0B7E 0E08      01890         MOVLW   0x08
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 36
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0B80 2600      01891         ADDWF   r0x0a, F
+0B82 0E00      01892         MOVLW   0x00
+0B84 2200      01893         ADDWFC  r0x0b, F
+0B86 0E00      01894         MOVLW   0x00
+0B88 2200      01895         ADDWFC  r0x0c, F
+0B8A C000 FFE9 01896         MOVFF   r0x0a, FSR0L
+0B8E C000 FFF3 01897         MOVFF   r0x0b, PRODL
+0B92 5000      01898         MOVF    r0x0c, W
+0B94 EC00 F000 01899         CALL    __gptrget1
+0B98 0B07      01900         ANDLW   0x07
+0B9A 6E00      01901         MOVWF   r0x0a
+0B9C C000 F000 01902         MOVFF   _shaft_tps_run_sp_1_1, r0x0b
+0BA0 C000 F000 01903         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x0c
+0BA4 C000 F000 01904         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x0d
+0BA8 0E0D      01905         MOVLW   0x0d
+0BAA 2600      01906         ADDWF   r0x0b, F
+0BAC 0E00      01907         MOVLW   0x00
+0BAE 2200      01908         ADDWFC  r0x0c, F
+0BB0 0E00      01909         MOVLW   0x00
+0BB2 2200      01910         ADDWFC  r0x0d, F
+0BB4 C000 FFE9 01911         MOVFF   r0x0b, FSR0L
+0BB8 C000 FFF3 01912         MOVFF   r0x0c, PRODL
+0BBC 5000      01913         MOVF    r0x0d, W
+0BBE EC00 F000 01914         CALL    __gptrget1
+               01915 ; #     MOVWF   r0x0b
+               01916 ; #     MOVF    r0x0b, W
+0BC2 6E00      01917         MOVWF   r0x0b
+0BC4 6EE5      01918         MOVWF   POSTDEC1
+0BC6 5000      01919         MOVF    r0x0a, W
+0BC8 6EE5      01920         MOVWF   POSTDEC1
+0BCA EC00 F000 01921         CALL    _pwm_write
+0BCE 0E02      01922         MOVLW   0x02
+0BD0 26E1      01923         ADDWF   FSR1L, F
+               01924 ;       .line   432; shaft_encoder.c    for (sp = shafts + count - 1; sp >= shafts; --sp)
+0BD2 0EF2      01925         MOVLW   0xf2
+0BD4 0000      01926         BANKSEL _shaft_tps_run_sp_1_1
+0BD6 2700      01927         ADDWF   _shaft_tps_run_sp_1_1, F, B
+0BD8 0EFF      01928         MOVLW   0xff
+0BDA 0000      01929         BANKSEL (_shaft_tps_run_sp_1_1 + 1)
+0BDC 2300      01930         ADDWFC  (_shaft_tps_run_sp_1_1 + 1), F, B
+0BDE 0EFF      01931         MOVLW   0xff
+0BE0 0000      01932         BANKSEL (_shaft_tps_run_sp_1_1 + 2)
+0BE2 2300      01933         ADDWFC  (_shaft_tps_run_sp_1_1 + 2), F, B
+0BE4 EF00 F000 01934         GOTO    _00258_DS_
+0BE8 01935 _00261_DS_:
+               01936 ;       .line   476; shaft_encoder.c    controller_submit_data(WAIT);
+0BE8 0E01      01937         MOVLW   0x01
+0BEA 6EE5      01938         MOVWF   POSTDEC1
+0BEC EC00 F000 01939         CALL    _controller_submit_data
+0BF0 2AE1      01940         INCF    FSR1L, F
+0BF2 01941 _00250_DS_:
+0BF2 0000      01942         BANKSEL _shaft_tps_run_active_timers_1_1
+               01943 ;       .line   478; shaft_encoder.c    }   while ( active_timers || active_counters );
+0BF4 5100      01944         MOVF    _shaft_tps_run_active_timers_1_1, W, B
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 37
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0BF6 A4D8      01945         BTFSS   STATUS, 2
+0BF8 EF00 F000 01946         GOTO    _00249_DS_
+0BFC 0000      01947         BANKSEL _shaft_tps_run_active_counters_1_1
+0BFE 5100      01948         MOVF    _shaft_tps_run_active_counters_1_1, W, B
+0C00 A4D8      01949         BTFSS   STATUS, 2
+0C02 EF00 F000 01950         GOTO    _00249_DS_
+               01951 ;       .line   480; shaft_encoder.c    for (sp = shafts; sp < shafts + count; ++sp)
+0C06 C000 F000 01952         MOVFF   r0x00, _shaft_tps_run_sp_1_1
+0C0A C000 F000 01953         MOVFF   r0x01, (_shaft_tps_run_sp_1_1 + 1)
+0C0E C000 F000 01954         MOVFF   r0x02, (_shaft_tps_run_sp_1_1 + 2)
+0C12 C000 F000 01955         MOVFF   r0x04, r0x00
+0C16 C000 F000 01956         MOVFF   r0x05, r0x01
+0C1A C000 F000 01957         MOVFF   r0x06, r0x02
+0C1E 01958 _00262_DS_:
+0C1E 0000      01959         BANKSEL (_shaft_tps_run_sp_1_1 + 2)
+0C20 5100      01960         MOVF    (_shaft_tps_run_sp_1_1 + 2), W, B
+0C22 0F80      01961         ADDLW   0x80
+0C24 6EF3      01962         MOVWF   PRODL
+0C26 5000      01963         MOVF    r0x02, W
+0C28 0F80      01964         ADDLW   0x80
+0C2A 5CF3      01965         SUBWF   PRODL, W
+0C2C E100      01966         BNZ     _00322_DS_
+0C2E 5000      01967         MOVF    r0x01, W
+0C30 0000      01968         BANKSEL (_shaft_tps_run_sp_1_1 + 1)
+0C32 5D00      01969         SUBWF   (_shaft_tps_run_sp_1_1 + 1), W, B
+0C34 E100      01970         BNZ     _00322_DS_
+0C36 5000      01971         MOVF    r0x00, W
+0C38 0000      01972         BANKSEL _shaft_tps_run_sp_1_1
+0C3A 5D00      01973         SUBWF   _shaft_tps_run_sp_1_1, W, B
+0C3C 01974 _00322_DS_:
+0C3C B0D8      01975         BTFSC   STATUS, 0
+0C3E D000      01976         BRA     _00265_DS_
+               01977 ;       .line   481; shaft_encoder.c    if ( !sp->leave_encoder_on )
+0C40 C000 F000 01978         MOVFF   _shaft_tps_run_sp_1_1, r0x03
+0C44 C000 F000 01979         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x04
+0C48 C000 F000 01980         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x05
+0C4C 0E08      01981         MOVLW   0x08
+0C4E 2600      01982         ADDWF   r0x03, F
+0C50 0E00      01983         MOVLW   0x00
+0C52 2200      01984         ADDWFC  r0x04, F
+0C54 0E00      01985         MOVLW   0x00
+0C56 2200      01986         ADDWFC  r0x05, F
+0C58 C000 FFE9 01987         MOVFF   r0x03, FSR0L
+0C5C C000 FFF3 01988         MOVFF   r0x04, PRODL
+0C60 5000      01989         MOVF    r0x05, W
+0C62 EC00 F000 01990         CALL    __gptrget1
+0C66 38E8      01991         SWAPF   WREG, W
+0C68 44E8      01992         RLNCF   WREG, W
+0C6A 0B01      01993         ANDLW   0x01
+0C6C 6E00      01994         MOVWF   r0x03
+0C6E 5000      01995         MOVF    r0x03, W
+0C70 E100      01996         BNZ     _00264_DS_
+               01997 ;       .line   482; shaft_encoder.c    shaft_encoder_disable(sp->interrupt_port);
+0C72 C000 F000 01998         MOVFF   _shaft_tps_run_sp_1_1, r0x03
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 38
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0C76 C000 F000 01999         MOVFF   (_shaft_tps_run_sp_1_1 + 1), r0x04
+0C7A C000 F000 02000         MOVFF   (_shaft_tps_run_sp_1_1 + 2), r0x05
+0C7E 0E08      02001         MOVLW   0x08
+0C80 2600      02002         ADDWF   r0x03, F
+0C82 0E00      02003         MOVLW   0x00
+0C84 2200      02004         ADDWFC  r0x04, F
+0C86 0E00      02005         MOVLW   0x00
+0C88 2200      02006         ADDWFC  r0x05, F
+0C8A C000 FFE9 02007         MOVFF   r0x03, FSR0L
+0C8E C000 FFF3 02008         MOVFF   r0x04, PRODL
+0C92 5000      02009         MOVF    r0x05, W
+0C94 EC00 F000 02010         CALL    __gptrget1
+0C98 38E8      02011         SWAPF   WREG, W
+0C9A 0B0F      02012         ANDLW   0x0f
+               02013 ; #     MOVWF   r0x03
+               02014 ; #     MOVF    r0x03, W
+0C9C 6E00      02015         MOVWF   r0x03
+0C9E 6EE5      02016         MOVWF   POSTDEC1
+0CA0 EC00 F000 02017         CALL    _shaft_encoder_disable
+0CA4 2AE1      02018         INCF    FSR1L, F
+0CA6 02019 _00264_DS_:
+               02020 ;       .line   480; shaft_encoder.c    for (sp = shafts; sp < shafts + count; ++sp)
+0CA6 0E0E      02021         MOVLW   0x0e
+0CA8 0000      02022         BANKSEL _shaft_tps_run_sp_1_1
+0CAA 2700      02023         ADDWF   _shaft_tps_run_sp_1_1, F, B
+0CAC 0E00      02024         MOVLW   0x00
+0CAE 0000      02025         BANKSEL (_shaft_tps_run_sp_1_1 + 1)
+0CB0 2300      02026         ADDWFC  (_shaft_tps_run_sp_1_1 + 1), F, B
+0CB2 0E00      02027         MOVLW   0x00
+0CB4 0000      02028         BANKSEL (_shaft_tps_run_sp_1_1 + 2)
+0CB6 2300      02029         ADDWFC  (_shaft_tps_run_sp_1_1 + 2), F, B
+0CB8 D000      02030         BRA     _00262_DS_
+0CBA 02031 _00265_DS_:
+               02032 ;       .line   483; shaft_encoder.c    return OV_OK;
+0CBA 6AE8      02033         CLRF    WREG
+0CBC 02034 _00266_DS_:
+0CBC CFE4 F000 02035         MOVFF   PREINC1, r0x16
+0CC0 CFE4 F000 02036         MOVFF   PREINC1, r0x15
+0CC4 CFE4 F000 02037         MOVFF   PREINC1, r0x14
+0CC8 CFE4 F000 02038         MOVFF   PREINC1, r0x13
+0CCC CFE4 F000 02039         MOVFF   PREINC1, r0x12
+0CD0 CFE4 F000 02040         MOVFF   PREINC1, r0x11
+0CD4 CFE4 F000 02041         MOVFF   PREINC1, r0x10
+0CD8 CFE4 F000 02042         MOVFF   PREINC1, r0x0f
+0CDC CFE4 F000 02043         MOVFF   PREINC1, r0x0e
+0CE0 CFE4 F000 02044         MOVFF   PREINC1, r0x0d
+0CE4 CFE4 F000 02045         MOVFF   PREINC1, r0x0c
+0CE8 CFE4 F000 02046         MOVFF   PREINC1, r0x0b
+0CEC CFE4 F000 02047         MOVFF   PREINC1, r0x0a
+0CF0 CFE4 F000 02048         MOVFF   PREINC1, r0x09
+0CF4 CFE4 F000 02049         MOVFF   PREINC1, r0x08
+0CF8 CFE4 F000 02050         MOVFF   PREINC1, r0x07
+0CFC CFE4 F000 02051         MOVFF   PREINC1, r0x06
+0D00 CFE4 F000 02052         MOVFF   PREINC1, r0x05
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 39
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0D04 CFE4 F000 02053         MOVFF   PREINC1, r0x04
+0D08 CFE4 F000 02054         MOVFF   PREINC1, r0x03
+0D0C CFE4 F000 02055         MOVFF   PREINC1, r0x02
+0D10 CFE4 F000 02056         MOVFF   PREINC1, r0x01
+0D14 CFE4 F000 02057         MOVFF   PREINC1, r0x00
+0D18 CFE4 FFD9 02058         MOVFF   PREINC1, FSR2L
+0D1C 0012      02059         RETURN  
+               02060 
+               02061 ; ; Starting pCode block
+               02062 S_shaft_encoder__shaft_encoder_read_quad        code
+0000 02063 _shaft_encoder_read_quad:
+               02064 ;       .line   280; shaft_encoder.c    int     shaft_encoder_read_quad(unsigned char interrupt_port)
+0000 CFD9 FFE5 02065         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 02066         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 02067         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 02068         MOVFF   r0x01, POSTDEC1
+0010 0E02      02069         MOVLW   0x02
+0012 CFDB F000 02070         MOVFF   PLUSW2, r0x00
+               02071 ;       .line   283; shaft_encoder.c    if ( ! VALID_INTERRUPT_PORT(interrupt_port) )
+0016 0E01      02072         MOVLW   0x01
+0018 5C00      02073         SUBWF   r0x00, W
+001A E300      02074         BNC     _00222_DS_
+001C 0E07      02075         MOVLW   0x07
+001E 5C00      02076         SUBWF   r0x00, W
+0020 E300      02077         BNC     _00223_DS_
+0022 02078 _00222_DS_:
+               02079 ;       .line   284; shaft_encoder.c    return OV_BAD_PARAM;
+0022 68F3      02080         SETF    PRODL
+0024 0E80      02081         MOVLW   0x80
+0026 D000      02082         BRA     _00225_DS_
+0028 02083 _00223_DS_:
+               02084 ;       .line   286; shaft_encoder.c    return (int)Encoder_ticks[interrupt_port-1];
+0028 0600      02085         DECF    r0x00, F
+               02086 ; ;multiply lit val:0x02 by variable r0x00 and store in r0x00
+               02087 ; ;Unrolled 8 X 8 multiplication
+               02088 ; ;FIXME: the function does not support result==WREG
+002A 90D8      02089         BCF     STATUS, 0
+002C 3600      02090         RLCF    r0x00, F
+002E 6A00      02091         CLRF    r0x01
+0030 0E00      02092         MOVLW   LOW(_Encoder_ticks)
+0032 2600      02093         ADDWF   r0x00, F
+0034 0E00      02094         MOVLW   HIGH(_Encoder_ticks)
+0036 2200      02095         ADDWFC  r0x01, F
+0038 C000 FFE9 02096         MOVFF   r0x00, FSR0L
+003C C000 FFEA 02097         MOVFF   r0x01, FSR0H
+0040 CFEE F000 02098         MOVFF   POSTINC0, r0x00
+0044 CFEF F000 02099         MOVFF   INDF0, r0x01
+0048 C000 FFF3 02100         MOVFF   r0x01, PRODL
+004C 5000      02101         MOVF    r0x00, W
+004E 02102 _00225_DS_:
+004E CFE4 F000 02103         MOVFF   PREINC1, r0x01
+0052 CFE4 F000 02104         MOVFF   PREINC1, r0x00
+0056 CFE4 FFD9 02105         MOVFF   PREINC1, FSR2L
+005A 0012      02106         RETURN  
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 40
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               02107 
+               02108 ; ; Starting pCode block
+               02109 S_shaft_encoder__shaft_encoder_read_std code
+0000 02110 _shaft_encoder_read_std:
+               02111 ;       .line   251; shaft_encoder.c    unsigned int   shaft_encoder_read_std(unsigned char interrupt_port)
+0000 CFD9 FFE5 02112         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 02113         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 02114         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 02115         MOVFF   r0x01, POSTDEC1
+0010 0E02      02116         MOVLW   0x02
+0012 CFDB F000 02117         MOVFF   PLUSW2, r0x00
+               02118 ;       .line   254; shaft_encoder.c    if ( ! VALID_INTERRUPT_PORT(interrupt_port) )
+0016 0E01      02119         MOVLW   0x01
+0018 5C00      02120         SUBWF   r0x00, W
+001A E300      02121         BNC     _00210_DS_
+001C 0E07      02122         MOVLW   0x07
+001E 5C00      02123         SUBWF   r0x00, W
+0020 E300      02124         BNC     _00211_DS_
+0022 02125 _00210_DS_:
+               02126 ;       .line   255; shaft_encoder.c    return OV_BAD_PARAM;
+0022 68F3      02127         SETF    PRODL
+0024 0E80      02128         MOVLW   0x80
+0026 D000      02129         BRA     _00213_DS_
+0028 02130 _00211_DS_:
+               02131 ;       .line   257; shaft_encoder.c    return Encoder_ticks[interrupt_port-1];
+0028 0600      02132         DECF    r0x00, F
+               02133 ; ;multiply lit val:0x02 by variable r0x00 and store in r0x00
+               02134 ; ;Unrolled 8 X 8 multiplication
+               02135 ; ;FIXME: the function does not support result==WREG
+002A 90D8      02136         BCF     STATUS, 0
+002C 3600      02137         RLCF    r0x00, F
+002E 6A00      02138         CLRF    r0x01
+0030 0E00      02139         MOVLW   LOW(_Encoder_ticks)
+0032 2600      02140         ADDWF   r0x00, F
+0034 0E00      02141         MOVLW   HIGH(_Encoder_ticks)
+0036 2200      02142         ADDWFC  r0x01, F
+0038 C000 FFE9 02143         MOVFF   r0x00, FSR0L
+003C C000 FFEA 02144         MOVFF   r0x01, FSR0H
+0040 CFEE F000 02145         MOVFF   POSTINC0, r0x00
+0044 CFEF F000 02146         MOVFF   INDF0, r0x01
+0048 C000 FFF3 02147         MOVFF   r0x01, PRODL
+004C 5000      02148         MOVF    r0x00, W
+004E 02149 _00213_DS_:
+004E CFE4 F000 02150         MOVFF   PREINC1, r0x01
+0052 CFE4 F000 02151         MOVFF   PREINC1, r0x00
+0056 CFE4 FFD9 02152         MOVFF   PREINC1, FSR2L
+005A 0012      02153         RETURN  
+               02154 
+               02155 ; ; Starting pCode block
+               02156 S_shaft_encoder__shaft_encoder_reset    code
+0000 02157 _shaft_encoder_reset:
+               02158 ;       .line   224; shaft_encoder.c    status_t    shaft_encoder_reset(unsigned char interrupt_port)
+0000 CFD9 FFE5 02159         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 02160         MOVFF   FSR1L, FSR2L
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 41
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0008 C000 FFE5 02161         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 02162         MOVFF   r0x01, POSTDEC1
+0010 0E02      02163         MOVLW   0x02
+0012 CFDB F000 02164         MOVFF   PLUSW2, r0x00
+               02165 ;       .line   227; shaft_encoder.c    if ( ! VALID_INTERRUPT_PORT(interrupt_port) )
+0016 0E01      02166         MOVLW   0x01
+0018 5C00      02167         SUBWF   r0x00, W
+001A E300      02168         BNC     _00198_DS_
+001C 0E07      02169         MOVLW   0x07
+001E 5C00      02170         SUBWF   r0x00, W
+0020 E300      02171         BNC     _00199_DS_
+0022 02172 _00198_DS_:
+               02173 ;       .line   228; shaft_encoder.c    return OV_BAD_PARAM;
+0022 0E80      02174         MOVLW   0x80
+0024 D000      02175         BRA     _00201_DS_
+0026 02176 _00199_DS_:
+               02177 ;       .line   230; shaft_encoder.c    Encoder_ticks[interrupt_port-1] = 0;
+0026 0600      02178         DECF    r0x00, F
+               02179 ; ;multiply lit val:0x02 by variable r0x00 and store in r0x00
+               02180 ; ;Unrolled 8 X 8 multiplication
+               02181 ; ;FIXME: the function does not support result==WREG
+0028 90D8      02182         BCF     STATUS, 0
+002A 3600      02183         RLCF    r0x00, F
+002C 6A00      02184         CLRF    r0x01
+002E 0E00      02185         MOVLW   LOW(_Encoder_ticks)
+0030 2600      02186         ADDWF   r0x00, F
+0032 0E00      02187         MOVLW   HIGH(_Encoder_ticks)
+0034 2200      02188         ADDWFC  r0x01, F
+0036 C000 FFE9 02189         MOVFF   r0x00, FSR0L
+003A C000 FFEA 02190         MOVFF   r0x01, FSR0H
+003E 0E00      02191         MOVLW   0x00
+0040 6EEE      02192         MOVWF   POSTINC0
+0042 0E00      02193         MOVLW   0x00
+0044 6EEF      02194         MOVWF   INDF0
+               02195 ;       .line   231; shaft_encoder.c    return OV_OK;
+0046 6AE8      02196         CLRF    WREG
+0048 02197 _00201_DS_:
+0048 CFE4 F000 02198         MOVFF   PREINC1, r0x01
+004C CFE4 F000 02199         MOVFF   PREINC1, r0x00
+0050 CFE4 FFD9 02200         MOVFF   PREINC1, FSR2L
+0054 0012      02201         RETURN  
+               02202 
+               02203 ; ; Starting pCode block
+               02204 S_shaft_encoder__shaft_encoder_disable  code
+0000 02205 _shaft_encoder_disable:
+               02206 ;       .line   169; shaft_encoder.c    status_t    shaft_encoder_disable(unsigned char interrupt_port)
+0000 CFD9 FFE5 02207         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 02208         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 02209         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 02210         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 02211         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 02212         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 02213         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 02214         MOVFF   r0x05, POSTDEC1
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 42
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0020 0E02      02215         MOVLW   0x02
+0022 CFDB F000 02216         MOVFF   PLUSW2, r0x00
+               02217 ;       .line   175; shaft_encoder.c    if ( ! VALID_INTERRUPT_PORT(interrupt_port) )
+0026 0E01      02218         MOVLW   0x01
+0028 5C00      02219         SUBWF   r0x00, W
+002A 70D8      02220         BTG     STATUS, 0
+002C 6A00      02221         CLRF    r0x01
+002E 3600      02222         RLCF    r0x01, F
+0030 5000      02223         MOVF    r0x01, W
+0032 E100      02224         BNZ     _00163_DS_
+0034 0E07      02225         MOVLW   0x07
+0036 5C00      02226         SUBWF   r0x00, W
+0038 6A00      02227         CLRF    r0x02
+003A 3600      02228         RLCF    r0x02, F
+003C 5000      02229         MOVF    r0x02, W
+003E E000      02230         BZ      _00164_DS_
+0040 02231 _00163_DS_:
+               02232 ;       .line   176; shaft_encoder.c    return OV_BAD_PARAM;
+0040 0E80      02233         MOVLW   0x80
+0042 D000      02234         BRA     _00179_DS_
+0044 02235 _00164_DS_:
+               02236 ;       .line   178; shaft_encoder.c    CLR_INTERRUPT_PORT_IN_USE(interrupt_port);
+0044 C000 F000 02237         MOVFF   r0x00, r0x03
+0048 6A00      02238         CLRF    r0x04
+004A 0EFF      02239         MOVLW   0xff
+004C 2600      02240         ADDWF   r0x03, F
+004E A0D8      02241         BTFSS   STATUS, 0
+0050 0600      02242         DECF    r0x04, F
+0052 0E00      02243         MOVLW   LOW(_Interrupt_port_in_use)
+0054 2600      02244         ADDWF   r0x03, F
+0056 0E00      02245         MOVLW   HIGH(_Interrupt_port_in_use)
+0058 2200      02246         ADDWFC  r0x04, F
+005A C000 FFE9 02247         MOVFF   r0x03, FSR0L
+005E C000 FFEA 02248         MOVFF   r0x04, FSR0H
+0062 0E00      02249         MOVLW   0x00
+0064 6EEF      02250         MOVWF   INDF0
+               02251 ;       .line   179; shaft_encoder.c    CLR_ENCODER_ON_IPORT(interrupt_port);
+0066 0600      02252         DECF    r0x00, F
+0068 0E00      02253         MOVLW   LOW(_Encoder_on_iport)
+006A 2400      02254         ADDWF   r0x00, W
+006C 6E00      02255         MOVWF   r0x03
+006E 6A00      02256         CLRF    r0x04
+0070 0E00      02257         MOVLW   HIGH(_Encoder_on_iport)
+0072 2200      02258         ADDWFC  r0x04, F
+0074 C000 FFE9 02259         MOVFF   r0x03, FSR0L
+0078 C000 FFEA 02260         MOVFF   r0x04, FSR0H
+007C 0E00      02261         MOVLW   0x00
+007E 6EEF      02262         MOVWF   INDF0
+               02263 ;       .line   181; shaft_encoder.c    switch(interrupt_port)
+0080 5000      02264         MOVF    r0x01, W
+0082 A4D8      02265         BTFSS   STATUS, 2
+0084 D000      02266         BRA     _00174_DS_
+0086 5000      02267         MOVF    r0x02, W
+0088 A4D8      02268         BTFSS   STATUS, 2
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 43
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+008A D000      02269         BRA     _00174_DS_
+008C C000 FFE5 02270         MOVFF   r0x06, POSTDEC1
+0090 C000 FFE5 02271         MOVFF   r0x07, POSTDEC1
+0094 6A00      02272         CLRF    r0x07
+0096 3400      02273         RLCF    r0x00, W
+0098 3600      02274         RLCF    r0x07, F
+009A 34E8      02275         RLCF    WREG, W
+009C 3600      02276         RLCF    r0x07, F
+009E 0BFC      02277         ANDLW   0xfc
+00A0 6E00      02278         MOVWF   r0x06
+00A2 0E00      02279         MOVLW   UPPER(_00192_DS_)
+00A4 6EFB      02280         MOVWF   PCLATU
+00A6 0E00      02281         MOVLW   HIGH(_00192_DS_)
+00A8 6EFA      02282         MOVWF   PCLATH
+00AA 0E00      02283         MOVLW   LOW(_00192_DS_)
+00AC 2600      02284         ADDWF   r0x06, F
+00AE 5000      02285         MOVF    r0x07, W
+00B0 22FA      02286         ADDWFC  PCLATH, F
+00B2 B0D8      02287         BTFSC   STATUS, 0
+00B4 2AFB      02288         INCF    PCLATU, F
+00B6 5000      02289         MOVF    r0x06, W
+00B8 CFE4 F000 02290         MOVFF   PREINC1, r0x07
+00BC CFE4 F000 02291         MOVFF   PREINC1, r0x06
+00C0 6EF9      02292         MOVWF   PCL
+00C2 02293 _00192_DS_:
+00C2 EF00 F000 02294         GOTO    _00166_DS_
+00C6 EF00 F000 02295         GOTO    _00167_DS_
+00CA EF00 F000 02296         GOTO    _00171_DS_
+00CE EF00 F000 02297         GOTO    _00171_DS_
+00D2 EF00 F000 02298         GOTO    _00171_DS_
+00D6 EF00 F000 02299         GOTO    _00171_DS_
+00DA 02300 _00166_DS_:
+               02301 ;       .line   184; shaft_encoder.c    INTCON3bits.INT2IE = 0; /* Disable INTERRUPT_IN2 */
+00DA 9800      02302         BCF     _INTCON3bits, 4
+               02303 ;       .line   185; shaft_encoder.c    break;
+00DC D000      02304         BRA     _00174_DS_
+00DE 02305 _00167_DS_:
+               02306 ;       .line   187; shaft_encoder.c    INTCON3bits.INT3IE = 0; /* Disable INTERRUPT_IN2 */
+00DE 9A00      02307         BCF     _INTCON3bits, 5
+               02308 ;       .line   188; shaft_encoder.c    break;
+00E0 D000      02309         BRA     _00174_DS_
+00E2 02310 _00171_DS_:
+               02311 ;       .line   197; shaft_encoder.c    count = 0;
+00E2 6A00      02312         CLRF    r0x00
+00E4 6A00      02313         CLRF    r0x01
+               02314 ;       .line   198; shaft_encoder.c    for (p=3; p<6; ++p)
+00E6 0E03      02315         MOVLW   0x03
+00E8 6E00      02316         MOVWF   r0x02
+00EA 6A00      02317         CLRF    r0x03
+00EC 02318 _00175_DS_:
+00EC 5000      02319         MOVF    r0x03, W
+00EE 0F80      02320         ADDLW   0x80
+00F0 0F80      02321         ADDLW   0x80
+00F2 E100      02322         BNZ     _00193_DS_
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 44
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00F4 0E06      02323         MOVLW   0x06
+00F6 5C00      02324         SUBWF   r0x02, W
+00F8 02325 _00193_DS_:
+00F8 E200      02326         BC      _00178_DS_
+               02327 ;       .line   199; shaft_encoder.c    count += INTERRUPT_PORT_IN_USE(p);
+00FA 5000      02328         MOVF    r0x02, W
+00FC 0FFF      02329         ADDLW   0xff
+00FE 6E00      02330         MOVWF   r0x04
+0100 0EFF      02331         MOVLW   0xff
+0102 2000      02332         ADDWFC  r0x03, W
+0104 6E00      02333         MOVWF   r0x05
+0106 0E00      02334         MOVLW   LOW(_Interrupt_port_in_use)
+0108 2600      02335         ADDWF   r0x04, F
+010A 0E00      02336         MOVLW   HIGH(_Interrupt_port_in_use)
+010C 2200      02337         ADDWFC  r0x05, F
+010E C000 FFE9 02338         MOVFF   r0x04, FSR0L
+0112 C000 FFEA 02339         MOVFF   r0x05, FSR0H
+0116 CFEF F000 02340         MOVFF   INDF0, r0x04
+011A 6A00      02341         CLRF    r0x05
+011C 5000      02342         MOVF    r0x04, W
+011E 2600      02343         ADDWF   r0x00, F
+0120 5000      02344         MOVF    r0x05, W
+0122 2200      02345         ADDWFC  r0x01, F
+               02346 ;       .line   198; shaft_encoder.c    for (p=3; p<6; ++p)
+0124 2A00      02347         INCF    r0x02, F
+0126 B0D8      02348         BTFSC   STATUS, 0
+0128 2A00      02349         INCF    r0x03, F
+012A D000      02350         BRA     _00175_DS_
+012C 02351 _00178_DS_:
+               02352 ;       .line   200; shaft_encoder.c    if ( count == 0 )
+012C 5000      02353         MOVF    r0x00, W
+               02354 ; #     IORWF   r0x01, W
+               02355 ; #     BTFSS   STATUS, 2
+               02356 ; #     GOTO    _00174_DS_
+               02357 ; #     BCF     _INTCONbits, 3
+               02358 ; #     CLRF    WREG
+               02359 ; #; info ==> [localregs] exit begin
+               02360 
+               02361 ;       .line   202; shaft_encoder.c    INTCONbits.RBIE = 0;    /* Disable RB interrupts */
+012E 1000      02362         IORWF   r0x01, W
+               02363 ;       .line   206; shaft_encoder.c    return OV_OK;
+0130 B4D8      02364         BTFSC   STATUS, 2
+0132 9600      02365         BCF     _INTCONbits, 3
+0134 02366 _00174_DS_:
+0134 6AE8      02367         CLRF    WREG
+0136 02368 _00179_DS_:
+0136 CFE4 F000 02369         MOVFF   PREINC1, r0x05
+013A CFE4 F000 02370         MOVFF   PREINC1, r0x04
+013E CFE4 F000 02371         MOVFF   PREINC1, r0x03
+0142 CFE4 F000 02372         MOVFF   PREINC1, r0x02
+0146 CFE4 F000 02373         MOVFF   PREINC1, r0x01
+014A CFE4 F000 02374         MOVFF   PREINC1, r0x00
+014E CFE4 FFD9 02375         MOVFF   PREINC1, FSR2L
+0152 0012      02376         RETURN  
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 45
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               02377 
+               02378 ; ; Starting pCode block
+               02379 S_shaft_encoder__shaft_encoder_enable   code
+0000 02380 _shaft_encoder_enable:
+               02381 ;       .line   113; shaft_encoder.c    status_t    shaft_encoder_enable(unsigned char interrupt_port)
+0000 CFD9 FFE5 02382         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 02383         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 02384         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 02385         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 02386         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 02387         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 02388         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 02389         MOVFF   r0x05, POSTDEC1
+0020 0E02      02390         MOVLW   0x02
+0022 CFDB F000 02391         MOVFF   PLUSW2, r0x00
+               02392 ;       .line   116; shaft_encoder.c    if ( ! VALID_INTERRUPT_PORT(interrupt_port) ||
+0026 0E01      02393         MOVLW   0x01
+0028 5C00      02394         SUBWF   r0x00, W
+002A 70D8      02395         BTG     STATUS, 0
+002C 6A00      02396         CLRF    r0x01
+002E 3600      02397         RLCF    r0x01, F
+0030 5000      02398         MOVF    r0x01, W
+0032 E100      02399         BNZ     _00137_DS_
+0034 0E07      02400         MOVLW   0x07
+0036 5C00      02401         SUBWF   r0x00, W
+0038 6A00      02402         CLRF    r0x02
+003A 3600      02403         RLCF    r0x02, F
+003C 5000      02404         MOVF    r0x02, W
+003E E100      02405         BNZ     _00137_DS_
+               02406 ;       .line   117; shaft_encoder.c    INTERRUPT_PORT_IN_USE(interrupt_port) )
+0040 C000 F000 02407         MOVFF   r0x00, r0x03
+0044 6A00      02408         CLRF    r0x04
+0046 0EFF      02409         MOVLW   0xff
+0048 2600      02410         ADDWF   r0x03, F
+004A A0D8      02411         BTFSS   STATUS, 0
+004C 0600      02412         DECF    r0x04, F
+004E 0E00      02413         MOVLW   LOW(_Interrupt_port_in_use)
+0050 2600      02414         ADDWF   r0x03, F
+0052 0E00      02415         MOVLW   HIGH(_Interrupt_port_in_use)
+0054 2200      02416         ADDWFC  r0x04, F
+0056 C000 FFE9 02417         MOVFF   r0x03, FSR0L
+005A C000 FFEA 02418         MOVFF   r0x04, FSR0H
+005E CFEF F000 02419         MOVFF   INDF0, r0x05
+0062 5000      02420         MOVF    r0x05, W
+0064 E000      02421         BZ      _00138_DS_
+0066 02422 _00137_DS_:
+               02423 ;       .line   118; shaft_encoder.c    return OV_BAD_PARAM;
+0066 0E80      02424         MOVLW   0x80
+0068 D000      02425         BRA     _00148_DS_
+006A 02426 _00138_DS_:
+               02427 ;       .line   120; shaft_encoder.c    SET_INTERRUPT_PORT_IN_USE(interrupt_port);
+006A C000 FFE9 02428         MOVFF   r0x03, FSR0L
+006E C000 FFEA 02429         MOVFF   r0x04, FSR0H
+0072 0E01      02430         MOVLW   0x01
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 46
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0074 6EEF      02431         MOVWF   INDF0
+               02432 ;       .line   121; shaft_encoder.c    Encoder_ticks[interrupt_port-1] = 0;
+0076 0600      02433         DECF    r0x00, F
+               02434 ; ;multiply lit val:0x02 by variable r0x00 and store in r0x03
+               02435 ; ;Unrolled 8 X 8 multiplication
+               02436 ; ;FIXME: the function does not support result==WREG
+0078 90D8      02437         BCF     STATUS, 0
+007A 3400      02438         RLCF    r0x00, W
+007C 6E00      02439         MOVWF   r0x03
+007E 6A00      02440         CLRF    r0x04
+0080 0E00      02441         MOVLW   LOW(_Encoder_ticks)
+0082 2600      02442         ADDWF   r0x03, F
+0084 0E00      02443         MOVLW   HIGH(_Encoder_ticks)
+0086 2200      02444         ADDWFC  r0x04, F
+0088 C000 FFE9 02445         MOVFF   r0x03, FSR0L
+008C C000 FFEA 02446         MOVFF   r0x04, FSR0H
+0090 0E00      02447         MOVLW   0x00
+0092 6EEE      02448         MOVWF   POSTINC0
+0094 0E00      02449         MOVLW   0x00
+0096 6EEF      02450         MOVWF   INDF0
+               02451 ;       .line   123; shaft_encoder.c    switch(interrupt_port)
+0098 5000      02452         MOVF    r0x01, W
+009A E100      02453         BNZ     _00147_DS_
+009C 5000      02454         MOVF    r0x02, W
+009E E100      02455         BNZ     _00147_DS_
+00A0 C000 FFE5 02456         MOVFF   r0x06, POSTDEC1
+00A4 C000 FFE5 02457         MOVFF   r0x07, POSTDEC1
+00A8 6A00      02458         CLRF    r0x07
+00AA 3400      02459         RLCF    r0x00, W
+00AC 3600      02460         RLCF    r0x07, F
+00AE 34E8      02461         RLCF    WREG, W
+00B0 3600      02462         RLCF    r0x07, F
+00B2 0BFC      02463         ANDLW   0xfc
+00B4 6E00      02464         MOVWF   r0x06
+00B6 0E00      02465         MOVLW   UPPER(_00158_DS_)
+00B8 6EFB      02466         MOVWF   PCLATU
+00BA 0E00      02467         MOVLW   HIGH(_00158_DS_)
+00BC 6EFA      02468         MOVWF   PCLATH
+00BE 0E00      02469         MOVLW   LOW(_00158_DS_)
+00C0 2600      02470         ADDWF   r0x06, F
+00C2 5000      02471         MOVF    r0x07, W
+00C4 22FA      02472         ADDWFC  PCLATH, F
+00C6 B0D8      02473         BTFSC   STATUS, 0
+00C8 2AFB      02474         INCF    PCLATU, F
+00CA 5000      02475         MOVF    r0x06, W
+00CC CFE4 F000 02476         MOVFF   PREINC1, r0x07
+00D0 CFE4 F000 02477         MOVFF   PREINC1, r0x06
+00D4 6EF9      02478         MOVWF   PCL
+00D6 02479 _00158_DS_:
+00D6 EF00 F000 02480         GOTO    _00141_DS_
+00DA EF00 F000 02481         GOTO    _00142_DS_
+00DE EF00 F000 02482         GOTO    _00146_DS_
+00E2 EF00 F000 02483         GOTO    _00146_DS_
+00E6 EF00 F000 02484         GOTO    _00146_DS_
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 47
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00EA EF00 F000 02485         GOTO    _00146_DS_
+00EE 02486 _00141_DS_:
+               02487 ;       .line   127; shaft_encoder.c    INTCON2bits.INTEDG2 = 1;  /* INTERRUPT_IN1 rising edge triggered */
+00EE 8800      02488         BSF     _INTCON2bits, 4
+               02489 ;       .line   128; shaft_encoder.c    INTCON3bits.INT2IP = 0;   /* INTERRUPT_IN1 low priority */
+00F0 9E00      02490         BCF     _INTCON3bits, 7
+               02491 ;       .line   129; shaft_encoder.c    INTCON3bits.INT2IF = 0;   /* Clear flag for INTERRUPT_IN1 */
+00F2 9200      02492         BCF     _INTCON3bits, 1
+               02493 ;       .line   130; shaft_encoder.c    INTCON3bits.INT2IE = 1;   /* Enable INTERRUPT_IN1 */
+00F4 8800      02494         BSF     _INTCON3bits, 4
+               02495 ;       .line   131; shaft_encoder.c    break;
+00F6 D000      02496         BRA     _00147_DS_
+00F8 02497 _00142_DS_:
+               02498 ;       .line   134; shaft_encoder.c    INTCON2bits.INTEDG3 = 1;  /* INTERRUPT_IN2 rising edge triggered */
+00F8 8600      02499         BSF     _INTCON2bits, 3
+               02500 ;       .line   135; shaft_encoder.c    INTCON2bits.INT3P = 0;    /* INTERRUPT_IN2 low priority */
+00FA 9200      02501         BCF     _INTCON2bits, 1
+               02502 ;       .line   136; shaft_encoder.c    INTCON3bits.INT3IF = 0;   /* Clear flag for INTERRUPT_IN2 */
+00FC 9400      02503         BCF     _INTCON3bits, 2
+               02504 ;       .line   137; shaft_encoder.c    INTCON3bits.INT3IE = 1;   /* Enable INTERRUPT_IN2 */
+00FE 8A00      02505         BSF     _INTCON3bits, 5
+               02506 ;       .line   138; shaft_encoder.c    break;
+0100 D000      02507         BRA     _00147_DS_
+0102 02508 _00146_DS_:
+               02509 ;       .line   145; shaft_encoder.c    INTCON2bits.RBIP = 0;   /* Low priority */
+0102 9000      02510         BCF     _INTCON2bits, 0
+               02511 ;       .line   146; shaft_encoder.c    INTCONbits.RBIF = 0;    /* Clear interrupt flag */
+0104 9000      02512         BCF     _INTCONbits, 0
+               02513 ;       .line   147; shaft_encoder.c    INTCONbits.RBIE = 1;    /* Enable interrupts */
+0106 8600      02514         BSF     _INTCONbits, 3
+0108 02515 _00147_DS_:
+               02516 ;       .line   150; shaft_encoder.c    return OV_OK;
+0108 6AE8      02517         CLRF    WREG
+010A 02518 _00148_DS_:
+010A CFE4 F000 02519         MOVFF   PREINC1, r0x05
+010E CFE4 F000 02520         MOVFF   PREINC1, r0x04
+0112 CFE4 F000 02521         MOVFF   PREINC1, r0x03
+0116 CFE4 F000 02522         MOVFF   PREINC1, r0x02
+011A CFE4 F000 02523         MOVFF   PREINC1, r0x01
+011E CFE4 F000 02524         MOVFF   PREINC1, r0x00
+0122 CFE4 FFD9 02525         MOVFF   PREINC1, FSR2L
+0126 0012      02526         RETURN  
+               02527 
+               02528 ; ; Starting pCode block
+               02529 S_shaft_encoder__shaft_encoder_enable_quad      code
+0000 02530 _shaft_encoder_enable_quad:
+               02531 ;       .line   94; shaft_encoder.c     status_t    shaft_encoder_enable_quad(unsigned char interrupt_port,
+0000 CFD9 FFE5 02532         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 02533         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 02534         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 02535         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 02536         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 02537         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 02538         MOVFF   r0x04, POSTDEC1
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 48
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+001C 0E02      02539         MOVLW   0x02
+001E CFDB F000 02540         MOVFF   PLUSW2, r0x00
+0022 0E03      02541         MOVLW   0x03
+0024 CFDB F000 02542         MOVFF   PLUSW2, r0x01
+               02543 ;       .line   100; shaft_encoder.c    if ( ! VALID_INTERRUPT_PORT(interrupt_port) ||
+0028 0E01      02544         MOVLW   0x01
+002A 5C00      02545         SUBWF   r0x00, W
+002C E300      02546         BNC     _00112_DS_
+002E 0E07      02547         MOVLW   0x07
+0030 5C00      02548         SUBWF   r0x00, W
+0032 E200      02549         BC      _00112_DS_
+               02550 ;       .line   101; shaft_encoder.c    ! VALID_DIGITAL_INPUT_PORT(input_port) )
+0034 5000      02551         MOVF    r0x01, W
+0036 0000      02552         BANKSEL _Analog_ports
+0038 5D00      02553         SUBWF   _Analog_ports, W, B
+003A E200      02554         BC      _00112_DS_
+003C 0E11      02555         MOVLW   0x11
+003E 5C00      02556         SUBWF   r0x01, W
+0040 E200      02557         BC      _00112_DS_
+0042 5000      02558         MOVF    r0x01, W
+0044 6EE5      02559         MOVWF   POSTDEC1
+0046 EC00 F000 02560         CALL    _io_get_direction
+004A 6E00      02561         MOVWF   r0x02
+004C 2AE1      02562         INCF    FSR1L, F
+004E 5000      02563         MOVF    r0x02, W
+0050 0A01      02564         XORLW   0x01
+0052 E000      02565         BZ      _00113_DS_
+0054 02566 _00112_DS_:
+               02567 ;       .line   102; shaft_encoder.c    return OV_BAD_PARAM;
+0054 0E80      02568         MOVLW   0x80
+0056 D000      02569         BRA     _00120_DS_
+0058 02570 _00113_DS_:
+               02571 ;       .line   104; shaft_encoder.c    if ( (stat = shaft_encoder_enable(interrupt_port)) == OV_OK)
+0058 5000      02572         MOVF    r0x00, W
+005A 6EE5      02573         MOVWF   POSTDEC1
+005C EC00 F000 02574         CALL    _shaft_encoder_enable
+0060 6E00      02575         MOVWF   r0x02
+0062 2AE1      02576         INCF    FSR1L, F
+0064 C000 F000 02577         MOVFF   r0x02, r0x03
+0068 5000      02578         MOVF    r0x02, W
+006A E100      02579         BNZ     _00119_DS_
+               02580 ;       .line   106; shaft_encoder.c    SET_ENCODER_ON_IPORT(interrupt_port, ENCODER_QUAD);
+006C 0600      02581         DECF    r0x00, F
+006E 0E00      02582         MOVLW   LOW(_Encoder_on_iport)
+0070 2400      02583         ADDWF   r0x00, W
+0072 6E00      02584         MOVWF   r0x02
+0074 6A00      02585         CLRF    r0x04
+0076 0E00      02586         MOVLW   HIGH(_Encoder_on_iport)
+0078 2200      02587         ADDWFC  r0x04, F
+007A C000 FFE9 02588         MOVFF   r0x02, FSR0L
+007E C000 FFEA 02589         MOVFF   r0x04, FSR0H
+0082 0E02      02590         MOVLW   0x02
+0084 6EEF      02591         MOVWF   INDF0
+               02592 ;       .line   107; shaft_encoder.c    Quad_input_port[(interrupt_port)-1] = input_port;
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 49
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0086 6A00      02593         CLRF    r0x02
+0088 0E00      02594         MOVLW   LOW(_Quad_input_port)
+008A 2600      02595         ADDWF   r0x00, F
+008C 0E00      02596         MOVLW   HIGH(_Quad_input_port)
+008E 2200      02597         ADDWFC  r0x02, F
+0090 C000 FFE9 02598         MOVFF   r0x00, FSR0L
+0094 C000 FFEA 02599         MOVFF   r0x02, FSR0H
+0098 C000 FFEF 02600         MOVFF   r0x01, INDF0
+009C 02601 _00119_DS_:
+               02602 ;       .line   109; shaft_encoder.c    return stat;
+009C 5000      02603         MOVF    r0x03, W
+009E 02604 _00120_DS_:
+009E CFE4 F000 02605         MOVFF   PREINC1, r0x04
+00A2 CFE4 F000 02606         MOVFF   PREINC1, r0x03
+00A6 CFE4 F000 02607         MOVFF   PREINC1, r0x02
+00AA CFE4 F000 02608         MOVFF   PREINC1, r0x01
+00AE CFE4 F000 02609         MOVFF   PREINC1, r0x00
+00B2 CFE4 FFD9 02610         MOVFF   PREINC1, FSR2L
+00B6 0012      02611         RETURN  
+               02612 
+               02613 ; ; Starting pCode block
+               02614 S_shaft_encoder__shaft_encoder_enable_std       code
+0000 02615 _shaft_encoder_enable_std:
+               02616 ;       .line   62; shaft_encoder.c     status_t    shaft_encoder_enable_std(unsigned char interrupt_port)
+0000 CFD9 FFE5 02617         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 02618         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 02619         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 02620         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 02621         MOVFF   r0x02, POSTDEC1
+0014 0E02      02622         MOVLW   0x02
+0016 CFDB F000 02623         MOVFF   PLUSW2, r0x00
+               02624 ;       .line   67; shaft_encoder.c     if ( (stat = shaft_encoder_enable(interrupt_port)) == OV_OK )
+001A 5000      02625         MOVF    r0x00, W
+001C 6EE5      02626         MOVWF   POSTDEC1
+001E EC00 F000 02627         CALL    _shaft_encoder_enable
+0022 6E00      02628         MOVWF   r0x01
+0024 2AE1      02629         INCF    FSR1L, F
+0026 C000 F000 02630         MOVFF   r0x01, r0x02
+002A 5000      02631         MOVF    r0x01, W
+002C E100      02632         BNZ     _00106_DS_
+               02633 ;       .line   68; shaft_encoder.c     SET_ENCODER_ON_IPORT(interrupt_port, ENCODER_STD);
+002E 0600      02634         DECF    r0x00, F
+0030 6A00      02635         CLRF    r0x01
+0032 0E00      02636         MOVLW   LOW(_Encoder_on_iport)
+0034 2600      02637         ADDWF   r0x00, F
+0036 0E00      02638         MOVLW   HIGH(_Encoder_on_iport)
+0038 2200      02639         ADDWFC  r0x01, F
+003A C000 FFE9 02640         MOVFF   r0x00, FSR0L
+003E C000 FFEA 02641         MOVFF   r0x01, FSR0H
+0042 0E01      02642         MOVLW   0x01
+0044 6EEF      02643         MOVWF   INDF0
+0046 02644 _00106_DS_:
+               02645 ;       .line   69; shaft_encoder.c     return stat;
+0046 5000      02646         MOVF    r0x02, W
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 50
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0048 CFE4 F000 02647         MOVFF   PREINC1, r0x02
+004C CFE4 F000 02648         MOVFF   PREINC1, r0x01
+0050 CFE4 F000 02649         MOVFF   PREINC1, r0x00
+0054 CFE4 FFD9 02650         MOVFF   PREINC1, FSR2L
+0058 0012      02651         RETURN  
+               02652 
+               02653 ; ; Starting pCode block
+005A 02654 __str_0:
+005A 3A74 2520 02655         DB      0x74, 0x3a, 0x20, 0x25, 0x36, 0x6c, 0x75, 0x20, 0x20, 0x6d, 0x3a, 0x20
+     6C36 2075 
+     6D20 203A 
+0066 7525 2020 02656         DB      0x25, 0x75, 0x20, 0x20, 0x65, 0x74, 0x3a, 0x20, 0x25, 0x6c, 0x64, 0x20
+     7465 203A 
+     6C25 2064 
+0072 6120 3A74 02657         DB      0x20, 0x61, 0x74, 0x3a, 0x20, 0x25, 0x6c, 0x64, 0x20, 0x20, 0x70, 0x3a
+     2520 646C 
+     2020 3A70 
+007E 2520 2064 02658         DB      0x20, 0x25, 0x64, 0x20, 0x20, 0x69, 0x3a, 0x20, 0x25, 0x64, 0x20, 0x20
+     6920 203A 
+     6425 2020 
+008A 3A64 2520 02659         DB      0x64, 0x3a, 0x20, 0x25, 0x64, 0x20, 0x20, 0x6e, 0x70, 0x3a, 0x20, 0x25
+     2064 6E20 
+     3A70 2520 
+0096 2064 6425 02660         DB      0x64, 0x20, 0x25, 0x64, 0x0a, 0x00
+     000A      
+               02661 ; ; Starting pCode block
+009C 02662 __str_1:
+009C 6425 2520 02663         DB      0x25, 0x64, 0x20, 0x25, 0x64, 0x20, 0x25, 0x64, 0x0a, 0x00
+     2064 6425 
+     000A      
+               02664 
+               02665 
+               02666 ; Statistics:
+               02667 ; code size:     5248 (0x1480) bytes ( 4.00%)
+               02668 ;                2624 (0x0a40) words
+               02669 ; udata size:      21 (0x0015) bytes ( 1.17%)
+               02670 ; access size:     23 (0x0017) bytes
+               02671 
+               02672 
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 51
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+FSR0H                             00000FEA
+FSR0L                             00000FE9
+FSR1L                             00000FE1
+FSR2L                             00000FD9
+INDF0                             00000FEF
+PCL                               00000FF9
+PCLATH                            00000FFA
+PCLATU                            00000FFB
+PLUSW2                            00000FDB
+POSTDEC1                          00000FE5
+POSTINC0                          00000FEE
+PREINC1                           00000FE4
+PRODH                             00000FF4
+PRODL                             00000FF3
+STATUS                            00000FD8
+TBLPTRH                           00000FF7
+TBLPTRL                           00000FF6
+WREG                              00000FE8
+_00106_DS_                        00000046
+_00112_DS_                        00000054
+_00113_DS_                        00000058
+_00119_DS_                        0000009C
+_00120_DS_                        0000009E
+_00137_DS_                        00000066
+_00138_DS_                        0000006A
+_00141_DS_                        000000EE
+_00142_DS_                        000000F8
+_00146_DS_                        00000102
+_00147_DS_                        00000108
+_00148_DS_                        0000010A
+_00158_DS_                        000000D6
+_00163_DS_                        00000040
+_00164_DS_                        00000044
+_00166_DS_                        000000DA
+_00167_DS_                        000000DE
+_00171_DS_                        000000E2
+_00174_DS_                        00000134
+_00175_DS_                        000000EC
+_00178_DS_                        0000012C
+_00179_DS_                        00000136
+_00192_DS_                        000000C2
+_00193_DS_                        000000F8
+_00198_DS_                        00000022
+_00199_DS_                        00000026
+_00201_DS_                        00000048
+_00210_DS_                        00000022
+_00211_DS_                        00000028
+_00213_DS_                        0000004E
+_00222_DS_                        00000022
+_00223_DS_                        00000028
+_00225_DS_                        0000004E
+_00234_DS_                        00000088
+_00235_DS_                        0000008E
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 52
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_00238_DS_                        0000022A
+_00239_DS_                        00000296
+_00241_DS_                        000004B6
+_00243_DS_                        0000056A
+_00245_DS_                        00000A60
+_00249_DS_                        00000314
+_00250_DS_                        00000BF2
+_00254_DS_                        0000014E
+_00258_DS_                        00000446
+_00261_DS_                        00000BE8
+_00262_DS_                        00000C1E
+_00264_DS_                        00000CA6
+_00265_DS_                        00000CBA
+_00266_DS_                        00000CBC
+_00268_DS_                        000000AC
+_00269_DS_                        000000CA
+_00270_DS_                        0000033A
+_00271_DS_                        00000358
+_00272_DS_                        000005DE
+_00273_DS_                        00000616
+_00274_DS_                        000008FC
+_00275_DS_                        00000936
+_00276_DS_                        000009A8
+_00277_DS_                        000009C6
+_00278_DS_                        000009B6
+_00279_DS_                        000009BE
+_00296_DS_                        00000302
+_00307_DS_                        000000C2
+_00308_DS_                        0000016C
+_00312_DS_                        00000350
+_00313_DS_                        00000464
+_00314_DS_                        000004B0
+_00315_DS_                        00000564
+_00320_DS_                        0000099E
+_00322_DS_                        00000C3C
+_00327_DS_                        00000114
+_00328_DS_                        00000118
+_00335_DS_                        00000262
+_00337_DS_                        00000242
+_00338_DS_                        0000024A
+_00352_DS_                        00000236
+_ADCON0                           00000000
+_ADCON0bits                       00000000
+_ADCON1                           00000000
+_ADCON1bits                       00000000
+_ADCON2                           00000000
+_ADCON2bits                       00000000
+_ADRESH                           00000000
+_ADRESL                           00000000
+_Analog_ports                     00000000
+_BSR                              00000000
+_CCP1CON                          00000000
+_CCP1CONbits                      00000000
+_CCP2CON                          00000000
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 53
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_CCP2CONbits                      00000000
+_CCP3CON                          00000000
+_CCP3CONbits                      00000000
+_CCP4CON                          00000000
+_CCP4CONbits                      00000000
+_CCP5CON                          00000000
+_CCP5CONbits                      00000000
+_CCPR1H                           00000000
+_CCPR1L                           00000000
+_CCPR2H                           00000000
+_CCPR2L                           00000000
+_CCPR3H                           00000000
+_CCPR3L                           00000000
+_CCPR4H                           00000000
+_CCPR4L                           00000000
+_CCPR5H                           00000000
+_CCPR5L                           00000000
+_CMCON                            00000000
+_CMCONbits                        00000000
+_CVRCON                           00000000
+_CVRCONbits                       00000000
+_EEADR                            00000000
+_EEADRH                           00000000
+_EECON1                           00000000
+_EECON1bits                       00000000
+_EECON2                           00000000
+_EEDATA                           00000000
+_Encoder_on_iport                 00000000
+_Encoder_ticks                    00000000
+_FSR0H                            00000000
+_FSR0L                            00000000
+_FSR1H                            00000000
+_FSR1L                            00000000
+_FSR2H                            00000000
+_FSR2L                            00000000
+_INDF0                            00000000
+_INDF1                            00000000
+_INDF2                            00000000
+_INTCON                           00000000
+_INTCON2                          00000000
+_INTCON2bits                      00000000
+_INTCON3                          00000000
+_INTCON3bits                      00000000
+_INTCONbits                       00000000
+_IPR1                             00000000
+_IPR1bits                         00000000
+_IPR2                             00000000
+_IPR2bits                         00000000
+_IPR3                             00000000
+_IPR3bits                         00000000
+_Interrupt_port_in_use            00000000
+_LATA                             00000000
+_LATAbits                         00000000
+_LATB                             00000000
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 54
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_LATBbits                         00000000
+_LATC                             00000000
+_LATCbits                         00000000
+_LATD                             00000000
+_LATDbits                         00000000
+_LATE                             00000000
+_LATEbits                         00000000
+_LATF                             00000000
+_LATFbits                         00000000
+_LATG                             00000000
+_LATGbits                         00000000
+_LATH                             00000000
+_LATHbits                         00000000
+_LATJ                             00000000
+_LATJbits                         00000000
+_LVDCON                           00000000
+_LVDCONbits                       00000000
+_MEMCON                           00000000
+_MEMCONbits                       00000000
+_OSCCON                           00000000
+_OSCCONbits                       00000000
+_PCL                              00000000
+_PCLATH                           00000000
+_PCLATU                           00000000
+_PIE1                             00000000
+_PIE1bits                         00000000
+_PIE2                             00000000
+_PIE2bits                         00000000
+_PIE3                             00000000
+_PIE3bits                         00000000
+_PIR1                             00000000
+_PIR1bits                         00000000
+_PIR2                             00000000
+_PIR2bits                         00000000
+_PIR3                             00000000
+_PIR3bits                         00000000
+_PLUSW0                           00000000
+_PLUSW1                           00000000
+_PLUSW2                           00000000
+_PORTA                            00000000
+_PORTAbits                        00000000
+_PORTB                            00000000
+_PORTBbits                        00000000
+_PORTC                            00000000
+_PORTCbits                        00000000
+_PORTD                            00000000
+_PORTDbits                        00000000
+_PORTE                            00000000
+_PORTEbits                        00000000
+_PORTF                            00000000
+_PORTFbits                        00000000
+_PORTG                            00000000
+_PORTGbits                        00000000
+_PORTH                            00000000
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 55
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_PORTHbits                        00000000
+_PORTJ                            00000000
+_PORTJbits                        00000000
+_POSTDEC0                         00000000
+_POSTDEC1                         00000000
+_POSTDEC2                         00000000
+_POSTINC0                         00000000
+_POSTINC1                         00000000
+_POSTINC2                         00000000
+_PR2                              00000000
+_PR4                              00000000
+_PREINC0                          00000000
+_PREINC1                          00000000
+_PREINC2                          00000000
+_PRODH                            00000000
+_PRODL                            00000000
+_PSPCON                           00000000
+_PSPCONbits                       00000000
+_Porta_sample                     00000000
+_Portf_sample                     00000000
+_Porth_sample                     00000000
+_Quad_input_port                  00000000
+_RCON                             00000000
+_RCONbits                         00000000
+_RCREG                            00000000
+_RCREG1                           00000000
+_RCREG2                           00000000
+_RCSTA                            00000000
+_RCSTA1                           00000000
+_RCSTA1bits                       00000000
+_RCSTA2                           00000000
+_RCSTA2bits                       00000000
+_RCSTAbits                        00000000
+_SPBRG                            00000000
+_SPBRG1                           00000000
+_SPBRG2                           00000000
+_SSPADD                           00000000
+_SSPBUF                           00000000
+_SSPCON1                          00000000
+_SSPCON1bits                      00000000
+_SSPCON2                          00000000
+_SSPCON2bits                      00000000
+_SSPSTAT                          00000000
+_SSPSTATbits                      00000000
+_STATUS                           00000000
+_STATUSbits                       00000000
+_STKPTR                           00000000
+_STKPTRbits                       00000000
+_T0CON                            00000000
+_T1CON                            00000000
+_T1CONbits                        00000000
+_T2CON                            00000000
+_T2CONbits                        00000000
+_T3CON                            00000000
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 56
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_T3CONbits                        00000000
+_T4CON                            00000000
+_T4CONbits                        00000000
+_TABLAT                           00000000
+_TBLPTRH                          00000000
+_TBLPTRL                          00000000
+_TBLPTRU                          00000000
+_TMR0H                            00000000
+_TMR0L                            00000000
+_TMR1H                            00000000
+_TMR1L                            00000000
+_TMR2                             00000000
+_TMR3H                            00000000
+_TMR3L                            00000000
+_TMR4                             00000000
+_TOSH                             00000000
+_TOSL                             00000000
+_TOSU                             00000000
+_TRISA                            00000000
+_TRISAbits                        00000000
+_TRISB                            00000000
+_TRISBbits                        00000000
+_TRISC                            00000000
+_TRISCbits                        00000000
+_TRISD                            00000000
+_TRISDbits                        00000000
+_TRISE                            00000000
+_TRISEbits                        00000000
+_TRISF                            00000000
+_TRISFbits                        00000000
+_TRISG                            00000000
+_TRISGbits                        00000000
+_TRISH                            00000000
+_TRISHbits                        00000000
+_TRISJ                            00000000
+_TRISJbits                        00000000
+_TXREG                            00000000
+_TXREG1                           00000000
+_TXREG2                           00000000
+_TXSTA                            00000000
+_TXSTA1                           00000000
+_TXSTA1bits                       00000000
+_TXSTA2                           00000000
+_TXSTA2bits                       00000000
+_TXSTAbits                        00000000
+_Timer0_overflows                 00000000
+_Timer1_overflows                 00000000
+_Timer2_overflows                 00000000
+_Timer3_overflows                 00000000
+_Timer4_overflows                 00000000
+_WDTCON                           00000000
+_WDTCONbits                       00000000
+_WREG                             00000000
+__18F8520                         00000001
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 57
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+__divsint                         00000000
+__divulong                        00000000
+__gptrget1                        00000000
+__gptrget2                        00000000
+__gptrget4                        00000000
+__gptrput1                        00000000
+__gptrput2                        00000000
+__gptrput4                        00000000
+__modulong                        00000000
+__mulint                          00000000
+__mullong                         00000000
+__str_0                           0000005A
+__str_1                           0000009C
+_controller_submit_data           00000000
+_io_get_direction                 00000000
+_io_set_direction                 00000000
+_printf                           00000000
+_pwm_write                        00000000
+_shaft_encoder_disable            00000000
+_shaft_encoder_enable             00000000
+_shaft_encoder_enable_quad        00000000
+_shaft_encoder_enable_std         00000000
+_shaft_encoder_read_quad          00000000
+_shaft_encoder_read_std           00000000
+_shaft_encoder_reset              00000000
+_shaft_tps_init                   00000000
+_shaft_tps_run                    00000000
+_shaft_tps_run_active_counters_1_1  00000000
+_shaft_tps_run_active_timers_1_1  00000000
+_shaft_tps_run_actual_ticks_1_1   00000000
+_shaft_tps_run_elapsed_time_1_1   00000000
+_shaft_tps_run_expected_ticks_1_1  00000000
+_shaft_tps_run_kdd_1_1            0000000A
+_shaft_tps_run_kdn_1_1            00000008
+_shaft_tps_run_kid_1_1            00000006
+_shaft_tps_run_kin_1_1            00000004
+_shaft_tps_run_kpd_1_1            00000002
+_shaft_tps_run_kpn_1_1            00000000
+_shaft_tps_run_sample_interval_1_1  0000000C
+_shaft_tps_run_sp_1_1             00000000
+_shaft_tps_run_start_time_1_1     00000000
+_stdin                            00000000
+_stdout                           00000000
+_timer0_read32                    00000000
+r0x00                             00000000
+r0x01                             00000001
+r0x02                             00000002
+r0x03                             00000003
+r0x04                             00000004
+r0x05                             00000005
+r0x06                             00000006
+r0x07                             00000007
+r0x08                             00000008
+r0x09                             00000009
+gpasm-0.13.7 beta               shaft_encoder.asm11-2-2012  01:06:41          PAGE 58
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+r0x0a                             0000000A
+r0x0b                             0000000B
+r0x0c                             0000000C
+r0x0d                             0000000D
+r0x0e                             0000000E
+r0x0f                             0000000F
+r0x10                             00000010
+r0x11                             00000011
+r0x12                             00000012
+r0x13                             00000013
+r0x14                             00000014
+r0x15                             00000015
+r0x16                             00000016
+
+
+Errors   :       0
+Warnings :       0 reported,       0 suppressed
+Messages :       0 reported,       0 suppressed
+

@@ -1,0 +1,1475 @@
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00001 ;--------------------------------------------------------
+               00002 ; File Created by SDCC : free open source ANSI-C Compiler
+               00003 ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
+               00004 ; This file was generated Fri Nov  2 01:06:40 2012
+               00005 ;--------------------------------------------------------
+               00006 ; PIC16 port for the Microchip 16-bit core micros
+               00007 ;--------------------------------------------------------
+               00008         list    p=18f8520
+               00009 
+               00010         radix dec
+               00011 
+               00012 ;--------------------------------------------------------
+               00013 ; public variables in this module
+               00014 ;--------------------------------------------------------
+               00015         global _OpenSPI
+               00016         global _user_proc_is_ready
+               00017         global _check_tx_env
+               00018         global _Rx_buff
+               00019         global _Rx_user_buff_index
+               00020         global _User_rxdata
+               00021         global _Tx_buff
+               00022         global _Tx_user_buff_index
+               00023         global _User_txdata
+               00024         global _Spi_status
+               00025         global _InterruptVectorHigh
+               00026         global _InterruptHandlerHigh
+               00027 
+               00028 ;--------------------------------------------------------
+               00029 ; extern variables in this module
+               00030 ;--------------------------------------------------------
+               00031         extern __gptrget1
+               00032         extern __gptrput1
+               00033         extern _stdin
+               00034         extern _stdout
+               00035         extern _RCSTA2bits
+               00036         extern _TXSTA2bits
+               00037         extern _CCP5CONbits
+               00038         extern _CCP4CONbits
+               00039         extern _T4CONbits
+               00040         extern _PORTAbits
+               00041         extern _PORTBbits
+               00042         extern _PORTCbits
+               00043         extern _PORTDbits
+               00044         extern _PORTEbits
+               00045         extern _PORTFbits
+               00046         extern _PORTGbits
+               00047         extern _PORTHbits
+               00048         extern _PORTJbits
+               00049         extern _LATAbits
+               00050         extern _LATBbits
+               00051         extern _LATCbits
+               00052         extern _LATDbits
+               00053         extern _LATEbits
+               00054         extern _LATFbits
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00055         extern _LATGbits
+               00056         extern _LATHbits
+               00057         extern _LATJbits
+               00058         extern _TRISAbits
+               00059         extern _TRISBbits
+               00060         extern _TRISCbits
+               00061         extern _TRISDbits
+               00062         extern _TRISEbits
+               00063         extern _TRISFbits
+               00064         extern _TRISGbits
+               00065         extern _TRISHbits
+               00066         extern _TRISJbits
+               00067         extern _MEMCONbits
+               00068         extern _PIE1bits
+               00069         extern _PIR1bits
+               00070         extern _IPR1bits
+               00071         extern _PIE2bits
+               00072         extern _PIR2bits
+               00073         extern _IPR2bits
+               00074         extern _PIE3bits
+               00075         extern _PIR3bits
+               00076         extern _IPR3bits
+               00077         extern _EECON1bits
+               00078         extern _RCSTA1bits
+               00079         extern _TXSTA1bits
+               00080         extern _RCSTAbits
+               00081         extern _TXSTAbits
+               00082         extern _PSPCONbits
+               00083         extern _T3CONbits
+               00084         extern _CMCONbits
+               00085         extern _CVRCONbits
+               00086         extern _CCP3CONbits
+               00087         extern _CCP2CONbits
+               00088         extern _CCP1CONbits
+               00089         extern _ADCON2bits
+               00090         extern _ADCON1bits
+               00091         extern _ADCON0bits
+               00092         extern _SSPCON2bits
+               00093         extern _SSPCON1bits
+               00094         extern _SSPSTATbits
+               00095         extern _T2CONbits
+               00096         extern _T1CONbits
+               00097         extern _RCONbits
+               00098         extern _WDTCONbits
+               00099         extern _LVDCONbits
+               00100         extern _OSCCONbits
+               00101         extern _STATUSbits
+               00102         extern _INTCON3bits
+               00103         extern _INTCON2bits
+               00104         extern _INTCONbits
+               00105         extern _STKPTRbits
+               00106         extern _Interrupt_port_in_use
+               00107         extern _RCSTA2
+               00108         extern _TXSTA2
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00109         extern _TXREG2
+               00110         extern _RCREG2
+               00111         extern _SPBRG2
+               00112         extern _CCP5CON
+               00113         extern _CCPR5L
+               00114         extern _CCPR5H
+               00115         extern _CCP4CON
+               00116         extern _CCPR4L
+               00117         extern _CCPR4H
+               00118         extern _T4CON
+               00119         extern _PR4
+               00120         extern _TMR4
+               00121         extern _PORTA
+               00122         extern _PORTB
+               00123         extern _PORTC
+               00124         extern _PORTD
+               00125         extern _PORTE
+               00126         extern _PORTF
+               00127         extern _PORTG
+               00128         extern _PORTH
+               00129         extern _PORTJ
+               00130         extern _LATA
+               00131         extern _LATB
+               00132         extern _LATC
+               00133         extern _LATD
+               00134         extern _LATE
+               00135         extern _LATF
+               00136         extern _LATG
+               00137         extern _LATH
+               00138         extern _LATJ
+               00139         extern _TRISA
+               00140         extern _TRISB
+               00141         extern _TRISC
+               00142         extern _TRISD
+               00143         extern _TRISE
+               00144         extern _TRISF
+               00145         extern _TRISG
+               00146         extern _TRISH
+               00147         extern _TRISJ
+               00148         extern _MEMCON
+               00149         extern _PIE1
+               00150         extern _PIR1
+               00151         extern _IPR1
+               00152         extern _PIE2
+               00153         extern _PIR2
+               00154         extern _IPR2
+               00155         extern _PIE3
+               00156         extern _PIR3
+               00157         extern _IPR3
+               00158         extern _EECON1
+               00159         extern _EECON2
+               00160         extern _EEDATA
+               00161         extern _EEADR
+               00162         extern _EEADRH
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00163         extern _RCSTA1
+               00164         extern _TXSTA1
+               00165         extern _TXREG1
+               00166         extern _RCREG1
+               00167         extern _SPBRG1
+               00168         extern _RCSTA
+               00169         extern _TXSTA
+               00170         extern _TXREG
+               00171         extern _RCREG
+               00172         extern _SPBRG
+               00173         extern _PSPCON
+               00174         extern _T3CON
+               00175         extern _TMR3L
+               00176         extern _TMR3H
+               00177         extern _CMCON
+               00178         extern _CVRCON
+               00179         extern _CCP3CON
+               00180         extern _CCPR3L
+               00181         extern _CCPR3H
+               00182         extern _CCP2CON
+               00183         extern _CCPR2L
+               00184         extern _CCPR2H
+               00185         extern _CCP1CON
+               00186         extern _CCPR1L
+               00187         extern _CCPR1H
+               00188         extern _ADCON2
+               00189         extern _ADCON1
+               00190         extern _ADCON0
+               00191         extern _ADRESL
+               00192         extern _ADRESH
+               00193         extern _SSPCON2
+               00194         extern _SSPCON1
+               00195         extern _SSPSTAT
+               00196         extern _SSPADD
+               00197         extern _SSPBUF
+               00198         extern _T2CON
+               00199         extern _PR2
+               00200         extern _TMR2
+               00201         extern _T1CON
+               00202         extern _TMR1L
+               00203         extern _TMR1H
+               00204         extern _RCON
+               00205         extern _WDTCON
+               00206         extern _LVDCON
+               00207         extern _OSCCON
+               00208         extern _T0CON
+               00209         extern _TMR0L
+               00210         extern _TMR0H
+               00211         extern _STATUS
+               00212         extern _FSR2L
+               00213         extern _FSR2H
+               00214         extern _PLUSW2
+               00215         extern _PREINC2
+               00216         extern _POSTDEC2
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00217         extern _POSTINC2
+               00218         extern _INDF2
+               00219         extern _BSR
+               00220         extern _FSR1L
+               00221         extern _FSR1H
+               00222         extern _PLUSW1
+               00223         extern _PREINC1
+               00224         extern _POSTDEC1
+               00225         extern _POSTINC1
+               00226         extern _INDF1
+               00227         extern _WREG
+               00228         extern _FSR0L
+               00229         extern _FSR0H
+               00230         extern _PLUSW0
+               00231         extern _PREINC0
+               00232         extern _POSTDEC0
+               00233         extern _POSTINC0
+               00234         extern _INDF0
+               00235         extern _INTCON3
+               00236         extern _INTCON2
+               00237         extern _INTCON
+               00238         extern _PRODL
+               00239         extern _PRODH
+               00240         extern _TABLAT
+               00241         extern _TBLPTRL
+               00242         extern _TBLPTRH
+               00243         extern _TBLPTRU
+               00244         extern _PCL
+               00245         extern _PCLATH
+               00246         extern _PCLATU
+               00247         extern _STKPTR
+               00248         extern _TOSL
+               00249         extern _TOSH
+               00250         extern _TOSU
+               00251 ;--------------------------------------------------------
+               00252 ;       Equates to used internal registers
+               00253 ;--------------------------------------------------------
+  00000FD8     00254 STATUS  equ     0xfd8
+  00000FF9     00255 PCL     equ     0xff9
+  00000FFA     00256 PCLATH  equ     0xffa
+  00000FFB     00257 PCLATU  equ     0xffb
+  00000FE8     00258 WREG    equ     0xfe8
+  00000FE0     00259 BSR     equ     0xfe0
+  00000FE9     00260 FSR0L   equ     0xfe9
+  00000FEA     00261 FSR0H   equ     0xfea
+  00000FE1     00262 FSR1L   equ     0xfe1
+  00000FD9     00263 FSR2L   equ     0xfd9
+  00000FEF     00264 INDF0   equ     0xfef
+  00000FE5     00265 POSTDEC1        equ     0xfe5
+  00000FE4     00266 PREINC1 equ     0xfe4
+  00000FDB     00267 PLUSW2  equ     0xfdb
+  00000FF3     00268 PRODL   equ     0xff3
+  00000FF4     00269 PRODH   equ     0xff4
+               00270 
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00271 
+               00272         idata
+               00273 _Rx_user_buff_index     db      0x00
+               00274 _User_rxdata    db      LOW((_Rx_buff + 0)), HIGH((_Rx_buff + 0)), 0x80
+               00275 _Tx_user_buff_index     db      0x00
+               00276 _InterruptHandlerHigh_packet_num_1_1    db      0x00
+               00277 
+               00278 
+               00279 ; Internal registers
+               00280 .registers      udata_ovr       0x0000
+               00281 r0x00   res     1
+               00282 r0x01   res     1
+               00283 r0x02   res     1
+               00284 r0x03   res     1
+               00285 r0x04   res     1
+               00286 
+               00287 udata_vex_spi_0 udata
+               00288 _InterruptHandlerHigh_tx_ptr_1_1        res     3
+               00289 
+               00290 udata_vex_spi_1 udata
+               00291 _InterruptHandlerHigh_rx_ptr_1_1        res     3
+               00292 
+               00293 udata_vex_spi_2 udata
+               00294 _InterruptHandlerHigh_Spi_byte_count_1_1        res     1
+               00295 
+               00296 udata_vex_spi_3 udata
+               00297 _InterruptHandlerHigh_spi_ch_1_1        res     1
+               00298 
+               00299 udata_vex_spi_4 udata
+               00300 _Rx_buff        res     64
+               00301 
+               00302 udata_vex_spi_5 udata
+               00303 _Tx_buff        res     64
+               00304 
+               00305 udata_vex_spi_6 udata
+               00306 _Spi_status     res     1
+               00307 
+               00308 udata_vex_spi_7 udata
+               00309 _User_txdata    res     32
+               00310 
+               00311 ;--------------------------------------------------------
+               00312 ; global & static initialisations
+               00313 ;--------------------------------------------------------
+               00314 ; ; Starting pCode block
+               00315 S_vex_spi__InterruptVectorHigh  code    0X000808
+0808 00316 _InterruptVectorHigh:
+0808 EF00 F000 00317         goto _InterruptHandlerHigh
+               00318         
+               00319 ; ; Starting pCode block
+               00320 S_vex_spi__InterruptHandlerHigh code
+0000 00321 _InterruptHandlerHigh:
+               00322 ;       .line   95; vex_spi.c   void    InterruptHandlerHigh(void) INTERRUPT
+0000 CFE8 FFE5 00323         MOVFF   WREG, POSTDEC1
+0004 CFD8 FFE5 00324         MOVFF   STATUS, POSTDEC1
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0008 CFE0 FFE5 00325         MOVFF   BSR, POSTDEC1
+000C CFF3 FFE5 00326         MOVFF   PRODL, POSTDEC1
+0010 CFF4 FFE5 00327         MOVFF   PRODH, POSTDEC1
+0014 CFE9 FFE5 00328         MOVFF   FSR0L, POSTDEC1
+0018 CFEA FFE5 00329         MOVFF   FSR0H, POSTDEC1
+001C CFFA FFE5 00330         MOVFF   PCLATH, POSTDEC1
+0020 CFFB FFE5 00331         MOVFF   PCLATU, POSTDEC1
+0024 CFD9 FFE5 00332         MOVFF   FSR2L, POSTDEC1
+0028 CFE1 FFD9 00333         MOVFF   FSR1L, FSR2L
+002C C000 FFE5 00334         MOVFF   r0x00, POSTDEC1
+0030 C000 FFE5 00335         MOVFF   r0x01, POSTDEC1
+0034 C000 FFE5 00336         MOVFF   r0x02, POSTDEC1
+               00337 ;       .line   120; vex_spi.c  if (INTCONbits.INT0F)
+0038 A200      00338         BTFSS   _INTCONbits, 1
+003A D000      00339         BRA     _00117_DS_
+               00340 ;       .line   122; vex_spi.c  INTCONbits.INT0F = 0;   /* Clear interrupt condition. */
+003C 9200      00341         BCF     _INTCONbits, 1
+               00342 ;       .line   123; vex_spi.c  Spi_byte_count = sizeof(rx_data_t);
+003E 0E20      00343         MOVLW   0x20
+0040 0000      00344         BANKSEL _InterruptHandlerHigh_Spi_byte_count_1_1
+0042 6F00      00345         MOVWF   _InterruptHandlerHigh_Spi_byte_count_1_1, B
+               00346 ;       .line   124; vex_spi.c  IPR1bits.SSPIP = 1;     /* Set SPI for high-priority interrupts */
+0044 8600      00347         BSF     _IPR1bits, 3
+0046 0000      00348         BANKSEL _Rx_user_buff_index
+               00349 ;       .line   131; vex_spi.c  rx_ptr = (volatile unsigned char *)(Rx_buff + !Rx_user_buff_index);
+0048 5100      00350         MOVF    _Rx_user_buff_index, W, B
+004A 80D8      00351         BSF     STATUS, 0
+004C 66E8      00352         TSTFSZ  WREG
+004E 90D8      00353         BCF     STATUS, 0
+0050 6A00      00354         CLRF    r0x00
+0052 3600      00355         RLCF    r0x00, F
+               00356 ; ;multiply lit val:0x20 by variable r0x00 and store in r0x00
+               00357 ; ;Unrolled 8 X 8 multiplication
+               00358 ; ;FIXME: the function does not support result==WREG
+0054 5000      00359         MOVF    r0x00, W
+0056 0D20      00360         MULLW   0x20
+0058 CFF3 F000 00361         MOVFF   PRODL, r0x00
+005C CFF4 F000 00362         MOVFF   PRODH, r0x01
+0060 0E00      00363         MOVLW   LOW(_Rx_buff)
+0062 2600      00364         ADDWF   r0x00, F
+0064 0E00      00365         MOVLW   HIGH(_Rx_buff)
+0066 2200      00366         ADDWFC  r0x01, F
+0068 5000      00367         MOVF    r0x01, W
+006A 0000      00368         BANKSEL (_InterruptHandlerHigh_rx_ptr_1_1 + 1)
+006C 6F00      00369         MOVWF   (_InterruptHandlerHigh_rx_ptr_1_1 + 1), B
+006E 5000      00370         MOVF    r0x00, W
+0070 0000      00371         BANKSEL _InterruptHandlerHigh_rx_ptr_1_1
+0072 6F00      00372         MOVWF   _InterruptHandlerHigh_rx_ptr_1_1, B
+0074 0E80      00373         MOVLW   0x80
+0076 0000      00374         BANKSEL (_InterruptHandlerHigh_rx_ptr_1_1 + 2)
+0078 6F00      00375         MOVWF   (_InterruptHandlerHigh_rx_ptr_1_1 + 2), B
+007A 0000      00376         BANKSEL _Tx_user_buff_index
+               00377 ;       .line   133; vex_spi.c  tx_ptr = (volatile unsigned char *)(Tx_buff + !Tx_user_buff_index);
+007C 5100      00378         MOVF    _Tx_user_buff_index, W, B
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+007E 80D8      00379         BSF     STATUS, 0
+0080 66E8      00380         TSTFSZ  WREG
+0082 90D8      00381         BCF     STATUS, 0
+0084 6A00      00382         CLRF    r0x00
+0086 3600      00383         RLCF    r0x00, F
+               00384 ; ;multiply lit val:0x20 by variable r0x00 and store in r0x00
+               00385 ; ;Unrolled 8 X 8 multiplication
+               00386 ; ;FIXME: the function does not support result==WREG
+0088 5000      00387         MOVF    r0x00, W
+008A 0D20      00388         MULLW   0x20
+008C CFF3 F000 00389         MOVFF   PRODL, r0x00
+0090 CFF4 F000 00390         MOVFF   PRODH, r0x01
+0094 0E00      00391         MOVLW   LOW(_Tx_buff)
+0096 2600      00392         ADDWF   r0x00, F
+0098 0E00      00393         MOVLW   HIGH(_Tx_buff)
+009A 2200      00394         ADDWFC  r0x01, F
+009C 5000      00395         MOVF    r0x01, W
+009E 0000      00396         BANKSEL (_InterruptHandlerHigh_tx_ptr_1_1 + 1)
+00A0 6F00      00397         MOVWF   (_InterruptHandlerHigh_tx_ptr_1_1 + 1), B
+00A2 5000      00398         MOVF    r0x00, W
+00A4 0000      00399         BANKSEL _InterruptHandlerHigh_tx_ptr_1_1
+00A6 6F00      00400         MOVWF   _InterruptHandlerHigh_tx_ptr_1_1, B
+00A8 0E80      00401         MOVLW   0x80
+00AA 0000      00402         BANKSEL (_InterruptHandlerHigh_tx_ptr_1_1 + 2)
+00AC 6F00      00403         MOVWF   (_InterruptHandlerHigh_tx_ptr_1_1 + 2), B
+               00404 ;       .line   137; vex_spi.c  if ( User_rxdata->rc_mode.autonomous )
+00AE C000 F000 00405         MOVFF   _User_rxdata, r0x00
+00B2 C000 F000 00406         MOVFF   (_User_rxdata + 1), r0x01
+00B6 C000 F000 00407         MOVFF   (_User_rxdata + 2), r0x02
+00BA 2A00      00408         INCF    r0x00, F
+00BC B0D8      00409         BTFSC   STATUS, 0
+00BE 2A00      00410         INCF    r0x01, F
+00C0 B0D8      00411         BTFSC   STATUS, 0
+00C2 2A00      00412         INCF    r0x02, F
+00C4 C000 FFE9 00413         MOVFF   r0x00, FSR0L
+00C8 C000 FFF3 00414         MOVFF   r0x01, PRODL
+00CC 5000      00415         MOVF    r0x02, W
+00CE EC00 F000 00416         CALL    __gptrget1
+00D2 44E8      00417         RLNCF   WREG, W
+00D4 44E8      00418         RLNCF   WREG, W
+00D6 0B01      00419         ANDLW   0x01
+00D8 6E00      00420         MOVWF   r0x00
+00DA 5000      00421         MOVF    r0x00, W
+00DC E000      00422         BZ      _00111_DS_
+00DE 0000      00423         BANKSEL _Tx_user_buff_index
+               00424 ;       .line   139; vex_spi.c  Tx_buff[!Tx_user_buff_index].packet_num = packet_num;
+00E0 5100      00425         MOVF    _Tx_user_buff_index, W, B
+00E2 80D8      00426         BSF     STATUS, 0
+00E4 66E8      00427         TSTFSZ  WREG
+00E6 90D8      00428         BCF     STATUS, 0
+00E8 6A00      00429         CLRF    r0x00
+00EA 3600      00430         RLCF    r0x00, F
+               00431 ; ;multiply lit val:0x20 by variable r0x00 and store in r0x00
+               00432 ; ;Unrolled 8 X 8 multiplication
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00433 ; ;FIXME: the function does not support result==WREG
+00EC 5000      00434         MOVF    r0x00, W
+00EE 0D20      00435         MULLW   0x20
+00F0 CFF3 F000 00436         MOVFF   PRODL, r0x00
+00F4 6A00      00437         CLRF    r0x01
+00F6 0E00      00438         MOVLW   LOW(_Tx_buff)
+00F8 2600      00439         ADDWF   r0x00, F
+00FA 0E00      00440         MOVLW   HIGH(_Tx_buff)
+00FC 2200      00441         ADDWFC  r0x01, F
+00FE 0E1D      00442         MOVLW   0x1d
+0100 2600      00443         ADDWF   r0x00, F
+0102 B0D8      00444         BTFSC   STATUS, 0
+0104 2A00      00445         INCF    r0x01, F
+0106 C000 FFE9 00446         MOVFF   r0x00, FSR0L
+010A C000 FFEA 00447         MOVFF   r0x01, FSR0H
+010E C000 FFEF 00448         MOVFF   _InterruptHandlerHigh_packet_num_1_1, INDF0
+               00449 ; ;multiply lit val:0x20 by variable _Tx_user_buff_index and store in r0x00
+               00450 ; ;Unrolled 8 X 8 multiplication
+               00451 ; ;FIXME: the function does not support result==WREG
+0112 0000      00452         BANKSEL _Tx_user_buff_index
+               00453 ;       .line   140; vex_spi.c  Tx_buff[Tx_user_buff_index].packet_num = packet_num;
+0114 5100      00454         MOVF    _Tx_user_buff_index, W, B
+0116 0D20      00455         MULLW   0x20
+0118 CFF3 F000 00456         MOVFF   PRODL, r0x00
+011C 6A00      00457         CLRF    r0x01
+011E 0E00      00458         MOVLW   LOW(_Tx_buff)
+0120 2600      00459         ADDWF   r0x00, F
+0122 0E00      00460         MOVLW   HIGH(_Tx_buff)
+0124 2200      00461         ADDWFC  r0x01, F
+0126 0E1D      00462         MOVLW   0x1d
+0128 2600      00463         ADDWF   r0x00, F
+012A B0D8      00464         BTFSC   STATUS, 0
+012C 2A00      00465         INCF    r0x01, F
+012E C000 FFE9 00466         MOVFF   r0x00, FSR0L
+0132 C000 FFEA 00467         MOVFF   r0x01, FSR0H
+0136 C000 FFEF 00468         MOVFF   _InterruptHandlerHigh_packet_num_1_1, INDF0
+               00469 ;       .line   141; vex_spi.c  ++packet_num;
+013A 2B00      00470         INCF    _InterruptHandlerHigh_packet_num_1_1, F, B
+013C 00471 _00111_DS_:
+               00472 ;       .line   144; vex_spi.c  spi_ch = SSPBUF;
+013C C000 F000 00473         MOVFF   _SSPBUF, _InterruptHandlerHigh_spi_ch_1_1
+               00474 ;       .line   145; vex_spi.c  SSPBUF = *tx_ptr++;
+0140 C000 F000 00475         MOVFF   _InterruptHandlerHigh_tx_ptr_1_1, r0x00
+0144 C000 F000 00476         MOVFF   (_InterruptHandlerHigh_tx_ptr_1_1 + 1), r0x01
+0148 C000 F000 00477         MOVFF   (_InterruptHandlerHigh_tx_ptr_1_1 + 2), r0x02
+014C C000 FFE9 00478         MOVFF   r0x00, FSR0L
+0150 C000 FFF3 00479         MOVFF   r0x01, PRODL
+0154 5000      00480         MOVF    r0x02, W
+0156 EC00 F000 00481         CALL    __gptrget1
+015A 6E00      00482         MOVWF   r0x00
+015C 0000      00483         BANKSEL _InterruptHandlerHigh_tx_ptr_1_1
+015E 2B00      00484         INCF    _InterruptHandlerHigh_tx_ptr_1_1, F, B
+0160 E300      00485         BNC     _10159_DS_
+0162 0000      00486         BANKSEL (_InterruptHandlerHigh_tx_ptr_1_1 + 1)
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0164 2B00      00487         INCF    (_InterruptHandlerHigh_tx_ptr_1_1 + 1), F, B
+0166 00488 _10159_DS_:
+0166 E300      00489         BNC     _20160_DS_
+0168 0000      00490         BANKSEL (_InterruptHandlerHigh_tx_ptr_1_1 + 2)
+016A 2B00      00491         INCF    (_InterruptHandlerHigh_tx_ptr_1_1 + 2), F, B
+016C 00492 _20160_DS_:
+016C C000 F000 00493         MOVFF   r0x00, _SSPBUF
+0170 D000      00494         BRA     _00119_DS_
+0172 00495 _00117_DS_:
+               00496 ;       .line   150; vex_spi.c  else if (PIR1bits.SSPIF)
+0172 A600      00497         BTFSS   _PIR1bits, 3
+0174 D000      00498         BRA     _00119_DS_
+               00499 ;       .line   152; vex_spi.c  PIR1bits.SSPIF = 0;     /* Clear SPI interrupt condition */
+0176 9600      00500         BCF     _PIR1bits, 3
+               00501 ;       .line   158; vex_spi.c  *rx_ptr++ = SSPBUF;     /* Buffer next byte from master */
+0178 C000 F000 00502         MOVFF   _InterruptHandlerHigh_rx_ptr_1_1, r0x00
+017C C000 F000 00503         MOVFF   (_InterruptHandlerHigh_rx_ptr_1_1 + 1), r0x01
+0180 C000 F000 00504         MOVFF   (_InterruptHandlerHigh_rx_ptr_1_1 + 2), r0x02
+0184 C000 FFE5 00505         MOVFF   _SSPBUF, POSTDEC1
+0188 C000 FFE9 00506         MOVFF   r0x00, FSR0L
+018C C000 FFF3 00507         MOVFF   r0x01, PRODL
+0190 5000      00508         MOVF    r0x02, W
+0192 EC00 F000 00509         CALL    __gptrput1
+0196 0000      00510         BANKSEL _InterruptHandlerHigh_rx_ptr_1_1
+0198 2B00      00511         INCF    _InterruptHandlerHigh_rx_ptr_1_1, F, B
+019A E300      00512         BNC     _30161_DS_
+019C 0000      00513         BANKSEL (_InterruptHandlerHigh_rx_ptr_1_1 + 1)
+019E 2B00      00514         INCF    (_InterruptHandlerHigh_rx_ptr_1_1 + 1), F, B
+01A0 00515 _30161_DS_:
+01A0 E300      00516         BNC     _40162_DS_
+01A2 0000      00517         BANKSEL (_InterruptHandlerHigh_rx_ptr_1_1 + 2)
+01A4 2B00      00518         INCF    (_InterruptHandlerHigh_rx_ptr_1_1 + 2), F, B
+01A6 00519 _40162_DS_:
+               00520 ;       .line   159; vex_spi.c  SSPBUF = *tx_ptr++;     /* Send next byte to master */
+01A6 C000 F000 00521         MOVFF   _InterruptHandlerHigh_tx_ptr_1_1, r0x00
+01AA C000 F000 00522         MOVFF   (_InterruptHandlerHigh_tx_ptr_1_1 + 1), r0x01
+01AE C000 F000 00523         MOVFF   (_InterruptHandlerHigh_tx_ptr_1_1 + 2), r0x02
+01B2 C000 FFE9 00524         MOVFF   r0x00, FSR0L
+01B6 C000 FFF3 00525         MOVFF   r0x01, PRODL
+01BA 5000      00526         MOVF    r0x02, W
+01BC EC00 F000 00527         CALL    __gptrget1
+01C0 6E00      00528         MOVWF   r0x00
+01C2 0000      00529         BANKSEL _InterruptHandlerHigh_tx_ptr_1_1
+01C4 2B00      00530         INCF    _InterruptHandlerHigh_tx_ptr_1_1, F, B
+01C6 E300      00531         BNC     _50163_DS_
+01C8 0000      00532         BANKSEL (_InterruptHandlerHigh_tx_ptr_1_1 + 1)
+01CA 2B00      00533         INCF    (_InterruptHandlerHigh_tx_ptr_1_1 + 1), F, B
+01CC 00534 _50163_DS_:
+01CC E300      00535         BNC     _60164_DS_
+01CE 0000      00536         BANKSEL (_InterruptHandlerHigh_tx_ptr_1_1 + 2)
+01D0 2B00      00537         INCF    (_InterruptHandlerHigh_tx_ptr_1_1 + 2), F, B
+01D2 00538 _60164_DS_:
+01D2 C000 F000 00539         MOVFF   r0x00, _SSPBUF
+01D6 0000      00540         BANKSEL _InterruptHandlerHigh_Spi_byte_count_1_1
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00541 ;       .line   162; vex_spi.c  if (--Spi_byte_count == 0)
+01D8 0700      00542         DECF    _InterruptHandlerHigh_Spi_byte_count_1_1, F, B
+01DA 5100      00543         MOVF    _InterruptHandlerHigh_Spi_byte_count_1_1, W, B
+01DC E100      00544         BNZ     _00119_DS_
+               00545 ;       .line   171; vex_spi.c  User_txdata.current_mode = 2;
+01DE 0E02      00546         MOVLW   0x02
+01E0 0000      00547         BANKSEL (_User_txdata + 30)
+01E2 6F00      00548         MOVWF   (_User_txdata + 30), B
+01E4 0000      00549         BANKSEL _Spi_status
+               00550 ;       .line   172; vex_spi.c  Spi_status.new_tx_data = 0;
+01E6 9300      00551         BCF     _Spi_status, 1, B
+               00552 ;       .line   173; vex_spi.c  MASTER_SET_NEW_RC_DATA_FLAG(Spi_status);
+01E8 8100      00553         BSF     _Spi_status, 0, B
+01EA 0000      00554         BANKSEL _Rx_user_buff_index
+               00555 ;       .line   174; vex_spi.c  Rx_user_buff_index = !Rx_user_buff_index;
+01EC 5100      00556         MOVF    _Rx_user_buff_index, W, B
+01EE 80D8      00557         BSF     STATUS, 0
+01F0 66E8      00558         TSTFSZ  WREG
+01F2 90D8      00559         BCF     STATUS, 0
+01F4 0000      00560         BANKSEL _Rx_user_buff_index
+01F6 6B00      00561         CLRF    _Rx_user_buff_index, B
+01F8 3700      00562         RLCF    _Rx_user_buff_index, F, B
+               00563 ; ;multiply lit val:0x20 by variable _Rx_user_buff_index and store in r0x00
+               00564 ; ;Unrolled 8 X 8 multiplication
+               00565 ; ;FIXME: the function does not support result==WREG
+               00566 ;       .line   175; vex_spi.c  User_rxdata = Rx_buff + Rx_user_buff_index;
+01FA 5100      00567         MOVF    _Rx_user_buff_index, W, B
+01FC 0D20      00568         MULLW   0x20
+01FE CFF3 F000 00569         MOVFF   PRODL, r0x00
+0202 CFF4 F000 00570         MOVFF   PRODH, r0x01
+0206 0E00      00571         MOVLW   LOW(_Rx_buff)
+0208 2600      00572         ADDWF   r0x00, F
+020A 0E00      00573         MOVLW   HIGH(_Rx_buff)
+020C 2200      00574         ADDWFC  r0x01, F
+020E 5000      00575         MOVF    r0x01, W
+0210 0000      00576         BANKSEL (_User_rxdata + 1)
+0212 6F00      00577         MOVWF   (_User_rxdata + 1), B
+0214 5000      00578         MOVF    r0x00, W
+0216 0000      00579         BANKSEL _User_rxdata
+0218 6F00      00580         MOVWF   _User_rxdata, B
+021A 0E80      00581         MOVLW   0x80
+021C 0000      00582         BANKSEL (_User_rxdata + 2)
+021E 6F00      00583         MOVWF   (_User_rxdata + 2), B
+0220 00584 _00119_DS_:
+0220 CFE4 F000 00585         MOVFF   PREINC1, r0x02
+0224 CFE4 F000 00586         MOVFF   PREINC1, r0x01
+0228 CFE4 F000 00587         MOVFF   PREINC1, r0x00
+022C CFE4 FFD9 00588         MOVFF   PREINC1, FSR2L
+0230 CFE4 FFFB 00589         MOVFF   PREINC1, PCLATU
+0234 CFE4 FFFA 00590         MOVFF   PREINC1, PCLATH
+0238 CFE4 FFEA 00591         MOVFF   PREINC1, FSR0H
+023C CFE4 FFE9 00592         MOVFF   PREINC1, FSR0L
+0240 CFE4 FFF4 00593         MOVFF   PREINC1, PRODH
+0244 CFE4 FFF3 00594         MOVFF   PREINC1, PRODL
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0248 CFE4 FFE0 00595         MOVFF   PREINC1, BSR
+024C CFE4 FFD8 00596         MOVFF   PREINC1, STATUS
+0250 CFE4 FFE8 00597         MOVFF   PREINC1, WREG
+0254 0010      00598         RETFIE  
+               00599 
+               00600 ; I code from now on!
+               00601 ; ; Starting pCode block
+               00602 S_vex_spi__check_tx_env code
+0000 00603 _check_tx_env:
+               00604 ;       .line   282; vex_spi.c  void    check_tx_env(void)
+0000 CFD9 FFE5 00605         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00606         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00607         MOVFF   r0x00, POSTDEC1
+000C 0000      00608         BANKSEL (_User_txdata + 28)
+               00609 ;       .line   284; vex_spi.c  User_txdata.error_code = 0;
+000E 6B00      00610         CLRF    (_User_txdata + 28), B
+0010 0000      00611         BANKSEL (_User_txdata + 23)
+               00612 ;       .line   285; vex_spi.c  User_txdata.warning_code = 0;
+0012 6B00      00613         CLRF    (_User_txdata + 23), B
+               00614 ;       .line   288; vex_spi.c  if (SSPCON1bits.WCOL)
+0014 AE00      00615         BTFSS   _SSPCON1bits, 7
+0016 D000      00616         BRA     _00166_DS_
+               00617 ;       .line   290; vex_spi.c  SSPCON1bits.WCOL = 0;
+0018 9E00      00618         BCF     _SSPCON1bits, 7
+               00619 ;       .line   291; vex_spi.c  User_txdata.warning_code = 1;
+001A 0E01      00620         MOVLW   0x01
+001C 0000      00621         BANKSEL (_User_txdata + 23)
+001E 6F00      00622         MOVWF   (_User_txdata + 23), B
+0020 D000      00623         BRA     _00167_DS_
+0022 00624 _00166_DS_:
+               00625 ;       .line   294; vex_spi.c  else if ((INTCON2bits.RBPU == 1) && (INTCONbits.RBIE == 1))
+0022 6A00      00626         CLRF    r0x00
+0024 BE00      00627         BTFSC   _INTCON2bits, 7
+0026 2A00      00628         INCF    r0x00, F
+0028 5000      00629         MOVF    r0x00, W
+002A 0A01      00630         XORLW   0x01
+002C E100      00631         BNZ     _00162_DS_
+002E 6A00      00632         CLRF    r0x00
+0030 B600      00633         BTFSC   _INTCONbits, 3
+0032 2A00      00634         INCF    r0x00, F
+0034 5000      00635         MOVF    r0x00, W
+0036 0A01      00636         XORLW   0x01
+0038 E100      00637         BNZ     _00162_DS_
+               00638 ;       .line   296; vex_spi.c  User_txdata.warning_code = 2;
+003A 0E02      00639         MOVLW   0x02
+003C 0000      00640         BANKSEL (_User_txdata + 23)
+003E 6F00      00641         MOVWF   (_User_txdata + 23), B
+0040 D000      00642         BRA     _00167_DS_
+0042 00643 _00162_DS_:
+               00644 ;       .line   298; vex_spi.c  else if (INTCON3bits.INT1IE)
+0042 A600      00645         BTFSS   _INTCON3bits, 3
+0044 D000      00646         BRA     _00167_DS_
+               00647 ;       .line   300; vex_spi.c  LATHbits.LATH7 = 0;         /* Digital_out16 */
+0046 9E00      00648         BCF     _LATHbits, 7
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00649 ;       .line   301; vex_spi.c  User_txdata.warning_code = 3;
+0048 0E03      00650         MOVLW   0x03
+004A 0000      00651         BANKSEL (_User_txdata + 23)
+004C 6F00      00652         MOVWF   (_User_txdata + 23), B
+004E 00653 _00167_DS_:
+               00654 ;       .line   305; vex_spi.c  if ((SSPCON1 & 0x25) != 0x25)
+004E 0E25      00655         MOVLW   0x25
+0050 1400      00656         ANDWF   _SSPCON1, W
+               00657 ; #     MOVWF   r0x00
+               00658 ; #     MOVF    r0x00, W
+0052 6E00      00659         MOVWF   r0x00
+0054 0A25      00660         XORLW   0x25
+0056 E000      00661         BZ      _00210_DS_
+               00662 ;       .line   307; vex_spi.c  User_txdata.error_code = 1;
+0058 0E01      00663         MOVLW   0x01
+005A 0000      00664         BANKSEL (_User_txdata + 28)
+005C 6F00      00665         MOVWF   (_User_txdata + 28), B
+               00666 ;       .line   308; vex_spi.c  User_txdata.warning_code = SSPCON1;
+005E 5000      00667         MOVF    _SSPCON1, W
+0060 0000      00668         BANKSEL (_User_txdata + 23)
+0062 6F00      00669         MOVWF   (_User_txdata + 23), B
+0064 D000      00670         BRA     _00212_DS_
+0066 00671 _00210_DS_:
+               00672 ;       .line   310; vex_spi.c  else if (SSPCON2)
+0066 5000      00673         MOVF    _SSPCON2, W
+0068 E000      00674         BZ      _00207_DS_
+               00675 ;       .line   312; vex_spi.c  User_txdata.error_code = 2;
+006A 0E02      00676         MOVLW   0x02
+006C 0000      00677         BANKSEL (_User_txdata + 28)
+006E 6F00      00678         MOVWF   (_User_txdata + 28), B
+               00679 ;       .line   313; vex_spi.c  User_txdata.warning_code = SSPCON2;
+0070 5000      00680         MOVF    _SSPCON2, W
+0072 0000      00681         BANKSEL (_User_txdata + 23)
+0074 6F00      00682         MOVWF   (_User_txdata + 23), B
+0076 D000      00683         BRA     _00212_DS_
+0078 00684 _00207_DS_:
+               00685 ;       .line   316; vex_spi.c  else if (!RCONbits.IPEN)
+0078 BE00      00686         BTFSC   _RCONbits, 7
+007A D000      00687         BRA     _00204_DS_
+               00688 ;       .line   318; vex_spi.c  User_txdata.error_code = 3;
+007C 0E03      00689         MOVLW   0x03
+007E 0000      00690         BANKSEL (_User_txdata + 28)
+0080 6F00      00691         MOVWF   (_User_txdata + 28), B
+               00692 ;       .line   319; vex_spi.c  User_txdata.warning_code = RCON;
+0082 5000      00693         MOVF    _RCON, W
+0084 0000      00694         BANKSEL (_User_txdata + 23)
+0086 6F00      00695         MOVWF   (_User_txdata + 23), B
+0088 D000      00696         BRA     _00212_DS_
+008A 00697 _00204_DS_:
+               00698 ;       .line   322; vex_spi.c  else if (!PIE1bits.SSPIE)
+008A B600      00699         BTFSC   _PIE1bits, 3
+008C D000      00700         BRA     _00201_DS_
+               00701 ;       .line   324; vex_spi.c  User_txdata.error_code = 4;
+008E 0E04      00702         MOVLW   0x04
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0090 0000      00703         BANKSEL (_User_txdata + 28)
+0092 6F00      00704         MOVWF   (_User_txdata + 28), B
+               00705 ;       .line   325; vex_spi.c  User_txdata.warning_code = PIE1;
+0094 5000      00706         MOVF    _PIE1, W
+0096 0000      00707         BANKSEL (_User_txdata + 23)
+0098 6F00      00708         MOVWF   (_User_txdata + 23), B
+009A D000      00709         BRA     _00212_DS_
+009C 00710 _00201_DS_:
+               00711 ;       .line   328; vex_spi.c  else if (MEMCON)
+009C 5000      00712         MOVF    _MEMCON, W
+009E E000      00713         BZ      _00198_DS_
+               00714 ;       .line   330; vex_spi.c  User_txdata.error_code = 5;
+00A0 0E05      00715         MOVLW   0x05
+00A2 0000      00716         BANKSEL (_User_txdata + 28)
+00A4 6F00      00717         MOVWF   (_User_txdata + 28), B
+               00718 ;       .line   331; vex_spi.c  User_txdata.warning_code = MEMCON;
+00A6 5000      00719         MOVF    _MEMCON, W
+00A8 0000      00720         BANKSEL (_User_txdata + 23)
+00AA 6F00      00721         MOVWF   (_User_txdata + 23), B
+00AC D000      00722         BRA     _00212_DS_
+00AE 00723 _00198_DS_:
+               00724 ;       .line   337; vex_spi.c  else if (IPR1 != 0x08)  /* IPR1bits.SSPIP? */
+00AE 5000      00725         MOVF    _IPR1, W
+00B0 0A08      00726         XORLW   0x08
+00B2 E000      00727         BZ      _00195_DS_
+               00728 ;       .line   339; vex_spi.c  User_txdata.error_code = 6;
+00B4 0E06      00729         MOVLW   0x06
+00B6 0000      00730         BANKSEL (_User_txdata + 28)
+00B8 6F00      00731         MOVWF   (_User_txdata + 28), B
+               00732 ;       .line   340; vex_spi.c  User_txdata.warning_code = IPR1;
+00BA 5000      00733         MOVF    _IPR1, W
+00BC 0000      00734         BANKSEL (_User_txdata + 23)
+00BE 6F00      00735         MOVWF   (_User_txdata + 23), B
+00C0 D000      00736         BRA     _00212_DS_
+00C2 00737 _00195_DS_:
+               00738 ;       .line   342; vex_spi.c  else if (IPR2)
+00C2 5000      00739         MOVF    _IPR2, W
+00C4 E000      00740         BZ      _00192_DS_
+               00741 ;       .line   344; vex_spi.c  User_txdata.error_code = 7;
+00C6 0E07      00742         MOVLW   0x07
+00C8 0000      00743         BANKSEL (_User_txdata + 28)
+00CA 6F00      00744         MOVWF   (_User_txdata + 28), B
+               00745 ;       .line   345; vex_spi.c  User_txdata.warning_code = IPR2;
+00CC 5000      00746         MOVF    _IPR2, W
+00CE 0000      00747         BANKSEL (_User_txdata + 23)
+00D0 6F00      00748         MOVWF   (_User_txdata + 23), B
+00D2 D000      00749         BRA     _00212_DS_
+00D4 00750 _00192_DS_:
+               00751 ;       .line   347; vex_spi.c  else if (IPR3)
+00D4 5000      00752         MOVF    _IPR3, W
+00D6 E000      00753         BZ      _00189_DS_
+               00754 ;       .line   349; vex_spi.c  User_txdata.error_code = 8;
+00D8 0E08      00755         MOVLW   0x08
+00DA 0000      00756         BANKSEL (_User_txdata + 28)
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE 15
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00DC 6F00      00757         MOVWF   (_User_txdata + 28), B
+               00758 ;       .line   350; vex_spi.c  User_txdata.warning_code = IPR3;
+00DE 5000      00759         MOVF    _IPR3, W
+00E0 0000      00760         BANKSEL (_User_txdata + 23)
+00E2 6F00      00761         MOVWF   (_User_txdata + 23), B
+00E4 D000      00762         BRA     _00212_DS_
+00E6 00763 _00189_DS_:
+               00764 ;       .line   353; vex_spi.c  else if ((INTCON & 0x10) != 0x10)
+00E6 0E10      00765         MOVLW   0x10
+00E8 1400      00766         ANDWF   _INTCON, W
+               00767 ; #     MOVWF   r0x00
+               00768 ; #     MOVF    r0x00, W
+00EA 6E00      00769         MOVWF   r0x00
+00EC 0A10      00770         XORLW   0x10
+00EE E000      00771         BZ      _00186_DS_
+               00772 ;       .line   355; vex_spi.c  User_txdata.error_code = 9;
+00F0 0E09      00773         MOVLW   0x09
+00F2 0000      00774         BANKSEL (_User_txdata + 28)
+00F4 6F00      00775         MOVWF   (_User_txdata + 28), B
+               00776 ;       .line   356; vex_spi.c  User_txdata.warning_code = INTCON;
+00F6 5000      00777         MOVF    _INTCON, W
+00F8 0000      00778         BANKSEL (_User_txdata + 23)
+00FA 6F00      00779         MOVWF   (_User_txdata + 23), B
+00FC D000      00780         BRA     _00212_DS_
+00FE 00781 _00186_DS_:
+               00782 ;       .line   359; vex_spi.c  else if (INTCON2 & 0x47 )
+00FE 5000      00783         MOVF    _INTCON2, W
+0100 0B47      00784         ANDLW   0x47
+0102 E000      00785         BZ      _00183_DS_
+               00786 ;       .line   361; vex_spi.c  User_txdata.error_code = 10;
+0104 0E0A      00787         MOVLW   0x0a
+0106 0000      00788         BANKSEL (_User_txdata + 28)
+0108 6F00      00789         MOVWF   (_User_txdata + 28), B
+               00790 ;       .line   362; vex_spi.c  User_txdata.warning_code = INTCON2;
+010A 5000      00791         MOVF    _INTCON2, W
+010C 0000      00792         BANKSEL (_User_txdata + 23)
+010E 6F00      00793         MOVWF   (_User_txdata + 23), B
+0110 D000      00794         BRA     _00212_DS_
+0112 00795 _00183_DS_:
+               00796 ;       .line   365; vex_spi.c  else if (INTCON3 & 0xC0 )
+0112 5000      00797         MOVF    _INTCON3, W
+0114 0BC0      00798         ANDLW   0xc0
+0116 E000      00799         BZ      _00180_DS_
+               00800 ;       .line   367; vex_spi.c  User_txdata.error_code = 11;
+0118 0E0B      00801         MOVLW   0x0b
+011A 0000      00802         BANKSEL (_User_txdata + 28)
+011C 6F00      00803         MOVWF   (_User_txdata + 28), B
+               00804 ;       .line   368; vex_spi.c  User_txdata.warning_code = INTCON3;
+011E 5000      00805         MOVF    _INTCON3, W
+0120 0000      00806         BANKSEL (_User_txdata + 23)
+0122 6F00      00807         MOVWF   (_User_txdata + 23), B
+0124 D000      00808         BRA     _00212_DS_
+0126 00809 _00180_DS_:
+               00810 ;       .line   370; vex_spi.c  else if (TRISAbits.TRISA4)
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE 16
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0126 A800      00811         BTFSS   _TRISAbits, 4
+0128 D000      00812         BRA     _00177_DS_
+               00813 ;       .line   372; vex_spi.c  User_txdata.error_code = 12;
+012A 0E0C      00814         MOVLW   0x0c
+012C 0000      00815         BANKSEL (_User_txdata + 28)
+012E 6F00      00816         MOVWF   (_User_txdata + 28), B
+               00817 ;       .line   373; vex_spi.c  User_txdata.warning_code = TRISA;
+0130 5000      00818         MOVF    _TRISA, W
+0132 0000      00819         BANKSEL (_User_txdata + 23)
+0134 6F00      00820         MOVWF   (_User_txdata + 23), B
+0136 D000      00821         BRA     _00212_DS_
+0138 00822 _00177_DS_:
+               00823 ;       .line   375; vex_spi.c  else if (!TRISBbits.TRISB0)
+0138 B000      00824         BTFSC   _TRISBbits, 0
+013A D000      00825         BRA     _00174_DS_
+               00826 ;       .line   377; vex_spi.c  User_txdata.error_code = 13;
+013C 0E0D      00827         MOVLW   0x0d
+013E 0000      00828         BANKSEL (_User_txdata + 28)
+0140 6F00      00829         MOVWF   (_User_txdata + 28), B
+               00830 ;       .line   378; vex_spi.c  User_txdata.warning_code = TRISB;
+0142 5000      00831         MOVF    _TRISB, W
+0144 0000      00832         BANKSEL (_User_txdata + 23)
+0146 6F00      00833         MOVWF   (_User_txdata + 23), B
+0148 D000      00834         BRA     _00212_DS_
+014A 00835 _00174_DS_:
+               00836 ;       .line   381; vex_spi.c  else if ((TRISC & 0x3e) != 0x1c)
+014A 0E3E      00837         MOVLW   0x3e
+014C 1400      00838         ANDWF   _TRISC, W
+               00839 ; #     MOVWF   r0x00
+               00840 ; #     MOVF    r0x00, W
+014E 6E00      00841         MOVWF   r0x00
+0150 0A1C      00842         XORLW   0x1c
+0152 E000      00843         BZ      _00171_DS_
+               00844 ;       .line   383; vex_spi.c  User_txdata.error_code = 14;
+0154 0E0E      00845         MOVLW   0x0e
+0156 0000      00846         BANKSEL (_User_txdata + 28)
+0158 6F00      00847         MOVWF   (_User_txdata + 28), B
+               00848 ;       .line   384; vex_spi.c  User_txdata.warning_code = TRISC;
+015A 5000      00849         MOVF    _TRISC, W
+015C 0000      00850         BANKSEL (_User_txdata + 23)
+015E 6F00      00851         MOVWF   (_User_txdata + 23), B
+0160 D000      00852         BRA     _00212_DS_
+0162 00853 _00171_DS_:
+               00854 ;       .line   386; vex_spi.c  else if (!TRISFbits.TRISF7)
+0162 BE00      00855         BTFSC   _TRISFbits, 7
+0164 D000      00856         BRA     _00212_DS_
+               00857 ;       .line   388; vex_spi.c  User_txdata.error_code = 15;
+0166 0E0F      00858         MOVLW   0x0f
+0168 0000      00859         BANKSEL (_User_txdata + 28)
+016A 6F00      00860         MOVWF   (_User_txdata + 28), B
+               00861 ;       .line   389; vex_spi.c  User_txdata.warning_code = TRISF;
+016C 5000      00862         MOVF    _TRISF, W
+016E 0000      00863         BANKSEL (_User_txdata + 23)
+0170 6F00      00864         MOVWF   (_User_txdata + 23), B
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE 17
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0172 00865 _00212_DS_:
+0172 CFE4 F000 00866         MOVFF   PREINC1, r0x00
+0176 CFE4 FFD9 00867         MOVFF   PREINC1, FSR2L
+017A 0012      00868         RETURN  
+               00869 
+               00870 ; ; Starting pCode block
+               00871 S_vex_spi__user_proc_is_ready   code
+0000 00872 _user_proc_is_ready:
+               00873 ;       .line   266; vex_spi.c  void    user_proc_is_ready(void)
+0000 CFD9 FFE5 00874         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00875         MOVFF   FSR1L, FSR2L
+               00876 ;       .line   268; vex_spi.c  PORTCbits.RC1 = 1;
+0008 8200      00877         BSF     _PORTCbits, 1
+               00878 ;       .line   269; vex_spi.c  PORTAbits.RA4 = 1;
+000A 8800      00879         BSF     _PORTAbits, 4
+               00880 ;       .line   270; vex_spi.c  TRISCbits.TRISC1 = 0;
+000C 9200      00881         BCF     _TRISCbits, 1
+               00882 ;       .line   271; vex_spi.c  TRISAbits.TRISA4 = 0;
+000E 9800      00883         BCF     _TRISAbits, 4
+0010 CFE4 FFD9 00884         MOVFF   PREINC1, FSR2L
+0014 0012      00885         RETURN  
+               00886 
+               00887 ; ; Starting pCode block
+               00888 S_vex_spi__OpenSPI      code
+0000 00889 _OpenSPI:
+               00890 ;       .line   205; vex_spi.c  void    OpenSPI(unsigned char mode_select, unsigned char clock_mode, unsigned char sample)
+0000 CFD9 FFE5 00891         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00892         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00893         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00894         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00895         MOVFF   r0x02, POSTDEC1
+0014 0E02      00896         MOVLW   0x02
+0016 CFDB F000 00897         MOVFF   PLUSW2, r0x00
+001A 0E03      00898         MOVLW   0x03
+001C CFDB F000 00899         MOVFF   PLUSW2, r0x01
+0020 0E04      00900         MOVLW   0x04
+0022 CFDB F000 00901         MOVFF   PLUSW2, r0x02
+               00902 ;       .line   208; vex_spi.c  SSPCON1 = mode_select & 0x0F;       /* Also clears CKP */
+0026 0E0F      00903         MOVLW   0x0f
+0028 1400      00904         ANDWF   r0x00, W
+002A 6E00      00905         MOVWF   _SSPCON1
+               00906 ;       .line   209; vex_spi.c  SSPSTAT = sample? 0x80: 0x00;       /* Also clears CKE */
+002C 5000      00907         MOVF    r0x02, W
+002E E000      00908         BZ      _00137_DS_
+0030 0E80      00909         MOVLW   0x80
+0032 6E00      00910         MOVWF   r0x02
+0034 D000      00911         BRA     _00138_DS_
+0036 00912 _00137_DS_:
+0036 6A00      00913         CLRF    r0x02
+0038 00914 _00138_DS_:
+0038 C000 F000 00915         MOVFF   r0x02, _SSPSTAT
+               00916 ;       .line   211; vex_spi.c  switch(clock_mode)
+003C 0E04      00917         MOVLW   0x04
+003E 5C00      00918         SUBWF   r0x01, W
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE 18
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0040 E200      00919         BC      _00128_DS_
+0042 C000 FFE5 00920         MOVFF   r0x03, POSTDEC1
+0046 C000 FFE5 00921         MOVFF   r0x04, POSTDEC1
+004A 6A00      00922         CLRF    r0x04
+004C 3400      00923         RLCF    r0x01, W
+004E 3600      00924         RLCF    r0x04, F
+0050 34E8      00925         RLCF    WREG, W
+0052 3600      00926         RLCF    r0x04, F
+0054 0BFC      00927         ANDLW   0xfc
+0056 6E00      00928         MOVWF   r0x03
+0058 0E00      00929         MOVLW   UPPER(_00145_DS_)
+005A 6EFB      00930         MOVWF   PCLATU
+005C 0E00      00931         MOVLW   HIGH(_00145_DS_)
+005E 6EFA      00932         MOVWF   PCLATH
+0060 0E00      00933         MOVLW   LOW(_00145_DS_)
+0062 2600      00934         ADDWF   r0x03, F
+0064 5000      00935         MOVF    r0x04, W
+0066 22FA      00936         ADDWFC  PCLATH, F
+0068 B0D8      00937         BTFSC   STATUS, 0
+006A 2AFB      00938         INCF    PCLATU, F
+006C 5000      00939         MOVF    r0x03, W
+006E CFE4 F000 00940         MOVFF   PREINC1, r0x04
+0072 CFE4 F000 00941         MOVFF   PREINC1, r0x03
+0076 6EF9      00942         MOVWF   PCL
+0078 00943 _00145_DS_:
+0078 EF00 F000 00944         GOTO    _00124_DS_
+007C EF00 F000 00945         GOTO    _00125_DS_
+0080 EF00 F000 00946         GOTO    _00126_DS_
+0084 EF00 F000 00947         GOTO    _00127_DS_
+0088 00948 _00124_DS_:
+               00949 ;       .line   214; vex_spi.c  SSPCON1bits.CKP = 0;
+0088 9800      00950         BCF     _SSPCON1bits, 4
+               00951 ;       .line   215; vex_spi.c  SSPSTATbits.CKE = 1;
+008A 8C00      00952         BSF     _SSPSTATbits, 6
+               00953 ;       .line   216; vex_spi.c  break;
+008C D000      00954         BRA     _00128_DS_
+008E 00955 _00125_DS_:
+               00956 ;       .line   218; vex_spi.c  SSPCON1bits.CKP = 0;
+008E 9800      00957         BCF     _SSPCON1bits, 4
+               00958 ;       .line   219; vex_spi.c  SSPSTATbits.CKE = 0;
+0090 9C00      00959         BCF     _SSPSTATbits, 6
+               00960 ;       .line   220; vex_spi.c  break;
+0092 D000      00961         BRA     _00128_DS_
+0094 00962 _00126_DS_:
+               00963 ;       .line   222; vex_spi.c  SSPCON1bits.CKP = 1;
+0094 8800      00964         BSF     _SSPCON1bits, 4
+               00965 ;       .line   223; vex_spi.c  SSPSTATbits.CKE = 1;
+0096 8C00      00966         BSF     _SSPSTATbits, 6
+               00967 ;       .line   224; vex_spi.c  break;
+0098 D000      00968         BRA     _00128_DS_
+009A 00969 _00127_DS_:
+               00970 ;       .line   226; vex_spi.c  SSPCON1bits.CKP = 1;
+009A 8800      00971         BSF     _SSPCON1bits, 4
+               00972 ;       .line   227; vex_spi.c  SSPSTATbits.CKE = 0;
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE 19
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+009C 9C00      00973         BCF     _SSPSTATbits, 6
+009E 00974 _00128_DS_:
+               00975 ;       .line   234; vex_spi.c  if (mode_select == SLV_SSOFF) {
+009E 5000      00976         MOVF    r0x00, W
+00A0 0A05      00977         XORLW   0x05
+00A2 E100      00978         BNZ     _00133_DS_
+               00979 ;       .line   235; vex_spi.c  TRISCbits.TRISC3 = 1;   /* RC3/SCK/SCL an input. 1 for SPI slave. */
+00A4 8600      00980         BSF     _TRISCbits, 3
+               00981 ;       .line   236; vex_spi.c  SSPSTATbits.SMP  = 0;   /* Force SMPMID */
+00A6 9E00      00982         BCF     _SSPSTATbits, 7
+00A8 D000      00983         BRA     _00134_DS_
+00AA 00984 _00133_DS_:
+               00985 ;       .line   237; vex_spi.c  } else if (mode_select == SPI_FOSC_16) {
+00AA 5000      00986         MOVF    r0x00, W
+00AC 0A01      00987         XORLW   0x01
+00AE E100      00988         BNZ     _00130_DS_
+               00989 ;       .line   238; vex_spi.c  TRISAbits.TRISA5 = 1;   /* OSC2/CLKO/RA6 an input */
+00B0 8A00      00990         BSF     _TRISAbits, 5
+00B2 D000      00991         BRA     _00134_DS_
+00B4 00992 _00130_DS_:
+               00993 ;       .line   241; vex_spi.c  TRISCbits.TRISC3 = 0;   /* RC3/SCK/SCL an output. 0 for SPI master. */
+00B4 9600      00994         BCF     _TRISCbits, 3
+00B6 00995 _00134_DS_:
+               00996 ;       .line   244; vex_spi.c  TRISCbits.TRISC5 = 0;       /* RC5/SDO an output. Required for SPI. */
+00B6 9A00      00997         BCF     _TRISCbits, 5
+               00998 ;       .line   245; vex_spi.c  TRISCbits.TRISC4 = 1;       /* RC4/SDI/SDA an input */
+00B8 8800      00999         BSF     _TRISCbits, 4
+               01000 ;       .line   246; vex_spi.c  TRISFbits.TRISF7 = 1;       /* SS' must be set. */
+00BA 8E00      01001         BSF     _TRISFbits, 7
+               01002 ;       .line   248; vex_spi.c  INTCON2bits.INTEDG0 = 0;    /* Trigger on falling edge */
+00BC 9C00      01003         BCF     _INTCON2bits, 6
+               01004 ;       .line   249; vex_spi.c  INTCONbits.INT0E = 1;       /* Enable pack interrupts */
+00BE 8800      01005         BSF     _INTCONbits, 4
+               01006 ;       .line   252; vex_spi.c  SSPCON1bits.SSPEN = 1;
+00C0 8A00      01007         BSF     _SSPCON1bits, 5
+00C2 CFE4 F000 01008         MOVFF   PREINC1, r0x02
+00C6 CFE4 F000 01009         MOVFF   PREINC1, r0x01
+00CA CFE4 F000 01010         MOVFF   PREINC1, r0x00
+00CE CFE4 FFD9 01011         MOVFF   PREINC1, FSR2L
+00D2 0012      01012         RETURN  
+               01013 
+               01014 
+               01015 
+               01016 ; Statistics:
+               01017 ; code size:     1216 (0x04c0) bytes ( 0.93%)
+               01018 ;                 608 (0x0260) words
+               01019 ; udata size:     169 (0x00a9) bytes ( 9.43%)
+               01020 ; access size:      5 (0x0005) bytes
+               01021 
+               01022 
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE 20
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+BSR                               00000FE0
+FSR0H                             00000FEA
+FSR0L                             00000FE9
+FSR1L                             00000FE1
+FSR2L                             00000FD9
+INDF0                             00000FEF
+PCL                               00000FF9
+PCLATH                            00000FFA
+PCLATU                            00000FFB
+PLUSW2                            00000FDB
+POSTDEC1                          00000FE5
+PREINC1                           00000FE4
+PRODH                             00000FF4
+PRODL                             00000FF3
+STATUS                            00000FD8
+WREG                              00000FE8
+_00111_DS_                        0000013C
+_00117_DS_                        00000172
+_00119_DS_                        00000220
+_00124_DS_                        00000088
+_00125_DS_                        0000008E
+_00126_DS_                        00000094
+_00127_DS_                        0000009A
+_00128_DS_                        0000009E
+_00130_DS_                        000000B4
+_00133_DS_                        000000AA
+_00134_DS_                        000000B6
+_00137_DS_                        00000036
+_00138_DS_                        00000038
+_00145_DS_                        00000078
+_00162_DS_                        00000042
+_00166_DS_                        00000022
+_00167_DS_                        0000004E
+_00171_DS_                        00000162
+_00174_DS_                        0000014A
+_00177_DS_                        00000138
+_00180_DS_                        00000126
+_00183_DS_                        00000112
+_00186_DS_                        000000FE
+_00189_DS_                        000000E6
+_00192_DS_                        000000D4
+_00195_DS_                        000000C2
+_00198_DS_                        000000AE
+_00201_DS_                        0000009C
+_00204_DS_                        0000008A
+_00207_DS_                        00000078
+_00210_DS_                        00000066
+_00212_DS_                        00000172
+_10159_DS_                        00000166
+_20160_DS_                        0000016C
+_30161_DS_                        000001A0
+_40162_DS_                        000001A6
+_50163_DS_                        000001CC
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE 21
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_60164_DS_                        000001D2
+_ADCON0                           00000000
+_ADCON0bits                       00000000
+_ADCON1                           00000000
+_ADCON1bits                       00000000
+_ADCON2                           00000000
+_ADCON2bits                       00000000
+_ADRESH                           00000000
+_ADRESL                           00000000
+_BSR                              00000000
+_CCP1CON                          00000000
+_CCP1CONbits                      00000000
+_CCP2CON                          00000000
+_CCP2CONbits                      00000000
+_CCP3CON                          00000000
+_CCP3CONbits                      00000000
+_CCP4CON                          00000000
+_CCP4CONbits                      00000000
+_CCP5CON                          00000000
+_CCP5CONbits                      00000000
+_CCPR1H                           00000000
+_CCPR1L                           00000000
+_CCPR2H                           00000000
+_CCPR2L                           00000000
+_CCPR3H                           00000000
+_CCPR3L                           00000000
+_CCPR4H                           00000000
+_CCPR4L                           00000000
+_CCPR5H                           00000000
+_CCPR5L                           00000000
+_CMCON                            00000000
+_CMCONbits                        00000000
+_CVRCON                           00000000
+_CVRCONbits                       00000000
+_EEADR                            00000000
+_EEADRH                           00000000
+_EECON1                           00000000
+_EECON1bits                       00000000
+_EECON2                           00000000
+_EEDATA                           00000000
+_FSR0H                            00000000
+_FSR0L                            00000000
+_FSR1H                            00000000
+_FSR1L                            00000000
+_FSR2H                            00000000
+_FSR2L                            00000000
+_INDF0                            00000000
+_INDF1                            00000000
+_INDF2                            00000000
+_INTCON                           00000000
+_INTCON2                          00000000
+_INTCON2bits                      00000000
+_INTCON3                          00000000
+_INTCON3bits                      00000000
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE 22
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_INTCONbits                       00000000
+_IPR1                             00000000
+_IPR1bits                         00000000
+_IPR2                             00000000
+_IPR2bits                         00000000
+_IPR3                             00000000
+_IPR3bits                         00000000
+_InterruptHandlerHigh             00000000
+_InterruptHandlerHigh_Spi_byte_count_1_1  00000000
+_InterruptHandlerHigh_packet_num_1_1  00000005
+_InterruptHandlerHigh_rx_ptr_1_1  00000000
+_InterruptHandlerHigh_spi_ch_1_1  00000000
+_InterruptHandlerHigh_tx_ptr_1_1  00000000
+_InterruptVectorHigh              00000808
+_Interrupt_port_in_use            00000000
+_LATA                             00000000
+_LATAbits                         00000000
+_LATB                             00000000
+_LATBbits                         00000000
+_LATC                             00000000
+_LATCbits                         00000000
+_LATD                             00000000
+_LATDbits                         00000000
+_LATE                             00000000
+_LATEbits                         00000000
+_LATF                             00000000
+_LATFbits                         00000000
+_LATG                             00000000
+_LATGbits                         00000000
+_LATH                             00000000
+_LATHbits                         00000000
+_LATJ                             00000000
+_LATJbits                         00000000
+_LVDCON                           00000000
+_LVDCONbits                       00000000
+_MEMCON                           00000000
+_MEMCONbits                       00000000
+_OSCCON                           00000000
+_OSCCONbits                       00000000
+_OpenSPI                          00000000
+_PCL                              00000000
+_PCLATH                           00000000
+_PCLATU                           00000000
+_PIE1                             00000000
+_PIE1bits                         00000000
+_PIE2                             00000000
+_PIE2bits                         00000000
+_PIE3                             00000000
+_PIE3bits                         00000000
+_PIR1                             00000000
+_PIR1bits                         00000000
+_PIR2                             00000000
+_PIR2bits                         00000000
+_PIR3                             00000000
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE 23
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_PIR3bits                         00000000
+_PLUSW0                           00000000
+_PLUSW1                           00000000
+_PLUSW2                           00000000
+_PORTA                            00000000
+_PORTAbits                        00000000
+_PORTB                            00000000
+_PORTBbits                        00000000
+_PORTC                            00000000
+_PORTCbits                        00000000
+_PORTD                            00000000
+_PORTDbits                        00000000
+_PORTE                            00000000
+_PORTEbits                        00000000
+_PORTF                            00000000
+_PORTFbits                        00000000
+_PORTG                            00000000
+_PORTGbits                        00000000
+_PORTH                            00000000
+_PORTHbits                        00000000
+_PORTJ                            00000000
+_PORTJbits                        00000000
+_POSTDEC0                         00000000
+_POSTDEC1                         00000000
+_POSTDEC2                         00000000
+_POSTINC0                         00000000
+_POSTINC1                         00000000
+_POSTINC2                         00000000
+_PR2                              00000000
+_PR4                              00000000
+_PREINC0                          00000000
+_PREINC1                          00000000
+_PREINC2                          00000000
+_PRODH                            00000000
+_PRODL                            00000000
+_PSPCON                           00000000
+_PSPCONbits                       00000000
+_RCON                             00000000
+_RCONbits                         00000000
+_RCREG                            00000000
+_RCREG1                           00000000
+_RCREG2                           00000000
+_RCSTA                            00000000
+_RCSTA1                           00000000
+_RCSTA1bits                       00000000
+_RCSTA2                           00000000
+_RCSTA2bits                       00000000
+_RCSTAbits                        00000000
+_Rx_buff                          00000000
+_Rx_user_buff_index               00000000
+_SPBRG                            00000000
+_SPBRG1                           00000000
+_SPBRG2                           00000000
+_SSPADD                           00000000
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE 24
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_SSPBUF                           00000000
+_SSPCON1                          00000000
+_SSPCON1bits                      00000000
+_SSPCON2                          00000000
+_SSPCON2bits                      00000000
+_SSPSTAT                          00000000
+_SSPSTATbits                      00000000
+_STATUS                           00000000
+_STATUSbits                       00000000
+_STKPTR                           00000000
+_STKPTRbits                       00000000
+_Spi_status                       00000000
+_T0CON                            00000000
+_T1CON                            00000000
+_T1CONbits                        00000000
+_T2CON                            00000000
+_T2CONbits                        00000000
+_T3CON                            00000000
+_T3CONbits                        00000000
+_T4CON                            00000000
+_T4CONbits                        00000000
+_TABLAT                           00000000
+_TBLPTRH                          00000000
+_TBLPTRL                          00000000
+_TBLPTRU                          00000000
+_TMR0H                            00000000
+_TMR0L                            00000000
+_TMR1H                            00000000
+_TMR1L                            00000000
+_TMR2                             00000000
+_TMR3H                            00000000
+_TMR3L                            00000000
+_TMR4                             00000000
+_TOSH                             00000000
+_TOSL                             00000000
+_TOSU                             00000000
+_TRISA                            00000000
+_TRISAbits                        00000000
+_TRISB                            00000000
+_TRISBbits                        00000000
+_TRISC                            00000000
+_TRISCbits                        00000000
+_TRISD                            00000000
+_TRISDbits                        00000000
+_TRISE                            00000000
+_TRISEbits                        00000000
+_TRISF                            00000000
+_TRISFbits                        00000000
+_TRISG                            00000000
+_TRISGbits                        00000000
+_TRISH                            00000000
+_TRISHbits                        00000000
+_TRISJ                            00000000
+_TRISJbits                        00000000
+gpasm-0.13.7 beta               vex_spi.asm 11-2-2012  01:06:40          PAGE 25
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_TXREG                            00000000
+_TXREG1                           00000000
+_TXREG2                           00000000
+_TXSTA                            00000000
+_TXSTA1                           00000000
+_TXSTA1bits                       00000000
+_TXSTA2                           00000000
+_TXSTA2bits                       00000000
+_TXSTAbits                        00000000
+_Tx_buff                          00000000
+_Tx_user_buff_index               00000004
+_User_rxdata                      00000001
+_User_txdata                      00000000
+_WDTCON                           00000000
+_WDTCONbits                       00000000
+_WREG                             00000000
+__18F8520                         00000001
+__gptrget1                        00000000
+__gptrput1                        00000000
+_check_tx_env                     00000000
+_stdin                            00000000
+_stdout                           00000000
+_user_proc_is_ready               00000000
+r0x00                             00000000
+r0x01                             00000001
+r0x02                             00000002
+r0x03                             00000003
+r0x04                             00000004
+
+
+Errors   :       0
+Warnings :       0 reported,       0 suppressed
+Messages :       0 reported,       0 suppressed
+

@@ -1,0 +1,2068 @@
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00001 ;--------------------------------------------------------
+               00002 ; File Created by SDCC : free open source ANSI-C Compiler
+               00003 ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
+               00004 ; This file was generated Fri Nov  2 01:09:54 2012
+               00005 ;--------------------------------------------------------
+               00006 ; PIC16 port for the Microchip 16-bit core micros
+               00007 ;--------------------------------------------------------
+               00008         list    p=18f8520
+               00009 
+               00010         radix dec
+               00011 
+               00012 ;--------------------------------------------------------
+               00013 ; public variables in this module
+               00014 ;--------------------------------------------------------
+               00015         global _Sonar_output_port
+               00016         global _Interrupt_port_in_use
+               00017         global _interrupt_set_edge
+               00018         global _interrupt_enable
+               00019         global _interrupt_disable
+               00020         global _InterruptVectorLow
+               00021         global _InterruptHandlerLow
+               00022         global _sonar_emit_isr
+               00023         global _sonar_echo_isr
+               00024         global _quad_encoder_isr
+               00025         global _Timer0_overflows
+               00026         global _Timer1_overflows
+               00027         global _Timer2_overflows
+               00028         global _Timer3_overflows
+               00029         global _Timer4_overflows
+               00030         global _Sonar_on_iport
+               00031         global _Sonar_data_available
+               00032         global _Sonar_echo_time
+               00033         global _Timer0_at_emit
+               00034         global _Timer0_at_echo
+               00035         global _Encoder_ticks
+               00036         global _Encoder_on_iport
+               00037         global _Quad_input_port
+               00038         global _Porta_sample
+               00039         global _Portf_sample
+               00040         global _Porth_sample
+               00041 
+               00042 ;--------------------------------------------------------
+               00043 ; extern variables in this module
+               00044 ;--------------------------------------------------------
+               00045         extern _stdin
+               00046         extern _stdout
+               00047         extern _RCSTA2bits
+               00048         extern _TXSTA2bits
+               00049         extern _CCP5CONbits
+               00050         extern _CCP4CONbits
+               00051         extern _T4CONbits
+               00052         extern _PORTAbits
+               00053         extern _PORTBbits
+               00054         extern _PORTCbits
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00055         extern _PORTDbits
+               00056         extern _PORTEbits
+               00057         extern _PORTFbits
+               00058         extern _PORTGbits
+               00059         extern _PORTHbits
+               00060         extern _PORTJbits
+               00061         extern _LATAbits
+               00062         extern _LATBbits
+               00063         extern _LATCbits
+               00064         extern _LATDbits
+               00065         extern _LATEbits
+               00066         extern _LATFbits
+               00067         extern _LATGbits
+               00068         extern _LATHbits
+               00069         extern _LATJbits
+               00070         extern _TRISAbits
+               00071         extern _TRISBbits
+               00072         extern _TRISCbits
+               00073         extern _TRISDbits
+               00074         extern _TRISEbits
+               00075         extern _TRISFbits
+               00076         extern _TRISGbits
+               00077         extern _TRISHbits
+               00078         extern _TRISJbits
+               00079         extern _MEMCONbits
+               00080         extern _PIE1bits
+               00081         extern _PIR1bits
+               00082         extern _IPR1bits
+               00083         extern _PIE2bits
+               00084         extern _PIR2bits
+               00085         extern _IPR2bits
+               00086         extern _PIE3bits
+               00087         extern _PIR3bits
+               00088         extern _IPR3bits
+               00089         extern _EECON1bits
+               00090         extern _RCSTA1bits
+               00091         extern _TXSTA1bits
+               00092         extern _RCSTAbits
+               00093         extern _TXSTAbits
+               00094         extern _PSPCONbits
+               00095         extern _T3CONbits
+               00096         extern _CMCONbits
+               00097         extern _CVRCONbits
+               00098         extern _CCP3CONbits
+               00099         extern _CCP2CONbits
+               00100         extern _CCP1CONbits
+               00101         extern _ADCON2bits
+               00102         extern _ADCON1bits
+               00103         extern _ADCON0bits
+               00104         extern _SSPCON2bits
+               00105         extern _SSPCON1bits
+               00106         extern _SSPSTATbits
+               00107         extern _T2CONbits
+               00108         extern _T1CONbits
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00109         extern _RCONbits
+               00110         extern _WDTCONbits
+               00111         extern _LVDCONbits
+               00112         extern _OSCCONbits
+               00113         extern _STATUSbits
+               00114         extern _INTCON3bits
+               00115         extern _INTCON2bits
+               00116         extern _INTCONbits
+               00117         extern _STKPTRbits
+               00118         extern _Analog_ports
+               00119         extern _RCSTA2
+               00120         extern _TXSTA2
+               00121         extern _TXREG2
+               00122         extern _RCREG2
+               00123         extern _SPBRG2
+               00124         extern _CCP5CON
+               00125         extern _CCPR5L
+               00126         extern _CCPR5H
+               00127         extern _CCP4CON
+               00128         extern _CCPR4L
+               00129         extern _CCPR4H
+               00130         extern _T4CON
+               00131         extern _PR4
+               00132         extern _TMR4
+               00133         extern _PORTA
+               00134         extern _PORTB
+               00135         extern _PORTC
+               00136         extern _PORTD
+               00137         extern _PORTE
+               00138         extern _PORTF
+               00139         extern _PORTG
+               00140         extern _PORTH
+               00141         extern _PORTJ
+               00142         extern _LATA
+               00143         extern _LATB
+               00144         extern _LATC
+               00145         extern _LATD
+               00146         extern _LATE
+               00147         extern _LATF
+               00148         extern _LATG
+               00149         extern _LATH
+               00150         extern _LATJ
+               00151         extern _TRISA
+               00152         extern _TRISB
+               00153         extern _TRISC
+               00154         extern _TRISD
+               00155         extern _TRISE
+               00156         extern _TRISF
+               00157         extern _TRISG
+               00158         extern _TRISH
+               00159         extern _TRISJ
+               00160         extern _MEMCON
+               00161         extern _PIE1
+               00162         extern _PIR1
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00163         extern _IPR1
+               00164         extern _PIE2
+               00165         extern _PIR2
+               00166         extern _IPR2
+               00167         extern _PIE3
+               00168         extern _PIR3
+               00169         extern _IPR3
+               00170         extern _EECON1
+               00171         extern _EECON2
+               00172         extern _EEDATA
+               00173         extern _EEADR
+               00174         extern _EEADRH
+               00175         extern _RCSTA1
+               00176         extern _TXSTA1
+               00177         extern _TXREG1
+               00178         extern _RCREG1
+               00179         extern _SPBRG1
+               00180         extern _RCSTA
+               00181         extern _TXSTA
+               00182         extern _TXREG
+               00183         extern _RCREG
+               00184         extern _SPBRG
+               00185         extern _PSPCON
+               00186         extern _T3CON
+               00187         extern _TMR3L
+               00188         extern _TMR3H
+               00189         extern _CMCON
+               00190         extern _CVRCON
+               00191         extern _CCP3CON
+               00192         extern _CCPR3L
+               00193         extern _CCPR3H
+               00194         extern _CCP2CON
+               00195         extern _CCPR2L
+               00196         extern _CCPR2H
+               00197         extern _CCP1CON
+               00198         extern _CCPR1L
+               00199         extern _CCPR1H
+               00200         extern _ADCON2
+               00201         extern _ADCON1
+               00202         extern _ADCON0
+               00203         extern _ADRESL
+               00204         extern _ADRESH
+               00205         extern _SSPCON2
+               00206         extern _SSPCON1
+               00207         extern _SSPSTAT
+               00208         extern _SSPADD
+               00209         extern _SSPBUF
+               00210         extern _T2CON
+               00211         extern _PR2
+               00212         extern _TMR2
+               00213         extern _T1CON
+               00214         extern _TMR1L
+               00215         extern _TMR1H
+               00216         extern _RCON
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00217         extern _WDTCON
+               00218         extern _LVDCON
+               00219         extern _OSCCON
+               00220         extern _T0CON
+               00221         extern _TMR0L
+               00222         extern _TMR0H
+               00223         extern _STATUS
+               00224         extern _FSR2L
+               00225         extern _FSR2H
+               00226         extern _PLUSW2
+               00227         extern _PREINC2
+               00228         extern _POSTDEC2
+               00229         extern _POSTINC2
+               00230         extern _INDF2
+               00231         extern _BSR
+               00232         extern _FSR1L
+               00233         extern _FSR1H
+               00234         extern _PLUSW1
+               00235         extern _PREINC1
+               00236         extern _POSTDEC1
+               00237         extern _POSTINC1
+               00238         extern _INDF1
+               00239         extern _WREG
+               00240         extern _FSR0L
+               00241         extern _FSR0H
+               00242         extern _PLUSW0
+               00243         extern _PREINC0
+               00244         extern _POSTDEC0
+               00245         extern _POSTINC0
+               00246         extern _INDF0
+               00247         extern _INTCON3
+               00248         extern _INTCON2
+               00249         extern _INTCON
+               00250         extern _PRODL
+               00251         extern _PRODH
+               00252         extern _TABLAT
+               00253         extern _TBLPTRL
+               00254         extern _TBLPTRH
+               00255         extern _TBLPTRU
+               00256         extern _PCL
+               00257         extern _PCLATH
+               00258         extern _PCLATU
+               00259         extern _STKPTR
+               00260         extern _TOSL
+               00261         extern _TOSH
+               00262         extern _TOSU
+               00263 ;--------------------------------------------------------
+               00264 ;       Equates to used internal registers
+               00265 ;--------------------------------------------------------
+  00000FD8     00266 STATUS  equ     0xfd8
+  00000FF9     00267 PCL     equ     0xff9
+  00000FFA     00268 PCLATH  equ     0xffa
+  00000FFB     00269 PCLATU  equ     0xffb
+  00000FE8     00270 WREG    equ     0xfe8
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+  00000FE0     00271 BSR     equ     0xfe0
+  00000FE9     00272 FSR0L   equ     0xfe9
+  00000FEA     00273 FSR0H   equ     0xfea
+  00000FE1     00274 FSR1L   equ     0xfe1
+  00000FD9     00275 FSR2L   equ     0xfd9
+  00000FEF     00276 INDF0   equ     0xfef
+  00000FEE     00277 POSTINC0        equ     0xfee
+  00000FE5     00278 POSTDEC1        equ     0xfe5
+  00000FE4     00279 PREINC1 equ     0xfe4
+  00000FDB     00280 PLUSW2  equ     0xfdb
+  00000FF3     00281 PRODL   equ     0xff3
+  00000FF4     00282 PRODH   equ     0xff4
+               00283 
+               00284 
+               00285         idata
+               00286 _Interrupt_port_in_use  db      0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+               00287 _Sonar_on_iport db      0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+               00288 _Sonar_data_available   db      0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+               00289 _Sonar_echo_time        db      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+               00290 _Encoder_ticks  db      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+               00291 _Encoder_on_iport       db      0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+               00292 _Quad_input_port        db      0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+               00293 _InterruptHandlerLow_old_portb_1_1      db      0x00
+               00294 
+               00295 
+               00296 ; Internal registers
+               00297 .registers      udata_ovr       0x0000
+               00298 r0x00   res     1
+               00299 r0x01   res     1
+               00300 r0x02   res     1
+               00301 r0x03   res     1
+               00302 r0x04   res     1
+               00303 r0x05   res     1
+               00304 r0x06   res     1
+               00305 r0x07   res     1
+               00306 r0x08   res     1
+               00307 r0x09   res     1
+               00308 r0x0a   res     1
+               00309 r0x0b   res     1
+               00310 
+               00311 udata_interrupts_0      udata
+               00312 _Sonar_output_port      res     6
+               00313 
+               00314 udata_interrupts_1      udata
+               00315 _Porta_sample   res     1
+               00316 
+               00317 udata_interrupts_2      udata
+               00318 _Portf_sample   res     1
+               00319 
+               00320 udata_interrupts_3      udata
+               00321 _Porth_sample   res     1
+               00322 
+               00323 udata_interrupts_4      udata
+               00324 _Timer0_overflows       res     2
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00325 
+               00326 udata_interrupts_5      udata
+               00327 _Timer1_overflows       res     2
+               00328 
+               00329 udata_interrupts_6      udata
+               00330 _Timer2_overflows       res     4
+               00331 
+               00332 udata_interrupts_7      udata
+               00333 _Timer3_overflows       res     2
+               00334 
+               00335 udata_interrupts_8      udata
+               00336 _Timer4_overflows       res     4
+               00337 
+               00338 udata_interrupts_9      udata
+               00339 _Timer0_at_emit res     12
+               00340 
+               00341 udata_interrupts_10     udata
+               00342 _Timer0_at_echo res     12
+               00343 
+               00344 ;--------------------------------------------------------
+               00345 ; global & static initialisations
+               00346 ;--------------------------------------------------------
+               00347 ; ; Starting pCode block
+               00348 S_interrupts__InterruptVectorLow        code    0X000818
+0818 00349 _InterruptVectorLow:
+0818 EF00 F000 00350         goto _InterruptHandlerLow
+               00351         
+               00352 ; ; Starting pCode block
+               00353 S_interrupts__InterruptHandlerLow       code
+0000 00354 _InterruptHandlerLow:
+               00355 ;       .line   210; interrupts.c       void    InterruptHandlerLow(void) INTERRUPT
+0000 CFE8 FFE5 00356         MOVFF   WREG, POSTDEC1
+0004 CFD8 FFE5 00357         MOVFF   STATUS, POSTDEC1
+0008 CFE0 FFE5 00358         MOVFF   BSR, POSTDEC1
+000C CFF3 FFE5 00359         MOVFF   PRODL, POSTDEC1
+0010 CFF4 FFE5 00360         MOVFF   PRODH, POSTDEC1
+0014 CFE9 FFE5 00361         MOVFF   FSR0L, POSTDEC1
+0018 CFEA FFE5 00362         MOVFF   FSR0H, POSTDEC1
+001C CFFA FFE5 00363         MOVFF   PCLATH, POSTDEC1
+0020 CFFB FFE5 00364         MOVFF   PCLATU, POSTDEC1
+0024 CFD9 FFE5 00365         MOVFF   FSR2L, POSTDEC1
+0028 CFE1 FFD9 00366         MOVFF   FSR1L, FSR2L
+002C C000 FFE5 00367         MOVFF   r0x00, POSTDEC1
+0030 C000 FFE5 00368         MOVFF   r0x01, POSTDEC1
+0034 C000 FFE5 00369         MOVFF   r0x02, POSTDEC1
+0038 C000 FFE5 00370         MOVFF   r0x03, POSTDEC1
+003C C000 FFE5 00371         MOVFF   r0x04, POSTDEC1
+0040 C000 FFE5 00372         MOVFF   r0x05, POSTDEC1
+0044 C000 FFE5 00373         MOVFF   r0x06, POSTDEC1
+0048 C000 FFE5 00374         MOVFF   r0x07, POSTDEC1
+004C C000 FFE5 00375         MOVFF   r0x08, POSTDEC1
+0050 C000 FFE5 00376         MOVFF   r0x09, POSTDEC1
+0054 C000 FFE5 00377         MOVFF   r0x0a, POSTDEC1
+               00378 ;       .line   279; interrupts.c       Porta_sample = PORTA;
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0058 C000 F000 00379         MOVFF   _PORTA, _Porta_sample
+               00380 ;       .line   280; interrupts.c       Portf_sample = PORTF;
+005C C000 F000 00381         MOVFF   _PORTF, _Portf_sample
+               00382 ;       .line   281; interrupts.c       Porth_sample = PORTH;
+0060 C000 F000 00383         MOVFF   _PORTH, _Porth_sample
+               00384 ;       .line   283; interrupts.c       if (INTCONbits.RBIF)
+0064 A000      00385         BTFSS   _INTCONbits, 0
+0066 D000      00386         BRA     _00177_DS_
+               00387 ;       .line   289; interrupts.c       new_portb = PORTB;
+0068 C000 F000 00388         MOVFF   _PORTB, r0x00
+               00389 ;       .line   290; interrupts.c       INTCONbits.RBIF = 0;
+006C 9000      00390         BCF     _INTCONbits, 0
+               00391 ;       .line   308; interrupts.c       for (p = 3, mask = 0x10; p <= 6; ++p, mask <<= 1)
+006E 0E10      00392         MOVLW   0x10
+0070 6E00      00393         MOVWF   r0x01
+0072 6A00      00394         CLRF    r0x02
+0074 0E03      00395         MOVLW   0x03
+0076 6E00      00396         MOVWF   r0x03
+0078 6A00      00397         CLRF    r0x04
+007A 00398 _00214_DS_:
+007A 5000      00399         MOVF    r0x04, W
+007C 0F80      00400         ADDLW   0x80
+007E 0F80      00401         ADDLW   0x80
+0080 E100      00402         BNZ     _00245_DS_
+0082 0E07      00403         MOVLW   0x07
+0084 5C00      00404         SUBWF   r0x03, W
+0086 00405 _00245_DS_:
+0086 B0D8      00406         BTFSC   STATUS, 0
+0088 D000      00407         BRA     _00177_DS_
+008A 0000      00408         BANKSEL _InterruptHandlerLow_old_portb_1_1
+               00409 ;       .line   311; interrupts.c       if ( (new_portb ^ old_portb) & mask )
+008C 5100      00410         MOVF    _InterruptHandlerLow_old_portb_1_1, W, B
+008E 1800      00411         XORWF   r0x00, W
+0090 6E00      00412         MOVWF   r0x05
+0092 6A00      00413         CLRF    r0x06
+0094 5000      00414         MOVF    r0x01, W
+0096 1600      00415         ANDWF   r0x05, F
+0098 5000      00416         MOVF    r0x02, W
+009A 1600      00417         ANDWF   r0x06, F
+009C 5000      00418         MOVF    r0x05, W
+009E 1000      00419         IORWF   r0x06, W
+00A0 B4D8      00420         BTFSC   STATUS, 2
+00A2 D000      00421         BRA     _00216_DS_
+               00422 ;       .line   314; interrupts.c       if ( new_portb & mask ) /* Rising edge */
+00A4 C000 F000 00423         MOVFF   r0x00, r0x05
+00A8 6A00      00424         CLRF    r0x06
+00AA 5000      00425         MOVF    r0x01, W
+00AC 1600      00426         ANDWF   r0x05, F
+00AE 5000      00427         MOVF    r0x02, W
+00B0 1600      00428         ANDWF   r0x06, F
+00B2 5000      00429         MOVF    r0x05, W
+00B4 1000      00430         IORWF   r0x06, W
+00B6 B4D8      00431         BTFSC   STATUS, 2
+00B8 D000      00432         BRA     _00172_DS_
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00433 ; #     MOVF    r0x03, W
+               00434 ; #     MOVWF   r0x05
+               00435 ; #     DECF    r0x05, F
+               00436 ;       .line   316; interrupts.c       if ( ENCODER_ON_IPORT(p) == ENCODER_STD )
+00BA 0400      00437         DECF    r0x03, W
+00BC 6E00      00438         MOVWF   r0x05
+00BE 0E00      00439         MOVLW   LOW(_Encoder_on_iport)
+00C0 2400      00440         ADDWF   r0x05, W
+00C2 6E00      00441         MOVWF   r0x06
+00C4 6A00      00442         CLRF    r0x07
+00C6 BE00      00443         BTFSC   r0x05, 7
+00C8 6800      00444         SETF    r0x07
+00CA 0E00      00445         MOVLW   HIGH(_Encoder_on_iport)
+00CC 2200      00446         ADDWFC  r0x07, F
+00CE C000 FFE9 00447         MOVFF   r0x06, FSR0L
+00D2 C000 FFEA 00448         MOVFF   r0x07, FSR0H
+00D6 CFEF F000 00449         MOVFF   INDF0, r0x06
+00DA 5000      00450         MOVF    r0x06, W
+00DC 0A01      00451         XORLW   0x01
+00DE E100      00452         BNZ     _00167_DS_
+               00453 ; ;multiply lit val:0x02 by variable r0x05 and store in r0x07
+               00454 ; ;Unrolled 8 X 8 multiplication
+               00455 ; ;FIXME: the function does not support result==WREG
+               00456 ;       .line   317; interrupts.c       SHAFT_ENCODER_ISR(p);
+00E0 0E00      00457         MOVLW   0x00
+00E2 BE00      00458         BTFSC   r0x05, 7
+00E4 0EFF      00459         MOVLW   0xff
+00E6 90D8      00460         BCF     STATUS, 0
+00E8 3400      00461         RLCF    r0x05, W
+00EA 6E00      00462         MOVWF   r0x07
+00EC 6A00      00463         CLRF    r0x08
+00EE BE00      00464         BTFSC   r0x07, 7
+00F0 6800      00465         SETF    r0x08
+00F2 0E00      00466         MOVLW   LOW(_Encoder_ticks)
+00F4 2600      00467         ADDWF   r0x07, F
+00F6 0E00      00468         MOVLW   HIGH(_Encoder_ticks)
+00F8 2200      00469         ADDWFC  r0x08, F
+00FA C000 FFE9 00470         MOVFF   r0x07, FSR0L
+00FE C000 FFEA 00471         MOVFF   r0x08, FSR0H
+0102 CFEE F000 00472         MOVFF   POSTINC0, r0x09
+0106 CFEF F000 00473         MOVFF   INDF0, r0x0a
+010A 2A00      00474         INCF    r0x09, F
+010C B0D8      00475         BTFSC   STATUS, 0
+010E 2A00      00476         INCF    r0x0a, F
+0110 C000 FFE9 00477         MOVFF   r0x07, FSR0L
+0114 C000 FFEA 00478         MOVFF   r0x08, FSR0H
+0118 C000 FFEE 00479         MOVFF   r0x09, POSTINC0
+011C C000 FFEF 00480         MOVFF   r0x0a, INDF0
+0120 D000      00481         BRA     _00168_DS_
+0122 00482 _00167_DS_:
+               00483 ;       .line   318; interrupts.c       else if ( ENCODER_ON_IPORT(p) == ENCODER_QUAD )
+0122 5000      00484         MOVF    r0x06, W
+0124 0A02      00485         XORLW   0x02
+0126 E100      00486         BNZ     _00164_DS_
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00487 ;       .line   319; interrupts.c       quad_encoder_isr(p);
+0128 5000      00488         MOVF    r0x03, W
+               00489 ; #     MOVWF   r0x06
+               00490 ; #     MOVF    r0x06, W
+012A 6E00      00491         MOVWF   r0x06
+012C 6EE5      00492         MOVWF   POSTDEC1
+012E EC00 F000 00493         CALL    _quad_encoder_isr
+0132 2AE1      00494         INCF    FSR1L, F
+0134 D000      00495         BRA     _00168_DS_
+0136 00496 _00164_DS_:
+               00497 ;       .line   320; interrupts.c       else if ( SONAR_ON_IPORT(p) )
+0136 6A00      00498         CLRF    r0x06
+0138 BE00      00499         BTFSC   r0x05, 7
+013A 6800      00500         SETF    r0x06
+013C 0E00      00501         MOVLW   LOW(_Sonar_on_iport)
+013E 2600      00502         ADDWF   r0x05, F
+0140 0E00      00503         MOVLW   HIGH(_Sonar_on_iport)
+0142 2200      00504         ADDWFC  r0x06, F
+0144 C000 FFE9 00505         MOVFF   r0x05, FSR0L
+0148 C000 FFEA 00506         MOVFF   r0x06, FSR0H
+014C CFEF F000 00507         MOVFF   INDF0, r0x05
+0150 5000      00508         MOVF    r0x05, W
+0152 E000      00509         BZ      _00168_DS_
+               00510 ; #     MOVF    r0x03, W
+               00511 ; #     MOVWF   r0x05
+               00512 ; #     MOVF    r0x05, W
+               00513 ;       .line   321; interrupts.c       sonar_emit_isr(p);
+0154 5000      00514         MOVF    r0x03, W
+0156 6E00      00515         MOVWF   r0x05
+0158 6EE5      00516         MOVWF   POSTDEC1
+015A EC00 F000 00517         CALL    _sonar_emit_isr
+015E 2AE1      00518         INCF    FSR1L, F
+0160 00519 _00168_DS_:
+               00520 ;       .line   322; interrupts.c       old_portb |= mask;      /* Update "old" bit state */
+0160 C000 F000 00521         MOVFF   _InterruptHandlerLow_old_portb_1_1, r0x05
+0164 6A00      00522         CLRF    r0x06
+0166 5000      00523         MOVF    r0x01, W
+0168 1200      00524         IORWF   r0x05, F
+016A 5000      00525         MOVF    r0x02, W
+016C 1200      00526         IORWF   r0x06, F
+016E 5000      00527         MOVF    r0x05, W
+0170 0000      00528         BANKSEL _InterruptHandlerLow_old_portb_1_1
+0172 6F00      00529         MOVWF   _InterruptHandlerLow_old_portb_1_1, B
+0174 D000      00530         BRA     _00216_DS_
+0176 00531 _00172_DS_:
+               00532 ;       .line   332; interrupts.c       if ( SONAR_ON_IPORT(p) )
+0176 5000      00533         MOVF    r0x03, W
+0178 6E00      00534         MOVWF   r0x05
+017A 0600      00535         DECF    r0x05, F
+017C 6A00      00536         CLRF    r0x06
+017E BE00      00537         BTFSC   r0x05, 7
+0180 6800      00538         SETF    r0x06
+0182 0E00      00539         MOVLW   LOW(_Sonar_on_iport)
+0184 2600      00540         ADDWF   r0x05, F
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0186 0E00      00541         MOVLW   HIGH(_Sonar_on_iport)
+0188 2200      00542         ADDWFC  r0x06, F
+018A C000 FFE9 00543         MOVFF   r0x05, FSR0L
+018E C000 FFEA 00544         MOVFF   r0x06, FSR0H
+0192 CFEF F000 00545         MOVFF   INDF0, r0x05
+0196 5000      00546         MOVF    r0x05, W
+0198 E000      00547         BZ      _00170_DS_
+               00548 ; #     MOVF    r0x03, W
+               00549 ; #     MOVWF   r0x05
+               00550 ; #     MOVF    r0x05, W
+               00551 ;       .line   333; interrupts.c       sonar_echo_isr(p);
+019A 5000      00552         MOVF    r0x03, W
+019C 6E00      00553         MOVWF   r0x05
+019E 6EE5      00554         MOVWF   POSTDEC1
+01A0 EC00 F000 00555         CALL    _sonar_echo_isr
+01A4 2AE1      00556         INCF    FSR1L, F
+01A6 00557 _00170_DS_:
+               00558 ;       .line   334; interrupts.c       old_portb &= ~mask;     /* Update "old" bit state */
+01A6 5000      00559         MOVF    r0x01, W
+01A8 6E00      00560         MOVWF   r0x05
+01AA 1E00      00561         COMF    r0x05, F
+01AC 5000      00562         MOVF    r0x05, W
+01AE 0000      00563         BANKSEL _InterruptHandlerLow_old_portb_1_1
+01B0 1700      00564         ANDWF   _InterruptHandlerLow_old_portb_1_1, F, B
+01B2 00565 _00216_DS_:
+               00566 ;       .line   308; interrupts.c       for (p = 3, mask = 0x10; p <= 6; ++p, mask <<= 1)
+01B2 2A00      00567         INCF    r0x03, F
+01B4 B0D8      00568         BTFSC   STATUS, 0
+01B6 2A00      00569         INCF    r0x04, F
+01B8 5000      00570         MOVF    r0x01, W
+01BA 2600      00571         ADDWF   r0x01, F
+01BC 3600      00572         RLCF    r0x02, F
+01BE D000      00573         BRA     _00214_DS_
+01C0 00574 _00177_DS_:
+               00575 ;       .line   344; interrupts.c       if (INTCON3bits.INT2IF)
+01C0 A200      00576         BTFSS   _INTCON3bits, 1
+01C2 D000      00577         BRA     _00190_DS_
+               00578 ;       .line   346; interrupts.c       INTCON3bits.INT2IF = 0;
+01C4 9200      00579         BCF     _INTCON3bits, 1
+               00580 ;       .line   347; interrupts.c       if ( ENCODER_ON_IPORT(1) == ENCODER_STD )
+01C6 C000 F000 00581         MOVFF   _Encoder_on_iport, r0x00
+01CA 5000      00582         MOVF    r0x00, W
+01CC 0A01      00583         XORLW   0x01
+01CE E100      00584         BNZ     _00187_DS_
+01D0 00585 _00254_DS_:
+01D0 0000      00586         BANKSEL _Encoder_ticks
+               00587 ;       .line   348; interrupts.c       SHAFT_ENCODER_ISR(1);
+01D2 5100      00588         MOVF    _Encoder_ticks, W, B
+01D4 0F01      00589         ADDLW   0x01
+01D6 6E00      00590         MOVWF   r0x01
+01D8 0E00      00591         MOVLW   0x00
+01DA 0000      00592         BANKSEL (_Encoder_ticks + 1)
+01DC 2100      00593         ADDWFC  (_Encoder_ticks + 1), W, B
+01DE 6E00      00594         MOVWF   r0x02
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+01E0 5000      00595         MOVF    r0x01, W
+01E2 0000      00596         BANKSEL _Encoder_ticks
+01E4 6F00      00597         MOVWF   _Encoder_ticks, B
+01E6 5000      00598         MOVF    r0x02, W
+01E8 0000      00599         BANKSEL (_Encoder_ticks + 1)
+01EA 6F00      00600         MOVWF   (_Encoder_ticks + 1), B
+01EC D000      00601         BRA     _00190_DS_
+01EE 00602 _00187_DS_:
+               00603 ;       .line   349; interrupts.c       else if ( ENCODER_ON_IPORT(1) == ENCODER_QUAD )
+01EE 5000      00604         MOVF    r0x00, W
+01F0 0A02      00605         XORLW   0x02
+01F2 E100      00606         BNZ     _00184_DS_
+               00607 ;       .line   350; interrupts.c       quad_encoder_isr(1);
+01F4 0E01      00608         MOVLW   0x01
+01F6 6EE5      00609         MOVWF   POSTDEC1
+01F8 EC00 F000 00610         CALL    _quad_encoder_isr
+01FC 2AE1      00611         INCF    FSR1L, F
+01FE D000      00612         BRA     _00190_DS_
+0200 00613 _00184_DS_:
+0200 0000      00614         BANKSEL _Sonar_on_iport
+               00615 ;       .line   351; interrupts.c       else if ( SONAR_ON_IPORT(1) )
+0202 5100      00616         MOVF    _Sonar_on_iport, W, B
+0204 E000      00617         BZ      _00190_DS_
+               00618 ;       .line   353; interrupts.c       if (INTCON2bits.INTEDG2)    /* Rising edge? */
+0206 A800      00619         BTFSS   _INTCON2bits, 4
+0208 D000      00620         BRA     _00179_DS_
+               00621 ;       .line   354; interrupts.c       sonar_emit_isr(1);
+020A 0E01      00622         MOVLW   0x01
+020C 6EE5      00623         MOVWF   POSTDEC1
+020E EC00 F000 00624         CALL    _sonar_emit_isr
+0212 2AE1      00625         INCF    FSR1L, F
+0214 D000      00626         BRA     _00190_DS_
+0216 00627 _00179_DS_:
+               00628 ;       .line   356; interrupts.c       sonar_echo_isr(1);
+0216 0E01      00629         MOVLW   0x01
+0218 6EE5      00630         MOVWF   POSTDEC1
+021A EC00 F000 00631         CALL    _sonar_echo_isr
+021E 2AE1      00632         INCF    FSR1L, F
+0220 00633 _00190_DS_:
+               00634 ;       .line   364; interrupts.c       if (INTCON3bits.INT3IF)
+0220 A400      00635         BTFSS   _INTCON3bits, 2
+0222 D000      00636         BRA     _00203_DS_
+               00637 ;       .line   366; interrupts.c       INTCON3bits.INT3IF = 0;
+0224 9400      00638         BCF     _INTCON3bits, 2
+               00639 ;       .line   367; interrupts.c       if ( ENCODER_ON_IPORT(2) == ENCODER_STD )
+0226 C000 F000 00640         MOVFF   (_Encoder_on_iport + 1), r0x00
+022A 5000      00641         MOVF    r0x00, W
+022C 0A01      00642         XORLW   0x01
+022E E100      00643         BNZ     _00200_DS_
+0230 00644 _00258_DS_:
+0230 0000      00645         BANKSEL (_Encoder_ticks + 2)
+               00646 ;       .line   368; interrupts.c       SHAFT_ENCODER_ISR(2);
+0232 5100      00647         MOVF    (_Encoder_ticks + 2), W, B
+0234 0F01      00648         ADDLW   0x01
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0236 6E00      00649         MOVWF   r0x01
+0238 0E00      00650         MOVLW   0x00
+023A 0000      00651         BANKSEL (_Encoder_ticks + 3)
+023C 2100      00652         ADDWFC  (_Encoder_ticks + 3), W, B
+023E 6E00      00653         MOVWF   r0x02
+0240 5000      00654         MOVF    r0x01, W
+0242 0000      00655         BANKSEL (_Encoder_ticks + 2)
+0244 6F00      00656         MOVWF   (_Encoder_ticks + 2), B
+0246 5000      00657         MOVF    r0x02, W
+0248 0000      00658         BANKSEL (_Encoder_ticks + 3)
+024A 6F00      00659         MOVWF   (_Encoder_ticks + 3), B
+024C D000      00660         BRA     _00203_DS_
+024E 00661 _00200_DS_:
+               00662 ;       .line   369; interrupts.c       else if ( ENCODER_ON_IPORT(2) == ENCODER_QUAD )
+024E 5000      00663         MOVF    r0x00, W
+0250 0A02      00664         XORLW   0x02
+0252 E100      00665         BNZ     _00197_DS_
+               00666 ;       .line   370; interrupts.c       quad_encoder_isr(2);
+0254 0E02      00667         MOVLW   0x02
+0256 6EE5      00668         MOVWF   POSTDEC1
+0258 EC00 F000 00669         CALL    _quad_encoder_isr
+025C 2AE1      00670         INCF    FSR1L, F
+025E D000      00671         BRA     _00203_DS_
+0260 00672 _00197_DS_:
+0260 0000      00673         BANKSEL (_Sonar_on_iport + 1)
+               00674 ;       .line   371; interrupts.c       else if ( SONAR_ON_IPORT(2) )
+0262 5100      00675         MOVF    (_Sonar_on_iport + 1), W, B
+0264 E000      00676         BZ      _00203_DS_
+               00677 ;       .line   373; interrupts.c       if (INTCON2bits.INTEDG3)    /* Rising edge? */
+0266 A600      00678         BTFSS   _INTCON2bits, 3
+0268 D000      00679         BRA     _00192_DS_
+               00680 ;       .line   374; interrupts.c       sonar_emit_isr(2);
+026A 0E02      00681         MOVLW   0x02
+026C 6EE5      00682         MOVWF   POSTDEC1
+026E EC00 F000 00683         CALL    _sonar_emit_isr
+0272 2AE1      00684         INCF    FSR1L, F
+0274 D000      00685         BRA     _00203_DS_
+0276 00686 _00192_DS_:
+               00687 ;       .line   376; interrupts.c       sonar_echo_isr(2);
+0276 0E02      00688         MOVLW   0x02
+0278 6EE5      00689         MOVWF   POSTDEC1
+027A EC00 F000 00690         CALL    _sonar_echo_isr
+027E 2AE1      00691         INCF    FSR1L, F
+0280 00692 _00203_DS_:
+               00693 ;       .line   381; interrupts.c       if ( INTCONbits.T0IF )
+0280 A400      00694         BTFSS   _INTCONbits, 2
+0282 D000      00695         BRA     _00205_DS_
+               00696 ;       .line   383; interrupts.c       INTCONbits.T0IF = 0;
+0284 9400      00697         BCF     _INTCONbits, 2
+0286 0000      00698         BANKSEL _Timer0_overflows
+               00699 ;       .line   384; interrupts.c       ++Timer0_overflows;
+0288 2B00      00700         INCF    _Timer0_overflows, F, B
+028A E300      00701         BNC     _10289_DS_
+028C 0000      00702         BANKSEL (_Timer0_overflows + 1)
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+028E 2B00      00703         INCF    (_Timer0_overflows + 1), F, B
+0290 00704 _10289_DS_:
+0290 00705 _00205_DS_:
+               00706 ;       .line   388; interrupts.c       if ( PIR1bits.TMR1IF )
+0290 A000      00707         BTFSS   _PIR1bits, 0
+0292 D000      00708         BRA     _00207_DS_
+               00709 ;       .line   390; interrupts.c       PIR1bits.TMR1IF = 0;
+0294 9000      00710         BCF     _PIR1bits, 0
+0296 0000      00711         BANKSEL _Timer1_overflows
+               00712 ;       .line   391; interrupts.c       ++Timer1_overflows;
+0298 2B00      00713         INCF    _Timer1_overflows, F, B
+029A E300      00714         BNC     _20290_DS_
+029C 0000      00715         BANKSEL (_Timer1_overflows + 1)
+029E 2B00      00716         INCF    (_Timer1_overflows + 1), F, B
+02A0 00717 _20290_DS_:
+02A0 00718 _00207_DS_:
+               00719 ;       .line   396; interrupts.c       if ( PIR1bits.TMR2IF )
+02A0 A200      00720         BTFSS   _PIR1bits, 1
+02A2 D000      00721         BRA     _00209_DS_
+               00722 ;       .line   398; interrupts.c       PIR1bits.TMR2IF = 0;
+02A4 9200      00723         BCF     _PIR1bits, 1
+02A6 0000      00724         BANKSEL _Timer2_overflows
+               00725 ;       .line   399; interrupts.c       ++Timer2_overflows;
+02A8 2B00      00726         INCF    _Timer2_overflows, F, B
+02AA E300      00727         BNC     _30291_DS_
+02AC 0000      00728         BANKSEL (_Timer2_overflows + 1)
+02AE 2B00      00729         INCF    (_Timer2_overflows + 1), F, B
+02B0 00730 _30291_DS_:
+02B0 E300      00731         BNC     _40292_DS_
+02B2 0000      00732         BANKSEL (_Timer2_overflows + 2)
+02B4 2B00      00733         INCF    (_Timer2_overflows + 2), F, B
+02B6 00734 _40292_DS_:
+02B6 E300      00735         BNC     _50293_DS_
+02B8 0000      00736         BANKSEL (_Timer2_overflows + 3)
+02BA 2B00      00737         INCF    (_Timer2_overflows + 3), F, B
+02BC 00738 _50293_DS_:
+02BC 0000      00739         BANKSEL (_Timer2_overflows + 3)
+               00740 ;       .line   404; interrupts.c       Timer2_overflows &= 0x00ffffff;
+02BE 6B00      00741         CLRF    (_Timer2_overflows + 3), B
+02C0 00742 _00209_DS_:
+               00743 ;       .line   408; interrupts.c       if ( PIR2bits.TMR3IF )
+02C0 A200      00744         BTFSS   _PIR2bits, 1
+02C2 D000      00745         BRA     _00211_DS_
+               00746 ;       .line   410; interrupts.c       PIR2bits.TMR3IF = 0;
+02C4 9200      00747         BCF     _PIR2bits, 1
+02C6 0000      00748         BANKSEL _Timer3_overflows
+               00749 ;       .line   411; interrupts.c       ++Timer3_overflows;
+02C8 2B00      00750         INCF    _Timer3_overflows, F, B
+02CA E300      00751         BNC     _60294_DS_
+02CC 0000      00752         BANKSEL (_Timer3_overflows + 1)
+02CE 2B00      00753         INCF    (_Timer3_overflows + 1), F, B
+02D0 00754 _60294_DS_:
+02D0 00755 _00211_DS_:
+               00756 ;       .line   415; interrupts.c       if ( PIR3bits.TMR4IF )
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 15
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+02D0 A600      00757         BTFSS   _PIR3bits, 3
+02D2 D000      00758         BRA     _00218_DS_
+               00759 ;       .line   417; interrupts.c       PIR3bits.TMR4IF = 0;
+02D4 9600      00760         BCF     _PIR3bits, 3
+02D6 0000      00761         BANKSEL _Timer4_overflows
+               00762 ;       .line   418; interrupts.c       ++Timer4_overflows;
+02D8 2B00      00763         INCF    _Timer4_overflows, F, B
+02DA E300      00764         BNC     _70295_DS_
+02DC 0000      00765         BANKSEL (_Timer4_overflows + 1)
+02DE 2B00      00766         INCF    (_Timer4_overflows + 1), F, B
+02E0 00767 _70295_DS_:
+02E0 E300      00768         BNC     _80296_DS_
+02E2 0000      00769         BANKSEL (_Timer4_overflows + 2)
+02E4 2B00      00770         INCF    (_Timer4_overflows + 2), F, B
+02E6 00771 _80296_DS_:
+02E6 E300      00772         BNC     _90297_DS_
+02E8 0000      00773         BANKSEL (_Timer4_overflows + 3)
+02EA 2B00      00774         INCF    (_Timer4_overflows + 3), F, B
+02EC 00775 _90297_DS_:
+02EC 0000      00776         BANKSEL (_Timer4_overflows + 3)
+               00777 ;       .line   422; interrupts.c       Timer4_overflows &= 0x00ffffff;
+02EE 6B00      00778         CLRF    (_Timer4_overflows + 3), B
+02F0 00779 _00218_DS_:
+02F0 CFE4 F000 00780         MOVFF   PREINC1, r0x0a
+02F4 CFE4 F000 00781         MOVFF   PREINC1, r0x09
+02F8 CFE4 F000 00782         MOVFF   PREINC1, r0x08
+02FC CFE4 F000 00783         MOVFF   PREINC1, r0x07
+0300 CFE4 F000 00784         MOVFF   PREINC1, r0x06
+0304 CFE4 F000 00785         MOVFF   PREINC1, r0x05
+0308 CFE4 F000 00786         MOVFF   PREINC1, r0x04
+030C CFE4 F000 00787         MOVFF   PREINC1, r0x03
+0310 CFE4 F000 00788         MOVFF   PREINC1, r0x02
+0314 CFE4 F000 00789         MOVFF   PREINC1, r0x01
+0318 CFE4 F000 00790         MOVFF   PREINC1, r0x00
+031C CFE4 FFD9 00791         MOVFF   PREINC1, FSR2L
+0320 CFE4 FFFB 00792         MOVFF   PREINC1, PCLATU
+0324 CFE4 FFFA 00793         MOVFF   PREINC1, PCLATH
+0328 CFE4 FFEA 00794         MOVFF   PREINC1, FSR0H
+032C CFE4 FFE9 00795         MOVFF   PREINC1, FSR0L
+0330 CFE4 FFF4 00796         MOVFF   PREINC1, PRODH
+0334 CFE4 FFF3 00797         MOVFF   PREINC1, PRODL
+0338 CFE4 FFE0 00798         MOVFF   PREINC1, BSR
+033C CFE4 FFD8 00799         MOVFF   PREINC1, STATUS
+0340 CFE4 FFE8 00800         MOVFF   PREINC1, WREG
+0344 0010      00801         RETFIE  
+               00802 
+               00803 ; I code from now on!
+               00804 ; ; Starting pCode block
+               00805 S_interrupts__quad_encoder_isr  code
+0000 00806 _quad_encoder_isr:
+               00807 ;       .line   500; interrupts.c       void    quad_encoder_isr(unsigned char interrupt_port)
+0000 CFD9 FFE5 00808         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00809         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00810         MOVFF   r0x00, POSTDEC1
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 16
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+000C C000 FFE5 00811         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00812         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00813         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 00814         MOVFF   r0x04, POSTDEC1
+001C 0E02      00815         MOVLW   0x02
+001E CFDB F000 00816         MOVFF   PLUSW2, r0x00
+               00817 ;       .line   503; interrupts.c       unsigned char   sample = 0;
+0022 6A00      00818         CLRF    r0x01
+               00819 ;       .line   516; interrupts.c       switch(Quad_input_port[interrupt_port-1])
+0024 0600      00820         DECF    r0x00, F
+0026 0E00      00821         MOVLW   LOW(_Quad_input_port)
+0028 2400      00822         ADDWF   r0x00, W
+002A 6E00      00823         MOVWF   r0x02
+002C 6A00      00824         CLRF    r0x03
+002E 0E00      00825         MOVLW   HIGH(_Quad_input_port)
+0030 2200      00826         ADDWFC  r0x03, F
+0032 C000 FFE9 00827         MOVFF   r0x02, FSR0L
+0036 C000 FFEA 00828         MOVFF   r0x03, FSR0H
+003A CFEF F000 00829         MOVFF   INDF0, r0x02
+003E 0E01      00830         MOVLW   0x01
+0040 5C00      00831         SUBWF   r0x02, W
+0042 A0D8      00832         BTFSS   STATUS, 0
+0044 D000      00833         BRA     _00306_DS_
+0046 0E11      00834         MOVLW   0x11
+0048 5C00      00835         SUBWF   r0x02, W
+004A B0D8      00836         BTFSC   STATUS, 0
+004C D000      00837         BRA     _00306_DS_
+004E 0600      00838         DECF    r0x02, F
+0050 C000 FFE5 00839         MOVFF   r0x05, POSTDEC1
+0054 C000 FFE5 00840         MOVFF   r0x06, POSTDEC1
+0058 6A00      00841         CLRF    r0x06
+005A 3400      00842         RLCF    r0x02, W
+005C 3600      00843         RLCF    r0x06, F
+005E 34E8      00844         RLCF    WREG, W
+0060 3600      00845         RLCF    r0x06, F
+0062 0BFC      00846         ANDLW   0xfc
+0064 6E00      00847         MOVWF   r0x05
+0066 0E00      00848         MOVLW   UPPER(_00317_DS_)
+0068 6EFB      00849         MOVWF   PCLATU
+006A 0E00      00850         MOVLW   HIGH(_00317_DS_)
+006C 6EFA      00851         MOVWF   PCLATH
+006E 0E00      00852         MOVLW   LOW(_00317_DS_)
+0070 2600      00853         ADDWF   r0x05, F
+0072 5000      00854         MOVF    r0x06, W
+0074 22FA      00855         ADDWFC  PCLATH, F
+0076 B0D8      00856         BTFSC   STATUS, 0
+0078 2AFB      00857         INCF    PCLATU, F
+007A 5000      00858         MOVF    r0x05, W
+007C CFE4 F000 00859         MOVFF   PREINC1, r0x06
+0080 CFE4 F000 00860         MOVFF   PREINC1, r0x05
+0084 6EF9      00861         MOVWF   PCL
+0086 00862 _00317_DS_:
+0086 EF00 F000 00863         GOTO    _00289_DS_
+008A EF00 F000 00864         GOTO    _00290_DS_
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 17
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+008E EF00 F000 00865         GOTO    _00291_DS_
+0092 EF00 F000 00866         GOTO    _00292_DS_
+0096 EF00 F000 00867         GOTO    _00293_DS_
+009A EF00 F000 00868         GOTO    _00294_DS_
+009E EF00 F000 00869         GOTO    _00295_DS_
+00A2 EF00 F000 00870         GOTO    _00296_DS_
+00A6 EF00 F000 00871         GOTO    _00297_DS_
+00AA EF00 F000 00872         GOTO    _00298_DS_
+00AE EF00 F000 00873         GOTO    _00299_DS_
+00B2 EF00 F000 00874         GOTO    _00300_DS_
+00B6 EF00 F000 00875         GOTO    _00301_DS_
+00BA EF00 F000 00876         GOTO    _00302_DS_
+00BE EF00 F000 00877         GOTO    _00303_DS_
+00C2 EF00 F000 00878         GOTO    _00304_DS_
+00C6 00879 _00289_DS_:
+               00880 ;       .line   519; interrupts.c       sample = Porta_sample & 0x01;
+00C6 0E01      00881         MOVLW   0x01
+00C8 0000      00882         BANKSEL _Porta_sample
+00CA 1500      00883         ANDWF   _Porta_sample, W, B
+00CC 6E00      00884         MOVWF   r0x01
+               00885 ;       .line   520; interrupts.c       break;
+00CE D000      00886         BRA     _00306_DS_
+00D0 00887 _00290_DS_:
+               00888 ;       .line   522; interrupts.c       sample = Porta_sample & 0x02;
+00D0 0E02      00889         MOVLW   0x02
+00D2 0000      00890         BANKSEL _Porta_sample
+00D4 1500      00891         ANDWF   _Porta_sample, W, B
+00D6 6E00      00892         MOVWF   r0x01
+               00893 ;       .line   523; interrupts.c       break;
+00D8 D000      00894         BRA     _00306_DS_
+00DA 00895 _00291_DS_:
+               00896 ;       .line   525; interrupts.c       sample = Porta_sample & 0x04;
+00DA 0E04      00897         MOVLW   0x04
+00DC 0000      00898         BANKSEL _Porta_sample
+00DE 1500      00899         ANDWF   _Porta_sample, W, B
+00E0 6E00      00900         MOVWF   r0x01
+               00901 ;       .line   526; interrupts.c       break;
+00E2 D000      00902         BRA     _00306_DS_
+00E4 00903 _00292_DS_:
+               00904 ;       .line   528; interrupts.c       sample = Porta_sample & 0x08;
+00E4 0E08      00905         MOVLW   0x08
+00E6 0000      00906         BANKSEL _Porta_sample
+00E8 1500      00907         ANDWF   _Porta_sample, W, B
+00EA 6E00      00908         MOVWF   r0x01
+               00909 ;       .line   529; interrupts.c       break;
+00EC D000      00910         BRA     _00306_DS_
+00EE 00911 _00293_DS_:
+               00912 ;       .line   531; interrupts.c       sample = Porta_sample & 0x20;
+00EE 0E20      00913         MOVLW   0x20
+00F0 0000      00914         BANKSEL _Porta_sample
+00F2 1500      00915         ANDWF   _Porta_sample, W, B
+00F4 6E00      00916         MOVWF   r0x01
+               00917 ;       .line   532; interrupts.c       break;
+00F6 D000      00918         BRA     _00306_DS_
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 18
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00F8 00919 _00294_DS_:
+               00920 ;       .line   534; interrupts.c       sample = Portf_sample & 0x01;
+00F8 0E01      00921         MOVLW   0x01
+00FA 0000      00922         BANKSEL _Portf_sample
+00FC 1500      00923         ANDWF   _Portf_sample, W, B
+00FE 6E00      00924         MOVWF   r0x01
+               00925 ;       .line   535; interrupts.c       break;
+0100 D000      00926         BRA     _00306_DS_
+0102 00927 _00295_DS_:
+               00928 ;       .line   537; interrupts.c       sample = Portf_sample & 0x02;
+0102 0E02      00929         MOVLW   0x02
+0104 0000      00930         BANKSEL _Portf_sample
+0106 1500      00931         ANDWF   _Portf_sample, W, B
+0108 6E00      00932         MOVWF   r0x01
+               00933 ;       .line   538; interrupts.c       break;
+010A D000      00934         BRA     _00306_DS_
+010C 00935 _00296_DS_:
+               00936 ;       .line   540; interrupts.c       sample = Portf_sample & 0x04;
+010C 0E04      00937         MOVLW   0x04
+010E 0000      00938         BANKSEL _Portf_sample
+0110 1500      00939         ANDWF   _Portf_sample, W, B
+0112 6E00      00940         MOVWF   r0x01
+               00941 ;       .line   541; interrupts.c       break;
+0114 D000      00942         BRA     _00306_DS_
+0116 00943 _00297_DS_:
+               00944 ;       .line   543; interrupts.c       sample = Portf_sample & 0x08;
+0116 0E08      00945         MOVLW   0x08
+0118 0000      00946         BANKSEL _Portf_sample
+011A 1500      00947         ANDWF   _Portf_sample, W, B
+011C 6E00      00948         MOVWF   r0x01
+               00949 ;       .line   544; interrupts.c       break;
+011E D000      00950         BRA     _00306_DS_
+0120 00951 _00298_DS_:
+               00952 ;       .line   546; interrupts.c       sample = Portf_sample & 0x10;
+0120 0E10      00953         MOVLW   0x10
+0122 0000      00954         BANKSEL _Portf_sample
+0124 1500      00955         ANDWF   _Portf_sample, W, B
+0126 6E00      00956         MOVWF   r0x01
+               00957 ;       .line   547; interrupts.c       break;
+0128 D000      00958         BRA     _00306_DS_
+012A 00959 _00299_DS_:
+               00960 ;       .line   549; interrupts.c       sample = Portf_sample & 0x01;
+012A 0E01      00961         MOVLW   0x01
+012C 0000      00962         BANKSEL _Portf_sample
+012E 1500      00963         ANDWF   _Portf_sample, W, B
+0130 6E00      00964         MOVWF   r0x01
+               00965 ;       .line   550; interrupts.c       break;
+0132 D000      00966         BRA     _00306_DS_
+0134 00967 _00300_DS_:
+               00968 ;       .line   552; interrupts.c       sample = Portf_sample & 0x02;
+0134 0E02      00969         MOVLW   0x02
+0136 0000      00970         BANKSEL _Portf_sample
+0138 1500      00971         ANDWF   _Portf_sample, W, B
+013A 6E00      00972         MOVWF   r0x01
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 19
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00973 ;       .line   553; interrupts.c       break;
+013C D000      00974         BRA     _00306_DS_
+013E 00975 _00301_DS_:
+               00976 ;       .line   555; interrupts.c       sample = Porth_sample & 0x10;
+013E 0E10      00977         MOVLW   0x10
+0140 0000      00978         BANKSEL _Porth_sample
+0142 1500      00979         ANDWF   _Porth_sample, W, B
+0144 6E00      00980         MOVWF   r0x01
+               00981 ;       .line   556; interrupts.c       break;
+0146 D000      00982         BRA     _00306_DS_
+0148 00983 _00302_DS_:
+               00984 ;       .line   558; interrupts.c       sample = Porth_sample & 0x20;
+0148 0E20      00985         MOVLW   0x20
+014A 0000      00986         BANKSEL _Porth_sample
+014C 1500      00987         ANDWF   _Porth_sample, W, B
+014E 6E00      00988         MOVWF   r0x01
+               00989 ;       .line   559; interrupts.c       break;
+0150 D000      00990         BRA     _00306_DS_
+0152 00991 _00303_DS_:
+               00992 ;       .line   561; interrupts.c       sample = Porth_sample & 0x40;
+0152 0E40      00993         MOVLW   0x40
+0154 0000      00994         BANKSEL _Porth_sample
+0156 1500      00995         ANDWF   _Porth_sample, W, B
+0158 6E00      00996         MOVWF   r0x01
+               00997 ;       .line   562; interrupts.c       break;
+015A D000      00998         BRA     _00306_DS_
+015C 00999 _00304_DS_:
+               01000 ;       .line   564; interrupts.c       sample = Porth_sample & 0x80;
+015C 0E80      01001         MOVLW   0x80
+015E 0000      01002         BANKSEL _Porth_sample
+0160 1500      01003         ANDWF   _Porth_sample, W, B
+0162 6E00      01004         MOVWF   r0x01
+0164 01005 _00306_DS_:
+               01006 ;       .line   574; interrupts.c       if ( sample == 0 )
+0164 5000      01007         MOVF    r0x01, W
+0166 E100      01008         BNZ     _00308_DS_
+               01009 ; ;multiply lit val:0x02 by variable r0x00 and store in r0x01
+               01010 ; ;Unrolled 8 X 8 multiplication
+               01011 ; ;FIXME: the function does not support result==WREG
+               01012 ;       .line   575; interrupts.c       --Encoder_ticks[interrupt_port-1];
+0168 90D8      01013         BCF     STATUS, 0
+016A 3400      01014         RLCF    r0x00, W
+016C 6E00      01015         MOVWF   r0x01
+016E 6A00      01016         CLRF    r0x02
+0170 0E00      01017         MOVLW   LOW(_Encoder_ticks)
+0172 2600      01018         ADDWF   r0x01, F
+0174 0E00      01019         MOVLW   HIGH(_Encoder_ticks)
+0176 2200      01020         ADDWFC  r0x02, F
+0178 C000 FFE9 01021         MOVFF   r0x01, FSR0L
+017C C000 FFEA 01022         MOVFF   r0x02, FSR0H
+0180 CFEE F000 01023         MOVFF   POSTINC0, r0x03
+0184 CFEF F000 01024         MOVFF   INDF0, r0x04
+0188 0EFF      01025         MOVLW   0xff
+018A 2600      01026         ADDWF   r0x03, F
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 20
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+018C A0D8      01027         BTFSS   STATUS, 0
+018E 0600      01028         DECF    r0x04, F
+0190 C000 FFE9 01029         MOVFF   r0x01, FSR0L
+0194 C000 FFEA 01030         MOVFF   r0x02, FSR0H
+0198 C000 FFEE 01031         MOVFF   r0x03, POSTINC0
+019C C000 FFEF 01032         MOVFF   r0x04, INDF0
+01A0 D000      01033         BRA     _00310_DS_
+               01034 ; ;multiply lit val:0x02 by variable r0x00 and store in r0x00
+               01035 ; ;Unrolled 8 X 8 multiplication
+               01036 ; ;FIXME: the function does not support result==WREG
+01A2 01037 _00308_DS_:
+               01038 ;       .line   577; interrupts.c       ++Encoder_ticks[interrupt_port-1];
+01A2 90D8      01039         BCF     STATUS, 0
+01A4 3600      01040         RLCF    r0x00, F
+01A6 6A00      01041         CLRF    r0x01
+01A8 0E00      01042         MOVLW   LOW(_Encoder_ticks)
+01AA 2600      01043         ADDWF   r0x00, F
+01AC 0E00      01044         MOVLW   HIGH(_Encoder_ticks)
+01AE 2200      01045         ADDWFC  r0x01, F
+01B0 C000 FFE9 01046         MOVFF   r0x00, FSR0L
+01B4 C000 FFEA 01047         MOVFF   r0x01, FSR0H
+01B8 CFEE F000 01048         MOVFF   POSTINC0, r0x02
+01BC CFEF F000 01049         MOVFF   INDF0, r0x03
+01C0 2A00      01050         INCF    r0x02, F
+01C2 B0D8      01051         BTFSC   STATUS, 0
+01C4 2A00      01052         INCF    r0x03, F
+01C6 C000 FFE9 01053         MOVFF   r0x00, FSR0L
+01CA C000 FFEA 01054         MOVFF   r0x01, FSR0H
+01CE C000 FFEE 01055         MOVFF   r0x02, POSTINC0
+01D2 C000 FFEF 01056         MOVFF   r0x03, INDF0
+01D6 01057 _00310_DS_:
+01D6 CFE4 F000 01058         MOVFF   PREINC1, r0x04
+01DA CFE4 F000 01059         MOVFF   PREINC1, r0x03
+01DE CFE4 F000 01060         MOVFF   PREINC1, r0x02
+01E2 CFE4 F000 01061         MOVFF   PREINC1, r0x01
+01E6 CFE4 F000 01062         MOVFF   PREINC1, r0x00
+01EA CFE4 FFD9 01063         MOVFF   PREINC1, FSR2L
+01EE 0012      01064         RETURN  
+               01065 
+               01066 ; ; Starting pCode block
+               01067 S_interrupts__sonar_echo_isr    code
+0000 01068 _sonar_echo_isr:
+               01069 ;       .line   474; interrupts.c       void sonar_echo_isr(unsigned char interrupt_port) 
+0000 CFD9 FFE5 01070         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01071         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01072         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 01073         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 01074         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 01075         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 01076         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 01077         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 01078         MOVFF   r0x06, POSTDEC1
+0024 C000 FFE5 01079         MOVFF   r0x07, POSTDEC1
+0028 C000 FFE5 01080         MOVFF   r0x08, POSTDEC1
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 21
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+002C C000 FFE5 01081         MOVFF   r0x09, POSTDEC1
+0030 0E02      01082         MOVLW   0x02
+0032 CFDB F000 01083         MOVFF   PLUSW2, r0x00
+               01084 ;       .line   477; interrupts.c       TIMER0_READ16(Timer0_at_echo[interrupt_port-1]);
+0036 0600      01085         DECF    r0x00, F
+               01086 ; ;multiply lit val:0x02 by variable r0x00 and store in r0x01
+               01087 ; ;Unrolled 8 X 8 multiplication
+               01088 ; ;FIXME: the function does not support result==WREG
+0038 90D8      01089         BCF     STATUS, 0
+003A 3400      01090         RLCF    r0x00, W
+003C 6E00      01091         MOVWF   r0x01
+003E 0E00      01092         MOVLW   LOW(_Timer0_at_echo)
+0040 2400      01093         ADDWF   r0x01, W
+0042 6E00      01094         MOVWF   r0x02
+0044 6A00      01095         CLRF    r0x03
+0046 0E00      01096         MOVLW   HIGH(_Timer0_at_echo)
+0048 2200      01097         ADDWFC  r0x03, F
+004A C000 F000 01098         MOVFF   _TMR0L, r0x04
+004E 6A00      01099         CLRF    r0x05
+0050 C000 FFE9 01100         MOVFF   r0x02, FSR0L
+0054 C000 FFEA 01101         MOVFF   r0x03, FSR0H
+0058 C000 FFEE 01102         MOVFF   r0x04, POSTINC0
+005C C000 FFEF 01103         MOVFF   r0x05, INDF0
+0060 0E00      01104         MOVLW   LOW(_Timer0_at_echo)
+0062 2400      01105         ADDWF   r0x01, W
+0064 6E00      01106         MOVWF   r0x02
+0066 6A00      01107         CLRF    r0x03
+0068 0E00      01108         MOVLW   HIGH(_Timer0_at_echo)
+006A 2200      01109         ADDWFC  r0x03, F
+006C 0E00      01110         MOVLW   LOW(_Timer0_at_echo)
+006E 2400      01111         ADDWF   r0x01, W
+0070 6E00      01112         MOVWF   r0x04
+0072 6A00      01113         CLRF    r0x05
+0074 0E00      01114         MOVLW   HIGH(_Timer0_at_echo)
+0076 2200      01115         ADDWFC  r0x05, F
+0078 C000 FFE9 01116         MOVFF   r0x04, FSR0L
+007C C000 FFEA 01117         MOVFF   r0x05, FSR0H
+0080 CFEE F000 01118         MOVFF   POSTINC0, r0x04
+0084 CFEF F000 01119         MOVFF   INDF0, r0x05
+0088 C000 F000 01120         MOVFF   _TMR0H, r0x06
+008C 6A00      01121         CLRF    r0x07
+008E 5000      01122         MOVF    r0x06, W
+0090 6E00      01123         MOVWF   r0x09
+0092 6A00      01124         CLRF    r0x08
+0094 5000      01125         MOVF    r0x08, W
+0096 1200      01126         IORWF   r0x04, F
+0098 5000      01127         MOVF    r0x09, W
+009A 1200      01128         IORWF   r0x05, F
+009C C000 FFE9 01129         MOVFF   r0x02, FSR0L
+00A0 C000 FFEA 01130         MOVFF   r0x03, FSR0H
+00A4 C000 FFEE 01131         MOVFF   r0x04, POSTINC0
+00A8 C000 FFEF 01132         MOVFF   r0x05, INDF0
+               01133 ;       .line   479; interrupts.c       SET_SONAR_ECHO_TIME(interrupt_port,
+00AC 0E00      01134         MOVLW   LOW(_Sonar_echo_time)
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 22
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00AE 2400      01135         ADDWF   r0x01, W
+00B0 6E00      01136         MOVWF   r0x02
+00B2 6A00      01137         CLRF    r0x03
+00B4 0E00      01138         MOVLW   HIGH(_Sonar_echo_time)
+00B6 2200      01139         ADDWFC  r0x03, F
+00B8 0E00      01140         MOVLW   LOW(_Timer0_at_echo)
+00BA 2400      01141         ADDWF   r0x01, W
+00BC 6E00      01142         MOVWF   r0x04
+00BE 6A00      01143         CLRF    r0x05
+00C0 0E00      01144         MOVLW   HIGH(_Timer0_at_echo)
+00C2 2200      01145         ADDWFC  r0x05, F
+00C4 C000 FFE9 01146         MOVFF   r0x04, FSR0L
+00C8 C000 FFEA 01147         MOVFF   r0x05, FSR0H
+00CC CFEE F000 01148         MOVFF   POSTINC0, r0x04
+00D0 CFEF F000 01149         MOVFF   INDF0, r0x05
+00D4 6A00      01150         CLRF    r0x06
+00D6 0E00      01151         MOVLW   LOW(_Timer0_at_emit)
+00D8 2600      01152         ADDWF   r0x01, F
+00DA 0E00      01153         MOVLW   HIGH(_Timer0_at_emit)
+00DC 2200      01154         ADDWFC  r0x06, F
+00DE C000 FFE9 01155         MOVFF   r0x01, FSR0L
+00E2 C000 FFEA 01156         MOVFF   r0x06, FSR0H
+00E6 CFEE F000 01157         MOVFF   POSTINC0, r0x01
+00EA CFEF F000 01158         MOVFF   INDF0, r0x06
+00EE 5000      01159         MOVF    r0x01, W
+00F0 5E00      01160         SUBWF   r0x04, F
+00F2 5000      01161         MOVF    r0x06, W
+00F4 5A00      01162         SUBWFB  r0x05, F
+00F6 C000 FFE9 01163         MOVFF   r0x02, FSR0L
+00FA C000 FFEA 01164         MOVFF   r0x03, FSR0H
+00FE C000 FFEE 01165         MOVFF   r0x04, POSTINC0
+0102 C000 FFEF 01166         MOVFF   r0x05, INDF0
+               01167 ;       .line   482; interrupts.c       SET_SONAR_DATA_AVAILABLE(interrupt_port);
+0106 6A00      01168         CLRF    r0x01
+0108 0E00      01169         MOVLW   LOW(_Sonar_data_available)
+010A 2600      01170         ADDWF   r0x00, F
+010C 0E00      01171         MOVLW   HIGH(_Sonar_data_available)
+010E 2200      01172         ADDWFC  r0x01, F
+0110 C000 FFE9 01173         MOVFF   r0x00, FSR0L
+0114 C000 FFEA 01174         MOVFF   r0x01, FSR0H
+0118 0E01      01175         MOVLW   0x01
+011A 6EEF      01176         MOVWF   INDF0
+011C CFE4 F000 01177         MOVFF   PREINC1, r0x09
+0120 CFE4 F000 01178         MOVFF   PREINC1, r0x08
+0124 CFE4 F000 01179         MOVFF   PREINC1, r0x07
+0128 CFE4 F000 01180         MOVFF   PREINC1, r0x06
+012C CFE4 F000 01181         MOVFF   PREINC1, r0x05
+0130 CFE4 F000 01182         MOVFF   PREINC1, r0x04
+0134 CFE4 F000 01183         MOVFF   PREINC1, r0x03
+0138 CFE4 F000 01184         MOVFF   PREINC1, r0x02
+013C CFE4 F000 01185         MOVFF   PREINC1, r0x01
+0140 CFE4 F000 01186         MOVFF   PREINC1, r0x00
+0144 CFE4 FFD9 01187         MOVFF   PREINC1, FSR2L
+0148 0012      01188         RETURN  
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 23
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               01189 
+               01190 ; ; Starting pCode block
+               01191 S_interrupts__sonar_emit_isr    code
+0000 01192 _sonar_emit_isr:
+               01193 ;       .line   445; interrupts.c       void sonar_emit_isr(unsigned char interrupt_port) 
+0000 CFD9 FFE5 01194         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01195         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01196         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 01197         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 01198         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 01199         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 01200         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 01201         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 01202         MOVFF   r0x06, POSTDEC1
+0024 C000 FFE5 01203         MOVFF   r0x07, POSTDEC1
+0028 C000 FFE5 01204         MOVFF   r0x08, POSTDEC1
+002C C000 FFE5 01205         MOVFF   r0x09, POSTDEC1
+0030 0E02      01206         MOVLW   0x02
+0032 CFDB F000 01207         MOVFF   PLUSW2, r0x00
+               01208 ;       .line   449; interrupts.c       TIMER0_READ16(Timer0_at_emit[interrupt_port-1]);
+0036 0400      01209         DECF    r0x00, W
+0038 6E00      01210         MOVWF   r0x01
+               01211 ; ;multiply lit val:0x02 by variable r0x01 and store in r0x02
+               01212 ; ;Unrolled 8 X 8 multiplication
+               01213 ; ;FIXME: the function does not support result==WREG
+003A 90D8      01214         BCF     STATUS, 0
+003C 3400      01215         RLCF    r0x01, W
+003E 6E00      01216         MOVWF   r0x02
+0040 0E00      01217         MOVLW   LOW(_Timer0_at_emit)
+0042 2400      01218         ADDWF   r0x02, W
+0044 6E00      01219         MOVWF   r0x03
+0046 6A00      01220         CLRF    r0x04
+0048 0E00      01221         MOVLW   HIGH(_Timer0_at_emit)
+004A 2200      01222         ADDWFC  r0x04, F
+004C C000 F000 01223         MOVFF   _TMR0L, r0x05
+0050 6A00      01224         CLRF    r0x06
+0052 C000 FFE9 01225         MOVFF   r0x03, FSR0L
+0056 C000 FFEA 01226         MOVFF   r0x04, FSR0H
+005A C000 FFEE 01227         MOVFF   r0x05, POSTINC0
+005E C000 FFEF 01228         MOVFF   r0x06, INDF0
+0062 0E00      01229         MOVLW   LOW(_Timer0_at_emit)
+0064 2400      01230         ADDWF   r0x02, W
+0066 6E00      01231         MOVWF   r0x03
+0068 6A00      01232         CLRF    r0x04
+006A 0E00      01233         MOVLW   HIGH(_Timer0_at_emit)
+006C 2200      01234         ADDWFC  r0x04, F
+006E 6A00      01235         CLRF    r0x05
+0070 0E00      01236         MOVLW   LOW(_Timer0_at_emit)
+0072 2600      01237         ADDWF   r0x02, F
+0074 0E00      01238         MOVLW   HIGH(_Timer0_at_emit)
+0076 2200      01239         ADDWFC  r0x05, F
+0078 C000 FFE9 01240         MOVFF   r0x02, FSR0L
+007C C000 FFEA 01241         MOVFF   r0x05, FSR0H
+0080 CFEE F000 01242         MOVFF   POSTINC0, r0x02
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 24
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0084 CFEF F000 01243         MOVFF   INDF0, r0x05
+0088 C000 F000 01244         MOVFF   _TMR0H, r0x06
+008C 6A00      01245         CLRF    r0x07
+008E 5000      01246         MOVF    r0x06, W
+0090 6E00      01247         MOVWF   r0x09
+0092 6A00      01248         CLRF    r0x08
+0094 5000      01249         MOVF    r0x08, W
+0096 1200      01250         IORWF   r0x02, F
+0098 5000      01251         MOVF    r0x09, W
+009A 1200      01252         IORWF   r0x05, F
+009C C000 FFE9 01253         MOVFF   r0x03, FSR0L
+00A0 C000 FFEA 01254         MOVFF   r0x04, FSR0H
+00A4 C000 FFEE 01255         MOVFF   r0x02, POSTINC0
+00A8 C000 FFEF 01256         MOVFF   r0x05, INDF0
+               01257 ;       .line   451; interrupts.c       switch(interrupt_port)
+00AC 0E01      01258         MOVLW   0x01
+00AE 5C00      01259         SUBWF   r0x00, W
+00B0 E300      01260         BNC     _00272_DS_
+00B2 0E07      01261         MOVLW   0x07
+00B4 5C00      01262         SUBWF   r0x00, W
+00B6 E200      01263         BC      _00272_DS_
+00B8 C000 FFE5 01264         MOVFF   r0x0a, POSTDEC1
+00BC C000 FFE5 01265         MOVFF   r0x0b, POSTDEC1
+00C0 6A00      01266         CLRF    r0x0b
+00C2 3400      01267         RLCF    r0x01, W
+00C4 3600      01268         RLCF    r0x0b, F
+00C6 34E8      01269         RLCF    WREG, W
+00C8 3600      01270         RLCF    r0x0b, F
+00CA 0BFC      01271         ANDLW   0xfc
+00CC 6E00      01272         MOVWF   r0x0a
+00CE 0E00      01273         MOVLW   UPPER(_00279_DS_)
+00D0 6EFB      01274         MOVWF   PCLATU
+00D2 0E00      01275         MOVLW   HIGH(_00279_DS_)
+00D4 6EFA      01276         MOVWF   PCLATH
+00D6 0E00      01277         MOVLW   LOW(_00279_DS_)
+00D8 2600      01278         ADDWF   r0x0a, F
+00DA 5000      01279         MOVF    r0x0b, W
+00DC 22FA      01280         ADDWFC  PCLATH, F
+00DE B0D8      01281         BTFSC   STATUS, 0
+00E0 2AFB      01282         INCF    PCLATU, F
+00E2 5000      01283         MOVF    r0x0a, W
+00E4 CFE4 F000 01284         MOVFF   PREINC1, r0x0b
+00E8 CFE4 F000 01285         MOVFF   PREINC1, r0x0a
+00EC 6EF9      01286         MOVWF   PCL
+00EE 01287 _00279_DS_:
+00EE EF00 F000 01288         GOTO    _00265_DS_
+00F2 EF00 F000 01289         GOTO    _00266_DS_
+00F6 EF00 F000 01290         GOTO    _00272_DS_
+00FA EF00 F000 01291         GOTO    _00272_DS_
+00FE EF00 F000 01292         GOTO    _00272_DS_
+0102 EF00 F000 01293         GOTO    _00272_DS_
+0106 01294 _00265_DS_:
+               01295 ;       .line   455; interrupts.c       INTCON2bits.INTEDG2 = 0;
+0106 9800      01296         BCF     _INTCON2bits, 4
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 25
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               01297 ;       .line   456; interrupts.c       break;
+0108 D000      01298         BRA     _00272_DS_
+010A 01299 _00266_DS_:
+               01300 ;       .line   460; interrupts.c       INTCON2bits.INTEDG3 = 0;
+010A 9600      01301         BCF     _INTCON2bits, 3
+010C 01302 _00272_DS_:
+               01303 ;       .line   470; interrupts.c       }
+010C CFE4 F000 01304         MOVFF   PREINC1, r0x09
+0110 CFE4 F000 01305         MOVFF   PREINC1, r0x08
+0114 CFE4 F000 01306         MOVFF   PREINC1, r0x07
+0118 CFE4 F000 01307         MOVFF   PREINC1, r0x06
+011C CFE4 F000 01308         MOVFF   PREINC1, r0x05
+0120 CFE4 F000 01309         MOVFF   PREINC1, r0x04
+0124 CFE4 F000 01310         MOVFF   PREINC1, r0x03
+0128 CFE4 F000 01311         MOVFF   PREINC1, r0x02
+012C CFE4 F000 01312         MOVFF   PREINC1, r0x01
+0130 CFE4 F000 01313         MOVFF   PREINC1, r0x00
+0134 CFE4 FFD9 01314         MOVFF   PREINC1, FSR2L
+0138 0012      01315         RETURN  
+               01316 
+               01317 ; ; Starting pCode block
+               01318 S_interrupts__interrupt_disable code
+0000 01319 _interrupt_disable:
+               01320 ;       .line   152; interrupts.c       void    interrupt_disable(unsigned char port)
+0000 CFD9 FFE5 01321         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01322         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01323         MOVFF   r0x00, POSTDEC1
+000C 0E02      01324         MOVLW   0x02
+000E CFDB F000 01325         MOVFF   PLUSW2, r0x00
+               01326 ;       .line   155; interrupts.c       switch(port)
+0012 0E01      01327         MOVLW   0x01
+0014 5C00      01328         SUBWF   r0x00, W
+0016 E300      01329         BNC     _00145_DS_
+0018 0E07      01330         MOVLW   0x07
+001A 5C00      01331         SUBWF   r0x00, W
+001C E200      01332         BC      _00145_DS_
+001E 0600      01333         DECF    r0x00, F
+0020 C000 FFE5 01334         MOVFF   r0x01, POSTDEC1
+0024 C000 FFE5 01335         MOVFF   r0x02, POSTDEC1
+0028 6A00      01336         CLRF    r0x02
+002A 3400      01337         RLCF    r0x00, W
+002C 3600      01338         RLCF    r0x02, F
+002E 34E8      01339         RLCF    WREG, W
+0030 3600      01340         RLCF    r0x02, F
+0032 0BFC      01341         ANDLW   0xfc
+0034 6E00      01342         MOVWF   r0x01
+0036 0E00      01343         MOVLW   UPPER(_00151_DS_)
+0038 6EFB      01344         MOVWF   PCLATU
+003A 0E00      01345         MOVLW   HIGH(_00151_DS_)
+003C 6EFA      01346         MOVWF   PCLATH
+003E 0E00      01347         MOVLW   LOW(_00151_DS_)
+0040 2600      01348         ADDWF   r0x01, F
+0042 5000      01349         MOVF    r0x02, W
+0044 22FA      01350         ADDWFC  PCLATH, F
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 26
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0046 B0D8      01351         BTFSC   STATUS, 0
+0048 2AFB      01352         INCF    PCLATU, F
+004A 5000      01353         MOVF    r0x01, W
+004C CFE4 F000 01354         MOVFF   PREINC1, r0x02
+0050 CFE4 F000 01355         MOVFF   PREINC1, r0x01
+0054 6EF9      01356         MOVWF   PCL
+0056 01357 _00151_DS_:
+0056 EF00 F000 01358         GOTO    _00138_DS_
+005A EF00 F000 01359         GOTO    _00139_DS_
+005E EF00 F000 01360         GOTO    _00143_DS_
+0062 EF00 F000 01361         GOTO    _00143_DS_
+0066 EF00 F000 01362         GOTO    _00143_DS_
+006A EF00 F000 01363         GOTO    _00143_DS_
+006E 01364 _00138_DS_:
+               01365 ;       .line   158; interrupts.c       INTCON3bits.INT2IE = 0;
+006E 9800      01366         BCF     _INTCON3bits, 4
+               01367 ;       .line   159; interrupts.c       break;
+0070 D000      01368         BRA     _00145_DS_
+0072 01369 _00139_DS_:
+               01370 ;       .line   161; interrupts.c       INTCON3bits.INT3IE = 0;
+0072 9A00      01371         BCF     _INTCON3bits, 5
+               01372 ;       .line   162; interrupts.c       break;
+0074 D000      01373         BRA     _00145_DS_
+0076 01374 _00143_DS_:
+               01375 ;       .line   167; interrupts.c       INTCONbits.RBIE = 0;
+0076 9600      01376         BCF     _INTCONbits, 3
+0078 01377 _00145_DS_:
+               01378 ;       .line   169; interrupts.c       }
+0078 CFE4 F000 01379         MOVFF   PREINC1, r0x00
+007C CFE4 FFD9 01380         MOVFF   PREINC1, FSR2L
+0080 0012      01381         RETURN  
+               01382 
+               01383 ; ; Starting pCode block
+               01384 S_interrupts__interrupt_enable  code
+0000 01385 _interrupt_enable:
+               01386 ;       .line   118; interrupts.c       void    interrupt_enable(unsigned char port)
+0000 CFD9 FFE5 01387         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01388         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01389         MOVFF   r0x00, POSTDEC1
+000C 0E02      01390         MOVLW   0x02
+000E CFDB F000 01391         MOVFF   PLUSW2, r0x00
+               01392 ;       .line   121; interrupts.c       switch(port)
+0012 0E01      01393         MOVLW   0x01
+0014 5C00      01394         SUBWF   r0x00, W
+0016 E300      01395         BNC     _00127_DS_
+0018 0E07      01396         MOVLW   0x07
+001A 5C00      01397         SUBWF   r0x00, W
+001C E200      01398         BC      _00127_DS_
+001E 0600      01399         DECF    r0x00, F
+0020 C000 FFE5 01400         MOVFF   r0x01, POSTDEC1
+0024 C000 FFE5 01401         MOVFF   r0x02, POSTDEC1
+0028 6A00      01402         CLRF    r0x02
+002A 3400      01403         RLCF    r0x00, W
+002C 3600      01404         RLCF    r0x02, F
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 27
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+002E 34E8      01405         RLCF    WREG, W
+0030 3600      01406         RLCF    r0x02, F
+0032 0BFC      01407         ANDLW   0xfc
+0034 6E00      01408         MOVWF   r0x01
+0036 0E00      01409         MOVLW   UPPER(_00133_DS_)
+0038 6EFB      01410         MOVWF   PCLATU
+003A 0E00      01411         MOVLW   HIGH(_00133_DS_)
+003C 6EFA      01412         MOVWF   PCLATH
+003E 0E00      01413         MOVLW   LOW(_00133_DS_)
+0040 2600      01414         ADDWF   r0x01, F
+0042 5000      01415         MOVF    r0x02, W
+0044 22FA      01416         ADDWFC  PCLATH, F
+0046 B0D8      01417         BTFSC   STATUS, 0
+0048 2AFB      01418         INCF    PCLATU, F
+004A 5000      01419         MOVF    r0x01, W
+004C CFE4 F000 01420         MOVFF   PREINC1, r0x02
+0050 CFE4 F000 01421         MOVFF   PREINC1, r0x01
+0054 6EF9      01422         MOVWF   PCL
+0056 01423 _00133_DS_:
+0056 EF00 F000 01424         GOTO    _00120_DS_
+005A EF00 F000 01425         GOTO    _00121_DS_
+005E EF00 F000 01426         GOTO    _00125_DS_
+0062 EF00 F000 01427         GOTO    _00125_DS_
+0066 EF00 F000 01428         GOTO    _00125_DS_
+006A EF00 F000 01429         GOTO    _00125_DS_
+006E 01430 _00120_DS_:
+               01431 ;       .line   124; interrupts.c       INTCON3bits.INT2IE = 1;
+006E 8800      01432         BSF     _INTCON3bits, 4
+               01433 ;       .line   125; interrupts.c       break;
+0070 D000      01434         BRA     _00127_DS_
+0072 01435 _00121_DS_:
+               01436 ;       .line   127; interrupts.c       INTCON3bits.INT3IE = 1;
+0072 8A00      01437         BSF     _INTCON3bits, 5
+               01438 ;       .line   128; interrupts.c       break;
+0074 D000      01439         BRA     _00127_DS_
+0076 01440 _00125_DS_:
+               01441 ;       .line   133; interrupts.c       INTCONbits.RBIE = 1;
+0076 8600      01442         BSF     _INTCONbits, 3
+0078 01443 _00127_DS_:
+               01444 ;       .line   135; interrupts.c       }
+0078 CFE4 F000 01445         MOVFF   PREINC1, r0x00
+007C CFE4 FFD9 01446         MOVFF   PREINC1, FSR2L
+0080 0012      01447         RETURN  
+               01448 
+               01449 ; ; Starting pCode block
+               01450 S_interrupts__interrupt_set_edge        code
+0000 01451 _interrupt_set_edge:
+               01452 ;       .line   85; interrupts.c        void    interrupt_set_edge(unsigned char port,unsigned char mask)
+0000 CFD9 FFE5 01453         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 01454         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 01455         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 01456         MOVFF   r0x01, POSTDEC1
+0010 0E02      01457         MOVLW   0x02
+0012 CFDB F000 01458         MOVFF   PLUSW2, r0x00
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 28
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0016 0E03      01459         MOVLW   0x03
+0018 CFDB F000 01460         MOVFF   PLUSW2, r0x01
+               01461 ;       .line   88; interrupts.c        switch(port)
+001C 5000      01462         MOVF    r0x00, W
+001E 0A01      01463         XORLW   0x01
+0020 E000      01464         BZ      _00105_DS_
+0022 5000      01465         MOVF    r0x00, W
+0024 0A02      01466         XORLW   0x02
+0026 E000      01467         BZ      _00106_DS_
+0028 D000      01468         BRA     _00108_DS_
+002A 01469 _00105_DS_:
+               01470 ;       .line   91; interrupts.c        INTCON2bits.INTEDG2 = mask;
+002A 5000      01471         MOVF    r0x01, W
+002C 0B01      01472         ANDLW   0x01
+002E 38E8      01473         SWAPF   WREG, W
+0030 6EF4      01474         MOVWF   PRODH
+0032 5000      01475         MOVF    _INTCON2bits, W
+0034 0BEF      01476         ANDLW   0xef
+0036 10F4      01477         IORWF   PRODH, W
+0038 6E00      01478         MOVWF   _INTCON2bits
+               01479 ;       .line   92; interrupts.c        break;
+003A D000      01480         BRA     _00108_DS_
+003C 01481 _00106_DS_:
+               01482 ;       .line   94; interrupts.c        INTCON2bits.INTEDG3 = mask;
+003C 5000      01483         MOVF    r0x01, W
+003E 0B01      01484         ANDLW   0x01
+0040 38E8      01485         SWAPF   WREG, W
+0042 40E8      01486         RRNCF   WREG, W
+0044 6EF4      01487         MOVWF   PRODH
+0046 5000      01488         MOVF    _INTCON2bits, W
+0048 0BF7      01489         ANDLW   0xf7
+004A 10F4      01490         IORWF   PRODH, W
+004C 6E00      01491         MOVWF   _INTCON2bits
+004E 01492 _00108_DS_:
+               01493 ;       .line   101; interrupts.c       }
+004E CFE4 F000 01494         MOVFF   PREINC1, r0x01
+0052 CFE4 F000 01495         MOVFF   PREINC1, r0x00
+0056 CFE4 FFD9 01496         MOVFF   PREINC1, FSR2L
+005A 0012      01497         RETURN  
+               01498 
+               01499 
+               01500 
+               01501 ; Statistics:
+               01502 ; code size:     2334 (0x091e) bytes ( 1.78%)
+               01503 ;                1167 (0x048f) words
+               01504 ; udata size:      47 (0x002f) bytes ( 2.62%)
+               01505 ; access size:     12 (0x000c) bytes
+               01506 
+               01507 
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 29
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+BSR                               00000FE0
+FSR0H                             00000FEA
+FSR0L                             00000FE9
+FSR1L                             00000FE1
+FSR2L                             00000FD9
+INDF0                             00000FEF
+PCL                               00000FF9
+PCLATH                            00000FFA
+PCLATU                            00000FFB
+PLUSW2                            00000FDB
+POSTDEC1                          00000FE5
+POSTINC0                          00000FEE
+PREINC1                           00000FE4
+PRODH                             00000FF4
+PRODL                             00000FF3
+STATUS                            00000FD8
+WREG                              00000FE8
+_00105_DS_                        0000002A
+_00106_DS_                        0000003C
+_00108_DS_                        0000004E
+_00120_DS_                        0000006E
+_00121_DS_                        00000072
+_00125_DS_                        00000076
+_00127_DS_                        00000078
+_00133_DS_                        00000056
+_00138_DS_                        0000006E
+_00139_DS_                        00000072
+_00143_DS_                        00000076
+_00145_DS_                        00000078
+_00151_DS_                        00000056
+_00164_DS_                        00000136
+_00167_DS_                        00000122
+_00168_DS_                        00000160
+_00170_DS_                        000001A6
+_00172_DS_                        00000176
+_00177_DS_                        000001C0
+_00179_DS_                        00000216
+_00184_DS_                        00000200
+_00187_DS_                        000001EE
+_00190_DS_                        00000220
+_00192_DS_                        00000276
+_00197_DS_                        00000260
+_00200_DS_                        0000024E
+_00203_DS_                        00000280
+_00205_DS_                        00000290
+_00207_DS_                        000002A0
+_00209_DS_                        000002C0
+_00211_DS_                        000002D0
+_00214_DS_                        0000007A
+_00216_DS_                        000001B2
+_00218_DS_                        000002F0
+_00245_DS_                        00000086
+_00254_DS_                        000001D0
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 30
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_00258_DS_                        00000230
+_00265_DS_                        00000106
+_00266_DS_                        0000010A
+_00272_DS_                        0000010C
+_00279_DS_                        000000EE
+_00289_DS_                        000000C6
+_00290_DS_                        000000D0
+_00291_DS_                        000000DA
+_00292_DS_                        000000E4
+_00293_DS_                        000000EE
+_00294_DS_                        000000F8
+_00295_DS_                        00000102
+_00296_DS_                        0000010C
+_00297_DS_                        00000116
+_00298_DS_                        00000120
+_00299_DS_                        0000012A
+_00300_DS_                        00000134
+_00301_DS_                        0000013E
+_00302_DS_                        00000148
+_00303_DS_                        00000152
+_00304_DS_                        0000015C
+_00306_DS_                        00000164
+_00308_DS_                        000001A2
+_00310_DS_                        000001D6
+_00317_DS_                        00000086
+_10289_DS_                        00000290
+_20290_DS_                        000002A0
+_30291_DS_                        000002B0
+_40292_DS_                        000002B6
+_50293_DS_                        000002BC
+_60294_DS_                        000002D0
+_70295_DS_                        000002E0
+_80296_DS_                        000002E6
+_90297_DS_                        000002EC
+_ADCON0                           00000000
+_ADCON0bits                       00000000
+_ADCON1                           00000000
+_ADCON1bits                       00000000
+_ADCON2                           00000000
+_ADCON2bits                       00000000
+_ADRESH                           00000000
+_ADRESL                           00000000
+_Analog_ports                     00000000
+_BSR                              00000000
+_CCP1CON                          00000000
+_CCP1CONbits                      00000000
+_CCP2CON                          00000000
+_CCP2CONbits                      00000000
+_CCP3CON                          00000000
+_CCP3CONbits                      00000000
+_CCP4CON                          00000000
+_CCP4CONbits                      00000000
+_CCP5CON                          00000000
+_CCP5CONbits                      00000000
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 31
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_CCPR1H                           00000000
+_CCPR1L                           00000000
+_CCPR2H                           00000000
+_CCPR2L                           00000000
+_CCPR3H                           00000000
+_CCPR3L                           00000000
+_CCPR4H                           00000000
+_CCPR4L                           00000000
+_CCPR5H                           00000000
+_CCPR5L                           00000000
+_CMCON                            00000000
+_CMCONbits                        00000000
+_CVRCON                           00000000
+_CVRCONbits                       00000000
+_EEADR                            00000000
+_EEADRH                           00000000
+_EECON1                           00000000
+_EECON1bits                       00000000
+_EECON2                           00000000
+_EEDATA                           00000000
+_Encoder_on_iport                 0000002A
+_Encoder_ticks                    0000001E
+_FSR0H                            00000000
+_FSR0L                            00000000
+_FSR1H                            00000000
+_FSR1L                            00000000
+_FSR2H                            00000000
+_FSR2L                            00000000
+_INDF0                            00000000
+_INDF1                            00000000
+_INDF2                            00000000
+_INTCON                           00000000
+_INTCON2                          00000000
+_INTCON2bits                      00000000
+_INTCON3                          00000000
+_INTCON3bits                      00000000
+_INTCONbits                       00000000
+_IPR1                             00000000
+_IPR1bits                         00000000
+_IPR2                             00000000
+_IPR2bits                         00000000
+_IPR3                             00000000
+_IPR3bits                         00000000
+_InterruptHandlerLow              00000000
+_InterruptHandlerLow_old_portb_1_1  00000036
+_InterruptVectorLow               00000818
+_Interrupt_port_in_use            00000000
+_LATA                             00000000
+_LATAbits                         00000000
+_LATB                             00000000
+_LATBbits                         00000000
+_LATC                             00000000
+_LATCbits                         00000000
+_LATD                             00000000
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 32
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_LATDbits                         00000000
+_LATE                             00000000
+_LATEbits                         00000000
+_LATF                             00000000
+_LATFbits                         00000000
+_LATG                             00000000
+_LATGbits                         00000000
+_LATH                             00000000
+_LATHbits                         00000000
+_LATJ                             00000000
+_LATJbits                         00000000
+_LVDCON                           00000000
+_LVDCONbits                       00000000
+_MEMCON                           00000000
+_MEMCONbits                       00000000
+_OSCCON                           00000000
+_OSCCONbits                       00000000
+_PCL                              00000000
+_PCLATH                           00000000
+_PCLATU                           00000000
+_PIE1                             00000000
+_PIE1bits                         00000000
+_PIE2                             00000000
+_PIE2bits                         00000000
+_PIE3                             00000000
+_PIE3bits                         00000000
+_PIR1                             00000000
+_PIR1bits                         00000000
+_PIR2                             00000000
+_PIR2bits                         00000000
+_PIR3                             00000000
+_PIR3bits                         00000000
+_PLUSW0                           00000000
+_PLUSW1                           00000000
+_PLUSW2                           00000000
+_PORTA                            00000000
+_PORTAbits                        00000000
+_PORTB                            00000000
+_PORTBbits                        00000000
+_PORTC                            00000000
+_PORTCbits                        00000000
+_PORTD                            00000000
+_PORTDbits                        00000000
+_PORTE                            00000000
+_PORTEbits                        00000000
+_PORTF                            00000000
+_PORTFbits                        00000000
+_PORTG                            00000000
+_PORTGbits                        00000000
+_PORTH                            00000000
+_PORTHbits                        00000000
+_PORTJ                            00000000
+_PORTJbits                        00000000
+_POSTDEC0                         00000000
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 33
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_POSTDEC1                         00000000
+_POSTDEC2                         00000000
+_POSTINC0                         00000000
+_POSTINC1                         00000000
+_POSTINC2                         00000000
+_PR2                              00000000
+_PR4                              00000000
+_PREINC0                          00000000
+_PREINC1                          00000000
+_PREINC2                          00000000
+_PRODH                            00000000
+_PRODL                            00000000
+_PSPCON                           00000000
+_PSPCONbits                       00000000
+_Porta_sample                     00000000
+_Portf_sample                     00000000
+_Porth_sample                     00000000
+_Quad_input_port                  00000030
+_RCON                             00000000
+_RCONbits                         00000000
+_RCREG                            00000000
+_RCREG1                           00000000
+_RCREG2                           00000000
+_RCSTA                            00000000
+_RCSTA1                           00000000
+_RCSTA1bits                       00000000
+_RCSTA2                           00000000
+_RCSTA2bits                       00000000
+_RCSTAbits                        00000000
+_SPBRG                            00000000
+_SPBRG1                           00000000
+_SPBRG2                           00000000
+_SSPADD                           00000000
+_SSPBUF                           00000000
+_SSPCON1                          00000000
+_SSPCON1bits                      00000000
+_SSPCON2                          00000000
+_SSPCON2bits                      00000000
+_SSPSTAT                          00000000
+_SSPSTATbits                      00000000
+_STATUS                           00000000
+_STATUSbits                       00000000
+_STKPTR                           00000000
+_STKPTRbits                       00000000
+_Sonar_data_available             0000000C
+_Sonar_echo_time                  00000012
+_Sonar_on_iport                   00000006
+_Sonar_output_port                00000000
+_T0CON                            00000000
+_T1CON                            00000000
+_T1CONbits                        00000000
+_T2CON                            00000000
+_T2CONbits                        00000000
+_T3CON                            00000000
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 34
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_T3CONbits                        00000000
+_T4CON                            00000000
+_T4CONbits                        00000000
+_TABLAT                           00000000
+_TBLPTRH                          00000000
+_TBLPTRL                          00000000
+_TBLPTRU                          00000000
+_TMR0H                            00000000
+_TMR0L                            00000000
+_TMR1H                            00000000
+_TMR1L                            00000000
+_TMR2                             00000000
+_TMR3H                            00000000
+_TMR3L                            00000000
+_TMR4                             00000000
+_TOSH                             00000000
+_TOSL                             00000000
+_TOSU                             00000000
+_TRISA                            00000000
+_TRISAbits                        00000000
+_TRISB                            00000000
+_TRISBbits                        00000000
+_TRISC                            00000000
+_TRISCbits                        00000000
+_TRISD                            00000000
+_TRISDbits                        00000000
+_TRISE                            00000000
+_TRISEbits                        00000000
+_TRISF                            00000000
+_TRISFbits                        00000000
+_TRISG                            00000000
+_TRISGbits                        00000000
+_TRISH                            00000000
+_TRISHbits                        00000000
+_TRISJ                            00000000
+_TRISJbits                        00000000
+_TXREG                            00000000
+_TXREG1                           00000000
+_TXREG2                           00000000
+_TXSTA                            00000000
+_TXSTA1                           00000000
+_TXSTA1bits                       00000000
+_TXSTA2                           00000000
+_TXSTA2bits                       00000000
+_TXSTAbits                        00000000
+_Timer0_at_echo                   00000000
+_Timer0_at_emit                   00000000
+_Timer0_overflows                 00000000
+_Timer1_overflows                 00000000
+_Timer2_overflows                 00000000
+_Timer3_overflows                 00000000
+_Timer4_overflows                 00000000
+_WDTCON                           00000000
+_WDTCONbits                       00000000
+gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 35
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_WREG                             00000000
+__18F8520                         00000001
+_interrupt_disable                00000000
+_interrupt_enable                 00000000
+_interrupt_set_edge               00000000
+_quad_encoder_isr                 00000000
+_sonar_echo_isr                   00000000
+_sonar_emit_isr                   00000000
+_stdin                            00000000
+_stdout                           00000000
+r0x00                             00000000
+r0x01                             00000001
+r0x02                             00000002
+r0x03                             00000003
+r0x04                             00000004
+r0x05                             00000005
+r0x06                             00000006
+r0x07                             00000007
+r0x08                             00000008
+r0x09                             00000009
+r0x0a                             0000000A
+r0x0b                             0000000B
+
+
+Errors   :       0
+Warnings :       0 reported,       0 suppressed
+Messages :       0 reported,       0 suppressed
+

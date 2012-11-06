@@ -1,0 +1,1590 @@
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00001 ;--------------------------------------------------------
+               00002 ; File Created by SDCC : free open source ANSI-C Compiler
+               00003 ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
+               00004 ; This file was generated Fri Nov  2 01:06:41 2012
+               00005 ;--------------------------------------------------------
+               00006 ; PIC16 port for the Microchip 16-bit core micros
+               00007 ;--------------------------------------------------------
+               00008         list    p=18f8520
+               00009 
+               00010         radix dec
+               00011 
+               00012 ;--------------------------------------------------------
+               00013 ; public variables in this module
+               00014 ;--------------------------------------------------------
+               00015         global _timer_read_ms
+               00016         global _timer_clear
+               00017         global _timer_start
+               00018         global _timer_stop
+               00019         global _timer_allocate
+               00020         global _timer_free
+               00021 
+               00022 ;--------------------------------------------------------
+               00023 ; extern variables in this module
+               00024 ;--------------------------------------------------------
+               00025         extern _stdin
+               00026         extern _stdout
+               00027         extern _RCSTA2bits
+               00028         extern _TXSTA2bits
+               00029         extern _CCP5CONbits
+               00030         extern _CCP4CONbits
+               00031         extern _T4CONbits
+               00032         extern _PORTAbits
+               00033         extern _PORTBbits
+               00034         extern _PORTCbits
+               00035         extern _PORTDbits
+               00036         extern _PORTEbits
+               00037         extern _PORTFbits
+               00038         extern _PORTGbits
+               00039         extern _PORTHbits
+               00040         extern _PORTJbits
+               00041         extern _LATAbits
+               00042         extern _LATBbits
+               00043         extern _LATCbits
+               00044         extern _LATDbits
+               00045         extern _LATEbits
+               00046         extern _LATFbits
+               00047         extern _LATGbits
+               00048         extern _LATHbits
+               00049         extern _LATJbits
+               00050         extern _TRISAbits
+               00051         extern _TRISBbits
+               00052         extern _TRISCbits
+               00053         extern _TRISDbits
+               00054         extern _TRISEbits
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00055         extern _TRISFbits
+               00056         extern _TRISGbits
+               00057         extern _TRISHbits
+               00058         extern _TRISJbits
+               00059         extern _MEMCONbits
+               00060         extern _PIE1bits
+               00061         extern _PIR1bits
+               00062         extern _IPR1bits
+               00063         extern _PIE2bits
+               00064         extern _PIR2bits
+               00065         extern _IPR2bits
+               00066         extern _PIE3bits
+               00067         extern _PIR3bits
+               00068         extern _IPR3bits
+               00069         extern _EECON1bits
+               00070         extern _RCSTA1bits
+               00071         extern _TXSTA1bits
+               00072         extern _RCSTAbits
+               00073         extern _TXSTAbits
+               00074         extern _PSPCONbits
+               00075         extern _T3CONbits
+               00076         extern _CMCONbits
+               00077         extern _CVRCONbits
+               00078         extern _CCP3CONbits
+               00079         extern _CCP2CONbits
+               00080         extern _CCP1CONbits
+               00081         extern _ADCON2bits
+               00082         extern _ADCON1bits
+               00083         extern _ADCON0bits
+               00084         extern _SSPCON2bits
+               00085         extern _SSPCON1bits
+               00086         extern _SSPSTATbits
+               00087         extern _T2CONbits
+               00088         extern _T1CONbits
+               00089         extern _RCONbits
+               00090         extern _WDTCONbits
+               00091         extern _LVDCONbits
+               00092         extern _OSCCONbits
+               00093         extern _STATUSbits
+               00094         extern _INTCON3bits
+               00095         extern _INTCON2bits
+               00096         extern _INTCONbits
+               00097         extern _STKPTRbits
+               00098         extern _Timer0_overflows
+               00099         extern _Timer1_overflows
+               00100         extern _Timer2_overflows
+               00101         extern _Timer3_overflows
+               00102         extern _Timer4_overflows
+               00103         extern _Timer_allocated
+               00104         extern _RCSTA2
+               00105         extern _TXSTA2
+               00106         extern _TXREG2
+               00107         extern _RCREG2
+               00108         extern _SPBRG2
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00109         extern _CCP5CON
+               00110         extern _CCPR5L
+               00111         extern _CCPR5H
+               00112         extern _CCP4CON
+               00113         extern _CCPR4L
+               00114         extern _CCPR4H
+               00115         extern _T4CON
+               00116         extern _PR4
+               00117         extern _TMR4
+               00118         extern _PORTA
+               00119         extern _PORTB
+               00120         extern _PORTC
+               00121         extern _PORTD
+               00122         extern _PORTE
+               00123         extern _PORTF
+               00124         extern _PORTG
+               00125         extern _PORTH
+               00126         extern _PORTJ
+               00127         extern _LATA
+               00128         extern _LATB
+               00129         extern _LATC
+               00130         extern _LATD
+               00131         extern _LATE
+               00132         extern _LATF
+               00133         extern _LATG
+               00134         extern _LATH
+               00135         extern _LATJ
+               00136         extern _TRISA
+               00137         extern _TRISB
+               00138         extern _TRISC
+               00139         extern _TRISD
+               00140         extern _TRISE
+               00141         extern _TRISF
+               00142         extern _TRISG
+               00143         extern _TRISH
+               00144         extern _TRISJ
+               00145         extern _MEMCON
+               00146         extern _PIE1
+               00147         extern _PIR1
+               00148         extern _IPR1
+               00149         extern _PIE2
+               00150         extern _PIR2
+               00151         extern _IPR2
+               00152         extern _PIE3
+               00153         extern _PIR3
+               00154         extern _IPR3
+               00155         extern _EECON1
+               00156         extern _EECON2
+               00157         extern _EEDATA
+               00158         extern _EEADR
+               00159         extern _EEADRH
+               00160         extern _RCSTA1
+               00161         extern _TXSTA1
+               00162         extern _TXREG1
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00163         extern _RCREG1
+               00164         extern _SPBRG1
+               00165         extern _RCSTA
+               00166         extern _TXSTA
+               00167         extern _TXREG
+               00168         extern _RCREG
+               00169         extern _SPBRG
+               00170         extern _PSPCON
+               00171         extern _T3CON
+               00172         extern _TMR3L
+               00173         extern _TMR3H
+               00174         extern _CMCON
+               00175         extern _CVRCON
+               00176         extern _CCP3CON
+               00177         extern _CCPR3L
+               00178         extern _CCPR3H
+               00179         extern _CCP2CON
+               00180         extern _CCPR2L
+               00181         extern _CCPR2H
+               00182         extern _CCP1CON
+               00183         extern _CCPR1L
+               00184         extern _CCPR1H
+               00185         extern _ADCON2
+               00186         extern _ADCON1
+               00187         extern _ADCON0
+               00188         extern _ADRESL
+               00189         extern _ADRESH
+               00190         extern _SSPCON2
+               00191         extern _SSPCON1
+               00192         extern _SSPSTAT
+               00193         extern _SSPADD
+               00194         extern _SSPBUF
+               00195         extern _T2CON
+               00196         extern _PR2
+               00197         extern _TMR2
+               00198         extern _T1CON
+               00199         extern _TMR1L
+               00200         extern _TMR1H
+               00201         extern _RCON
+               00202         extern _WDTCON
+               00203         extern _LVDCON
+               00204         extern _OSCCON
+               00205         extern _T0CON
+               00206         extern _TMR0L
+               00207         extern _TMR0H
+               00208         extern _STATUS
+               00209         extern _FSR2L
+               00210         extern _FSR2H
+               00211         extern _PLUSW2
+               00212         extern _PREINC2
+               00213         extern _POSTDEC2
+               00214         extern _POSTINC2
+               00215         extern _INDF2
+               00216         extern _BSR
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00217         extern _FSR1L
+               00218         extern _FSR1H
+               00219         extern _PLUSW1
+               00220         extern _PREINC1
+               00221         extern _POSTDEC1
+               00222         extern _POSTINC1
+               00223         extern _INDF1
+               00224         extern _WREG
+               00225         extern _FSR0L
+               00226         extern _FSR0H
+               00227         extern _PLUSW0
+               00228         extern _PREINC0
+               00229         extern _POSTDEC0
+               00230         extern _POSTINC0
+               00231         extern _INDF0
+               00232         extern _INTCON3
+               00233         extern _INTCON2
+               00234         extern _INTCON
+               00235         extern _PRODL
+               00236         extern _PRODH
+               00237         extern _TABLAT
+               00238         extern _TBLPTRL
+               00239         extern _TBLPTRH
+               00240         extern _TBLPTRU
+               00241         extern _PCL
+               00242         extern _PCLATH
+               00243         extern _PCLATU
+               00244         extern _STKPTR
+               00245         extern _TOSL
+               00246         extern _TOSH
+               00247         extern _TOSU
+               00248         extern _timer1_read32
+               00249         extern _timer2_read32
+               00250         extern _timer3_read32
+               00251         extern _timer4_read32
+               00252         extern __divsint
+               00253         extern __divulong
+               00254 ;--------------------------------------------------------
+               00255 ;       Equates to used internal registers
+               00256 ;--------------------------------------------------------
+  00000FD8     00257 STATUS  equ     0xfd8
+  00000FF9     00258 PCL     equ     0xff9
+  00000FFA     00259 PCLATH  equ     0xffa
+  00000FFB     00260 PCLATU  equ     0xffb
+  00000FE8     00261 WREG    equ     0xfe8
+  00000FE9     00262 FSR0L   equ     0xfe9
+  00000FEA     00263 FSR0H   equ     0xfea
+  00000FE1     00264 FSR1L   equ     0xfe1
+  00000FD9     00265 FSR2L   equ     0xfd9
+  00000FEF     00266 INDF0   equ     0xfef
+  00000FE5     00267 POSTDEC1        equ     0xfe5
+  00000FE4     00268 PREINC1 equ     0xfe4
+  00000FDB     00269 PLUSW2  equ     0xfdb
+  00000FF3     00270 PRODL   equ     0xff3
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+  00000FF4     00271 PRODH   equ     0xff4
+               00272 
+               00273 
+               00274 ; Internal registers
+               00275 .registers      udata_ovr       0x0000
+               00276 r0x00   res     1
+               00277 r0x01   res     1
+               00278 r0x02   res     1
+               00279 r0x03   res     1
+               00280 r0x04   res     1
+               00281 r0x05   res     1
+               00282 r0x06   res     1
+               00283 r0x07   res     1
+               00284 r0x08   res     1
+               00285 r0x09   res     1
+               00286 r0x0a   res     1
+               00287 r0x0b   res     1
+               00288 
+               00289 ;--------------------------------------------------------
+               00290 ; global & static initialisations
+               00291 ;--------------------------------------------------------
+               00292 ; I code from now on!
+               00293 ; ; Starting pCode block
+               00294 S_timer_simple__timer_free      code
+0000 00295 _timer_free:
+               00296 ;       .line   236; timer_simple.c     void    timer_free(unsigned char timer)
+0000 CFD9 FFE5 00297         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00298         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00299         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00300         MOVFF   r0x01, POSTDEC1
+0010 0E02      00301         MOVLW   0x02
+0012 CFDB F000 00302         MOVFF   PLUSW2, r0x00
+               00303 ;       .line   239; timer_simple.c     timer_stop(timer);
+0016 5000      00304         MOVF    r0x00, W
+0018 6EE5      00305         MOVWF   POSTDEC1
+001A EC00 F000 00306         CALL    _timer_stop
+001E 2AE1      00307         INCF    FSR1L, F
+               00308 ;       .line   240; timer_simple.c     Timer_allocated[timer-1] = 0;
+0020 0600      00309         DECF    r0x00, F
+0022 6A00      00310         CLRF    r0x01
+0024 0E00      00311         MOVLW   LOW(_Timer_allocated)
+0026 2600      00312         ADDWF   r0x00, F
+0028 0E00      00313         MOVLW   HIGH(_Timer_allocated)
+002A 2200      00314         ADDWFC  r0x01, F
+002C C000 FFE9 00315         MOVFF   r0x00, FSR0L
+0030 C000 FFEA 00316         MOVFF   r0x01, FSR0H
+0034 0E00      00317         MOVLW   0x00
+0036 6EEF      00318         MOVWF   INDF0
+0038 CFE4 F000 00319         MOVFF   PREINC1, r0x01
+003C CFE4 F000 00320         MOVFF   PREINC1, r0x00
+0040 CFE4 FFD9 00321         MOVFF   PREINC1, FSR2L
+0044 0012      00322         RETURN  
+               00323 
+               00324 ; ; Starting pCode block
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00325 S_timer_simple__timer_allocate  code
+0000 00326 _timer_allocate:
+               00327 ;       .line   201; timer_simple.c     unsigned char   timer_allocate(void)
+0000 CFD9 FFE5 00328         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00329         MOVFF   FSR1L, FSR2L
+0008 0000      00330         BANKSEL _Timer_allocated
+               00331 ;       .line   204; timer_simple.c     if ( ! Timer_allocated[0] )
+000A 5100      00332         MOVF    _Timer_allocated, W, B
+000C E100      00333         BNZ     _00194_DS_
+               00334 ; #     MOVLW   0x01
+               00335 ; #     MOVWF   _Timer_allocated, B
+               00336 ; #     MOVLW   0x01
+               00337 ;       .line   206; timer_simple.c     Timer_allocated[0] = 1;
+000E 0E01      00338         MOVLW   0x01
+0010 0000      00339         BANKSEL _Timer_allocated
+               00340 ;       .line   207; timer_simple.c     return 1;
+0012 6F00      00341         MOVWF   _Timer_allocated, B
+0014 D000      00342         BRA     _00196_DS_
+0016 00343 _00194_DS_:
+0016 0000      00344         BANKSEL (_Timer_allocated + 2)
+               00345 ;       .line   209; timer_simple.c     else if ( ! Timer_allocated[2] )
+0018 5100      00346         MOVF    (_Timer_allocated + 2), W, B
+001A E100      00347         BNZ     _00191_DS_
+               00348 ;       .line   211; timer_simple.c     Timer_allocated[2] = 1;
+001C 0E01      00349         MOVLW   0x01
+001E 0000      00350         BANKSEL (_Timer_allocated + 2)
+0020 6F00      00351         MOVWF   (_Timer_allocated + 2), B
+               00352 ;       .line   212; timer_simple.c     return 3;
+0022 0E03      00353         MOVLW   0x03
+0024 D000      00354         BRA     _00196_DS_
+0026 00355 _00191_DS_:
+0026 0000      00356         BANKSEL (_Timer_allocated + 1)
+               00357 ;       .line   214; timer_simple.c     else if ( ! Timer_allocated[1] )
+0028 5100      00358         MOVF    (_Timer_allocated + 1), W, B
+002A E100      00359         BNZ     _00188_DS_
+               00360 ;       .line   216; timer_simple.c     Timer_allocated[1] = 1;
+002C 0E01      00361         MOVLW   0x01
+002E 0000      00362         BANKSEL (_Timer_allocated + 1)
+0030 6F00      00363         MOVWF   (_Timer_allocated + 1), B
+               00364 ;       .line   217; timer_simple.c     return 2;
+0032 0E02      00365         MOVLW   0x02
+0034 D000      00366         BRA     _00196_DS_
+0036 00367 _00188_DS_:
+0036 0000      00368         BANKSEL (_Timer_allocated + 3)
+               00369 ;       .line   219; timer_simple.c     else if ( ! Timer_allocated[3] )
+0038 5100      00370         MOVF    (_Timer_allocated + 3), W, B
+003A E100      00371         BNZ     _00192_DS_
+               00372 ;       .line   221; timer_simple.c     Timer_allocated[3] = 1;
+003C 0E01      00373         MOVLW   0x01
+003E 0000      00374         BANKSEL (_Timer_allocated + 3)
+0040 6F00      00375         MOVWF   (_Timer_allocated + 3), B
+               00376 ;       .line   222; timer_simple.c     return 4;
+0042 0E04      00377         MOVLW   0x04
+0044 D000      00378         BRA     _00196_DS_
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0046 00379 _00192_DS_:
+               00380 ;       .line   224; timer_simple.c     return 0;
+0046 6AE8      00381         CLRF    WREG
+0048 00382 _00196_DS_:
+0048 CFE4 FFD9 00383         MOVFF   PREINC1, FSR2L
+004C 0012      00384         RETURN  
+               00385 
+               00386 ; ; Starting pCode block
+               00387 S_timer_simple__timer_stop      code
+0000 00388 _timer_stop:
+               00389 ;       .line   166; timer_simple.c     void    timer_stop(unsigned char timer)
+0000 CFD9 FFE5 00390         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00391         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00392         MOVFF   r0x00, POSTDEC1
+000C 0E02      00393         MOVLW   0x02
+000E CFDB F000 00394         MOVFF   PLUSW2, r0x00
+               00395 ;       .line   168; timer_simple.c     switch(timer)
+0012 0E01      00396         MOVLW   0x01
+0014 5C00      00397         SUBWF   r0x00, W
+0016 E300      00398         BNC     _00174_DS_
+0018 0E05      00399         MOVLW   0x05
+001A 5C00      00400         SUBWF   r0x00, W
+001C E200      00401         BC      _00174_DS_
+001E 0600      00402         DECF    r0x00, F
+0020 C000 FFE5 00403         MOVFF   r0x01, POSTDEC1
+0024 C000 FFE5 00404         MOVFF   r0x02, POSTDEC1
+0028 6A00      00405         CLRF    r0x02
+002A 3400      00406         RLCF    r0x00, W
+002C 3600      00407         RLCF    r0x02, F
+002E 34E8      00408         RLCF    WREG, W
+0030 3600      00409         RLCF    r0x02, F
+0032 0BFC      00410         ANDLW   0xfc
+0034 6E00      00411         MOVWF   r0x01
+0036 0E00      00412         MOVLW   UPPER(_00180_DS_)
+0038 6EFB      00413         MOVWF   PCLATU
+003A 0E00      00414         MOVLW   HIGH(_00180_DS_)
+003C 6EFA      00415         MOVWF   PCLATH
+003E 0E00      00416         MOVLW   LOW(_00180_DS_)
+0040 2600      00417         ADDWF   r0x01, F
+0042 5000      00418         MOVF    r0x02, W
+0044 22FA      00419         ADDWFC  PCLATH, F
+0046 B0D8      00420         BTFSC   STATUS, 0
+0048 2AFB      00421         INCF    PCLATU, F
+004A 5000      00422         MOVF    r0x01, W
+004C CFE4 F000 00423         MOVFF   PREINC1, r0x02
+0050 CFE4 F000 00424         MOVFF   PREINC1, r0x01
+0054 6EF9      00425         MOVWF   PCL
+0056 00426 _00180_DS_:
+0056 EF00 F000 00427         GOTO    _00169_DS_
+005A EF00 F000 00428         GOTO    _00170_DS_
+005E EF00 F000 00429         GOTO    _00171_DS_
+0062 EF00 F000 00430         GOTO    _00172_DS_
+0066 00431 _00169_DS_:
+               00432 ;       .line   171; timer_simple.c     TIMER1_STOP();
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0066 9000      00433         BCF     _T1CONbits, 0
+               00434 ;       .line   172; timer_simple.c     TIMER1_CLEAR_INTERRUPT_FLAG();
+0068 9000      00435         BCF     _PIR1bits, 0
+               00436 ;       .line   173; timer_simple.c     TIMER1_DISABLE_INTERRUPTS();
+006A 9000      00437         BCF     _PIE1bits, 0
+               00438 ;       .line   174; timer_simple.c     return;
+006C D000      00439         BRA     _00174_DS_
+006E 00440 _00170_DS_:
+               00441 ;       .line   176; timer_simple.c     TIMER2_STOP();
+006E 9400      00442         BCF     _T2CONbits, 2
+               00443 ;       .line   177; timer_simple.c     TIMER2_CLEAR_INTERRUPT_FLAG();
+0070 9200      00444         BCF     _PIR1bits, 1
+               00445 ;       .line   178; timer_simple.c     TIMER2_DISABLE_INTERRUPTS();
+0072 9200      00446         BCF     _PIE1bits, 1
+               00447 ;       .line   179; timer_simple.c     return;
+0074 D000      00448         BRA     _00174_DS_
+0076 00449 _00171_DS_:
+               00450 ;       .line   181; timer_simple.c     TIMER3_STOP();
+0076 9000      00451         BCF     _T3CONbits, 0
+               00452 ;       .line   182; timer_simple.c     TIMER3_CLEAR_INTERRUPT_FLAG();
+0078 9200      00453         BCF     _PIR2bits, 1
+               00454 ;       .line   183; timer_simple.c     TIMER3_DISABLE_INTERRUPTS();
+007A 9200      00455         BCF     _PIE2bits, 1
+               00456 ;       .line   184; timer_simple.c     return;
+007C D000      00457         BRA     _00174_DS_
+007E 00458 _00172_DS_:
+               00459 ;       .line   186; timer_simple.c     TIMER4_STOP();
+007E 9400      00460         BCF     _T4CONbits, 2
+               00461 ;       .line   187; timer_simple.c     TIMER4_CLEAR_INTERRUPT_FLAG();
+0080 9600      00462         BCF     _PIR3bits, 3
+               00463 ;       .line   188; timer_simple.c     TIMER4_DISABLE_INTERRUPTS();
+0082 9600      00464         BCF     _PIE3bits, 3
+0084 00465 _00174_DS_:
+               00466 ;       .line   190; timer_simple.c     }
+0084 CFE4 F000 00467         MOVFF   PREINC1, r0x00
+0088 CFE4 FFD9 00468         MOVFF   PREINC1, FSR2L
+008C 0012      00469         RETURN  
+               00470 
+               00471 ; ; Starting pCode block
+               00472 S_timer_simple__timer_start     code
+0000 00473 _timer_start:
+               00474 ;       .line   118; timer_simple.c     void    timer_start(unsigned char timer)
+0000 CFD9 FFE5 00475         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00476         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00477         MOVFF   r0x00, POSTDEC1
+000C 0E02      00478         MOVLW   0x02
+000E CFDB F000 00479         MOVFF   PLUSW2, r0x00
+               00480 ;       .line   120; timer_simple.c     switch(timer)
+0012 0E01      00481         MOVLW   0x01
+0014 5C00      00482         SUBWF   r0x00, W
+0016 A0D8      00483         BTFSS   STATUS, 0
+0018 D000      00484         BRA     _00158_DS_
+001A 0E05      00485         MOVLW   0x05
+001C 5C00      00486         SUBWF   r0x00, W
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+001E B0D8      00487         BTFSC   STATUS, 0
+0020 D000      00488         BRA     _00158_DS_
+0022 0600      00489         DECF    r0x00, F
+0024 C000 FFE5 00490         MOVFF   r0x01, POSTDEC1
+0028 C000 FFE5 00491         MOVFF   r0x02, POSTDEC1
+002C 6A00      00492         CLRF    r0x02
+002E 3400      00493         RLCF    r0x00, W
+0030 3600      00494         RLCF    r0x02, F
+0032 34E8      00495         RLCF    WREG, W
+0034 3600      00496         RLCF    r0x02, F
+0036 0BFC      00497         ANDLW   0xfc
+0038 6E00      00498         MOVWF   r0x01
+003A 0E00      00499         MOVLW   UPPER(_00164_DS_)
+003C 6EFB      00500         MOVWF   PCLATU
+003E 0E00      00501         MOVLW   HIGH(_00164_DS_)
+0040 6EFA      00502         MOVWF   PCLATH
+0042 0E00      00503         MOVLW   LOW(_00164_DS_)
+0044 2600      00504         ADDWF   r0x01, F
+0046 5000      00505         MOVF    r0x02, W
+0048 22FA      00506         ADDWFC  PCLATH, F
+004A B0D8      00507         BTFSC   STATUS, 0
+004C 2AFB      00508         INCF    PCLATU, F
+004E 5000      00509         MOVF    r0x01, W
+0050 CFE4 F000 00510         MOVFF   PREINC1, r0x02
+0054 CFE4 F000 00511         MOVFF   PREINC1, r0x01
+0058 6EF9      00512         MOVWF   PCL
+005A 00513 _00164_DS_:
+005A EF00 F000 00514         GOTO    _00153_DS_
+005E EF00 F000 00515         GOTO    _00154_DS_
+0062 EF00 F000 00516         GOTO    _00155_DS_
+0066 EF00 F000 00517         GOTO    _00156_DS_
+006A 00518 _00153_DS_:
+               00519 ;       .line   123; timer_simple.c     TIMER1_STOP();
+006A 9000      00520         BCF     _T1CONbits, 0
+               00521 ;       .line   124; timer_simple.c     TIMER1_SET_WIDTH_16();
+006C 8E00      00522         BSF     _T1CONbits, 7
+               00523 ;       .line   125; timer_simple.c     TIMER1_SET_PRESCALE(TIMER1_PRESCALE_MASK_8);
+006E 0ECF      00524         MOVLW   0xcf
+0070 1400      00525         ANDWF   _T1CON, W
+0072 6E00      00526         MOVWF   r0x00
+0074 0E30      00527         MOVLW   0x30
+0076 1000      00528         IORWF   r0x00, W
+0078 6E00      00529         MOVWF   _T1CON
+               00530 ;       .line   126; timer_simple.c     TIMER1_CLEAR_INTERRUPT_FLAG();
+007A 9000      00531         BCF     _PIR1bits, 0
+               00532 ;       .line   127; timer_simple.c     TIMER1_ENABLE_INTERRUPTS();
+007C 8000      00533         BSF     _PIE1bits, 0
+               00534 ;       .line   128; timer_simple.c     TIMER1_START();
+007E 8000      00535         BSF     _T1CONbits, 0
+               00536 ;       .line   129; timer_simple.c     return;
+0080 D000      00537         BRA     _00158_DS_
+0082 00538 _00154_DS_:
+               00539 ;       .line   131; timer_simple.c     TIMER2_STOP();
+0082 9400      00540         BCF     _T2CONbits, 2
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00541 ;       .line   132; timer_simple.c     TIMER2_SET_PRESCALE(TIMER2_PRESCALE_MASK_16);
+0084 0EFC      00542         MOVLW   0xfc
+0086 1400      00543         ANDWF   _T2CON, W
+0088 6E00      00544         MOVWF   r0x00
+008A 0E02      00545         MOVLW   0x02
+008C 1000      00546         IORWF   r0x00, W
+008E 6E00      00547         MOVWF   _T2CON
+               00548 ;       .line   133; timer_simple.c     TIMER2_CLEAR_INTERRUPT_FLAG();
+0090 9200      00549         BCF     _PIR1bits, 1
+               00550 ;       .line   134; timer_simple.c     TIMER2_ENABLE_INTERRUPTS();
+0092 8200      00551         BSF     _PIE1bits, 1
+               00552 ;       .line   135; timer_simple.c     TIMER2_START();
+0094 8400      00553         BSF     _T2CONbits, 2
+               00554 ;       .line   136; timer_simple.c     return;
+0096 D000      00555         BRA     _00158_DS_
+0098 00556 _00155_DS_:
+               00557 ;       .line   138; timer_simple.c     TIMER3_STOP();
+0098 9000      00558         BCF     _T3CONbits, 0
+               00559 ;       .line   139; timer_simple.c     TIMER3_SET_WIDTH_16();
+009A 8E00      00560         BSF     _T3CONbits, 7
+               00561 ;       .line   140; timer_simple.c     TIMER3_SET_PRESCALE(TIMER1_PRESCALE_MASK_8);
+009C 0ECF      00562         MOVLW   0xcf
+009E 1400      00563         ANDWF   _T3CON, W
+00A0 6E00      00564         MOVWF   r0x00
+00A2 0E30      00565         MOVLW   0x30
+00A4 1000      00566         IORWF   r0x00, W
+00A6 6E00      00567         MOVWF   _T3CON
+               00568 ;       .line   141; timer_simple.c     TIMER3_CLEAR_INTERRUPT_FLAG();
+00A8 9200      00569         BCF     _PIR2bits, 1
+               00570 ;       .line   142; timer_simple.c     TIMER3_ENABLE_INTERRUPTS();
+00AA 8200      00571         BSF     _PIE2bits, 1
+               00572 ;       .line   143; timer_simple.c     TIMER3_START();
+00AC 8000      00573         BSF     _T3CONbits, 0
+               00574 ;       .line   144; timer_simple.c     return;
+00AE D000      00575         BRA     _00158_DS_
+00B0 00576 _00156_DS_:
+               00577 ;       .line   146; timer_simple.c     TIMER4_STOP();
+00B0 9400      00578         BCF     _T4CONbits, 2
+               00579 ;       .line   147; timer_simple.c     TIMER4_SET_PRESCALE(TIMER4_PRESCALE_MASK_16);
+00B2 0EFC      00580         MOVLW   0xfc
+00B4 1400      00581         ANDWF   _T4CON, W
+00B6 6E00      00582         MOVWF   r0x00
+00B8 0E02      00583         MOVLW   0x02
+00BA 1000      00584         IORWF   r0x00, W
+00BC 6E00      00585         MOVWF   _T4CON
+               00586 ;       .line   148; timer_simple.c     TIMER4_CLEAR_INTERRUPT_FLAG();
+00BE 9600      00587         BCF     _PIR3bits, 3
+               00588 ;       .line   149; timer_simple.c     TIMER4_ENABLE_INTERRUPTS();
+00C0 8600      00589         BSF     _PIE3bits, 3
+               00590 ;       .line   150; timer_simple.c     TIMER4_START();
+00C2 8400      00591         BSF     _T4CONbits, 2
+00C4 00592 _00158_DS_:
+               00593 ;       .line   152; timer_simple.c     }
+00C4 CFE4 F000 00594         MOVFF   PREINC1, r0x00
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00C8 CFE4 FFD9 00595         MOVFF   PREINC1, FSR2L
+00CC 0012      00596         RETURN  
+               00597 
+               00598 ; ; Starting pCode block
+               00599 S_timer_simple__timer_clear     code
+0000 00600 _timer_clear:
+               00601 ;       .line   70; timer_simple.c      void    timer_clear(unsigned char timer)
+0000 CFD9 FFE5 00602         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00603         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00604         MOVFF   r0x00, POSTDEC1
+000C 0E02      00605         MOVLW   0x02
+000E CFDB F000 00606         MOVFF   PLUSW2, r0x00
+               00607 ;       .line   72; timer_simple.c      switch(timer)
+0012 0E01      00608         MOVLW   0x01
+0014 5C00      00609         SUBWF   r0x00, W
+0016 A0D8      00610         BTFSS   STATUS, 0
+0018 D000      00611         BRA     _00142_DS_
+001A 0E05      00612         MOVLW   0x05
+001C 5C00      00613         SUBWF   r0x00, W
+001E B0D8      00614         BTFSC   STATUS, 0
+0020 D000      00615         BRA     _00142_DS_
+0022 0600      00616         DECF    r0x00, F
+0024 C000 FFE5 00617         MOVFF   r0x01, POSTDEC1
+0028 C000 FFE5 00618         MOVFF   r0x02, POSTDEC1
+002C 6A00      00619         CLRF    r0x02
+002E 3400      00620         RLCF    r0x00, W
+0030 3600      00621         RLCF    r0x02, F
+0032 34E8      00622         RLCF    WREG, W
+0034 3600      00623         RLCF    r0x02, F
+0036 0BFC      00624         ANDLW   0xfc
+0038 6E00      00625         MOVWF   r0x01
+003A 0E00      00626         MOVLW   UPPER(_00148_DS_)
+003C 6EFB      00627         MOVWF   PCLATU
+003E 0E00      00628         MOVLW   HIGH(_00148_DS_)
+0040 6EFA      00629         MOVWF   PCLATH
+0042 0E00      00630         MOVLW   LOW(_00148_DS_)
+0044 2600      00631         ADDWF   r0x01, F
+0046 5000      00632         MOVF    r0x02, W
+0048 22FA      00633         ADDWFC  PCLATH, F
+004A B0D8      00634         BTFSC   STATUS, 0
+004C 2AFB      00635         INCF    PCLATU, F
+004E 5000      00636         MOVF    r0x01, W
+0050 CFE4 F000 00637         MOVFF   PREINC1, r0x02
+0054 CFE4 F000 00638         MOVFF   PREINC1, r0x01
+0058 6EF9      00639         MOVWF   PCL
+005A 00640 _00148_DS_:
+005A EF00 F000 00641         GOTO    _00137_DS_
+005E EF00 F000 00642         GOTO    _00138_DS_
+0062 EF00 F000 00643         GOTO    _00139_DS_
+0066 EF00 F000 00644         GOTO    _00140_DS_
+006A 00645 _00137_DS_:
+               00646 ;       .line   75; timer_simple.c      TIMER1_WRITE16(0);
+006A 6A00      00647         CLRF    _TMR1H
+006C 6A00      00648         CLRF    _TMR1L
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+006E 0000      00649         BANKSEL _Timer1_overflows
+               00650 ;       .line   76; timer_simple.c      Timer1_overflows = 0;
+0070 6B00      00651         CLRF    _Timer1_overflows, B
+0072 0000      00652         BANKSEL (_Timer1_overflows + 1)
+0074 6B00      00653         CLRF    (_Timer1_overflows + 1), B
+               00654 ;       .line   77; timer_simple.c      return;
+0076 D000      00655         BRA     _00142_DS_
+0078 00656 _00138_DS_:
+               00657 ;       .line   84; timer_simple.c      TMR2 = 0;   /* Clear postscale bits to get 1:1 */
+0078 6A00      00658         CLRF    _TMR2
+               00659 ;       .line   85; timer_simple.c      TIMER2_WRITE8(1);
+007A 0E01      00660         MOVLW   0x01
+007C 6E00      00661         MOVWF   _TMR2
+007E 0000      00662         BANKSEL _Timer2_overflows
+               00663 ;       .line   86; timer_simple.c      Timer2_overflows = 0;
+0080 6B00      00664         CLRF    _Timer2_overflows, B
+0082 0000      00665         BANKSEL (_Timer2_overflows + 1)
+0084 6B00      00666         CLRF    (_Timer2_overflows + 1), B
+0086 0000      00667         BANKSEL (_Timer2_overflows + 2)
+0088 6B00      00668         CLRF    (_Timer2_overflows + 2), B
+008A 0000      00669         BANKSEL (_Timer2_overflows + 3)
+008C 6B00      00670         CLRF    (_Timer2_overflows + 3), B
+               00671 ;       .line   87; timer_simple.c      TIMER2_WRITE_PR(0);
+008E 6A00      00672         CLRF    _PR2
+               00673 ;       .line   88; timer_simple.c      return;
+0090 D000      00674         BRA     _00142_DS_
+0092 00675 _00139_DS_:
+               00676 ;       .line   90; timer_simple.c      TIMER3_WRITE16(0);
+0092 6A00      00677         CLRF    _TMR3H
+0094 6A00      00678         CLRF    _TMR3L
+0096 0000      00679         BANKSEL _Timer3_overflows
+               00680 ;       .line   91; timer_simple.c      Timer3_overflows = 0;
+0098 6B00      00681         CLRF    _Timer3_overflows, B
+009A 0000      00682         BANKSEL (_Timer3_overflows + 1)
+009C 6B00      00683         CLRF    (_Timer3_overflows + 1), B
+               00684 ;       .line   92; timer_simple.c      return;
+009E D000      00685         BRA     _00142_DS_
+00A0 00686 _00140_DS_:
+               00687 ;       .line   99; timer_simple.c      TMR4 = 0;   /* Clear postscale bits to get 1:1 */
+00A0 6A00      00688         CLRF    _TMR4
+               00689 ;       .line   100; timer_simple.c     TIMER4_WRITE8(1);
+00A2 0E01      00690         MOVLW   0x01
+00A4 6E00      00691         MOVWF   _TMR4
+00A6 0000      00692         BANKSEL _Timer4_overflows
+               00693 ;       .line   101; timer_simple.c     Timer4_overflows = 0;
+00A8 6B00      00694         CLRF    _Timer4_overflows, B
+00AA 0000      00695         BANKSEL (_Timer4_overflows + 1)
+00AC 6B00      00696         CLRF    (_Timer4_overflows + 1), B
+00AE 0000      00697         BANKSEL (_Timer4_overflows + 2)
+00B0 6B00      00698         CLRF    (_Timer4_overflows + 2), B
+00B2 0000      00699         BANKSEL (_Timer4_overflows + 3)
+00B4 6B00      00700         CLRF    (_Timer4_overflows + 3), B
+               00701 ;       .line   102; timer_simple.c     TIMER4_WRITE_PR(0);
+00B6 6A00      00702         CLRF    _PR4
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00B8 00703 _00142_DS_:
+               00704 ;       .line   104; timer_simple.c     }
+00B8 CFE4 F000 00705         MOVFF   PREINC1, r0x00
+00BC CFE4 FFD9 00706         MOVFF   PREINC1, FSR2L
+00C0 0012      00707         RETURN  
+               00708 
+               00709 ; ; Starting pCode block
+               00710 S_timer_simple__timer_read_ms   code
+0000 00711 _timer_read_ms:
+               00712 ;       .line   43; timer_simple.c      unsigned long   timer_read_ms(unsigned char timer)
+0000 CFD9 FFE5 00713         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00714         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00715         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00716         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00717         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00718         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 00719         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 00720         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 00721         MOVFF   r0x06, POSTDEC1
+0024 C000 FFE5 00722         MOVFF   r0x07, POSTDEC1
+0028 C000 FFE5 00723         MOVFF   r0x08, POSTDEC1
+002C C000 FFE5 00724         MOVFF   r0x09, POSTDEC1
+0030 0E02      00725         MOVLW   0x02
+0032 CFDB F000 00726         MOVFF   PLUSW2, r0x00
+               00727 ;       .line   45; timer_simple.c      switch(timer)
+0036 0E01      00728         MOVLW   0x01
+0038 5C00      00729         SUBWF   r0x00, W
+003A A0D8      00730         BTFSS   STATUS, 0
+003C D000      00731         BRA     _00109_DS_
+003E 0E05      00732         MOVLW   0x05
+0040 5C00      00733         SUBWF   r0x00, W
+0042 B0D8      00734         BTFSC   STATUS, 0
+0044 D000      00735         BRA     _00109_DS_
+0046 0600      00736         DECF    r0x00, F
+0048 C000 FFE5 00737         MOVFF   r0x0a, POSTDEC1
+004C C000 FFE5 00738         MOVFF   r0x0b, POSTDEC1
+0050 6A00      00739         CLRF    r0x0b
+0052 3400      00740         RLCF    r0x00, W
+0054 3600      00741         RLCF    r0x0b, F
+0056 34E8      00742         RLCF    WREG, W
+0058 3600      00743         RLCF    r0x0b, F
+005A 0BFC      00744         ANDLW   0xfc
+005C 6E00      00745         MOVWF   r0x0a
+005E 0E00      00746         MOVLW   UPPER(_00116_DS_)
+0060 6EFB      00747         MOVWF   PCLATU
+0062 0E00      00748         MOVLW   HIGH(_00116_DS_)
+0064 6EFA      00749         MOVWF   PCLATH
+0066 0E00      00750         MOVLW   LOW(_00116_DS_)
+0068 2600      00751         ADDWF   r0x0a, F
+006A 5000      00752         MOVF    r0x0b, W
+006C 22FA      00753         ADDWFC  PCLATH, F
+006E B0D8      00754         BTFSC   STATUS, 0
+0070 2AFB      00755         INCF    PCLATU, F
+0072 5000      00756         MOVF    r0x0a, W
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE 15
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0074 CFE4 F000 00757         MOVFF   PREINC1, r0x0b
+0078 CFE4 F000 00758         MOVFF   PREINC1, r0x0a
+007C 6EF9      00759         MOVWF   PCL
+007E 00760 _00116_DS_:
+007E EF00 F000 00761         GOTO    _00105_DS_
+0082 EF00 F000 00762         GOTO    _00106_DS_
+0086 EF00 F000 00763         GOTO    _00107_DS_
+008A EF00 F000 00764         GOTO    _00108_DS_
+008E 00765 _00105_DS_:
+               00766 ;       .line   48; timer_simple.c      return TIMER1_ELAPSED_MS;
+008E EC00 F000 00767         CALL    _timer1_read32
+0092 6E00      00768         MOVWF   r0x00
+0094 CFF3 F000 00769         MOVFF   PRODL, r0x01
+0098 CFF4 F000 00770         MOVFF   PRODH, r0x02
+009C CFE9 F000 00771         MOVFF   FSR0L, r0x03
+00A0 0E30      00772         MOVLW   0x30
+00A2 1400      00773         ANDWF   _T1CON, W
+00A4 6E00      00774         MOVWF   r0x04
+00A6 3800      00775         SWAPF   r0x04, W
+00A8 0B0F      00776         ANDLW   0x0f
+00AA 6E00      00777         MOVWF   r0x04
+00AC 0E01      00778         MOVLW   0x01
+00AE 6E00      00779         MOVWF   r0x05
+00B0 0E00      00780         MOVLW   0x00
+00B2 6E00      00781         MOVWF   r0x06
+00B4 5000      00782         MOVF    r0x04, W
+00B6 E000      00783         BZ      _00118_DS_
+00B8 6CE8      00784         NEGF    WREG
+00BA 90D8      00785         BCF     STATUS, 0
+00BC 00786 _00119_DS_:
+00BC 3600      00787         RLCF    r0x05, F
+00BE 3600      00788         RLCF    r0x06, F
+00C0 0F01      00789         ADDLW   0x01
+00C2 E300      00790         BNC     _00119_DS_
+00C4 00791 _00118_DS_:
+00C4 5000      00792         MOVF    r0x06, W
+00C6 6EE5      00793         MOVWF   POSTDEC1
+00C8 5000      00794         MOVF    r0x05, W
+00CA 6EE5      00795         MOVWF   POSTDEC1
+00CC 0E27      00796         MOVLW   0x27
+00CE 6EE5      00797         MOVWF   POSTDEC1
+00D0 0E10      00798         MOVLW   0x10
+00D2 6EE5      00799         MOVWF   POSTDEC1
+00D4 EC00 F000 00800         CALL    __divsint
+00D8 6E00      00801         MOVWF   r0x04
+00DA CFF3 F000 00802         MOVFF   PRODL, r0x05
+00DE 0E04      00803         MOVLW   0x04
+00E0 26E1      00804         ADDWF   FSR1L, F
+00E2 6AE8      00805         CLRF    WREG
+00E4 BE00      00806         BTFSC   r0x05, 7
+00E6 0EFF      00807         MOVLW   0xff
+00E8 6E00      00808         MOVWF   r0x06
+               00809 ; #     MOVWF   r0x07
+               00810 ; #     MOVF    r0x07, W
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE 16
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00EA 6E00      00811         MOVWF   r0x07
+00EC 6EE5      00812         MOVWF   POSTDEC1
+00EE 5000      00813         MOVF    r0x06, W
+00F0 6EE5      00814         MOVWF   POSTDEC1
+00F2 5000      00815         MOVF    r0x05, W
+00F4 6EE5      00816         MOVWF   POSTDEC1
+00F6 5000      00817         MOVF    r0x04, W
+00F8 6EE5      00818         MOVWF   POSTDEC1
+00FA 5000      00819         MOVF    r0x03, W
+00FC 6EE5      00820         MOVWF   POSTDEC1
+00FE 5000      00821         MOVF    r0x02, W
+0100 6EE5      00822         MOVWF   POSTDEC1
+0102 5000      00823         MOVF    r0x01, W
+0104 6EE5      00824         MOVWF   POSTDEC1
+0106 5000      00825         MOVF    r0x00, W
+0108 6EE5      00826         MOVWF   POSTDEC1
+010A EC00 F000 00827         CALL    __divulong
+010E 6E00      00828         MOVWF   r0x00
+0110 CFF3 F000 00829         MOVFF   PRODL, r0x01
+0114 CFF4 F000 00830         MOVFF   PRODH, r0x02
+0118 CFE9 F000 00831         MOVFF   FSR0L, r0x03
+011C 0E08      00832         MOVLW   0x08
+011E 26E1      00833         ADDWF   FSR1L, F
+0120 C000 FFE9 00834         MOVFF   r0x03, FSR0L
+0124 C000 FFF4 00835         MOVFF   r0x02, PRODH
+0128 C000 FFF3 00836         MOVFF   r0x01, PRODL
+012C 5000      00837         MOVF    r0x00, W
+012E D000      00838         BRA     _00110_DS_
+0130 00839 _00106_DS_:
+               00840 ;       .line   50; timer_simple.c      return TIMER2_ELAPSED_MS;
+0130 EC00 F000 00841         CALL    _timer2_read32
+0134 6E00      00842         MOVWF   r0x00
+0136 CFF3 F000 00843         MOVFF   PRODL, r0x01
+013A CFF4 F000 00844         MOVFF   PRODH, r0x02
+013E CFE9 F000 00845         MOVFF   FSR0L, r0x03
+0142 0E03      00846         MOVLW   0x03
+0144 1400      00847         ANDWF   _T2CON, W
+0146 6E00      00848         MOVWF   r0x04
+0148 6A00      00849         CLRF    r0x05
+014A 5000      00850         MOVF    r0x04, W
+014C 6E00      00851         MOVWF   r0x06
+014E 2600      00852         ADDWF   r0x06, F
+0150 3400      00853         RLCF    r0x05, W
+0152 6E00      00854         MOVWF   r0x07
+0154 0E01      00855         MOVLW   0x01
+0156 6E00      00856         MOVWF   r0x08
+0158 0E00      00857         MOVLW   0x00
+015A 6E00      00858         MOVWF   r0x09
+015C 5000      00859         MOVF    r0x06, W
+015E E000      00860         BZ      _00121_DS_
+0160 E600      00861         BN      _00124_DS_
+0162 6CE8      00862         NEGF    WREG
+0164 90D8      00863         BCF     STATUS, 0
+0166 00864 _00122_DS_:
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE 17
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0166 3600      00865         RLCF    r0x08, F
+0168 3600      00866         RLCF    r0x09, F
+016A 0F01      00867         ADDLW   0x01
+016C E300      00868         BNC     _00122_DS_
+016E D000      00869         BRA     _00121_DS_
+0170 00870 _00124_DS_:
+0170 90D8      00871         BCF     STATUS, 0
+0172 00872 _00123_DS_:
+0172 BE00      00873         BTFSC   r0x09, 7
+0174 80D8      00874         BSF     STATUS, 0
+0176 3200      00875         RRCF    r0x09, F
+0178 3200      00876         RRCF    r0x08, F
+017A 0F01      00877         ADDLW   0x01
+017C E300      00878         BNC     _00123_DS_
+017E 00879 _00121_DS_:
+017E 5000      00880         MOVF    r0x09, W
+0180 6EE5      00881         MOVWF   POSTDEC1
+0182 5000      00882         MOVF    r0x08, W
+0184 6EE5      00883         MOVWF   POSTDEC1
+0186 0E27      00884         MOVLW   0x27
+0188 6EE5      00885         MOVWF   POSTDEC1
+018A 0E10      00886         MOVLW   0x10
+018C 6EE5      00887         MOVWF   POSTDEC1
+018E EC00 F000 00888         CALL    __divsint
+0192 6E00      00889         MOVWF   r0x04
+0194 CFF3 F000 00890         MOVFF   PRODL, r0x05
+0198 0E04      00891         MOVLW   0x04
+019A 26E1      00892         ADDWF   FSR1L, F
+019C 6AE8      00893         CLRF    WREG
+019E BE00      00894         BTFSC   r0x05, 7
+01A0 0EFF      00895         MOVLW   0xff
+01A2 6E00      00896         MOVWF   r0x06
+               00897 ; #     MOVWF   r0x07
+               00898 ; #     MOVF    r0x07, W
+01A4 6E00      00899         MOVWF   r0x07
+01A6 6EE5      00900         MOVWF   POSTDEC1
+01A8 5000      00901         MOVF    r0x06, W
+01AA 6EE5      00902         MOVWF   POSTDEC1
+01AC 5000      00903         MOVF    r0x05, W
+01AE 6EE5      00904         MOVWF   POSTDEC1
+01B0 5000      00905         MOVF    r0x04, W
+01B2 6EE5      00906         MOVWF   POSTDEC1
+01B4 5000      00907         MOVF    r0x03, W
+01B6 6EE5      00908         MOVWF   POSTDEC1
+01B8 5000      00909         MOVF    r0x02, W
+01BA 6EE5      00910         MOVWF   POSTDEC1
+01BC 5000      00911         MOVF    r0x01, W
+01BE 6EE5      00912         MOVWF   POSTDEC1
+01C0 5000      00913         MOVF    r0x00, W
+01C2 6EE5      00914         MOVWF   POSTDEC1
+01C4 EC00 F000 00915         CALL    __divulong
+01C8 6E00      00916         MOVWF   r0x00
+01CA CFF3 F000 00917         MOVFF   PRODL, r0x01
+01CE CFF4 F000 00918         MOVFF   PRODH, r0x02
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE 18
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+01D2 CFE9 F000 00919         MOVFF   FSR0L, r0x03
+01D6 0E08      00920         MOVLW   0x08
+01D8 26E1      00921         ADDWF   FSR1L, F
+01DA C000 FFE9 00922         MOVFF   r0x03, FSR0L
+01DE C000 FFF4 00923         MOVFF   r0x02, PRODH
+01E2 C000 FFF3 00924         MOVFF   r0x01, PRODL
+01E6 5000      00925         MOVF    r0x00, W
+01E8 D000      00926         BRA     _00110_DS_
+01EA 00927 _00107_DS_:
+               00928 ;       .line   52; timer_simple.c      return TIMER3_ELAPSED_MS;
+01EA EC00 F000 00929         CALL    _timer3_read32
+01EE 6E00      00930         MOVWF   r0x00
+01F0 CFF3 F000 00931         MOVFF   PRODL, r0x01
+01F4 CFF4 F000 00932         MOVFF   PRODH, r0x02
+01F8 CFE9 F000 00933         MOVFF   FSR0L, r0x03
+01FC 0E30      00934         MOVLW   0x30
+01FE 1400      00935         ANDWF   _T3CON, W
+0200 6E00      00936         MOVWF   r0x04
+0202 3800      00937         SWAPF   r0x04, W
+0204 0B0F      00938         ANDLW   0x0f
+0206 6E00      00939         MOVWF   r0x04
+0208 0E01      00940         MOVLW   0x01
+020A 6E00      00941         MOVWF   r0x05
+020C 0E00      00942         MOVLW   0x00
+020E 6E00      00943         MOVWF   r0x06
+0210 5000      00944         MOVF    r0x04, W
+0212 E000      00945         BZ      _00126_DS_
+0214 6CE8      00946         NEGF    WREG
+0216 90D8      00947         BCF     STATUS, 0
+0218 00948 _00127_DS_:
+0218 3600      00949         RLCF    r0x05, F
+021A 3600      00950         RLCF    r0x06, F
+021C 0F01      00951         ADDLW   0x01
+021E E300      00952         BNC     _00127_DS_
+0220 00953 _00126_DS_:
+0220 5000      00954         MOVF    r0x06, W
+0222 6EE5      00955         MOVWF   POSTDEC1
+0224 5000      00956         MOVF    r0x05, W
+0226 6EE5      00957         MOVWF   POSTDEC1
+0228 0E27      00958         MOVLW   0x27
+022A 6EE5      00959         MOVWF   POSTDEC1
+022C 0E10      00960         MOVLW   0x10
+022E 6EE5      00961         MOVWF   POSTDEC1
+0230 EC00 F000 00962         CALL    __divsint
+0234 6E00      00963         MOVWF   r0x04
+0236 CFF3 F000 00964         MOVFF   PRODL, r0x05
+023A 0E04      00965         MOVLW   0x04
+023C 26E1      00966         ADDWF   FSR1L, F
+023E 6AE8      00967         CLRF    WREG
+0240 BE00      00968         BTFSC   r0x05, 7
+0242 0EFF      00969         MOVLW   0xff
+0244 6E00      00970         MOVWF   r0x06
+               00971 ; #     MOVWF   r0x07
+               00972 ; #     MOVF    r0x07, W
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE 19
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0246 6E00      00973         MOVWF   r0x07
+0248 6EE5      00974         MOVWF   POSTDEC1
+024A 5000      00975         MOVF    r0x06, W
+024C 6EE5      00976         MOVWF   POSTDEC1
+024E 5000      00977         MOVF    r0x05, W
+0250 6EE5      00978         MOVWF   POSTDEC1
+0252 5000      00979         MOVF    r0x04, W
+0254 6EE5      00980         MOVWF   POSTDEC1
+0256 5000      00981         MOVF    r0x03, W
+0258 6EE5      00982         MOVWF   POSTDEC1
+025A 5000      00983         MOVF    r0x02, W
+025C 6EE5      00984         MOVWF   POSTDEC1
+025E 5000      00985         MOVF    r0x01, W
+0260 6EE5      00986         MOVWF   POSTDEC1
+0262 5000      00987         MOVF    r0x00, W
+0264 6EE5      00988         MOVWF   POSTDEC1
+0266 EC00 F000 00989         CALL    __divulong
+026A 6E00      00990         MOVWF   r0x00
+026C CFF3 F000 00991         MOVFF   PRODL, r0x01
+0270 CFF4 F000 00992         MOVFF   PRODH, r0x02
+0274 CFE9 F000 00993         MOVFF   FSR0L, r0x03
+0278 0E08      00994         MOVLW   0x08
+027A 26E1      00995         ADDWF   FSR1L, F
+027C C000 FFE9 00996         MOVFF   r0x03, FSR0L
+0280 C000 FFF4 00997         MOVFF   r0x02, PRODH
+0284 C000 FFF3 00998         MOVFF   r0x01, PRODL
+0288 5000      00999         MOVF    r0x00, W
+028A D000      01000         BRA     _00110_DS_
+028C 01001 _00108_DS_:
+               01002 ;       .line   54; timer_simple.c      return TIMER4_ELAPSED_MS;
+028C EC00 F000 01003         CALL    _timer4_read32
+0290 6E00      01004         MOVWF   r0x00
+0292 CFF3 F000 01005         MOVFF   PRODL, r0x01
+0296 CFF4 F000 01006         MOVFF   PRODH, r0x02
+029A CFE9 F000 01007         MOVFF   FSR0L, r0x03
+029E 0E03      01008         MOVLW   0x03
+02A0 1400      01009         ANDWF   _T4CON, W
+02A2 6E00      01010         MOVWF   r0x04
+02A4 6A00      01011         CLRF    r0x05
+02A6 5000      01012         MOVF    r0x04, W
+02A8 6E00      01013         MOVWF   r0x06
+02AA 2600      01014         ADDWF   r0x06, F
+02AC 3400      01015         RLCF    r0x05, W
+02AE 6E00      01016         MOVWF   r0x07
+02B0 0E01      01017         MOVLW   0x01
+02B2 6E00      01018         MOVWF   r0x08
+02B4 0E00      01019         MOVLW   0x00
+02B6 6E00      01020         MOVWF   r0x09
+02B8 5000      01021         MOVF    r0x06, W
+02BA E000      01022         BZ      _00129_DS_
+02BC E600      01023         BN      _00132_DS_
+02BE 6CE8      01024         NEGF    WREG
+02C0 90D8      01025         BCF     STATUS, 0
+02C2 01026 _00130_DS_:
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE 20
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+02C2 3600      01027         RLCF    r0x08, F
+02C4 3600      01028         RLCF    r0x09, F
+02C6 0F01      01029         ADDLW   0x01
+02C8 E300      01030         BNC     _00130_DS_
+02CA D000      01031         BRA     _00129_DS_
+02CC 01032 _00132_DS_:
+02CC 90D8      01033         BCF     STATUS, 0
+02CE 01034 _00131_DS_:
+02CE BE00      01035         BTFSC   r0x09, 7
+02D0 80D8      01036         BSF     STATUS, 0
+02D2 3200      01037         RRCF    r0x09, F
+02D4 3200      01038         RRCF    r0x08, F
+02D6 0F01      01039         ADDLW   0x01
+02D8 E300      01040         BNC     _00131_DS_
+02DA 01041 _00129_DS_:
+02DA 5000      01042         MOVF    r0x09, W
+02DC 6EE5      01043         MOVWF   POSTDEC1
+02DE 5000      01044         MOVF    r0x08, W
+02E0 6EE5      01045         MOVWF   POSTDEC1
+02E2 0E27      01046         MOVLW   0x27
+02E4 6EE5      01047         MOVWF   POSTDEC1
+02E6 0E10      01048         MOVLW   0x10
+02E8 6EE5      01049         MOVWF   POSTDEC1
+02EA EC00 F000 01050         CALL    __divsint
+02EE 6E00      01051         MOVWF   r0x04
+02F0 CFF3 F000 01052         MOVFF   PRODL, r0x05
+02F4 0E04      01053         MOVLW   0x04
+02F6 26E1      01054         ADDWF   FSR1L, F
+02F8 6AE8      01055         CLRF    WREG
+02FA BE00      01056         BTFSC   r0x05, 7
+02FC 0EFF      01057         MOVLW   0xff
+02FE 6E00      01058         MOVWF   r0x06
+               01059 ; #     MOVWF   r0x07
+               01060 ; #     MOVF    r0x07, W
+0300 6E00      01061         MOVWF   r0x07
+0302 6EE5      01062         MOVWF   POSTDEC1
+0304 5000      01063         MOVF    r0x06, W
+0306 6EE5      01064         MOVWF   POSTDEC1
+0308 5000      01065         MOVF    r0x05, W
+030A 6EE5      01066         MOVWF   POSTDEC1
+030C 5000      01067         MOVF    r0x04, W
+030E 6EE5      01068         MOVWF   POSTDEC1
+0310 5000      01069         MOVF    r0x03, W
+0312 6EE5      01070         MOVWF   POSTDEC1
+0314 5000      01071         MOVF    r0x02, W
+0316 6EE5      01072         MOVWF   POSTDEC1
+0318 5000      01073         MOVF    r0x01, W
+031A 6EE5      01074         MOVWF   POSTDEC1
+031C 5000      01075         MOVF    r0x00, W
+031E 6EE5      01076         MOVWF   POSTDEC1
+0320 EC00 F000 01077         CALL    __divulong
+0324 6E00      01078         MOVWF   r0x00
+0326 CFF3 F000 01079         MOVFF   PRODL, r0x01
+032A CFF4 F000 01080         MOVFF   PRODH, r0x02
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE 21
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+032E CFE9 F000 01081         MOVFF   FSR0L, r0x03
+0332 0E08      01082         MOVLW   0x08
+0334 26E1      01083         ADDWF   FSR1L, F
+0336 C000 FFE9 01084         MOVFF   r0x03, FSR0L
+033A C000 FFF4 01085         MOVFF   r0x02, PRODH
+033E C000 FFF3 01086         MOVFF   r0x01, PRODL
+0342 5000      01087         MOVF    r0x00, W
+0344 D000      01088         BRA     _00110_DS_
+0346 01089 _00109_DS_:
+               01090 ;       .line   56; timer_simple.c      return 0;
+0346 6AE9      01091         CLRF    FSR0L
+0348 6AF4      01092         CLRF    PRODH
+034A 6AF3      01093         CLRF    PRODL
+034C 6AE8      01094         CLRF    WREG
+034E 01095 _00110_DS_:
+034E CFE4 F000 01096         MOVFF   PREINC1, r0x09
+0352 CFE4 F000 01097         MOVFF   PREINC1, r0x08
+0356 CFE4 F000 01098         MOVFF   PREINC1, r0x07
+035A CFE4 F000 01099         MOVFF   PREINC1, r0x06
+035E CFE4 F000 01100         MOVFF   PREINC1, r0x05
+0362 CFE4 F000 01101         MOVFF   PREINC1, r0x04
+0366 CFE4 F000 01102         MOVFF   PREINC1, r0x03
+036A CFE4 F000 01103         MOVFF   PREINC1, r0x02
+036E CFE4 F000 01104         MOVFF   PREINC1, r0x01
+0372 CFE4 F000 01105         MOVFF   PREINC1, r0x00
+0376 CFE4 FFD9 01106         MOVFF   PREINC1, FSR2L
+037A 0012      01107         RETURN  
+               01108 
+               01109 
+               01110 
+               01111 ; Statistics:
+               01112 ; code size:     1582 (0x062e) bytes ( 1.21%)
+               01113 ;                 791 (0x0317) words
+               01114 ; udata size:       0 (0x0000) bytes ( 0.00%)
+               01115 ; access size:     12 (0x000c) bytes
+               01116 
+               01117 
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE 22
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+FSR0H                             00000FEA
+FSR0L                             00000FE9
+FSR1L                             00000FE1
+FSR2L                             00000FD9
+INDF0                             00000FEF
+PCL                               00000FF9
+PCLATH                            00000FFA
+PCLATU                            00000FFB
+PLUSW2                            00000FDB
+POSTDEC1                          00000FE5
+PREINC1                           00000FE4
+PRODH                             00000FF4
+PRODL                             00000FF3
+STATUS                            00000FD8
+WREG                              00000FE8
+_00105_DS_                        0000008E
+_00106_DS_                        00000130
+_00107_DS_                        000001EA
+_00108_DS_                        0000028C
+_00109_DS_                        00000346
+_00110_DS_                        0000034E
+_00116_DS_                        0000007E
+_00118_DS_                        000000C4
+_00119_DS_                        000000BC
+_00121_DS_                        0000017E
+_00122_DS_                        00000166
+_00123_DS_                        00000172
+_00124_DS_                        00000170
+_00126_DS_                        00000220
+_00127_DS_                        00000218
+_00129_DS_                        000002DA
+_00130_DS_                        000002C2
+_00131_DS_                        000002CE
+_00132_DS_                        000002CC
+_00137_DS_                        0000006A
+_00138_DS_                        00000078
+_00139_DS_                        00000092
+_00140_DS_                        000000A0
+_00142_DS_                        000000B8
+_00148_DS_                        0000005A
+_00153_DS_                        0000006A
+_00154_DS_                        00000082
+_00155_DS_                        00000098
+_00156_DS_                        000000B0
+_00158_DS_                        000000C4
+_00164_DS_                        0000005A
+_00169_DS_                        00000066
+_00170_DS_                        0000006E
+_00171_DS_                        00000076
+_00172_DS_                        0000007E
+_00174_DS_                        00000084
+_00180_DS_                        00000056
+_00188_DS_                        00000036
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE 23
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_00191_DS_                        00000026
+_00192_DS_                        00000046
+_00194_DS_                        00000016
+_00196_DS_                        00000048
+_ADCON0                           00000000
+_ADCON0bits                       00000000
+_ADCON1                           00000000
+_ADCON1bits                       00000000
+_ADCON2                           00000000
+_ADCON2bits                       00000000
+_ADRESH                           00000000
+_ADRESL                           00000000
+_BSR                              00000000
+_CCP1CON                          00000000
+_CCP1CONbits                      00000000
+_CCP2CON                          00000000
+_CCP2CONbits                      00000000
+_CCP3CON                          00000000
+_CCP3CONbits                      00000000
+_CCP4CON                          00000000
+_CCP4CONbits                      00000000
+_CCP5CON                          00000000
+_CCP5CONbits                      00000000
+_CCPR1H                           00000000
+_CCPR1L                           00000000
+_CCPR2H                           00000000
+_CCPR2L                           00000000
+_CCPR3H                           00000000
+_CCPR3L                           00000000
+_CCPR4H                           00000000
+_CCPR4L                           00000000
+_CCPR5H                           00000000
+_CCPR5L                           00000000
+_CMCON                            00000000
+_CMCONbits                        00000000
+_CVRCON                           00000000
+_CVRCONbits                       00000000
+_EEADR                            00000000
+_EEADRH                           00000000
+_EECON1                           00000000
+_EECON1bits                       00000000
+_EECON2                           00000000
+_EEDATA                           00000000
+_FSR0H                            00000000
+_FSR0L                            00000000
+_FSR1H                            00000000
+_FSR1L                            00000000
+_FSR2H                            00000000
+_FSR2L                            00000000
+_INDF0                            00000000
+_INDF1                            00000000
+_INDF2                            00000000
+_INTCON                           00000000
+_INTCON2                          00000000
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE 24
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_INTCON2bits                      00000000
+_INTCON3                          00000000
+_INTCON3bits                      00000000
+_INTCONbits                       00000000
+_IPR1                             00000000
+_IPR1bits                         00000000
+_IPR2                             00000000
+_IPR2bits                         00000000
+_IPR3                             00000000
+_IPR3bits                         00000000
+_LATA                             00000000
+_LATAbits                         00000000
+_LATB                             00000000
+_LATBbits                         00000000
+_LATC                             00000000
+_LATCbits                         00000000
+_LATD                             00000000
+_LATDbits                         00000000
+_LATE                             00000000
+_LATEbits                         00000000
+_LATF                             00000000
+_LATFbits                         00000000
+_LATG                             00000000
+_LATGbits                         00000000
+_LATH                             00000000
+_LATHbits                         00000000
+_LATJ                             00000000
+_LATJbits                         00000000
+_LVDCON                           00000000
+_LVDCONbits                       00000000
+_MEMCON                           00000000
+_MEMCONbits                       00000000
+_OSCCON                           00000000
+_OSCCONbits                       00000000
+_PCL                              00000000
+_PCLATH                           00000000
+_PCLATU                           00000000
+_PIE1                             00000000
+_PIE1bits                         00000000
+_PIE2                             00000000
+_PIE2bits                         00000000
+_PIE3                             00000000
+_PIE3bits                         00000000
+_PIR1                             00000000
+_PIR1bits                         00000000
+_PIR2                             00000000
+_PIR2bits                         00000000
+_PIR3                             00000000
+_PIR3bits                         00000000
+_PLUSW0                           00000000
+_PLUSW1                           00000000
+_PLUSW2                           00000000
+_PORTA                            00000000
+_PORTAbits                        00000000
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE 25
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_PORTB                            00000000
+_PORTBbits                        00000000
+_PORTC                            00000000
+_PORTCbits                        00000000
+_PORTD                            00000000
+_PORTDbits                        00000000
+_PORTE                            00000000
+_PORTEbits                        00000000
+_PORTF                            00000000
+_PORTFbits                        00000000
+_PORTG                            00000000
+_PORTGbits                        00000000
+_PORTH                            00000000
+_PORTHbits                        00000000
+_PORTJ                            00000000
+_PORTJbits                        00000000
+_POSTDEC0                         00000000
+_POSTDEC1                         00000000
+_POSTDEC2                         00000000
+_POSTINC0                         00000000
+_POSTINC1                         00000000
+_POSTINC2                         00000000
+_PR2                              00000000
+_PR4                              00000000
+_PREINC0                          00000000
+_PREINC1                          00000000
+_PREINC2                          00000000
+_PRODH                            00000000
+_PRODL                            00000000
+_PSPCON                           00000000
+_PSPCONbits                       00000000
+_RCON                             00000000
+_RCONbits                         00000000
+_RCREG                            00000000
+_RCREG1                           00000000
+_RCREG2                           00000000
+_RCSTA                            00000000
+_RCSTA1                           00000000
+_RCSTA1bits                       00000000
+_RCSTA2                           00000000
+_RCSTA2bits                       00000000
+_RCSTAbits                        00000000
+_SPBRG                            00000000
+_SPBRG1                           00000000
+_SPBRG2                           00000000
+_SSPADD                           00000000
+_SSPBUF                           00000000
+_SSPCON1                          00000000
+_SSPCON1bits                      00000000
+_SSPCON2                          00000000
+_SSPCON2bits                      00000000
+_SSPSTAT                          00000000
+_SSPSTATbits                      00000000
+_STATUS                           00000000
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE 26
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_STATUSbits                       00000000
+_STKPTR                           00000000
+_STKPTRbits                       00000000
+_T0CON                            00000000
+_T1CON                            00000000
+_T1CONbits                        00000000
+_T2CON                            00000000
+_T2CONbits                        00000000
+_T3CON                            00000000
+_T3CONbits                        00000000
+_T4CON                            00000000
+_T4CONbits                        00000000
+_TABLAT                           00000000
+_TBLPTRH                          00000000
+_TBLPTRL                          00000000
+_TBLPTRU                          00000000
+_TMR0H                            00000000
+_TMR0L                            00000000
+_TMR1H                            00000000
+_TMR1L                            00000000
+_TMR2                             00000000
+_TMR3H                            00000000
+_TMR3L                            00000000
+_TMR4                             00000000
+_TOSH                             00000000
+_TOSL                             00000000
+_TOSU                             00000000
+_TRISA                            00000000
+_TRISAbits                        00000000
+_TRISB                            00000000
+_TRISBbits                        00000000
+_TRISC                            00000000
+_TRISCbits                        00000000
+_TRISD                            00000000
+_TRISDbits                        00000000
+_TRISE                            00000000
+_TRISEbits                        00000000
+_TRISF                            00000000
+_TRISFbits                        00000000
+_TRISG                            00000000
+_TRISGbits                        00000000
+_TRISH                            00000000
+_TRISHbits                        00000000
+_TRISJ                            00000000
+_TRISJbits                        00000000
+_TXREG                            00000000
+_TXREG1                           00000000
+_TXREG2                           00000000
+_TXSTA                            00000000
+_TXSTA1                           00000000
+_TXSTA1bits                       00000000
+_TXSTA2                           00000000
+_TXSTA2bits                       00000000
+_TXSTAbits                        00000000
+gpasm-0.13.7 beta               timer_simple.asm11-2-2012  01:06:41          PAGE 27
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_Timer0_overflows                 00000000
+_Timer1_overflows                 00000000
+_Timer2_overflows                 00000000
+_Timer3_overflows                 00000000
+_Timer4_overflows                 00000000
+_Timer_allocated                  00000000
+_WDTCON                           00000000
+_WDTCONbits                       00000000
+_WREG                             00000000
+__18F8520                         00000001
+__divsint                         00000000
+__divulong                        00000000
+_stdin                            00000000
+_stdout                           00000000
+_timer1_read32                    00000000
+_timer2_read32                    00000000
+_timer3_read32                    00000000
+_timer4_read32                    00000000
+_timer_allocate                   00000000
+_timer_clear                      00000000
+_timer_free                       00000000
+_timer_read_ms                    00000000
+_timer_start                      00000000
+_timer_stop                       00000000
+r0x00                             00000000
+r0x01                             00000001
+r0x02                             00000002
+r0x03                             00000003
+r0x04                             00000004
+r0x05                             00000005
+r0x06                             00000006
+r0x07                             00000007
+r0x08                             00000008
+r0x09                             00000009
+r0x0a                             0000000A
+r0x0b                             0000000B
+
+
+Errors   :       0
+Warnings :       0 reported,       0 suppressed
+Messages :       0 reported,       0 suppressed
+

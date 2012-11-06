@@ -1,0 +1,798 @@
+gpasm-0.13.7 beta               accelerometer.asm11-2-2012  01:06:42          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00001 ;--------------------------------------------------------
+               00002 ; File Created by SDCC : free open source ANSI-C Compiler
+               00003 ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
+               00004 ; This file was generated Fri Nov  2 01:06:42 2012
+               00005 ;--------------------------------------------------------
+               00006 ; PIC16 port for the Microchip 16-bit core micros
+               00007 ;--------------------------------------------------------
+               00008         list    p=18f8520
+               00009 
+               00010         radix dec
+               00011 
+               00012 ;--------------------------------------------------------
+               00013 ; public variables in this module
+               00014 ;--------------------------------------------------------
+               00015         global _read_accelerometer_axis
+               00016 
+               00017 ;--------------------------------------------------------
+               00018 ; extern variables in this module
+               00019 ;--------------------------------------------------------
+               00020         extern __gptrput2
+               00021         extern __gptrget4
+               00022         extern __gptrput4
+               00023         extern _stdin
+               00024         extern _stdout
+               00025         extern _Timer0_overflows
+               00026         extern _Timer1_overflows
+               00027         extern _Timer2_overflows
+               00028         extern _Timer3_overflows
+               00029         extern _Timer4_overflows
+               00030         extern _printf
+               00031         extern _timer0_read32
+               00032         extern _io_read_analog
+               00033         extern __divslong
+               00034         extern __mullong
+               00035 ;--------------------------------------------------------
+               00036 ;       Equates to used internal registers
+               00037 ;--------------------------------------------------------
+  00000FD8     00038 STATUS  equ     0xfd8
+  00000FE8     00039 WREG    equ     0xfe8
+  00000FF6     00040 TBLPTRL equ     0xff6
+  00000FF7     00041 TBLPTRH equ     0xff7
+  00000FE9     00042 FSR0L   equ     0xfe9
+  00000FE1     00043 FSR1L   equ     0xfe1
+  00000FD9     00044 FSR2L   equ     0xfd9
+  00000FE5     00045 POSTDEC1        equ     0xfe5
+  00000FE4     00046 PREINC1 equ     0xfe4
+  00000FDB     00047 PLUSW2  equ     0xfdb
+  00000FF3     00048 PRODL   equ     0xff3
+  00000FF4     00049 PRODH   equ     0xff4
+               00050 
+               00051 
+               00052         idata
+               00053 _read_accelerometer_axis_old_velocity_1_1       db      0x00, 0x00, 0x00, 0x00
+               00054 _read_accelerometer_axis_old_acceleration_1_1   db      0x00, 0x00
+gpasm-0.13.7 beta               accelerometer.asm11-2-2012  01:06:42          PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00055 _read_accelerometer_axis_calls_1_1      db      0x00, 0x00
+               00056 
+               00057 
+               00058 ; Internal registers
+               00059 .registers      udata_ovr       0x0000
+               00060 r0x00   res     1
+               00061 r0x01   res     1
+               00062 r0x02   res     1
+               00063 r0x03   res     1
+               00064 r0x04   res     1
+               00065 r0x05   res     1
+               00066 r0x06   res     1
+               00067 r0x07   res     1
+               00068 r0x08   res     1
+               00069 r0x09   res     1
+               00070 r0x0a   res     1
+               00071 r0x0b   res     1
+               00072 r0x0c   res     1
+               00073 r0x0d   res     1
+               00074 r0x0e   res     1
+               00075 r0x0f   res     1
+               00076 r0x10   res     1
+               00077 r0x11   res     1
+               00078 r0x12   res     1
+               00079 r0x13   res     1
+               00080 r0x14   res     1
+               00081 
+               00082 udata_accelerometer_0   udata
+               00083 _read_accelerometer_axis_timer_1_1      res     4
+               00084 
+               00085 udata_accelerometer_1   udata
+               00086 _read_accelerometer_axis_old_timer_1_1  res     4
+               00087 
+               00088 udata_accelerometer_2   udata
+               00089 _read_accelerometer_axis_dt_1_1 res     4
+               00090 
+               00091 udata_accelerometer_3   udata
+               00092 _read_accelerometer_axis_raw_1_1        res     4
+               00093 
+               00094 udata_accelerometer_4   udata
+               00095 _read_accelerometer_axis_c_1_1  res     2
+               00096 
+               00097 ;--------------------------------------------------------
+               00098 ; global & static initialisations
+               00099 ;--------------------------------------------------------
+               00100 ; I code from now on!
+               00101 ; ; Starting pCode block
+               00102 S_accelerometer__read_accelerometer_axis        code
+0000 00103 _read_accelerometer_axis:
+               00104 ;       .line   78; accelerometer.c     void    read_accelerometer_axis(unsigned char port, int base_val,
+0000 CFD9 FFE5 00105         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00106         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00107         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00108         MOVFF   r0x01, POSTDEC1
+gpasm-0.13.7 beta               accelerometer.asm11-2-2012  01:06:42          PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0010 C000 FFE5 00109         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00110         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 00111         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 00112         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 00113         MOVFF   r0x06, POSTDEC1
+0024 C000 FFE5 00114         MOVFF   r0x07, POSTDEC1
+0028 C000 FFE5 00115         MOVFF   r0x08, POSTDEC1
+002C C000 FFE5 00116         MOVFF   r0x09, POSTDEC1
+0030 C000 FFE5 00117         MOVFF   r0x0a, POSTDEC1
+0034 C000 FFE5 00118         MOVFF   r0x0b, POSTDEC1
+0038 C000 FFE5 00119         MOVFF   r0x0c, POSTDEC1
+003C C000 FFE5 00120         MOVFF   r0x0d, POSTDEC1
+0040 C000 FFE5 00121         MOVFF   r0x0e, POSTDEC1
+0044 C000 FFE5 00122         MOVFF   r0x0f, POSTDEC1
+0048 C000 FFE5 00123         MOVFF   r0x10, POSTDEC1
+004C C000 FFE5 00124         MOVFF   r0x11, POSTDEC1
+0050 C000 FFE5 00125         MOVFF   r0x12, POSTDEC1
+0054 C000 FFE5 00126         MOVFF   r0x13, POSTDEC1
+0058 C000 FFE5 00127         MOVFF   r0x14, POSTDEC1
+005C 0E02      00128         MOVLW   0x02
+005E CFDB F000 00129         MOVFF   PLUSW2, r0x00
+0062 0E03      00130         MOVLW   0x03
+0064 CFDB F000 00131         MOVFF   PLUSW2, r0x01
+0068 0E04      00132         MOVLW   0x04
+006A CFDB F000 00133         MOVFF   PLUSW2, r0x02
+006E 0E05      00134         MOVLW   0x05
+0070 CFDB F000 00135         MOVFF   PLUSW2, r0x03
+0074 0E06      00136         MOVLW   0x06
+0076 CFDB F000 00137         MOVFF   PLUSW2, r0x04
+007A 0E07      00138         MOVLW   0x07
+007C CFDB F000 00139         MOVFF   PLUSW2, r0x05
+0080 0E08      00140         MOVLW   0x08
+0082 CFDB F000 00141         MOVFF   PLUSW2, r0x06
+0086 0E09      00142         MOVLW   0x09
+0088 CFDB F000 00143         MOVFF   PLUSW2, r0x07
+008C 0E0A      00144         MOVLW   0x0a
+008E CFDB F000 00145         MOVFF   PLUSW2, r0x08
+0092 0E0B      00146         MOVLW   0x0b
+0094 CFDB F000 00147         MOVFF   PLUSW2, r0x09
+0098 0E0C      00148         MOVLW   0x0c
+009A CFDB F000 00149         MOVFF   PLUSW2, r0x0a
+009E 0E0D      00150         MOVLW   0x0d
+00A0 CFDB F000 00151         MOVFF   PLUSW2, r0x0b
+00A4 0E0E      00152         MOVLW   0x0e
+00A6 CFDB F000 00153         MOVFF   PLUSW2, r0x0c
+00AA 0E0F      00154         MOVLW   0x0f
+00AC CFDB F000 00155         MOVFF   PLUSW2, r0x0d
+               00156 ;       .line   96; accelerometer.c     timer = timer0_read32();
+00B0 EC00 F000 00157         CALL    _timer0_read32
+00B4 0000      00158         BANKSEL _read_accelerometer_axis_timer_1_1
+00B6 6F00      00159         MOVWF   _read_accelerometer_axis_timer_1_1, B
+00B8 CFF3 F000 00160         MOVFF   PRODL, (_read_accelerometer_axis_timer_1_1 + 1)
+00BC CFF4 F000 00161         MOVFF   PRODH, (_read_accelerometer_axis_timer_1_1 + 2)
+00C0 CFE9 F000 00162         MOVFF   FSR0L, (_read_accelerometer_axis_timer_1_1 + 3)
+gpasm-0.13.7 beta               accelerometer.asm11-2-2012  01:06:42          PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00C4 0000      00163         BANKSEL _read_accelerometer_axis_old_timer_1_1
+               00164 ;       .line   97; accelerometer.c     dt = (timer - old_timer);
+00C6 5100      00165         MOVF    _read_accelerometer_axis_old_timer_1_1, W, B
+00C8 0000      00166         BANKSEL _read_accelerometer_axis_timer_1_1
+00CA 5D00      00167         SUBWF   _read_accelerometer_axis_timer_1_1, W, B
+00CC 0000      00168         BANKSEL _read_accelerometer_axis_dt_1_1
+00CE 6F00      00169         MOVWF   _read_accelerometer_axis_dt_1_1, B
+00D0 0000      00170         BANKSEL (_read_accelerometer_axis_old_timer_1_1 + 1)
+00D2 5100      00171         MOVF    (_read_accelerometer_axis_old_timer_1_1 + 1), W, B
+00D4 0000      00172         BANKSEL (_read_accelerometer_axis_timer_1_1 + 1)
+00D6 5900      00173         SUBWFB  (_read_accelerometer_axis_timer_1_1 + 1), W, B
+00D8 0000      00174         BANKSEL (_read_accelerometer_axis_dt_1_1 + 1)
+00DA 6F00      00175         MOVWF   (_read_accelerometer_axis_dt_1_1 + 1), B
+00DC 0000      00176         BANKSEL (_read_accelerometer_axis_old_timer_1_1 + 2)
+00DE 5100      00177         MOVF    (_read_accelerometer_axis_old_timer_1_1 + 2), W, B
+00E0 0000      00178         BANKSEL (_read_accelerometer_axis_timer_1_1 + 2)
+00E2 5900      00179         SUBWFB  (_read_accelerometer_axis_timer_1_1 + 2), W, B
+00E4 0000      00180         BANKSEL (_read_accelerometer_axis_dt_1_1 + 2)
+00E6 6F00      00181         MOVWF   (_read_accelerometer_axis_dt_1_1 + 2), B
+00E8 0000      00182         BANKSEL (_read_accelerometer_axis_old_timer_1_1 + 3)
+00EA 5100      00183         MOVF    (_read_accelerometer_axis_old_timer_1_1 + 3), W, B
+00EC 0000      00184         BANKSEL (_read_accelerometer_axis_timer_1_1 + 3)
+00EE 5900      00185         SUBWFB  (_read_accelerometer_axis_timer_1_1 + 3), W, B
+00F0 0000      00186         BANKSEL (_read_accelerometer_axis_dt_1_1 + 3)
+00F2 6F00      00187         MOVWF   (_read_accelerometer_axis_dt_1_1 + 3), B
+               00188 ;       .line   98; accelerometer.c     old_timer = timer;
+00F4 C000 F000 00189         MOVFF   _read_accelerometer_axis_timer_1_1, _read_accelerometer_axis_old_timer_1_1
+00F8 C000 F000 00190         MOVFF   (_read_accelerometer_axis_timer_1_1 + 1), (_read_accelerometer_axis_old_timer_1_1 + 1)
+00FC C000 F000 00191         MOVFF   (_read_accelerometer_axis_timer_1_1 + 2), (_read_accelerometer_axis_old_timer_1_1 + 2)
+0100 C000 F000 00192         MOVFF   (_read_accelerometer_axis_timer_1_1 + 3), (_read_accelerometer_axis_old_timer_1_1 + 3)
+0104 0000      00193         BANKSEL _read_accelerometer_axis_raw_1_1
+               00194 ;       .line   112; accelerometer.c    raw = 0;
+0106 6B00      00195         CLRF    _read_accelerometer_axis_raw_1_1, B
+0108 0000      00196         BANKSEL (_read_accelerometer_axis_raw_1_1 + 1)
+010A 6B00      00197         CLRF    (_read_accelerometer_axis_raw_1_1 + 1), B
+010C 0000      00198         BANKSEL (_read_accelerometer_axis_raw_1_1 + 2)
+010E 6B00      00199         CLRF    (_read_accelerometer_axis_raw_1_1 + 2), B
+0110 0000      00200         BANKSEL (_read_accelerometer_axis_raw_1_1 + 3)
+0112 6B00      00201         CLRF    (_read_accelerometer_axis_raw_1_1 + 3), B
+               00202 ;       .line   113; accelerometer.c    for (c=0; c < SAMPLE_SIZE; ++c)
+0114 0E10      00203         MOVLW   0x10
+0116 0000      00204         BANKSEL _read_accelerometer_axis_c_1_1
+0118 6F00      00205         MOVWF   _read_accelerometer_axis_c_1_1, B
+011A 0E27      00206         MOVLW   0x27
+011C 0000      00207         BANKSEL (_read_accelerometer_axis_c_1_1 + 1)
+011E 6F00      00208         MOVWF   (_read_accelerometer_axis_c_1_1 + 1), B
+0120 00209 _00107_DS_:
+               00210 ;       .line   114; accelerometer.c    raw += (int)io_read_analog(port) - base_val;
+0120 5000      00211         MOVF    r0x00, W
+0122 6EE5      00212         MOVWF   POSTDEC1
+0124 EC00 F000 00213         CALL    _io_read_analog
+0128 6E00      00214         MOVWF   r0x0e
+012A CFF3 F000 00215         MOVFF   PRODL, r0x0f
+012E 2AE1      00216         INCF    FSR1L, F
+gpasm-0.13.7 beta               accelerometer.asm11-2-2012  01:06:42          PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0130 5000      00217         MOVF    r0x01, W
+0132 5E00      00218         SUBWF   r0x0e, F
+0134 5000      00219         MOVF    r0x02, W
+0136 5A00      00220         SUBWFB  r0x0f, F
+0138 6AE8      00221         CLRF    WREG
+013A BE00      00222         BTFSC   r0x0f, 7
+013C 0EFF      00223         MOVLW   0xff
+013E 6E00      00224         MOVWF   r0x10
+0140 6E00      00225         MOVWF   r0x11
+0142 5000      00226         MOVF    r0x0e, W
+0144 0000      00227         BANKSEL _read_accelerometer_axis_raw_1_1
+0146 2700      00228         ADDWF   _read_accelerometer_axis_raw_1_1, F, B
+0148 5000      00229         MOVF    r0x0f, W
+014A 0000      00230         BANKSEL (_read_accelerometer_axis_raw_1_1 + 1)
+014C 2300      00231         ADDWFC  (_read_accelerometer_axis_raw_1_1 + 1), F, B
+014E 5000      00232         MOVF    r0x10, W
+0150 0000      00233         BANKSEL (_read_accelerometer_axis_raw_1_1 + 2)
+0152 2300      00234         ADDWFC  (_read_accelerometer_axis_raw_1_1 + 2), F, B
+0154 5000      00235         MOVF    r0x11, W
+0156 0000      00236         BANKSEL (_read_accelerometer_axis_raw_1_1 + 3)
+0158 2300      00237         ADDWFC  (_read_accelerometer_axis_raw_1_1 + 3), F, B
+015A 0EFF      00238         MOVLW   0xff
+015C 0000      00239         BANKSEL _read_accelerometer_axis_c_1_1
+015E 2700      00240         ADDWF   _read_accelerometer_axis_c_1_1, F, B
+0160 E200      00241         BC      _10105_DS_
+0162 0000      00242         BANKSEL (_read_accelerometer_axis_c_1_1 + 1)
+0164 0700      00243         DECF    (_read_accelerometer_axis_c_1_1 + 1), F, B
+0166 00244 _10105_DS_:
+0166 0000      00245         BANKSEL _read_accelerometer_axis_c_1_1
+               00246 ;       .line   113; accelerometer.c    for (c=0; c < SAMPLE_SIZE; ++c)
+0168 5100      00247         MOVF    _read_accelerometer_axis_c_1_1, W, B
+016A 0000      00248         BANKSEL (_read_accelerometer_axis_c_1_1 + 1)
+016C 1100      00249         IORWF   (_read_accelerometer_axis_c_1_1 + 1), W, B
+016E E100      00250         BNZ     _00107_DS_
+0170 0E10      00251         MOVLW   0x10
+0172 0000      00252         BANKSEL _read_accelerometer_axis_c_1_1
+0174 6F00      00253         MOVWF   _read_accelerometer_axis_c_1_1, B
+0176 0E27      00254         MOVLW   0x27
+0178 0000      00255         BANKSEL (_read_accelerometer_axis_c_1_1 + 1)
+017A 6F00      00256         MOVWF   (_read_accelerometer_axis_c_1_1 + 1), B
+               00257 ;       .line   115; accelerometer.c    raw /= SAMPLE_SIZE;
+017C 0E00      00258         MOVLW   0x00
+017E 6EE5      00259         MOVWF   POSTDEC1
+0180 0E00      00260         MOVLW   0x00
+0182 6EE5      00261         MOVWF   POSTDEC1
+0184 0E27      00262         MOVLW   0x27
+0186 6EE5      00263         MOVWF   POSTDEC1
+0188 0E10      00264         MOVLW   0x10
+018A 6EE5      00265         MOVWF   POSTDEC1
+018C 0000      00266         BANKSEL (_read_accelerometer_axis_raw_1_1 + 3)
+018E 5100      00267         MOVF    (_read_accelerometer_axis_raw_1_1 + 3), W, B
+0190 6EE5      00268         MOVWF   POSTDEC1
+0192 0000      00269         BANKSEL (_read_accelerometer_axis_raw_1_1 + 2)
+0194 5100      00270         MOVF    (_read_accelerometer_axis_raw_1_1 + 2), W, B
+gpasm-0.13.7 beta               accelerometer.asm11-2-2012  01:06:42          PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0196 6EE5      00271         MOVWF   POSTDEC1
+0198 0000      00272         BANKSEL (_read_accelerometer_axis_raw_1_1 + 1)
+019A 5100      00273         MOVF    (_read_accelerometer_axis_raw_1_1 + 1), W, B
+019C 6EE5      00274         MOVWF   POSTDEC1
+019E 0000      00275         BANKSEL _read_accelerometer_axis_raw_1_1
+01A0 5100      00276         MOVF    _read_accelerometer_axis_raw_1_1, W, B
+01A2 6EE5      00277         MOVWF   POSTDEC1
+01A4 EC00 F000 00278         CALL    __divslong
+01A8 0000      00279         BANKSEL _read_accelerometer_axis_raw_1_1
+01AA 6F00      00280         MOVWF   _read_accelerometer_axis_raw_1_1, B
+01AC CFF3 F000 00281         MOVFF   PRODL, (_read_accelerometer_axis_raw_1_1 + 1)
+01B0 CFF4 F000 00282         MOVFF   PRODH, (_read_accelerometer_axis_raw_1_1 + 2)
+01B4 CFE9 F000 00283         MOVFF   FSR0L, (_read_accelerometer_axis_raw_1_1 + 3)
+01B8 0E08      00284         MOVLW   0x08
+01BA 26E1      00285         ADDWF   FSR1L, F
+               00286 ;       .line   116; accelerometer.c    *acceleration = raw / 8;
+01BC 0E00      00287         MOVLW   0x00
+01BE 6EE5      00288         MOVWF   POSTDEC1
+01C0 0E00      00289         MOVLW   0x00
+01C2 6EE5      00290         MOVWF   POSTDEC1
+01C4 0E00      00291         MOVLW   0x00
+01C6 6EE5      00292         MOVWF   POSTDEC1
+01C8 0E08      00293         MOVLW   0x08
+01CA 6EE5      00294         MOVWF   POSTDEC1
+01CC 0000      00295         BANKSEL (_read_accelerometer_axis_raw_1_1 + 3)
+01CE 5100      00296         MOVF    (_read_accelerometer_axis_raw_1_1 + 3), W, B
+01D0 6EE5      00297         MOVWF   POSTDEC1
+01D2 0000      00298         BANKSEL (_read_accelerometer_axis_raw_1_1 + 2)
+01D4 5100      00299         MOVF    (_read_accelerometer_axis_raw_1_1 + 2), W, B
+01D6 6EE5      00300         MOVWF   POSTDEC1
+01D8 0000      00301         BANKSEL (_read_accelerometer_axis_raw_1_1 + 1)
+01DA 5100      00302         MOVF    (_read_accelerometer_axis_raw_1_1 + 1), W, B
+01DC 6EE5      00303         MOVWF   POSTDEC1
+01DE 0000      00304         BANKSEL _read_accelerometer_axis_raw_1_1
+01E0 5100      00305         MOVF    _read_accelerometer_axis_raw_1_1, W, B
+01E2 6EE5      00306         MOVWF   POSTDEC1
+01E4 EC00 F000 00307         CALL    __divslong
+01E8 6E00      00308         MOVWF   r0x00
+01EA CFF3 F000 00309         MOVFF   PRODL, r0x01
+01EE CFF4 F000 00310         MOVFF   PRODH, r0x02
+01F2 CFE9 F000 00311         MOVFF   FSR0L, r0x0e
+01F6 0E08      00312         MOVLW   0x08
+01F8 26E1      00313         ADDWF   FSR1L, F
+01FA C000 FFE5 00314         MOVFF   r0x00, POSTDEC1
+01FE C000 FFF4 00315         MOVFF   r0x01, PRODH
+0202 C000 FFE9 00316         MOVFF   r0x05, FSR0L
+0206 C000 FFF3 00317         MOVFF   r0x06, PRODL
+020A 5000      00318         MOVF    r0x07, W
+020C EC00 F000 00319         CALL    __gptrput2
+               00320 ;       .line   119; accelerometer.c    *velocity += (*acceleration + old_acceleration) * dt / 2 / scaling_factor;
+0210 C000 FFE9 00321         MOVFF   r0x08, FSR0L
+0214 C000 FFF3 00322         MOVFF   r0x09, PRODL
+0218 5000      00323         MOVF    r0x0a, W
+021A EC00 F000 00324         CALL    __gptrget4
+gpasm-0.13.7 beta               accelerometer.asm11-2-2012  01:06:42          PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+021E 6E00      00325         MOVWF   r0x02
+0220 CFF3 F000 00326         MOVFF   PRODL, r0x05
+0224 CFF4 F000 00327         MOVFF   PRODH, r0x06
+0228 CFE9 F000 00328         MOVFF   FSR0L, r0x07
+022C 0000      00329         BANKSEL _read_accelerometer_axis_old_acceleration_1_1
+022E 5100      00330         MOVF    _read_accelerometer_axis_old_acceleration_1_1, W, B
+0230 2400      00331         ADDWF   r0x00, W
+0232 6E00      00332         MOVWF   r0x0e
+0234 0000      00333         BANKSEL (_read_accelerometer_axis_old_acceleration_1_1 + 1)
+0236 5100      00334         MOVF    (_read_accelerometer_axis_old_acceleration_1_1 + 1), W, B
+0238 2000      00335         ADDWFC  r0x01, W
+023A 6E00      00336         MOVWF   r0x0f
+023C 6AE8      00337         CLRF    WREG
+023E BE00      00338         BTFSC   r0x0f, 7
+0240 0EFF      00339         MOVLW   0xff
+0242 6E00      00340         MOVWF   r0x10
+0244 6E00      00341         MOVWF   r0x11
+0246 0000      00342         BANKSEL (_read_accelerometer_axis_dt_1_1 + 3)
+0248 5100      00343         MOVF    (_read_accelerometer_axis_dt_1_1 + 3), W, B
+024A 6EE5      00344         MOVWF   POSTDEC1
+024C 0000      00345         BANKSEL (_read_accelerometer_axis_dt_1_1 + 2)
+024E 5100      00346         MOVF    (_read_accelerometer_axis_dt_1_1 + 2), W, B
+0250 6EE5      00347         MOVWF   POSTDEC1
+0252 0000      00348         BANKSEL (_read_accelerometer_axis_dt_1_1 + 1)
+0254 5100      00349         MOVF    (_read_accelerometer_axis_dt_1_1 + 1), W, B
+0256 6EE5      00350         MOVWF   POSTDEC1
+0258 0000      00351         BANKSEL _read_accelerometer_axis_dt_1_1
+025A 5100      00352         MOVF    _read_accelerometer_axis_dt_1_1, W, B
+025C 6EE5      00353         MOVWF   POSTDEC1
+025E 5000      00354         MOVF    r0x11, W
+0260 6EE5      00355         MOVWF   POSTDEC1
+0262 5000      00356         MOVF    r0x10, W
+0264 6EE5      00357         MOVWF   POSTDEC1
+0266 5000      00358         MOVF    r0x0f, W
+0268 6EE5      00359         MOVWF   POSTDEC1
+026A 5000      00360         MOVF    r0x0e, W
+026C 6EE5      00361         MOVWF   POSTDEC1
+026E EC00 F000 00362         CALL    __mullong
+0272 6E00      00363         MOVWF   r0x0e
+0274 CFF3 F000 00364         MOVFF   PRODL, r0x0f
+0278 CFF4 F000 00365         MOVFF   PRODH, r0x10
+027C CFE9 F000 00366         MOVFF   FSR0L, r0x11
+0280 0E08      00367         MOVLW   0x08
+0282 26E1      00368         ADDWF   FSR1L, F
+0284 0E00      00369         MOVLW   0x00
+0286 6EE5      00370         MOVWF   POSTDEC1
+0288 0E00      00371         MOVLW   0x00
+028A 6EE5      00372         MOVWF   POSTDEC1
+028C 0E00      00373         MOVLW   0x00
+028E 6EE5      00374         MOVWF   POSTDEC1
+0290 0E02      00375         MOVLW   0x02
+0292 6EE5      00376         MOVWF   POSTDEC1
+0294 5000      00377         MOVF    r0x11, W
+0296 6EE5      00378         MOVWF   POSTDEC1
+gpasm-0.13.7 beta               accelerometer.asm11-2-2012  01:06:42          PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0298 5000      00379         MOVF    r0x10, W
+029A 6EE5      00380         MOVWF   POSTDEC1
+029C 5000      00381         MOVF    r0x0f, W
+029E 6EE5      00382         MOVWF   POSTDEC1
+02A0 5000      00383         MOVF    r0x0e, W
+02A2 6EE5      00384         MOVWF   POSTDEC1
+02A4 EC00 F000 00385         CALL    __divslong
+02A8 6E00      00386         MOVWF   r0x0e
+02AA CFF3 F000 00387         MOVFF   PRODL, r0x0f
+02AE CFF4 F000 00388         MOVFF   PRODH, r0x10
+02B2 CFE9 F000 00389         MOVFF   FSR0L, r0x11
+02B6 0E08      00390         MOVLW   0x08
+02B8 26E1      00391         ADDWF   FSR1L, F
+02BA 6AE8      00392         CLRF    WREG
+02BC BE00      00393         BTFSC   r0x04, 7
+02BE 0EFF      00394         MOVLW   0xff
+02C0 6E00      00395         MOVWF   r0x12
+               00396 ; #     MOVWF   r0x13
+               00397 ; #     MOVF    r0x13, W
+02C2 6E00      00398         MOVWF   r0x13
+02C4 6EE5      00399         MOVWF   POSTDEC1
+02C6 5000      00400         MOVF    r0x12, W
+02C8 6EE5      00401         MOVWF   POSTDEC1
+02CA 5000      00402         MOVF    r0x04, W
+02CC 6EE5      00403         MOVWF   POSTDEC1
+02CE 5000      00404         MOVF    r0x03, W
+02D0 6EE5      00405         MOVWF   POSTDEC1
+02D2 5000      00406         MOVF    r0x11, W
+02D4 6EE5      00407         MOVWF   POSTDEC1
+02D6 5000      00408         MOVF    r0x10, W
+02D8 6EE5      00409         MOVWF   POSTDEC1
+02DA 5000      00410         MOVF    r0x0f, W
+02DC 6EE5      00411         MOVWF   POSTDEC1
+02DE 5000      00412         MOVF    r0x0e, W
+02E0 6EE5      00413         MOVWF   POSTDEC1
+02E2 EC00 F000 00414         CALL    __divslong
+02E6 6E00      00415         MOVWF   r0x0e
+02E8 CFF3 F000 00416         MOVFF   PRODL, r0x0f
+02EC CFF4 F000 00417         MOVFF   PRODH, r0x10
+02F0 CFE9 F000 00418         MOVFF   FSR0L, r0x11
+02F4 0E08      00419         MOVLW   0x08
+02F6 26E1      00420         ADDWF   FSR1L, F
+02F8 5000      00421         MOVF    r0x0e, W
+02FA 2600      00422         ADDWF   r0x02, F
+02FC 5000      00423         MOVF    r0x0f, W
+02FE 2200      00424         ADDWFC  r0x05, F
+0300 5000      00425         MOVF    r0x10, W
+0302 2200      00426         ADDWFC  r0x06, F
+0304 5000      00427         MOVF    r0x11, W
+0306 2200      00428         ADDWFC  r0x07, F
+0308 C000 FFE5 00429         MOVFF   r0x02, POSTDEC1
+030C C000 FFF4 00430         MOVFF   r0x05, PRODH
+0310 C000 FFF6 00431         MOVFF   r0x06, TBLPTRL
+0314 C000 FFF7 00432         MOVFF   r0x07, TBLPTRH
+gpasm-0.13.7 beta               accelerometer.asm11-2-2012  01:06:42          PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0318 C000 FFE9 00433         MOVFF   r0x08, FSR0L
+031C C000 FFF3 00434         MOVFF   r0x09, PRODL
+0320 5000      00435         MOVF    r0x0a, W
+0322 EC00 F000 00436         CALL    __gptrput4
+               00437 ;       .line   122; accelerometer.c    *position += (*velocity + old_velocity) * dt / 2 / scaling_factor;
+0326 C000 FFE9 00438         MOVFF   r0x0b, FSR0L
+032A C000 FFF3 00439         MOVFF   r0x0c, PRODL
+032E 5000      00440         MOVF    r0x0d, W
+0330 EC00 F000 00441         CALL    __gptrget4
+0334 6E00      00442         MOVWF   r0x08
+0336 CFF3 F000 00443         MOVFF   PRODL, r0x09
+033A CFF4 F000 00444         MOVFF   PRODH, r0x0a
+033E CFE9 F000 00445         MOVFF   FSR0L, r0x0e
+0342 0000      00446         BANKSEL _read_accelerometer_axis_old_velocity_1_1
+0344 5100      00447         MOVF    _read_accelerometer_axis_old_velocity_1_1, W, B
+0346 2400      00448         ADDWF   r0x02, W
+0348 6E00      00449         MOVWF   r0x0f
+034A 0000      00450         BANKSEL (_read_accelerometer_axis_old_velocity_1_1 + 1)
+034C 5100      00451         MOVF    (_read_accelerometer_axis_old_velocity_1_1 + 1), W, B
+034E 2000      00452         ADDWFC  r0x05, W
+0350 6E00      00453         MOVWF   r0x10
+0352 0000      00454         BANKSEL (_read_accelerometer_axis_old_velocity_1_1 + 2)
+0354 5100      00455         MOVF    (_read_accelerometer_axis_old_velocity_1_1 + 2), W, B
+0356 2000      00456         ADDWFC  r0x06, W
+0358 6E00      00457         MOVWF   r0x11
+035A 0000      00458         BANKSEL (_read_accelerometer_axis_old_velocity_1_1 + 3)
+035C 5100      00459         MOVF    (_read_accelerometer_axis_old_velocity_1_1 + 3), W, B
+035E 2000      00460         ADDWFC  r0x07, W
+0360 6E00      00461         MOVWF   r0x14
+0362 0000      00462         BANKSEL (_read_accelerometer_axis_dt_1_1 + 3)
+0364 5100      00463         MOVF    (_read_accelerometer_axis_dt_1_1 + 3), W, B
+0366 6EE5      00464         MOVWF   POSTDEC1
+0368 0000      00465         BANKSEL (_read_accelerometer_axis_dt_1_1 + 2)
+036A 5100      00466         MOVF    (_read_accelerometer_axis_dt_1_1 + 2), W, B
+036C 6EE5      00467         MOVWF   POSTDEC1
+036E 0000      00468         BANKSEL (_read_accelerometer_axis_dt_1_1 + 1)
+0370 5100      00469         MOVF    (_read_accelerometer_axis_dt_1_1 + 1), W, B
+0372 6EE5      00470         MOVWF   POSTDEC1
+0374 0000      00471         BANKSEL _read_accelerometer_axis_dt_1_1
+0376 5100      00472         MOVF    _read_accelerometer_axis_dt_1_1, W, B
+0378 6EE5      00473         MOVWF   POSTDEC1
+037A 5000      00474         MOVF    r0x14, W
+037C 6EE5      00475         MOVWF   POSTDEC1
+037E 5000      00476         MOVF    r0x11, W
+0380 6EE5      00477         MOVWF   POSTDEC1
+0382 5000      00478         MOVF    r0x10, W
+0384 6EE5      00479         MOVWF   POSTDEC1
+0386 5000      00480         MOVF    r0x0f, W
+0388 6EE5      00481         MOVWF   POSTDEC1
+038A EC00 F000 00482         CALL    __mullong
+038E 6E00      00483         MOVWF   r0x0f
+0390 CFF3 F000 00484         MOVFF   PRODL, r0x10
+0394 CFF4 F000 00485         MOVFF   PRODH, r0x11
+0398 CFE9 F000 00486         MOVFF   FSR0L, r0x14
+gpasm-0.13.7 beta               accelerometer.asm11-2-2012  01:06:42          PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+039C 0E08      00487         MOVLW   0x08
+039E 26E1      00488         ADDWF   FSR1L, F
+03A0 0E00      00489         MOVLW   0x00
+03A2 6EE5      00490         MOVWF   POSTDEC1
+03A4 0E00      00491         MOVLW   0x00
+03A6 6EE5      00492         MOVWF   POSTDEC1
+03A8 0E00      00493         MOVLW   0x00
+03AA 6EE5      00494         MOVWF   POSTDEC1
+03AC 0E02      00495         MOVLW   0x02
+03AE 6EE5      00496         MOVWF   POSTDEC1
+03B0 5000      00497         MOVF    r0x14, W
+03B2 6EE5      00498         MOVWF   POSTDEC1
+03B4 5000      00499         MOVF    r0x11, W
+03B6 6EE5      00500         MOVWF   POSTDEC1
+03B8 5000      00501         MOVF    r0x10, W
+03BA 6EE5      00502         MOVWF   POSTDEC1
+03BC 5000      00503         MOVF    r0x0f, W
+03BE 6EE5      00504         MOVWF   POSTDEC1
+03C0 EC00 F000 00505         CALL    __divslong
+03C4 6E00      00506         MOVWF   r0x0f
+03C6 CFF3 F000 00507         MOVFF   PRODL, r0x10
+03CA CFF4 F000 00508         MOVFF   PRODH, r0x11
+03CE CFE9 F000 00509         MOVFF   FSR0L, r0x14
+03D2 0E08      00510         MOVLW   0x08
+03D4 26E1      00511         ADDWF   FSR1L, F
+03D6 5000      00512         MOVF    r0x13, W
+03D8 6EE5      00513         MOVWF   POSTDEC1
+03DA 5000      00514         MOVF    r0x12, W
+03DC 6EE5      00515         MOVWF   POSTDEC1
+03DE 5000      00516         MOVF    r0x04, W
+03E0 6EE5      00517         MOVWF   POSTDEC1
+03E2 5000      00518         MOVF    r0x03, W
+03E4 6EE5      00519         MOVWF   POSTDEC1
+03E6 5000      00520         MOVF    r0x14, W
+03E8 6EE5      00521         MOVWF   POSTDEC1
+03EA 5000      00522         MOVF    r0x11, W
+03EC 6EE5      00523         MOVWF   POSTDEC1
+03EE 5000      00524         MOVF    r0x10, W
+03F0 6EE5      00525         MOVWF   POSTDEC1
+03F2 5000      00526         MOVF    r0x0f, W
+03F4 6EE5      00527         MOVWF   POSTDEC1
+03F6 EC00 F000 00528         CALL    __divslong
+03FA 6E00      00529         MOVWF   r0x03
+03FC CFF3 F000 00530         MOVFF   PRODL, r0x04
+0400 CFF4 F000 00531         MOVFF   PRODH, r0x0f
+0404 CFE9 F000 00532         MOVFF   FSR0L, r0x10
+0408 0E08      00533         MOVLW   0x08
+040A 26E1      00534         ADDWF   FSR1L, F
+040C 5000      00535         MOVF    r0x03, W
+040E 2600      00536         ADDWF   r0x08, F
+0410 5000      00537         MOVF    r0x04, W
+0412 2200      00538         ADDWFC  r0x09, F
+0414 5000      00539         MOVF    r0x0f, W
+0416 2200      00540         ADDWFC  r0x0a, F
+gpasm-0.13.7 beta               accelerometer.asm11-2-2012  01:06:42          PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0418 5000      00541         MOVF    r0x10, W
+041A 2200      00542         ADDWFC  r0x0e, F
+041C C000 FFE5 00543         MOVFF   r0x08, POSTDEC1
+0420 C000 FFF4 00544         MOVFF   r0x09, PRODH
+0424 C000 FFF6 00545         MOVFF   r0x0a, TBLPTRL
+0428 C000 FFF7 00546         MOVFF   r0x0e, TBLPTRH
+042C C000 FFE9 00547         MOVFF   r0x0b, FSR0L
+0430 C000 FFF3 00548         MOVFF   r0x0c, PRODL
+0434 5000      00549         MOVF    r0x0d, W
+0436 EC00 F000 00550         CALL    __gptrput4
+               00551 ;       .line   124; accelerometer.c    old_acceleration = *acceleration;
+043A C000 F000 00552         MOVFF   r0x00, _read_accelerometer_axis_old_acceleration_1_1
+043E C000 F000 00553         MOVFF   r0x01, (_read_accelerometer_axis_old_acceleration_1_1 + 1)
+               00554 ;       .line   125; accelerometer.c    old_velocity = *velocity;
+0442 C000 F000 00555         MOVFF   r0x02, _read_accelerometer_axis_old_velocity_1_1
+0446 C000 F000 00556         MOVFF   r0x05, (_read_accelerometer_axis_old_velocity_1_1 + 1)
+044A C000 F000 00557         MOVFF   r0x06, (_read_accelerometer_axis_old_velocity_1_1 + 2)
+044E C000 F000 00558         MOVFF   r0x07, (_read_accelerometer_axis_old_velocity_1_1 + 3)
+               00559 ;       .line   127; accelerometer.c    printf("raw = %ld  accel = %d  velo = %ld  pos = %ld\n",
+0452 5000      00560         MOVF    r0x0e, W
+0454 6EE5      00561         MOVWF   POSTDEC1
+0456 5000      00562         MOVF    r0x0a, W
+0458 6EE5      00563         MOVWF   POSTDEC1
+045A 5000      00564         MOVF    r0x09, W
+045C 6EE5      00565         MOVWF   POSTDEC1
+045E 5000      00566         MOVF    r0x08, W
+0460 6EE5      00567         MOVWF   POSTDEC1
+0462 5000      00568         MOVF    r0x07, W
+0464 6EE5      00569         MOVWF   POSTDEC1
+0466 5000      00570         MOVF    r0x06, W
+0468 6EE5      00571         MOVWF   POSTDEC1
+046A 5000      00572         MOVF    r0x05, W
+046C 6EE5      00573         MOVWF   POSTDEC1
+046E 5000      00574         MOVF    r0x02, W
+0470 6EE5      00575         MOVWF   POSTDEC1
+0472 5000      00576         MOVF    r0x01, W
+0474 6EE5      00577         MOVWF   POSTDEC1
+0476 5000      00578         MOVF    r0x00, W
+0478 6EE5      00579         MOVWF   POSTDEC1
+047A 0000      00580         BANKSEL (_read_accelerometer_axis_raw_1_1 + 3)
+047C 5100      00581         MOVF    (_read_accelerometer_axis_raw_1_1 + 3), W, B
+047E 6EE5      00582         MOVWF   POSTDEC1
+0480 0000      00583         BANKSEL (_read_accelerometer_axis_raw_1_1 + 2)
+0482 5100      00584         MOVF    (_read_accelerometer_axis_raw_1_1 + 2), W, B
+0484 6EE5      00585         MOVWF   POSTDEC1
+0486 0000      00586         BANKSEL (_read_accelerometer_axis_raw_1_1 + 1)
+0488 5100      00587         MOVF    (_read_accelerometer_axis_raw_1_1 + 1), W, B
+048A 6EE5      00588         MOVWF   POSTDEC1
+048C 0000      00589         BANKSEL _read_accelerometer_axis_raw_1_1
+048E 5100      00590         MOVF    _read_accelerometer_axis_raw_1_1, W, B
+0490 6EE5      00591         MOVWF   POSTDEC1
+0492 0E00      00592         MOVLW   UPPER(__str_0)
+0494 6EE5      00593         MOVWF   POSTDEC1
+0496 0E00      00594         MOVLW   HIGH(__str_0)
+gpasm-0.13.7 beta               accelerometer.asm11-2-2012  01:06:42          PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0498 6EE5      00595         MOVWF   POSTDEC1
+049A 0E00      00596         MOVLW   LOW(__str_0)
+049C 6EE5      00597         MOVWF   POSTDEC1
+049E EC00 F000 00598         CALL    _printf
+04A2 0E11      00599         MOVLW   0x11
+04A4 26E1      00600         ADDWF   FSR1L, F
+04A6 CFE4 F000 00601         MOVFF   PREINC1, r0x14
+04AA CFE4 F000 00602         MOVFF   PREINC1, r0x13
+04AE CFE4 F000 00603         MOVFF   PREINC1, r0x12
+04B2 CFE4 F000 00604         MOVFF   PREINC1, r0x11
+04B6 CFE4 F000 00605         MOVFF   PREINC1, r0x10
+04BA CFE4 F000 00606         MOVFF   PREINC1, r0x0f
+04BE CFE4 F000 00607         MOVFF   PREINC1, r0x0e
+04C2 CFE4 F000 00608         MOVFF   PREINC1, r0x0d
+04C6 CFE4 F000 00609         MOVFF   PREINC1, r0x0c
+04CA CFE4 F000 00610         MOVFF   PREINC1, r0x0b
+04CE CFE4 F000 00611         MOVFF   PREINC1, r0x0a
+04D2 CFE4 F000 00612         MOVFF   PREINC1, r0x09
+04D6 CFE4 F000 00613         MOVFF   PREINC1, r0x08
+04DA CFE4 F000 00614         MOVFF   PREINC1, r0x07
+04DE CFE4 F000 00615         MOVFF   PREINC1, r0x06
+04E2 CFE4 F000 00616         MOVFF   PREINC1, r0x05
+04E6 CFE4 F000 00617         MOVFF   PREINC1, r0x04
+04EA CFE4 F000 00618         MOVFF   PREINC1, r0x03
+04EE CFE4 F000 00619         MOVFF   PREINC1, r0x02
+04F2 CFE4 F000 00620         MOVFF   PREINC1, r0x01
+04F6 CFE4 F000 00621         MOVFF   PREINC1, r0x00
+04FA CFE4 FFD9 00622         MOVFF   PREINC1, FSR2L
+04FE 0012      00623         RETURN  
+               00624 
+               00625 ; ; Starting pCode block
+0500 00626 __str_0:
+0500 6172 2077 00627         DB      0x72, 0x61, 0x77, 0x20, 0x3d, 0x20, 0x25, 0x6c, 0x64, 0x20, 0x20, 0x61
+     203D 6C25 
+     2064 6120 
+050C 6363 6C65 00628         DB      0x63, 0x63, 0x65, 0x6c, 0x20, 0x3d, 0x20, 0x25, 0x64, 0x20, 0x20, 0x76
+     3D20 2520 
+     2064 7620 
+0518 6C65 206F 00629         DB      0x65, 0x6c, 0x6f, 0x20, 0x3d, 0x20, 0x25, 0x6c, 0x64, 0x20, 0x20, 0x70
+     203D 6C25 
+     2064 7020 
+0524 736F 3D20 00630         DB      0x6f, 0x73, 0x20, 0x3d, 0x20, 0x25, 0x6c, 0x64, 0x0a, 0x00
+     2520 646C 
+     000A      
+               00631 
+               00632 
+               00633 ; Statistics:
+               00634 ; code size:     1288 (0x0508) bytes ( 0.98%)
+               00635 ;                 644 (0x0284) words
+               00636 ; udata size:      18 (0x0012) bytes ( 1.00%)
+               00637 ; access size:     21 (0x0015) bytes
+               00638 
+               00639 
+gpasm-0.13.7 beta               accelerometer.asm11-2-2012  01:06:42          PAGE 13
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+FSR0L                             00000FE9
+FSR1L                             00000FE1
+FSR2L                             00000FD9
+PLUSW2                            00000FDB
+POSTDEC1                          00000FE5
+PREINC1                           00000FE4
+PRODH                             00000FF4
+PRODL                             00000FF3
+STATUS                            00000FD8
+TBLPTRH                           00000FF7
+TBLPTRL                           00000FF6
+WREG                              00000FE8
+_00107_DS_                        00000120
+_10105_DS_                        00000166
+_Timer0_overflows                 00000000
+_Timer1_overflows                 00000000
+_Timer2_overflows                 00000000
+_Timer3_overflows                 00000000
+_Timer4_overflows                 00000000
+__18F8520                         00000001
+__divslong                        00000000
+__gptrget4                        00000000
+__gptrput2                        00000000
+__gptrput4                        00000000
+__mullong                         00000000
+__str_0                           00000500
+_io_read_analog                   00000000
+_printf                           00000000
+_read_accelerometer_axis          00000000
+_read_accelerometer_axis_c_1_1    00000000
+_read_accelerometer_axis_calls_1_1  00000006
+_read_accelerometer_axis_dt_1_1   00000000
+_read_accelerometer_axis_old_acceleration_1_1  00000004
+_read_accelerometer_axis_old_timer_1_1  00000000
+_read_accelerometer_axis_old_velocity_1_1  00000000
+_read_accelerometer_axis_raw_1_1  00000000
+_read_accelerometer_axis_timer_1_1  00000000
+_stdin                            00000000
+_stdout                           00000000
+_timer0_read32                    00000000
+r0x00                             00000000
+r0x01                             00000001
+r0x02                             00000002
+r0x03                             00000003
+r0x04                             00000004
+r0x05                             00000005
+r0x06                             00000006
+r0x07                             00000007
+r0x08                             00000008
+r0x09                             00000009
+r0x0a                             0000000A
+r0x0b                             0000000B
+r0x0c                             0000000C
+gpasm-0.13.7 beta               accelerometer.asm11-2-2012  01:06:42          PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+r0x0d                             0000000D
+r0x0e                             0000000E
+r0x0f                             0000000F
+r0x10                             00000010
+r0x11                             00000011
+r0x12                             00000012
+r0x13                             00000013
+r0x14                             00000014
+
+
+Errors   :       0
+Warnings :       0 reported,       0 suppressed
+Messages :       0 reported,       0 suppressed
+

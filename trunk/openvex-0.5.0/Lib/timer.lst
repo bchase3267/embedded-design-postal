@@ -1,0 +1,1235 @@
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00001 ;--------------------------------------------------------
+               00002 ; File Created by SDCC : free open source ANSI-C Compiler
+               00003 ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
+               00004 ; This file was generated Fri Nov  2 01:06:41 2012
+               00005 ;--------------------------------------------------------
+               00006 ; PIC16 port for the Microchip 16-bit core micros
+               00007 ;--------------------------------------------------------
+               00008         list    p=18f8520
+               00009 
+               00010         radix dec
+               00011 
+               00012 ;--------------------------------------------------------
+               00013 ; public variables in this module
+               00014 ;--------------------------------------------------------
+               00015         global _Timer_allocated
+               00016         global _timer0_read32
+               00017         global _timer1_read32
+               00018         global _timer2_read32
+               00019         global _timer3_read32
+               00020         global _timer4_read32
+               00021         global _timer0_init
+               00022 
+               00023 ;--------------------------------------------------------
+               00024 ; extern variables in this module
+               00025 ;--------------------------------------------------------
+               00026         extern _stdin
+               00027         extern _stdout
+               00028         extern _RCSTA2bits
+               00029         extern _TXSTA2bits
+               00030         extern _CCP5CONbits
+               00031         extern _CCP4CONbits
+               00032         extern _T4CONbits
+               00033         extern _PORTAbits
+               00034         extern _PORTBbits
+               00035         extern _PORTCbits
+               00036         extern _PORTDbits
+               00037         extern _PORTEbits
+               00038         extern _PORTFbits
+               00039         extern _PORTGbits
+               00040         extern _PORTHbits
+               00041         extern _PORTJbits
+               00042         extern _LATAbits
+               00043         extern _LATBbits
+               00044         extern _LATCbits
+               00045         extern _LATDbits
+               00046         extern _LATEbits
+               00047         extern _LATFbits
+               00048         extern _LATGbits
+               00049         extern _LATHbits
+               00050         extern _LATJbits
+               00051         extern _TRISAbits
+               00052         extern _TRISBbits
+               00053         extern _TRISCbits
+               00054         extern _TRISDbits
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00055         extern _TRISEbits
+               00056         extern _TRISFbits
+               00057         extern _TRISGbits
+               00058         extern _TRISHbits
+               00059         extern _TRISJbits
+               00060         extern _MEMCONbits
+               00061         extern _PIE1bits
+               00062         extern _PIR1bits
+               00063         extern _IPR1bits
+               00064         extern _PIE2bits
+               00065         extern _PIR2bits
+               00066         extern _IPR2bits
+               00067         extern _PIE3bits
+               00068         extern _PIR3bits
+               00069         extern _IPR3bits
+               00070         extern _EECON1bits
+               00071         extern _RCSTA1bits
+               00072         extern _TXSTA1bits
+               00073         extern _RCSTAbits
+               00074         extern _TXSTAbits
+               00075         extern _PSPCONbits
+               00076         extern _T3CONbits
+               00077         extern _CMCONbits
+               00078         extern _CVRCONbits
+               00079         extern _CCP3CONbits
+               00080         extern _CCP2CONbits
+               00081         extern _CCP1CONbits
+               00082         extern _ADCON2bits
+               00083         extern _ADCON1bits
+               00084         extern _ADCON0bits
+               00085         extern _SSPCON2bits
+               00086         extern _SSPCON1bits
+               00087         extern _SSPSTATbits
+               00088         extern _T2CONbits
+               00089         extern _T1CONbits
+               00090         extern _RCONbits
+               00091         extern _WDTCONbits
+               00092         extern _LVDCONbits
+               00093         extern _OSCCONbits
+               00094         extern _STATUSbits
+               00095         extern _INTCON3bits
+               00096         extern _INTCON2bits
+               00097         extern _INTCONbits
+               00098         extern _STKPTRbits
+               00099         extern _Interrupt_port_in_use
+               00100         extern _Sonar_data_available
+               00101         extern _Sonar_on_iport
+               00102         extern _Timer0_overflows
+               00103         extern _Timer1_overflows
+               00104         extern _Timer2_overflows
+               00105         extern _Timer3_overflows
+               00106         extern _Timer4_overflows
+               00107         extern _RCSTA2
+               00108         extern _TXSTA2
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00109         extern _TXREG2
+               00110         extern _RCREG2
+               00111         extern _SPBRG2
+               00112         extern _CCP5CON
+               00113         extern _CCPR5L
+               00114         extern _CCPR5H
+               00115         extern _CCP4CON
+               00116         extern _CCPR4L
+               00117         extern _CCPR4H
+               00118         extern _T4CON
+               00119         extern _PR4
+               00120         extern _TMR4
+               00121         extern _PORTA
+               00122         extern _PORTB
+               00123         extern _PORTC
+               00124         extern _PORTD
+               00125         extern _PORTE
+               00126         extern _PORTF
+               00127         extern _PORTG
+               00128         extern _PORTH
+               00129         extern _PORTJ
+               00130         extern _LATA
+               00131         extern _LATB
+               00132         extern _LATC
+               00133         extern _LATD
+               00134         extern _LATE
+               00135         extern _LATF
+               00136         extern _LATG
+               00137         extern _LATH
+               00138         extern _LATJ
+               00139         extern _TRISA
+               00140         extern _TRISB
+               00141         extern _TRISC
+               00142         extern _TRISD
+               00143         extern _TRISE
+               00144         extern _TRISF
+               00145         extern _TRISG
+               00146         extern _TRISH
+               00147         extern _TRISJ
+               00148         extern _MEMCON
+               00149         extern _PIE1
+               00150         extern _PIR1
+               00151         extern _IPR1
+               00152         extern _PIE2
+               00153         extern _PIR2
+               00154         extern _IPR2
+               00155         extern _PIE3
+               00156         extern _PIR3
+               00157         extern _IPR3
+               00158         extern _EECON1
+               00159         extern _EECON2
+               00160         extern _EEDATA
+               00161         extern _EEADR
+               00162         extern _EEADRH
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00163         extern _RCSTA1
+               00164         extern _TXSTA1
+               00165         extern _TXREG1
+               00166         extern _RCREG1
+               00167         extern _SPBRG1
+               00168         extern _RCSTA
+               00169         extern _TXSTA
+               00170         extern _TXREG
+               00171         extern _RCREG
+               00172         extern _SPBRG
+               00173         extern _PSPCON
+               00174         extern _T3CON
+               00175         extern _TMR3L
+               00176         extern _TMR3H
+               00177         extern _CMCON
+               00178         extern _CVRCON
+               00179         extern _CCP3CON
+               00180         extern _CCPR3L
+               00181         extern _CCPR3H
+               00182         extern _CCP2CON
+               00183         extern _CCPR2L
+               00184         extern _CCPR2H
+               00185         extern _CCP1CON
+               00186         extern _CCPR1L
+               00187         extern _CCPR1H
+               00188         extern _ADCON2
+               00189         extern _ADCON1
+               00190         extern _ADCON0
+               00191         extern _ADRESL
+               00192         extern _ADRESH
+               00193         extern _SSPCON2
+               00194         extern _SSPCON1
+               00195         extern _SSPSTAT
+               00196         extern _SSPADD
+               00197         extern _SSPBUF
+               00198         extern _T2CON
+               00199         extern _PR2
+               00200         extern _TMR2
+               00201         extern _T1CON
+               00202         extern _TMR1L
+               00203         extern _TMR1H
+               00204         extern _RCON
+               00205         extern _WDTCON
+               00206         extern _LVDCON
+               00207         extern _OSCCON
+               00208         extern _T0CON
+               00209         extern _TMR0L
+               00210         extern _TMR0H
+               00211         extern _STATUS
+               00212         extern _FSR2L
+               00213         extern _FSR2H
+               00214         extern _PLUSW2
+               00215         extern _PREINC2
+               00216         extern _POSTDEC2
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00217         extern _POSTINC2
+               00218         extern _INDF2
+               00219         extern _BSR
+               00220         extern _FSR1L
+               00221         extern _FSR1H
+               00222         extern _PLUSW1
+               00223         extern _PREINC1
+               00224         extern _POSTDEC1
+               00225         extern _POSTINC1
+               00226         extern _INDF1
+               00227         extern _WREG
+               00228         extern _FSR0L
+               00229         extern _FSR0H
+               00230         extern _PLUSW0
+               00231         extern _PREINC0
+               00232         extern _POSTDEC0
+               00233         extern _POSTINC0
+               00234         extern _INDF0
+               00235         extern _INTCON3
+               00236         extern _INTCON2
+               00237         extern _INTCON
+               00238         extern _PRODL
+               00239         extern _PRODH
+               00240         extern _TABLAT
+               00241         extern _TBLPTRL
+               00242         extern _TBLPTRH
+               00243         extern _TBLPTRU
+               00244         extern _PCL
+               00245         extern _PCLATH
+               00246         extern _PCLATU
+               00247         extern _STKPTR
+               00248         extern _TOSL
+               00249         extern _TOSH
+               00250         extern _TOSU
+               00251 ;--------------------------------------------------------
+               00252 ;       Equates to used internal registers
+               00253 ;--------------------------------------------------------
+  00000FD8     00254 STATUS  equ     0xfd8
+  00000FE8     00255 WREG    equ     0xfe8
+  00000FE9     00256 FSR0L   equ     0xfe9
+  00000FE1     00257 FSR1L   equ     0xfe1
+  00000FD9     00258 FSR2L   equ     0xfd9
+  00000FE5     00259 POSTDEC1        equ     0xfe5
+  00000FE4     00260 PREINC1 equ     0xfe4
+  00000FF3     00261 PRODL   equ     0xff3
+  00000FF4     00262 PRODH   equ     0xff4
+               00263 
+               00264 
+               00265         idata
+               00266 _timer0_init_timer0_running_1_1 db      0x00
+               00267 
+               00268 
+               00269 ; Internal registers
+               00270 .registers      udata_ovr       0x0000
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00271 r0x00   res     1
+               00272 r0x01   res     1
+               00273 r0x02   res     1
+               00274 r0x03   res     1
+               00275 r0x04   res     1
+               00276 r0x05   res     1
+               00277 r0x06   res     1
+               00278 r0x07   res     1
+               00279 r0x08   res     1
+               00280 r0x09   res     1
+               00281 r0x0a   res     1
+               00282 r0x0b   res     1
+               00283 r0x0c   res     1
+               00284 r0x0d   res     1
+               00285 r0x0e   res     1
+               00286 r0x0f   res     1
+               00287 
+               00288 udata_timer_0   udata
+               00289 _Timer_allocated        res     4
+               00290 
+               00291 ;--------------------------------------------------------
+               00292 ; global & static initialisations
+               00293 ;--------------------------------------------------------
+               00294 ; I code from now on!
+               00295 ; ; Starting pCode block
+               00296 S_timer__timer0_init    code
+0000 00297 _timer0_init:
+               00298 ;       .line   215; timer.c    void    timer0_init(void)
+0000 CFD9 FFE5 00299         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00300         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00301         MOVFF   r0x00, POSTDEC1
+000C 0000      00302         BANKSEL _timer0_init_timer0_running_1_1
+               00303 ;       .line   220; timer.c    if ( ! timer0_running )
+000E 5100      00304         MOVF    _timer0_init_timer0_running_1_1, W, B
+0010 E100      00305         BNZ     _00156_DS_
+               00306 ;       .line   223; timer.c    TIMER0_RESET();
+0012 6A00      00307         CLRF    _T0CON
+0014 0000      00308         BANKSEL _Timer0_overflows
+0016 6B00      00309         CLRF    _Timer0_overflows, B
+0018 0000      00310         BANKSEL (_Timer0_overflows + 1)
+001A 6B00      00311         CLRF    (_Timer0_overflows + 1), B
+               00312 ;       .line   229; timer.c    TIMER0_SET_WIDTH_16();
+001C 9C00      00313         BCF     _T0CON, 6
+               00314 ;       .line   236; timer.c    TIMER0_SET_PRESCALE(TIMER0_PRESCALE_MASK_16);
+001E 0EF0      00315         MOVLW   0xf0
+0020 1400      00316         ANDWF   _T0CON, W
+0022 6E00      00317         MOVWF   r0x00
+0024 0E03      00318         MOVLW   0x03
+0026 1000      00319         IORWF   r0x00, W
+0028 6E00      00320         MOVWF   _T0CON
+               00321 ;       .line   242; timer.c    TIMER0_ENABLE_INTERRUPTS();
+002A 9400      00322         BCF     _INTCON2bits, 2
+002C 8A00      00323         BSF     _INTCONbits, 5
+002E 8C00      00324         BSF     _INTCONbits, 6
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0030 8E00      00325         BSF     _INTCONbits, 7
+               00326 ;       .line   244; timer.c    TIMER0_CLEAR_INTERRUPT_FLAG();
+0032 9400      00327         BCF     _INTCONbits, 2
+               00328 ;       .line   245; timer.c    TIMER0_START();
+0034 8E00      00329         BSF     _T0CON, 7
+               00330 ;       .line   246; timer.c    timer0_running = 1;
+0036 0E01      00331         MOVLW   0x01
+0038 0000      00332         BANKSEL _timer0_init_timer0_running_1_1
+003A 6F00      00333         MOVWF   _timer0_init_timer0_running_1_1, B
+003C 00334 _00156_DS_:
+003C CFE4 F000 00335         MOVFF   PREINC1, r0x00
+0040 CFE4 FFD9 00336         MOVFF   PREINC1, FSR2L
+0044 0012      00337         RETURN  
+               00338 
+               00339 ; ; Starting pCode block
+               00340 S_timer__timer4_read32  code
+0000 00341 _timer4_read32:
+               00342 ;       .line   195; timer.c    unsigned long   timer4_read32(void)
+0000 CFD9 FFE5 00343         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00344         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00345         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00346         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00347         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00348         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 00349         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 00350         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 00351         MOVFF   r0x06, POSTDEC1
+0024 C000 FFE5 00352         MOVFF   r0x07, POSTDEC1
+               00353 ;       .line   200; timer.c    TIMER4_READ8(low);
+0028 C000 F000 00354         MOVFF   _TMR4, r0x00
+002C 6A00      00355         CLRF    r0x01
+002E 0000      00356         BANKSEL (_Timer4_overflows + 2)
+               00357 ;       .line   201; timer.c    return low | (Timer4_overflows << 8);
+0030 5100      00358         MOVF    (_Timer4_overflows + 2), W, B
+0032 6E00      00359         MOVWF   r0x05
+0034 0000      00360         BANKSEL (_Timer4_overflows + 1)
+0036 5100      00361         MOVF    (_Timer4_overflows + 1), W, B
+0038 6E00      00362         MOVWF   r0x04
+003A 0000      00363         BANKSEL _Timer4_overflows
+003C 5100      00364         MOVF    _Timer4_overflows, W, B
+003E 6E00      00365         MOVWF   r0x03
+0040 6A00      00366         CLRF    r0x02
+0042 6A00      00367         CLRF    r0x06
+0044 6A00      00368         CLRF    r0x07
+0046 5000      00369         MOVF    r0x00, W
+0048 1200      00370         IORWF   r0x02, F
+004A 5000      00371         MOVF    r0x01, W
+004C 1200      00372         IORWF   r0x03, F
+004E 5000      00373         MOVF    r0x06, W
+0050 1200      00374         IORWF   r0x04, F
+0052 5000      00375         MOVF    r0x07, W
+0054 1200      00376         IORWF   r0x05, F
+0056 C000 FFE9 00377         MOVFF   r0x05, FSR0L
+005A C000 FFF4 00378         MOVFF   r0x04, PRODH
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+005E C000 FFF3 00379         MOVFF   r0x03, PRODL
+0062 5000      00380         MOVF    r0x02, W
+0064 CFE4 F000 00381         MOVFF   PREINC1, r0x07
+0068 CFE4 F000 00382         MOVFF   PREINC1, r0x06
+006C CFE4 F000 00383         MOVFF   PREINC1, r0x05
+0070 CFE4 F000 00384         MOVFF   PREINC1, r0x04
+0074 CFE4 F000 00385         MOVFF   PREINC1, r0x03
+0078 CFE4 F000 00386         MOVFF   PREINC1, r0x02
+007C CFE4 F000 00387         MOVFF   PREINC1, r0x01
+0080 CFE4 F000 00388         MOVFF   PREINC1, r0x00
+0084 CFE4 FFD9 00389         MOVFF   PREINC1, FSR2L
+0088 0012      00390         RETURN  
+               00391 
+               00392 ; ; Starting pCode block
+               00393 S_timer__timer3_read32  code
+0000 00394 _timer3_read32:
+               00395 ;       .line   170; timer.c    unsigned long   timer3_read32(void)
+0000 CFD9 FFE5 00396         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00397         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00398         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00399         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00400         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00401         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 00402         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 00403         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 00404         MOVFF   r0x06, POSTDEC1
+0024 C000 FFE5 00405         MOVFF   r0x07, POSTDEC1
+0028 C000 FFE5 00406         MOVFF   r0x08, POSTDEC1
+002C C000 FFE5 00407         MOVFF   r0x09, POSTDEC1
+0030 C000 FFE5 00408         MOVFF   r0x0a, POSTDEC1
+0034 C000 FFE5 00409         MOVFF   r0x0b, POSTDEC1
+0038 C000 FFE5 00410         MOVFF   r0x0c, POSTDEC1
+003C C000 FFE5 00411         MOVFF   r0x0d, POSTDEC1
+0040 C000 FFE5 00412         MOVFF   r0x0e, POSTDEC1
+0044 C000 FFE5 00413         MOVFF   r0x0f, POSTDEC1
+               00414 ;       .line   175; timer.c    TIMER3_READ16(low0);
+0048 C000 F000 00415         MOVFF   _TMR3L, r0x00
+004C 6A00      00416         CLRF    r0x01
+004E C000 F000 00417         MOVFF   _TMR3H, r0x02
+0052 6A00      00418         CLRF    r0x03
+0054 5000      00419         MOVF    r0x02, W
+0056 6E00      00420         MOVWF   r0x05
+0058 6A00      00421         CLRF    r0x04
+005A 5000      00422         MOVF    r0x04, W
+005C 1200      00423         IORWF   r0x00, F
+005E 5000      00424         MOVF    r0x05, W
+0060 1200      00425         IORWF   r0x01, F
+               00426 ;       .line   176; timer.c    high = Timer3_overflows;
+0062 C000 F000 00427         MOVFF   _Timer3_overflows, r0x02
+0066 C000 F000 00428         MOVFF   (_Timer3_overflows + 1), r0x03
+               00429 ;       .line   177; timer.c    TIMER3_READ16(low1);
+006A C000 F000 00430         MOVFF   _TMR3L, r0x04
+006E 6A00      00431         CLRF    r0x05
+0070 C000 F000 00432         MOVFF   _TMR3H, r0x06
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0074 6A00      00433         CLRF    r0x07
+0076 5000      00434         MOVF    r0x06, W
+0078 6E00      00435         MOVWF   r0x09
+007A 6A00      00436         CLRF    r0x08
+007C 5000      00437         MOVF    r0x08, W
+007E 1200      00438         IORWF   r0x04, F
+0080 5000      00439         MOVF    r0x09, W
+0082 1200      00440         IORWF   r0x05, F
+               00441 ;       .line   188; timer.c    if ( low1 < low0 )
+0084 5000      00442         MOVF    r0x01, W
+0086 5C00      00443         SUBWF   r0x05, W
+0088 E100      00444         BNZ     _00144_DS_
+008A 5000      00445         MOVF    r0x00, W
+008C 5C00      00446         SUBWF   r0x04, W
+008E 00447 _00144_DS_:
+008E E200      00448         BC      _00137_DS_
+               00449 ;       .line   189; timer.c    return low1 | ((unsigned long)Timer3_overflows << 16);
+0090 C000 F000 00450         MOVFF   _Timer3_overflows, r0x06
+0094 C000 F000 00451         MOVFF   (_Timer3_overflows + 1), r0x07
+0098 6A00      00452         CLRF    r0x08
+009A 6A00      00453         CLRF    r0x09
+009C 5000      00454         MOVF    r0x07, W
+009E 6E00      00455         MOVWF   r0x0d
+00A0 5000      00456         MOVF    r0x06, W
+00A2 6E00      00457         MOVWF   r0x0c
+00A4 6A00      00458         CLRF    r0x0a
+00A6 6A00      00459         CLRF    r0x0b
+00A8 6A00      00460         CLRF    r0x0e
+00AA 6A00      00461         CLRF    r0x0f
+00AC 5000      00462         MOVF    r0x04, W
+00AE 1200      00463         IORWF   r0x0a, F
+00B0 5000      00464         MOVF    r0x05, W
+00B2 1200      00465         IORWF   r0x0b, F
+00B4 5000      00466         MOVF    r0x0e, W
+00B6 1200      00467         IORWF   r0x0c, F
+00B8 5000      00468         MOVF    r0x0f, W
+00BA 1200      00469         IORWF   r0x0d, F
+00BC C000 FFE9 00470         MOVFF   r0x0d, FSR0L
+00C0 C000 FFF4 00471         MOVFF   r0x0c, PRODH
+00C4 C000 FFF3 00472         MOVFF   r0x0b, PRODL
+00C8 5000      00473         MOVF    r0x0a, W
+00CA D000      00474         BRA     _00139_DS_
+00CC 00475 _00137_DS_:
+               00476 ;       .line   191; timer.c    return low0 | ((unsigned long)high << 16);
+00CC 6A00      00477         CLRF    r0x04
+00CE 6A00      00478         CLRF    r0x05
+00D0 5000      00479         MOVF    r0x03, W
+00D2 6E00      00480         MOVWF   r0x09
+00D4 5000      00481         MOVF    r0x02, W
+00D6 6E00      00482         MOVWF   r0x08
+00D8 6A00      00483         CLRF    r0x06
+00DA 6A00      00484         CLRF    r0x07
+00DC 6A00      00485         CLRF    r0x0a
+00DE 6A00      00486         CLRF    r0x0b
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00E0 5000      00487         MOVF    r0x00, W
+00E2 1200      00488         IORWF   r0x06, F
+00E4 5000      00489         MOVF    r0x01, W
+00E6 1200      00490         IORWF   r0x07, F
+00E8 5000      00491         MOVF    r0x0a, W
+00EA 1200      00492         IORWF   r0x08, F
+00EC 5000      00493         MOVF    r0x0b, W
+00EE 1200      00494         IORWF   r0x09, F
+00F0 C000 FFE9 00495         MOVFF   r0x09, FSR0L
+00F4 C000 FFF4 00496         MOVFF   r0x08, PRODH
+00F8 C000 FFF3 00497         MOVFF   r0x07, PRODL
+00FC 5000      00498         MOVF    r0x06, W
+00FE 00499 _00139_DS_:
+00FE CFE4 F000 00500         MOVFF   PREINC1, r0x0f
+0102 CFE4 F000 00501         MOVFF   PREINC1, r0x0e
+0106 CFE4 F000 00502         MOVFF   PREINC1, r0x0d
+010A CFE4 F000 00503         MOVFF   PREINC1, r0x0c
+010E CFE4 F000 00504         MOVFF   PREINC1, r0x0b
+0112 CFE4 F000 00505         MOVFF   PREINC1, r0x0a
+0116 CFE4 F000 00506         MOVFF   PREINC1, r0x09
+011A CFE4 F000 00507         MOVFF   PREINC1, r0x08
+011E CFE4 F000 00508         MOVFF   PREINC1, r0x07
+0122 CFE4 F000 00509         MOVFF   PREINC1, r0x06
+0126 CFE4 F000 00510         MOVFF   PREINC1, r0x05
+012A CFE4 F000 00511         MOVFF   PREINC1, r0x04
+012E CFE4 F000 00512         MOVFF   PREINC1, r0x03
+0132 CFE4 F000 00513         MOVFF   PREINC1, r0x02
+0136 CFE4 F000 00514         MOVFF   PREINC1, r0x01
+013A CFE4 F000 00515         MOVFF   PREINC1, r0x00
+013E CFE4 FFD9 00516         MOVFF   PREINC1, FSR2L
+0142 0012      00517         RETURN  
+               00518 
+               00519 ; ; Starting pCode block
+               00520 S_timer__timer2_read32  code
+0000 00521 _timer2_read32:
+               00522 ;       .line   160; timer.c    unsigned long   timer2_read32(void)
+0000 CFD9 FFE5 00523         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00524         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00525         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00526         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00527         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00528         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 00529         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 00530         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 00531         MOVFF   r0x06, POSTDEC1
+0024 C000 FFE5 00532         MOVFF   r0x07, POSTDEC1
+               00533 ;       .line   165; timer.c    TIMER2_READ8(low);
+0028 C000 F000 00534         MOVFF   _TMR2, r0x00
+002C 6A00      00535         CLRF    r0x01
+002E 0000      00536         BANKSEL (_Timer2_overflows + 2)
+               00537 ;       .line   166; timer.c    return low | (Timer2_overflows << 8);
+0030 5100      00538         MOVF    (_Timer2_overflows + 2), W, B
+0032 6E00      00539         MOVWF   r0x05
+0034 0000      00540         BANKSEL (_Timer2_overflows + 1)
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0036 5100      00541         MOVF    (_Timer2_overflows + 1), W, B
+0038 6E00      00542         MOVWF   r0x04
+003A 0000      00543         BANKSEL _Timer2_overflows
+003C 5100      00544         MOVF    _Timer2_overflows, W, B
+003E 6E00      00545         MOVWF   r0x03
+0040 6A00      00546         CLRF    r0x02
+0042 6A00      00547         CLRF    r0x06
+0044 6A00      00548         CLRF    r0x07
+0046 5000      00549         MOVF    r0x00, W
+0048 1200      00550         IORWF   r0x02, F
+004A 5000      00551         MOVF    r0x01, W
+004C 1200      00552         IORWF   r0x03, F
+004E 5000      00553         MOVF    r0x06, W
+0050 1200      00554         IORWF   r0x04, F
+0052 5000      00555         MOVF    r0x07, W
+0054 1200      00556         IORWF   r0x05, F
+0056 C000 FFE9 00557         MOVFF   r0x05, FSR0L
+005A C000 FFF4 00558         MOVFF   r0x04, PRODH
+005E C000 FFF3 00559         MOVFF   r0x03, PRODL
+0062 5000      00560         MOVF    r0x02, W
+0064 CFE4 F000 00561         MOVFF   PREINC1, r0x07
+0068 CFE4 F000 00562         MOVFF   PREINC1, r0x06
+006C CFE4 F000 00563         MOVFF   PREINC1, r0x05
+0070 CFE4 F000 00564         MOVFF   PREINC1, r0x04
+0074 CFE4 F000 00565         MOVFF   PREINC1, r0x03
+0078 CFE4 F000 00566         MOVFF   PREINC1, r0x02
+007C CFE4 F000 00567         MOVFF   PREINC1, r0x01
+0080 CFE4 F000 00568         MOVFF   PREINC1, r0x00
+0084 CFE4 FFD9 00569         MOVFF   PREINC1, FSR2L
+0088 0012      00570         RETURN  
+               00571 
+               00572 ; ; Starting pCode block
+               00573 S_timer__timer1_read32  code
+0000 00574 _timer1_read32:
+               00575 ;       .line   135; timer.c    unsigned long   timer1_read32(void)
+0000 CFD9 FFE5 00576         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00577         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00578         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00579         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00580         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00581         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 00582         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 00583         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 00584         MOVFF   r0x06, POSTDEC1
+0024 C000 FFE5 00585         MOVFF   r0x07, POSTDEC1
+0028 C000 FFE5 00586         MOVFF   r0x08, POSTDEC1
+002C C000 FFE5 00587         MOVFF   r0x09, POSTDEC1
+0030 C000 FFE5 00588         MOVFF   r0x0a, POSTDEC1
+0034 C000 FFE5 00589         MOVFF   r0x0b, POSTDEC1
+0038 C000 FFE5 00590         MOVFF   r0x0c, POSTDEC1
+003C C000 FFE5 00591         MOVFF   r0x0d, POSTDEC1
+0040 C000 FFE5 00592         MOVFF   r0x0e, POSTDEC1
+0044 C000 FFE5 00593         MOVFF   r0x0f, POSTDEC1
+               00594 ;       .line   140; timer.c    TIMER1_READ16(low0);
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0048 C000 F000 00595         MOVFF   _TMR1L, r0x00
+004C 6A00      00596         CLRF    r0x01
+004E C000 F000 00597         MOVFF   _TMR1H, r0x02
+0052 6A00      00598         CLRF    r0x03
+0054 5000      00599         MOVF    r0x02, W
+0056 6E00      00600         MOVWF   r0x05
+0058 6A00      00601         CLRF    r0x04
+005A 5000      00602         MOVF    r0x04, W
+005C 1200      00603         IORWF   r0x00, F
+005E 5000      00604         MOVF    r0x05, W
+0060 1200      00605         IORWF   r0x01, F
+               00606 ;       .line   141; timer.c    high = Timer1_overflows;
+0062 C000 F000 00607         MOVFF   _Timer1_overflows, r0x02
+0066 C000 F000 00608         MOVFF   (_Timer1_overflows + 1), r0x03
+               00609 ;       .line   142; timer.c    TIMER1_READ16(low1);
+006A C000 F000 00610         MOVFF   _TMR1L, r0x04
+006E 6A00      00611         CLRF    r0x05
+0070 C000 F000 00612         MOVFF   _TMR1H, r0x06
+0074 6A00      00613         CLRF    r0x07
+0076 5000      00614         MOVF    r0x06, W
+0078 6E00      00615         MOVWF   r0x09
+007A 6A00      00616         CLRF    r0x08
+007C 5000      00617         MOVF    r0x08, W
+007E 1200      00618         IORWF   r0x04, F
+0080 5000      00619         MOVF    r0x09, W
+0082 1200      00620         IORWF   r0x05, F
+               00621 ;       .line   153; timer.c    if ( low1 < low0 )
+0084 5000      00622         MOVF    r0x01, W
+0086 5C00      00623         SUBWF   r0x05, W
+0088 E100      00624         BNZ     _00126_DS_
+008A 5000      00625         MOVF    r0x00, W
+008C 5C00      00626         SUBWF   r0x04, W
+008E 00627 _00126_DS_:
+008E E200      00628         BC      _00119_DS_
+               00629 ;       .line   154; timer.c    return low1 | ((unsigned long)Timer1_overflows << 16);
+0090 C000 F000 00630         MOVFF   _Timer1_overflows, r0x06
+0094 C000 F000 00631         MOVFF   (_Timer1_overflows + 1), r0x07
+0098 6A00      00632         CLRF    r0x08
+009A 6A00      00633         CLRF    r0x09
+009C 5000      00634         MOVF    r0x07, W
+009E 6E00      00635         MOVWF   r0x0d
+00A0 5000      00636         MOVF    r0x06, W
+00A2 6E00      00637         MOVWF   r0x0c
+00A4 6A00      00638         CLRF    r0x0a
+00A6 6A00      00639         CLRF    r0x0b
+00A8 6A00      00640         CLRF    r0x0e
+00AA 6A00      00641         CLRF    r0x0f
+00AC 5000      00642         MOVF    r0x04, W
+00AE 1200      00643         IORWF   r0x0a, F
+00B0 5000      00644         MOVF    r0x05, W
+00B2 1200      00645         IORWF   r0x0b, F
+00B4 5000      00646         MOVF    r0x0e, W
+00B6 1200      00647         IORWF   r0x0c, F
+00B8 5000      00648         MOVF    r0x0f, W
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00BA 1200      00649         IORWF   r0x0d, F
+00BC C000 FFE9 00650         MOVFF   r0x0d, FSR0L
+00C0 C000 FFF4 00651         MOVFF   r0x0c, PRODH
+00C4 C000 FFF3 00652         MOVFF   r0x0b, PRODL
+00C8 5000      00653         MOVF    r0x0a, W
+00CA D000      00654         BRA     _00121_DS_
+00CC 00655 _00119_DS_:
+               00656 ;       .line   156; timer.c    return low0 | ((unsigned long)high << 16);
+00CC 6A00      00657         CLRF    r0x04
+00CE 6A00      00658         CLRF    r0x05
+00D0 5000      00659         MOVF    r0x03, W
+00D2 6E00      00660         MOVWF   r0x09
+00D4 5000      00661         MOVF    r0x02, W
+00D6 6E00      00662         MOVWF   r0x08
+00D8 6A00      00663         CLRF    r0x06
+00DA 6A00      00664         CLRF    r0x07
+00DC 6A00      00665         CLRF    r0x0a
+00DE 6A00      00666         CLRF    r0x0b
+00E0 5000      00667         MOVF    r0x00, W
+00E2 1200      00668         IORWF   r0x06, F
+00E4 5000      00669         MOVF    r0x01, W
+00E6 1200      00670         IORWF   r0x07, F
+00E8 5000      00671         MOVF    r0x0a, W
+00EA 1200      00672         IORWF   r0x08, F
+00EC 5000      00673         MOVF    r0x0b, W
+00EE 1200      00674         IORWF   r0x09, F
+00F0 C000 FFE9 00675         MOVFF   r0x09, FSR0L
+00F4 C000 FFF4 00676         MOVFF   r0x08, PRODH
+00F8 C000 FFF3 00677         MOVFF   r0x07, PRODL
+00FC 5000      00678         MOVF    r0x06, W
+00FE 00679 _00121_DS_:
+00FE CFE4 F000 00680         MOVFF   PREINC1, r0x0f
+0102 CFE4 F000 00681         MOVFF   PREINC1, r0x0e
+0106 CFE4 F000 00682         MOVFF   PREINC1, r0x0d
+010A CFE4 F000 00683         MOVFF   PREINC1, r0x0c
+010E CFE4 F000 00684         MOVFF   PREINC1, r0x0b
+0112 CFE4 F000 00685         MOVFF   PREINC1, r0x0a
+0116 CFE4 F000 00686         MOVFF   PREINC1, r0x09
+011A CFE4 F000 00687         MOVFF   PREINC1, r0x08
+011E CFE4 F000 00688         MOVFF   PREINC1, r0x07
+0122 CFE4 F000 00689         MOVFF   PREINC1, r0x06
+0126 CFE4 F000 00690         MOVFF   PREINC1, r0x05
+012A CFE4 F000 00691         MOVFF   PREINC1, r0x04
+012E CFE4 F000 00692         MOVFF   PREINC1, r0x03
+0132 CFE4 F000 00693         MOVFF   PREINC1, r0x02
+0136 CFE4 F000 00694         MOVFF   PREINC1, r0x01
+013A CFE4 F000 00695         MOVFF   PREINC1, r0x00
+013E CFE4 FFD9 00696         MOVFF   PREINC1, FSR2L
+0142 0012      00697         RETURN  
+               00698 
+               00699 ; ; Starting pCode block
+               00700 S_timer__timer0_read32  code
+0000 00701 _timer0_read32:
+               00702 ;       .line   110; timer.c    unsigned long   timer0_read32(void)
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0000 CFD9 FFE5 00703         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00704         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00705         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00706         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00707         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00708         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 00709         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 00710         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 00711         MOVFF   r0x06, POSTDEC1
+0024 C000 FFE5 00712         MOVFF   r0x07, POSTDEC1
+0028 C000 FFE5 00713         MOVFF   r0x08, POSTDEC1
+002C C000 FFE5 00714         MOVFF   r0x09, POSTDEC1
+0030 C000 FFE5 00715         MOVFF   r0x0a, POSTDEC1
+0034 C000 FFE5 00716         MOVFF   r0x0b, POSTDEC1
+0038 C000 FFE5 00717         MOVFF   r0x0c, POSTDEC1
+003C C000 FFE5 00718         MOVFF   r0x0d, POSTDEC1
+0040 C000 FFE5 00719         MOVFF   r0x0e, POSTDEC1
+0044 C000 FFE5 00720         MOVFF   r0x0f, POSTDEC1
+               00721 ;       .line   115; timer.c    TIMER0_READ16(low0);
+0048 C000 F000 00722         MOVFF   _TMR0L, r0x00
+004C 6A00      00723         CLRF    r0x01
+004E C000 F000 00724         MOVFF   _TMR0H, r0x02
+0052 6A00      00725         CLRF    r0x03
+0054 5000      00726         MOVF    r0x02, W
+0056 6E00      00727         MOVWF   r0x05
+0058 6A00      00728         CLRF    r0x04
+005A 5000      00729         MOVF    r0x04, W
+005C 1200      00730         IORWF   r0x00, F
+005E 5000      00731         MOVF    r0x05, W
+0060 1200      00732         IORWF   r0x01, F
+               00733 ;       .line   116; timer.c    high = Timer0_overflows;
+0062 C000 F000 00734         MOVFF   _Timer0_overflows, r0x02
+0066 C000 F000 00735         MOVFF   (_Timer0_overflows + 1), r0x03
+               00736 ;       .line   117; timer.c    TIMER0_READ16(low1);
+006A C000 F000 00737         MOVFF   _TMR0L, r0x04
+006E 6A00      00738         CLRF    r0x05
+0070 C000 F000 00739         MOVFF   _TMR0H, r0x06
+0074 6A00      00740         CLRF    r0x07
+0076 5000      00741         MOVF    r0x06, W
+0078 6E00      00742         MOVWF   r0x09
+007A 6A00      00743         CLRF    r0x08
+007C 5000      00744         MOVF    r0x08, W
+007E 1200      00745         IORWF   r0x04, F
+0080 5000      00746         MOVF    r0x09, W
+0082 1200      00747         IORWF   r0x05, F
+               00748 ;       .line   128; timer.c    if ( low1 < low0 )
+0084 5000      00749         MOVF    r0x01, W
+0086 5C00      00750         SUBWF   r0x05, W
+0088 E100      00751         BNZ     _00113_DS_
+008A 5000      00752         MOVF    r0x00, W
+008C 5C00      00753         SUBWF   r0x04, W
+008E 00754 _00113_DS_:
+008E E200      00755         BC      _00106_DS_
+               00756 ;       .line   129; timer.c    return low1 | ((unsigned long)Timer0_overflows << 16);
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE 15
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0090 C000 F000 00757         MOVFF   _Timer0_overflows, r0x06
+0094 C000 F000 00758         MOVFF   (_Timer0_overflows + 1), r0x07
+0098 6A00      00759         CLRF    r0x08
+009A 6A00      00760         CLRF    r0x09
+009C 5000      00761         MOVF    r0x07, W
+009E 6E00      00762         MOVWF   r0x0d
+00A0 5000      00763         MOVF    r0x06, W
+00A2 6E00      00764         MOVWF   r0x0c
+00A4 6A00      00765         CLRF    r0x0a
+00A6 6A00      00766         CLRF    r0x0b
+00A8 6A00      00767         CLRF    r0x0e
+00AA 6A00      00768         CLRF    r0x0f
+00AC 5000      00769         MOVF    r0x04, W
+00AE 1200      00770         IORWF   r0x0a, F
+00B0 5000      00771         MOVF    r0x05, W
+00B2 1200      00772         IORWF   r0x0b, F
+00B4 5000      00773         MOVF    r0x0e, W
+00B6 1200      00774         IORWF   r0x0c, F
+00B8 5000      00775         MOVF    r0x0f, W
+00BA 1200      00776         IORWF   r0x0d, F
+00BC C000 FFE9 00777         MOVFF   r0x0d, FSR0L
+00C0 C000 FFF4 00778         MOVFF   r0x0c, PRODH
+00C4 C000 FFF3 00779         MOVFF   r0x0b, PRODL
+00C8 5000      00780         MOVF    r0x0a, W
+00CA D000      00781         BRA     _00108_DS_
+00CC 00782 _00106_DS_:
+               00783 ;       .line   131; timer.c    return low0 | ((unsigned long)high << 16);
+00CC 6A00      00784         CLRF    r0x04
+00CE 6A00      00785         CLRF    r0x05
+00D0 5000      00786         MOVF    r0x03, W
+00D2 6E00      00787         MOVWF   r0x09
+00D4 5000      00788         MOVF    r0x02, W
+00D6 6E00      00789         MOVWF   r0x08
+00D8 6A00      00790         CLRF    r0x06
+00DA 6A00      00791         CLRF    r0x07
+00DC 6A00      00792         CLRF    r0x0a
+00DE 6A00      00793         CLRF    r0x0b
+00E0 5000      00794         MOVF    r0x00, W
+00E2 1200      00795         IORWF   r0x06, F
+00E4 5000      00796         MOVF    r0x01, W
+00E6 1200      00797         IORWF   r0x07, F
+00E8 5000      00798         MOVF    r0x0a, W
+00EA 1200      00799         IORWF   r0x08, F
+00EC 5000      00800         MOVF    r0x0b, W
+00EE 1200      00801         IORWF   r0x09, F
+00F0 C000 FFE9 00802         MOVFF   r0x09, FSR0L
+00F4 C000 FFF4 00803         MOVFF   r0x08, PRODH
+00F8 C000 FFF3 00804         MOVFF   r0x07, PRODL
+00FC 5000      00805         MOVF    r0x06, W
+00FE 00806 _00108_DS_:
+00FE CFE4 F000 00807         MOVFF   PREINC1, r0x0f
+0102 CFE4 F000 00808         MOVFF   PREINC1, r0x0e
+0106 CFE4 F000 00809         MOVFF   PREINC1, r0x0d
+010A CFE4 F000 00810         MOVFF   PREINC1, r0x0c
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE 16
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+010E CFE4 F000 00811         MOVFF   PREINC1, r0x0b
+0112 CFE4 F000 00812         MOVFF   PREINC1, r0x0a
+0116 CFE4 F000 00813         MOVFF   PREINC1, r0x09
+011A CFE4 F000 00814         MOVFF   PREINC1, r0x08
+011E CFE4 F000 00815         MOVFF   PREINC1, r0x07
+0122 CFE4 F000 00816         MOVFF   PREINC1, r0x06
+0126 CFE4 F000 00817         MOVFF   PREINC1, r0x05
+012A CFE4 F000 00818         MOVFF   PREINC1, r0x04
+012E CFE4 F000 00819         MOVFF   PREINC1, r0x03
+0132 CFE4 F000 00820         MOVFF   PREINC1, r0x02
+0136 CFE4 F000 00821         MOVFF   PREINC1, r0x01
+013A CFE4 F000 00822         MOVFF   PREINC1, r0x00
+013E CFE4 FFD9 00823         MOVFF   PREINC1, FSR2L
+0142 0012      00824         RETURN  
+               00825 
+               00826 
+               00827 
+               00828 ; Statistics:
+               00829 ; code size:     1318 (0x0526) bytes ( 1.01%)
+               00830 ;                 659 (0x0293) words
+               00831 ; udata size:       4 (0x0004) bytes ( 0.22%)
+               00832 ; access size:     16 (0x0010) bytes
+               00833 
+               00834 
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE 17
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+FSR0L                             00000FE9
+FSR1L                             00000FE1
+FSR2L                             00000FD9
+POSTDEC1                          00000FE5
+PREINC1                           00000FE4
+PRODH                             00000FF4
+PRODL                             00000FF3
+STATUS                            00000FD8
+WREG                              00000FE8
+_00106_DS_                        000000CC
+_00108_DS_                        000000FE
+_00113_DS_                        0000008E
+_00119_DS_                        000000CC
+_00121_DS_                        000000FE
+_00126_DS_                        0000008E
+_00137_DS_                        000000CC
+_00139_DS_                        000000FE
+_00144_DS_                        0000008E
+_00156_DS_                        0000003C
+_ADCON0                           00000000
+_ADCON0bits                       00000000
+_ADCON1                           00000000
+_ADCON1bits                       00000000
+_ADCON2                           00000000
+_ADCON2bits                       00000000
+_ADRESH                           00000000
+_ADRESL                           00000000
+_BSR                              00000000
+_CCP1CON                          00000000
+_CCP1CONbits                      00000000
+_CCP2CON                          00000000
+_CCP2CONbits                      00000000
+_CCP3CON                          00000000
+_CCP3CONbits                      00000000
+_CCP4CON                          00000000
+_CCP4CONbits                      00000000
+_CCP5CON                          00000000
+_CCP5CONbits                      00000000
+_CCPR1H                           00000000
+_CCPR1L                           00000000
+_CCPR2H                           00000000
+_CCPR2L                           00000000
+_CCPR3H                           00000000
+_CCPR3L                           00000000
+_CCPR4H                           00000000
+_CCPR4L                           00000000
+_CCPR5H                           00000000
+_CCPR5L                           00000000
+_CMCON                            00000000
+_CMCONbits                        00000000
+_CVRCON                           00000000
+_CVRCONbits                       00000000
+_EEADR                            00000000
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE 18
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_EEADRH                           00000000
+_EECON1                           00000000
+_EECON1bits                       00000000
+_EECON2                           00000000
+_EEDATA                           00000000
+_FSR0H                            00000000
+_FSR0L                            00000000
+_FSR1H                            00000000
+_FSR1L                            00000000
+_FSR2H                            00000000
+_FSR2L                            00000000
+_INDF0                            00000000
+_INDF1                            00000000
+_INDF2                            00000000
+_INTCON                           00000000
+_INTCON2                          00000000
+_INTCON2bits                      00000000
+_INTCON3                          00000000
+_INTCON3bits                      00000000
+_INTCONbits                       00000000
+_IPR1                             00000000
+_IPR1bits                         00000000
+_IPR2                             00000000
+_IPR2bits                         00000000
+_IPR3                             00000000
+_IPR3bits                         00000000
+_Interrupt_port_in_use            00000000
+_LATA                             00000000
+_LATAbits                         00000000
+_LATB                             00000000
+_LATBbits                         00000000
+_LATC                             00000000
+_LATCbits                         00000000
+_LATD                             00000000
+_LATDbits                         00000000
+_LATE                             00000000
+_LATEbits                         00000000
+_LATF                             00000000
+_LATFbits                         00000000
+_LATG                             00000000
+_LATGbits                         00000000
+_LATH                             00000000
+_LATHbits                         00000000
+_LATJ                             00000000
+_LATJbits                         00000000
+_LVDCON                           00000000
+_LVDCONbits                       00000000
+_MEMCON                           00000000
+_MEMCONbits                       00000000
+_OSCCON                           00000000
+_OSCCONbits                       00000000
+_PCL                              00000000
+_PCLATH                           00000000
+_PCLATU                           00000000
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE 19
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_PIE1                             00000000
+_PIE1bits                         00000000
+_PIE2                             00000000
+_PIE2bits                         00000000
+_PIE3                             00000000
+_PIE3bits                         00000000
+_PIR1                             00000000
+_PIR1bits                         00000000
+_PIR2                             00000000
+_PIR2bits                         00000000
+_PIR3                             00000000
+_PIR3bits                         00000000
+_PLUSW0                           00000000
+_PLUSW1                           00000000
+_PLUSW2                           00000000
+_PORTA                            00000000
+_PORTAbits                        00000000
+_PORTB                            00000000
+_PORTBbits                        00000000
+_PORTC                            00000000
+_PORTCbits                        00000000
+_PORTD                            00000000
+_PORTDbits                        00000000
+_PORTE                            00000000
+_PORTEbits                        00000000
+_PORTF                            00000000
+_PORTFbits                        00000000
+_PORTG                            00000000
+_PORTGbits                        00000000
+_PORTH                            00000000
+_PORTHbits                        00000000
+_PORTJ                            00000000
+_PORTJbits                        00000000
+_POSTDEC0                         00000000
+_POSTDEC1                         00000000
+_POSTDEC2                         00000000
+_POSTINC0                         00000000
+_POSTINC1                         00000000
+_POSTINC2                         00000000
+_PR2                              00000000
+_PR4                              00000000
+_PREINC0                          00000000
+_PREINC1                          00000000
+_PREINC2                          00000000
+_PRODH                            00000000
+_PRODL                            00000000
+_PSPCON                           00000000
+_PSPCONbits                       00000000
+_RCON                             00000000
+_RCONbits                         00000000
+_RCREG                            00000000
+_RCREG1                           00000000
+_RCREG2                           00000000
+_RCSTA                            00000000
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE 20
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_RCSTA1                           00000000
+_RCSTA1bits                       00000000
+_RCSTA2                           00000000
+_RCSTA2bits                       00000000
+_RCSTAbits                        00000000
+_SPBRG                            00000000
+_SPBRG1                           00000000
+_SPBRG2                           00000000
+_SSPADD                           00000000
+_SSPBUF                           00000000
+_SSPCON1                          00000000
+_SSPCON1bits                      00000000
+_SSPCON2                          00000000
+_SSPCON2bits                      00000000
+_SSPSTAT                          00000000
+_SSPSTATbits                      00000000
+_STATUS                           00000000
+_STATUSbits                       00000000
+_STKPTR                           00000000
+_STKPTRbits                       00000000
+_Sonar_data_available             00000000
+_Sonar_on_iport                   00000000
+_T0CON                            00000000
+_T1CON                            00000000
+_T1CONbits                        00000000
+_T2CON                            00000000
+_T2CONbits                        00000000
+_T3CON                            00000000
+_T3CONbits                        00000000
+_T4CON                            00000000
+_T4CONbits                        00000000
+_TABLAT                           00000000
+_TBLPTRH                          00000000
+_TBLPTRL                          00000000
+_TBLPTRU                          00000000
+_TMR0H                            00000000
+_TMR0L                            00000000
+_TMR1H                            00000000
+_TMR1L                            00000000
+_TMR2                             00000000
+_TMR3H                            00000000
+_TMR3L                            00000000
+_TMR4                             00000000
+_TOSH                             00000000
+_TOSL                             00000000
+_TOSU                             00000000
+_TRISA                            00000000
+_TRISAbits                        00000000
+_TRISB                            00000000
+_TRISBbits                        00000000
+_TRISC                            00000000
+_TRISCbits                        00000000
+_TRISD                            00000000
+_TRISDbits                        00000000
+gpasm-0.13.7 beta               timer.asm   11-2-2012  01:06:41          PAGE 21
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_TRISE                            00000000
+_TRISEbits                        00000000
+_TRISF                            00000000
+_TRISFbits                        00000000
+_TRISG                            00000000
+_TRISGbits                        00000000
+_TRISH                            00000000
+_TRISHbits                        00000000
+_TRISJ                            00000000
+_TRISJbits                        00000000
+_TXREG                            00000000
+_TXREG1                           00000000
+_TXREG2                           00000000
+_TXSTA                            00000000
+_TXSTA1                           00000000
+_TXSTA1bits                       00000000
+_TXSTA2                           00000000
+_TXSTA2bits                       00000000
+_TXSTAbits                        00000000
+_Timer0_overflows                 00000000
+_Timer1_overflows                 00000000
+_Timer2_overflows                 00000000
+_Timer3_overflows                 00000000
+_Timer4_overflows                 00000000
+_Timer_allocated                  00000000
+_WDTCON                           00000000
+_WDTCONbits                       00000000
+_WREG                             00000000
+__18F8520                         00000001
+_stdin                            00000000
+_stdout                           00000000
+_timer0_init                      00000000
+_timer0_init_timer0_running_1_1   00000000
+_timer0_read32                    00000000
+_timer1_read32                    00000000
+_timer2_read32                    00000000
+_timer3_read32                    00000000
+_timer4_read32                    00000000
+r0x00                             00000000
+r0x01                             00000001
+r0x02                             00000002
+r0x03                             00000003
+r0x04                             00000004
+r0x05                             00000005
+r0x06                             00000006
+r0x07                             00000007
+r0x08                             00000008
+r0x09                             00000009
+r0x0a                             0000000A
+r0x0b                             0000000B
+r0x0c                             0000000C
+r0x0d                             0000000D
+r0x0e                             0000000E
+r0x0f                             0000000F
+
+
+Errors   :       0
+Warnings :       0 reported,       0 suppressed
+Messages :       0 reported,       0 suppressed
+

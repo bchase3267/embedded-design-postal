@@ -1,0 +1,564 @@
+gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00001 ;--------------------------------------------------------
+               00002 ; File Created by SDCC : free open source ANSI-C Compiler
+               00003 ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
+               00004 ; This file was generated Fri Nov  2 01:06:42 2012
+               00005 ;--------------------------------------------------------
+               00006 ; PIC16 port for the Microchip 16-bit core micros
+               00007 ;--------------------------------------------------------
+               00008         list    p=18f8520
+               00009 
+               00010         radix dec
+               00011 
+               00012 ;--------------------------------------------------------
+               00013 ; public variables in this module
+               00014 ;--------------------------------------------------------
+               00015         global _arcade_drive
+               00016 
+               00017 ;--------------------------------------------------------
+               00018 ; extern variables in this module
+               00019 ;--------------------------------------------------------
+               00020         extern __gptrput1
+               00021         extern _stdin
+               00022         extern _stdout
+               00023         extern __mulint
+               00024         extern __divsint
+               00025 ;--------------------------------------------------------
+               00026 ;       Equates to used internal registers
+               00027 ;--------------------------------------------------------
+  00000FD8     00028 STATUS  equ     0xfd8
+  00000FE8     00029 WREG    equ     0xfe8
+  00000FE9     00030 FSR0L   equ     0xfe9
+  00000FE1     00031 FSR1L   equ     0xfe1
+  00000FD9     00032 FSR2L   equ     0xfd9
+  00000FE5     00033 POSTDEC1        equ     0xfe5
+  00000FE4     00034 PREINC1 equ     0xfe4
+  00000FDB     00035 PLUSW2  equ     0xfdb
+  00000FF3     00036 PRODL   equ     0xff3
+               00037 
+               00038 
+               00039 ; Internal registers
+               00040 .registers      udata_ovr       0x0000
+               00041 r0x00   res     1
+               00042 r0x01   res     1
+               00043 r0x02   res     1
+               00044 r0x03   res     1
+               00045 r0x04   res     1
+               00046 r0x05   res     1
+               00047 r0x06   res     1
+               00048 r0x07   res     1
+               00049 r0x08   res     1
+               00050 r0x09   res     1
+               00051 r0x0a   res     1
+               00052 r0x0b   res     1
+               00053 r0x0c   res     1
+               00054 r0x0d   res     1
+gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00055 r0x0e   res     1
+               00056 r0x0f   res     1
+               00057 r0x10   res     1
+               00058 r0x11   res     1
+               00059 r0x12   res     1
+               00060 
+               00061 udata_arcade_drive_0    udata
+               00062 _arcade_drive_left_power_1_1    res     2
+               00063 
+               00064 udata_arcade_drive_1    udata
+               00065 _arcade_drive_right_power_1_1   res     2
+               00066 
+               00067 ;--------------------------------------------------------
+               00068 ; global & static initialisations
+               00069 ;--------------------------------------------------------
+               00070 ; I code from now on!
+               00071 ; ; Starting pCode block
+               00072 S_arcade_drive__arcade_drive    code
+0000 00073 _arcade_drive:
+               00074 ;       .line   89; arcade_drive.c      status_t    arcade_drive(char joy_x, char joy_y, char power_max,
+0000 CFD9 FFE5 00075         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00076         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00077         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00078         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00079         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00080         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 00081         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 00082         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 00083         MOVFF   r0x06, POSTDEC1
+0024 C000 FFE5 00084         MOVFF   r0x07, POSTDEC1
+0028 C000 FFE5 00085         MOVFF   r0x08, POSTDEC1
+002C C000 FFE5 00086         MOVFF   r0x09, POSTDEC1
+0030 C000 FFE5 00087         MOVFF   r0x0a, POSTDEC1
+0034 C000 FFE5 00088         MOVFF   r0x0b, POSTDEC1
+0038 C000 FFE5 00089         MOVFF   r0x0c, POSTDEC1
+003C C000 FFE5 00090         MOVFF   r0x0d, POSTDEC1
+0040 C000 FFE5 00091         MOVFF   r0x0e, POSTDEC1
+0044 C000 FFE5 00092         MOVFF   r0x0f, POSTDEC1
+0048 C000 FFE5 00093         MOVFF   r0x10, POSTDEC1
+004C C000 FFE5 00094         MOVFF   r0x11, POSTDEC1
+0050 C000 FFE5 00095         MOVFF   r0x12, POSTDEC1
+0054 0E02      00096         MOVLW   0x02
+0056 CFDB F000 00097         MOVFF   PLUSW2, r0x00
+005A 0E03      00098         MOVLW   0x03
+005C CFDB F000 00099         MOVFF   PLUSW2, r0x01
+0060 0E04      00100         MOVLW   0x04
+0062 CFDB F000 00101         MOVFF   PLUSW2, r0x02
+0066 0E05      00102         MOVLW   0x05
+0068 CFDB F000 00103         MOVFF   PLUSW2, r0x03
+006C 0E06      00104         MOVLW   0x06
+006E CFDB F000 00105         MOVFF   PLUSW2, r0x04
+0072 0E07      00106         MOVLW   0x07
+0074 CFDB F000 00107         MOVFF   PLUSW2, r0x05
+0078 0E08      00108         MOVLW   0x08
+gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+007A CFDB F000 00109         MOVFF   PLUSW2, r0x06
+007E 0E09      00110         MOVLW   0x09
+0080 CFDB F000 00111         MOVFF   PLUSW2, r0x07
+0084 0E0A      00112         MOVLW   0x0a
+0086 CFDB F000 00113         MOVFF   PLUSW2, r0x08
+               00114 ;       .line   95; arcade_drive.c      abs_joy_x = ABS(joy_x),
+008A 80D8      00115         BSF     STATUS, 0
+008C AE00      00116         BTFSS   r0x00, 7
+008E 90D8      00117         BCF     STATUS, 0
+0090 6A00      00118         CLRF    r0x09
+0092 3600      00119         RLCF    r0x09, F
+0094 5000      00120         MOVF    r0x09, W
+0096 80D8      00121         BSF     STATUS, 0
+0098 66E8      00122         TSTFSZ  WREG
+009A 90D8      00123         BCF     STATUS, 0
+009C 6A00      00124         CLRF    r0x0a
+009E 3600      00125         RLCF    r0x0a, F
+00A0 5000      00126         MOVF    r0x0a, W
+00A2 E000      00127         BZ      _00119_DS_
+00A4 C000 F000 00128         MOVFF   r0x00, r0x0b
+00A8 6A00      00129         CLRF    r0x0c
+00AA BE00      00130         BTFSC   r0x00, 7
+00AC 6800      00131         SETF    r0x0c
+00AE D000      00132         BRA     _00120_DS_
+00B0 00133 _00119_DS_:
+00B0 C000 F000 00134         MOVFF   r0x00, r0x0d
+00B4 6A00      00135         CLRF    r0x0e
+00B6 BE00      00136         BTFSC   r0x00, 7
+00B8 6800      00137         SETF    r0x0e
+00BA 1C00      00138         COMF    r0x0e, W
+00BC 6E00      00139         MOVWF   r0x0c
+00BE 1C00      00140         COMF    r0x0d, W
+00C0 6E00      00141         MOVWF   r0x0b
+00C2 4A00      00142         INFSNZ  r0x0b, F
+00C4 2A00      00143         INCF    r0x0c, F
+00C6 00144 _00120_DS_:
+               00145 ;       .line   96; arcade_drive.c      abs_joy_y = ABS(joy_y);
+00C6 80D8      00146         BSF     STATUS, 0
+00C8 AE00      00147         BTFSS   r0x01, 7
+00CA 90D8      00148         BCF     STATUS, 0
+00CC 6A00      00149         CLRF    r0x0d
+00CE 3600      00150         RLCF    r0x0d, F
+00D0 5000      00151         MOVF    r0x0d, W
+00D2 80D8      00152         BSF     STATUS, 0
+00D4 66E8      00153         TSTFSZ  WREG
+00D6 90D8      00154         BCF     STATUS, 0
+00D8 6A00      00155         CLRF    r0x0e
+00DA 3600      00156         RLCF    r0x0e, F
+00DC 5000      00157         MOVF    r0x0e, W
+00DE E000      00158         BZ      _00121_DS_
+00E0 C000 F000 00159         MOVFF   r0x01, r0x0f
+00E4 6A00      00160         CLRF    r0x10
+00E6 BE00      00161         BTFSC   r0x01, 7
+00E8 6800      00162         SETF    r0x10
+gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00EA D000      00163         BRA     _00122_DS_
+00EC 00164 _00121_DS_:
+00EC C000 F000 00165         MOVFF   r0x01, r0x11
+00F0 6A00      00166         CLRF    r0x12
+00F2 BE00      00167         BTFSC   r0x01, 7
+00F4 6800      00168         SETF    r0x12
+00F6 1C00      00169         COMF    r0x12, W
+00F8 6E00      00170         MOVWF   r0x10
+00FA 1C00      00171         COMF    r0x11, W
+00FC 6E00      00172         MOVWF   r0x0f
+00FE 4A00      00173         INFSNZ  r0x0f, F
+0100 2A00      00174         INCF    r0x10, F
+0102 00175 _00122_DS_:
+               00176 ;       .line   99; arcade_drive.c      if ( (ABS(joy_x) > JOY_MAX) || (ABS(joy_y) > JOY_MAX) ||
+0102 5000      00177         MOVF    r0x0a, W
+0104 E000      00178         BZ      _00123_DS_
+0106 C000 F000 00179         MOVFF   r0x00, r0x0a
+010A 6A00      00180         CLRF    r0x11
+010C BE00      00181         BTFSC   r0x00, 7
+010E 6800      00182         SETF    r0x11
+0110 D000      00183         BRA     _00124_DS_
+0112 00184 _00123_DS_:
+0112 6A00      00185         CLRF    r0x12
+0114 BE00      00186         BTFSC   r0x00, 7
+0116 6800      00187         SETF    r0x12
+0118 1C00      00188         COMF    r0x12, W
+011A 6E00      00189         MOVWF   r0x11
+011C 1C00      00190         COMF    r0x00, W
+011E 6E00      00191         MOVWF   r0x0a
+0120 4A00      00192         INFSNZ  r0x0a, F
+0122 2A00      00193         INCF    r0x11, F
+0124 00194 _00124_DS_:
+0124 5000      00195         MOVF    r0x11, W
+0126 0F80      00196         ADDLW   0x80
+0128 0F80      00197         ADDLW   0x80
+012A E100      00198         BNZ     _00141_DS_
+012C 0E80      00199         MOVLW   0x80
+012E 5C00      00200         SUBWF   r0x0a, W
+0130 00201 _00141_DS_:
+0130 E200      00202         BC      _00105_DS_
+0132 5000      00203         MOVF    r0x0e, W
+0134 E000      00204         BZ      _00125_DS_
+0136 C000 F000 00205         MOVFF   r0x01, r0x00
+013A 6A00      00206         CLRF    r0x0a
+013C BE00      00207         BTFSC   r0x01, 7
+013E 6800      00208         SETF    r0x0a
+0140 D000      00209         BRA     _00126_DS_
+0142 00210 _00125_DS_:
+0142 6A00      00211         CLRF    r0x0e
+0144 BE00      00212         BTFSC   r0x01, 7
+0146 6800      00213         SETF    r0x0e
+0148 1C00      00214         COMF    r0x0e, W
+014A 6E00      00215         MOVWF   r0x0a
+014C 1C00      00216         COMF    r0x01, W
+gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+014E 6E00      00217         MOVWF   r0x00
+0150 4A00      00218         INFSNZ  r0x00, F
+0152 2A00      00219         INCF    r0x0a, F
+0154 00220 _00126_DS_:
+0154 5000      00221         MOVF    r0x0a, W
+0156 0F80      00222         ADDLW   0x80
+0158 0F80      00223         ADDLW   0x80
+015A E100      00224         BNZ     _00143_DS_
+015C 0E80      00225         MOVLW   0x80
+015E 5C00      00226         SUBWF   r0x00, W
+0160 00227 _00143_DS_:
+0160 E200      00228         BC      _00105_DS_
+               00229 ;       .line   100; arcade_drive.c     ! VALID_PWM_VAL(power_max) )
+0162 5000      00230         MOVF    r0x02, W
+0164 0F80      00231         ADDLW   0x80
+0166 0FFF      00232         ADDLW   0xff
+0168 E200      00233         BC      _00106_DS_
+016A 00234 _00105_DS_:
+               00235 ;       .line   101; arcade_drive.c     return OV_BAD_PARAM;
+016A 0E80      00236         MOVLW   0x80
+016C D000      00237         BRA     _00117_DS_
+016E 00238 _00106_DS_:
+               00239 ;       .line   107; arcade_drive.c     left_power = abs_joy_y + abs_joy_x * ( JOY_MAX - abs_joy_y ) / JOY_MAX;
+016E 5000      00240         MOVF    r0x0f, W
+0170 087F      00241         SUBLW   0x7f
+0172 6E00      00242         MOVWF   r0x00
+0174 0E00      00243         MOVLW   0x00
+0176 5400      00244         SUBFWB  r0x10, W
+               00245 ; #     MOVWF   r0x01
+               00246 ; #     MOVF    r0x01, W
+0178 6E00      00247         MOVWF   r0x01
+017A 6EE5      00248         MOVWF   POSTDEC1
+017C 5000      00249         MOVF    r0x00, W
+017E 6EE5      00250         MOVWF   POSTDEC1
+0180 5000      00251         MOVF    r0x0c, W
+0182 6EE5      00252         MOVWF   POSTDEC1
+0184 5000      00253         MOVF    r0x0b, W
+0186 6EE5      00254         MOVWF   POSTDEC1
+0188 EC00 F000 00255         CALL    __mulint
+018C 6E00      00256         MOVWF   r0x00
+018E CFF3 F000 00257         MOVFF   PRODL, r0x01
+0192 0E04      00258         MOVLW   0x04
+0194 26E1      00259         ADDWF   FSR1L, F
+0196 0E00      00260         MOVLW   0x00
+0198 6EE5      00261         MOVWF   POSTDEC1
+019A 0E7F      00262         MOVLW   0x7f
+019C 6EE5      00263         MOVWF   POSTDEC1
+019E 5000      00264         MOVF    r0x01, W
+01A0 6EE5      00265         MOVWF   POSTDEC1
+01A2 5000      00266         MOVF    r0x00, W
+01A4 6EE5      00267         MOVWF   POSTDEC1
+01A6 EC00 F000 00268         CALL    __divsint
+01AA 6E00      00269         MOVWF   r0x00
+01AC CFF3 F000 00270         MOVFF   PRODL, r0x01
+gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+01B0 0E04      00271         MOVLW   0x04
+01B2 26E1      00272         ADDWF   FSR1L, F
+01B4 5000      00273         MOVF    r0x0f, W
+01B6 2600      00274         ADDWF   r0x00, F
+01B8 5000      00275         MOVF    r0x10, W
+01BA 2200      00276         ADDWFC  r0x01, F
+               00277 ;       .line   108; arcade_drive.c     left_power = left_power * power_max / JOY_MAX;
+01BC 6A00      00278         CLRF    r0x0a
+01BE BE00      00279         BTFSC   r0x02, 7
+01C0 6800      00280         SETF    r0x0a
+01C2 5000      00281         MOVF    r0x0a, W
+01C4 6EE5      00282         MOVWF   POSTDEC1
+01C6 5000      00283         MOVF    r0x02, W
+01C8 6EE5      00284         MOVWF   POSTDEC1
+01CA 5000      00285         MOVF    r0x01, W
+01CC 6EE5      00286         MOVWF   POSTDEC1
+01CE 5000      00287         MOVF    r0x00, W
+01D0 6EE5      00288         MOVWF   POSTDEC1
+01D2 EC00 F000 00289         CALL    __mulint
+01D6 6E00      00290         MOVWF   r0x00
+01D8 CFF3 F000 00291         MOVFF   PRODL, r0x01
+01DC 0E04      00292         MOVLW   0x04
+01DE 26E1      00293         ADDWF   FSR1L, F
+01E0 0E00      00294         MOVLW   0x00
+01E2 6EE5      00295         MOVWF   POSTDEC1
+01E4 0E7F      00296         MOVLW   0x7f
+01E6 6EE5      00297         MOVWF   POSTDEC1
+01E8 5000      00298         MOVF    r0x01, W
+01EA 6EE5      00299         MOVWF   POSTDEC1
+01EC 5000      00300         MOVF    r0x00, W
+01EE 6EE5      00301         MOVWF   POSTDEC1
+01F0 EC00 F000 00302         CALL    __divsint
+01F4 6E00      00303         MOVWF   r0x00
+01F6 CFF3 F000 00304         MOVFF   PRODL, r0x01
+01FA 0E04      00305         MOVLW   0x04
+01FC 26E1      00306         ADDWF   FSR1L, F
+01FE C000 F000 00307         MOVFF   r0x00, _arcade_drive_left_power_1_1
+0202 C000 F000 00308         MOVFF   r0x01, (_arcade_drive_left_power_1_1 + 1)
+               00309 ;       .line   109; arcade_drive.c     right_power = (abs_joy_y - abs_joy_x);
+0206 5000      00310         MOVF    r0x0b, W
+0208 5C00      00311         SUBWF   r0x0f, W
+020A 6E00      00312         MOVWF   r0x0b
+020C 5000      00313         MOVF    r0x0c, W
+020E 5800      00314         SUBWFB  r0x10, W
+0210 6E00      00315         MOVWF   r0x0c
+               00316 ;       .line   110; arcade_drive.c     right_power = right_power * power_max / JOY_MAX;
+0212 5000      00317         MOVF    r0x0a, W
+0214 6EE5      00318         MOVWF   POSTDEC1
+0216 5000      00319         MOVF    r0x02, W
+0218 6EE5      00320         MOVWF   POSTDEC1
+021A 5000      00321         MOVF    r0x0c, W
+021C 6EE5      00322         MOVWF   POSTDEC1
+021E 5000      00323         MOVF    r0x0b, W
+0220 6EE5      00324         MOVWF   POSTDEC1
+gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0222 EC00 F000 00325         CALL    __mulint
+0226 6E00      00326         MOVWF   r0x02
+0228 CFF3 F000 00327         MOVFF   PRODL, r0x0a
+022C 0E04      00328         MOVLW   0x04
+022E 26E1      00329         ADDWF   FSR1L, F
+0230 0E00      00330         MOVLW   0x00
+0232 6EE5      00331         MOVWF   POSTDEC1
+0234 0E7F      00332         MOVLW   0x7f
+0236 6EE5      00333         MOVWF   POSTDEC1
+0238 5000      00334         MOVF    r0x0a, W
+023A 6EE5      00335         MOVWF   POSTDEC1
+023C 5000      00336         MOVF    r0x02, W
+023E 6EE5      00337         MOVWF   POSTDEC1
+0240 EC00 F000 00338         CALL    __divsint
+0244 6E00      00339         MOVWF   r0x02
+0246 CFF3 F000 00340         MOVFF   PRODL, r0x0a
+024A 0E04      00341         MOVLW   0x04
+024C 26E1      00342         ADDWF   FSR1L, F
+024E C000 F000 00343         MOVFF   r0x02, _arcade_drive_right_power_1_1
+0252 C000 F000 00344         MOVFF   r0x0a, (_arcade_drive_right_power_1_1 + 1)
+               00345 ;       .line   112; arcade_drive.c     if ( joy_y >= 0 )   /* Quadrants 1 and 2 */
+0256 5000      00346         MOVF    r0x0d, W
+0258 E100      00347         BNZ     _00115_DS_
+               00348 ;       .line   118; arcade_drive.c     if ( joy_x < 0 )    /* Swap for quadrant 2 */
+025A 5000      00349         MOVF    r0x09, W
+025C E000      00350         BZ      _00116_DS_
+               00351 ;       .line   119; arcade_drive.c     SWAP(&left_power,&right_power);
+025E C000 F000 00352         MOVFF   r0x00, _arcade_drive_right_power_1_1
+0262 C000 F000 00353         MOVFF   r0x01, (_arcade_drive_right_power_1_1 + 1)
+0266 C000 F000 00354         MOVFF   r0x02, _arcade_drive_left_power_1_1
+026A C000 F000 00355         MOVFF   r0x0a, (_arcade_drive_left_power_1_1 + 1)
+026E D000      00356         BRA     _00116_DS_
+0270 00357 _00115_DS_:
+               00358 ;       .line   130; arcade_drive.c     if ( joy_x >= 0 )   /* Swap for quadrant 4 only */
+0270 5000      00359         MOVF    r0x09, W
+0272 E100      00360         BNZ     _00113_DS_
+               00361 ;       .line   131; arcade_drive.c     SWAP(&left_power,&right_power);
+0274 C000 F000 00362         MOVFF   r0x02, _arcade_drive_left_power_1_1
+0278 C000 F000 00363         MOVFF   r0x0a, (_arcade_drive_left_power_1_1 + 1)
+027C C000 F000 00364         MOVFF   r0x00, _arcade_drive_right_power_1_1
+0280 C000 F000 00365         MOVFF   r0x01, (_arcade_drive_right_power_1_1 + 1)
+0284 00366 _00113_DS_:
+0284 0000      00367         BANKSEL (_arcade_drive_left_power_1_1 + 1)
+               00368 ;       .line   134; arcade_drive.c     left_power = -left_power;
+0286 1F00      00369         COMF    (_arcade_drive_left_power_1_1 + 1), F, B
+0288 0000      00370         BANKSEL _arcade_drive_left_power_1_1
+028A 6D00      00371         NEGF    _arcade_drive_left_power_1_1, B
+028C E100      00372         BNZ     _10105_DS_
+028E 0000      00373         BANKSEL (_arcade_drive_left_power_1_1 + 1)
+0290 2B00      00374         INCF    (_arcade_drive_left_power_1_1 + 1), F, B
+0292 00375 _10105_DS_:
+0292 0000      00376         BANKSEL (_arcade_drive_right_power_1_1 + 1)
+               00377 ;       .line   135; arcade_drive.c     right_power = -right_power;
+0294 1F00      00378         COMF    (_arcade_drive_right_power_1_1 + 1), F, B
+gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0296 0000      00379         BANKSEL _arcade_drive_right_power_1_1
+0298 6D00      00380         NEGF    _arcade_drive_right_power_1_1, B
+029A E100      00381         BNZ     _20106_DS_
+029C 0000      00382         BANKSEL (_arcade_drive_right_power_1_1 + 1)
+029E 2B00      00383         INCF    (_arcade_drive_right_power_1_1 + 1), F, B
+02A0 00384 _20106_DS_:
+02A0 00385 _00116_DS_:
+02A0 0000      00386         BANKSEL _arcade_drive_left_power_1_1
+               00387 ;       .line   137; arcade_drive.c     *left_power_ptr = left_power;
+02A2 5100      00388         MOVF    _arcade_drive_left_power_1_1, W, B
+02A4 6E00      00389         MOVWF   r0x00
+02A6 C000 FFE5 00390         MOVFF   r0x00, POSTDEC1
+02AA C000 FFE9 00391         MOVFF   r0x03, FSR0L
+02AE C000 FFF3 00392         MOVFF   r0x04, PRODL
+02B2 5000      00393         MOVF    r0x05, W
+02B4 EC00 F000 00394         CALL    __gptrput1
+02B8 0000      00395         BANKSEL _arcade_drive_right_power_1_1
+               00396 ;       .line   138; arcade_drive.c     *right_power_ptr = right_power;
+02BA 5100      00397         MOVF    _arcade_drive_right_power_1_1, W, B
+02BC 6E00      00398         MOVWF   r0x00
+02BE C000 FFE5 00399         MOVFF   r0x00, POSTDEC1
+02C2 C000 FFE9 00400         MOVFF   r0x06, FSR0L
+02C6 C000 FFF3 00401         MOVFF   r0x07, PRODL
+02CA 5000      00402         MOVF    r0x08, W
+02CC EC00 F000 00403         CALL    __gptrput1
+               00404 ;       .line   139; arcade_drive.c     return OV_OK;
+02D0 6AE8      00405         CLRF    WREG
+02D2 00406 _00117_DS_:
+02D2 CFE4 F000 00407         MOVFF   PREINC1, r0x12
+02D6 CFE4 F000 00408         MOVFF   PREINC1, r0x11
+02DA CFE4 F000 00409         MOVFF   PREINC1, r0x10
+02DE CFE4 F000 00410         MOVFF   PREINC1, r0x0f
+02E2 CFE4 F000 00411         MOVFF   PREINC1, r0x0e
+02E6 CFE4 F000 00412         MOVFF   PREINC1, r0x0d
+02EA CFE4 F000 00413         MOVFF   PREINC1, r0x0c
+02EE CFE4 F000 00414         MOVFF   PREINC1, r0x0b
+02F2 CFE4 F000 00415         MOVFF   PREINC1, r0x0a
+02F6 CFE4 F000 00416         MOVFF   PREINC1, r0x09
+02FA CFE4 F000 00417         MOVFF   PREINC1, r0x08
+02FE CFE4 F000 00418         MOVFF   PREINC1, r0x07
+0302 CFE4 F000 00419         MOVFF   PREINC1, r0x06
+0306 CFE4 F000 00420         MOVFF   PREINC1, r0x05
+030A CFE4 F000 00421         MOVFF   PREINC1, r0x04
+030E CFE4 F000 00422         MOVFF   PREINC1, r0x03
+0312 CFE4 F000 00423         MOVFF   PREINC1, r0x02
+0316 CFE4 F000 00424         MOVFF   PREINC1, r0x01
+031A CFE4 F000 00425         MOVFF   PREINC1, r0x00
+031E CFE4 FFD9 00426         MOVFF   PREINC1, FSR2L
+0322 0012      00427         RETURN  
+               00428 
+               00429 
+               00430 
+               00431 ; Statistics:
+               00432 ; code size:      804 (0x0324) bytes ( 0.61%)
+gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00433 ;                 402 (0x0192) words
+               00434 ; udata size:       4 (0x0004) bytes ( 0.22%)
+               00435 ; access size:     19 (0x0013) bytes
+               00436 
+               00437 
+gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE 10
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+FSR0L                             00000FE9
+FSR1L                             00000FE1
+FSR2L                             00000FD9
+PLUSW2                            00000FDB
+POSTDEC1                          00000FE5
+PREINC1                           00000FE4
+PRODL                             00000FF3
+STATUS                            00000FD8
+WREG                              00000FE8
+_00105_DS_                        0000016A
+_00106_DS_                        0000016E
+_00113_DS_                        00000284
+_00115_DS_                        00000270
+_00116_DS_                        000002A0
+_00117_DS_                        000002D2
+_00119_DS_                        000000B0
+_00120_DS_                        000000C6
+_00121_DS_                        000000EC
+_00122_DS_                        00000102
+_00123_DS_                        00000112
+_00124_DS_                        00000124
+_00125_DS_                        00000142
+_00126_DS_                        00000154
+_00141_DS_                        00000130
+_00143_DS_                        00000160
+_10105_DS_                        00000292
+_20106_DS_                        000002A0
+__18F8520                         00000001
+__divsint                         00000000
+__gptrput1                        00000000
+__mulint                          00000000
+_arcade_drive                     00000000
+_arcade_drive_left_power_1_1      00000000
+_arcade_drive_right_power_1_1     00000000
+_stdin                            00000000
+_stdout                           00000000
+r0x00                             00000000
+r0x01                             00000001
+r0x02                             00000002
+r0x03                             00000003
+r0x04                             00000004
+r0x05                             00000005
+r0x06                             00000006
+r0x07                             00000007
+r0x08                             00000008
+r0x09                             00000009
+r0x0a                             0000000A
+r0x0b                             0000000B
+r0x0c                             0000000C
+r0x0d                             0000000D
+r0x0e                             0000000E
+r0x0f                             0000000F
+r0x10                             00000010
+gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+r0x11                             00000011
+r0x12                             00000012
+
+
+Errors   :       0
+Warnings :       0 reported,       0 suppressed
+Messages :       0 reported,       0 suppressed
+
