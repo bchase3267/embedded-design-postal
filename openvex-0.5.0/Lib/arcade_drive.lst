@@ -1,4 +1,4 @@
-gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE  1
+gpasm-0.13.7 beta               arcade_drive.asm11-9-2012  21:20:54          PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -7,7 +7,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                00001 ;--------------------------------------------------------
                00002 ; File Created by SDCC : free open source ANSI-C Compiler
                00003 ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
-               00004 ; This file was generated Fri Nov  2 01:06:42 2012
+               00004 ; This file was generated Fri Nov  9 21:20:54 2012
                00005 ;--------------------------------------------------------
                00006 ; PIC16 port for the Microchip 16-bit core micros
                00007 ;--------------------------------------------------------
@@ -58,7 +58,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                00052 r0x0b   res     1
                00053 r0x0c   res     1
                00054 r0x0d   res     1
-gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE  2
+gpasm-0.13.7 beta               arcade_drive.asm11-9-2012  21:20:54          PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -118,7 +118,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0072 0E07      00106         MOVLW   0x07
 0074 CFDB F000 00107         MOVFF   PLUSW2, r0x05
 0078 0E08      00108         MOVLW   0x08
-gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE  3
+gpasm-0.13.7 beta               arcade_drive.asm11-9-2012  21:20:54          PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -178,7 +178,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 00E4 6A00      00160         CLRF    r0x10
 00E6 BE00      00161         BTFSC   r0x01, 7
 00E8 6800      00162         SETF    r0x10
-gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE  4
+gpasm-0.13.7 beta               arcade_drive.asm11-9-2012  21:20:54          PAGE  4
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -238,7 +238,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0148 1C00      00214         COMF    r0x0e, W
 014A 6E00      00215         MOVWF   r0x0a
 014C 1C00      00216         COMF    r0x01, W
-gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE  5
+gpasm-0.13.7 beta               arcade_drive.asm11-9-2012  21:20:54          PAGE  5
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -298,7 +298,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 01A6 EC00 F000 00268         CALL    __divsint
 01AA 6E00      00269         MOVWF   r0x00
 01AC CFF3 F000 00270         MOVFF   PRODL, r0x01
-gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE  6
+gpasm-0.13.7 beta               arcade_drive.asm11-9-2012  21:20:54          PAGE  6
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -358,7 +358,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 021C 6EE5      00322         MOVWF   POSTDEC1
 021E 5000      00323         MOVF    r0x0b, W
 0220 6EE5      00324         MOVWF   POSTDEC1
-gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE  7
+gpasm-0.13.7 beta               arcade_drive.asm11-9-2012  21:20:54          PAGE  7
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -418,7 +418,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0292 0000      00376         BANKSEL (_arcade_drive_right_power_1_1 + 1)
                00377 ;       .line   135; arcade_drive.c     right_power = -right_power;
 0294 1F00      00378         COMF    (_arcade_drive_right_power_1_1 + 1), F, B
-gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE  8
+gpasm-0.13.7 beta               arcade_drive.asm11-9-2012  21:20:54          PAGE  8
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -478,7 +478,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                00430 
                00431 ; Statistics:
                00432 ; code size:      804 (0x0324) bytes ( 0.61%)
-gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE  9
+gpasm-0.13.7 beta               arcade_drive.asm11-9-2012  21:20:54          PAGE  9
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -489,7 +489,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                00435 ; access size:     19 (0x0013) bytes
                00436 
                00437 
-gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE 10
+gpasm-0.13.7 beta               arcade_drive.asm11-9-2012  21:20:54          PAGE 10
 
 
 SYMBOL TABLE
@@ -548,7 +548,7 @@ r0x0d                             0000000D
 r0x0e                             0000000E
 r0x0f                             0000000F
 r0x10                             00000010
-gpasm-0.13.7 beta               arcade_drive.asm11-2-2012  01:06:42          PAGE 11
+gpasm-0.13.7 beta               arcade_drive.asm11-9-2012  21:20:54          PAGE 11
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT

@@ -43,7 +43,7 @@ extern unsigned char            Sonar_on_iport[];
 /* sonar.c */
 status_t sonar_init_spin_wait(unsigned char port_to_sonar, unsigned char port_from_sonar);
 unsigned int sonar_read_spin_wait(unsigned char port_to_sonar, unsigned char port_from_sonar);
-status_t sonar_init(unsigned char digital_port_to_sonar, unsigned char interrupt_port_from_sonar);
+status_t sonar_init(unsigned char interrupt_port_from_sonar, unsigned char digital_port_to_sonar);
 unsigned int sonar_read(unsigned char interrupt_port_from_sonar);
 void sonar_emit_isr(unsigned char interrupt_port_from_sonar);
 void sonar_echo_isr(unsigned char interrupt_port_from_sonar);

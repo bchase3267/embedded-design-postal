@@ -1,4 +1,4 @@
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE  1
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -7,7 +7,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                00001 ;--------------------------------------------------------
                00002 ; File Created by SDCC : free open source ANSI-C Compiler
                00003 ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
-               00004 ; This file was generated Fri Nov  2 01:06:41 2012
+               00004 ; This file was generated Sat Nov 10 17:01:25 2012
                00005 ;--------------------------------------------------------
                00006 ; PIC16 port for the Microchip 16-bit core micros
                00007 ;--------------------------------------------------------
@@ -58,7 +58,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                00052         extern _TRISCbits
                00053         extern _TRISDbits
                00054         extern _TRISEbits
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE  2
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -118,7 +118,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                00106         extern _Sonar_data_available
                00107         extern _Sonar_echo_time
                00108         extern _Timer0_at_emit
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE  3
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -178,7 +178,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                00160         extern _PIR3
                00161         extern _IPR3
                00162         extern _EECON1
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE  4
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE  4
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -238,7 +238,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                00214         extern _TMR0H
                00215         extern _STATUS
                00216         extern _FSR2L
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE  5
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE  5
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -298,7 +298,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
   00000FD8     00268 STATUS  equ     0xfd8
   00000FE8     00269 WREG    equ     0xfe8
   00000FE9     00270 FSR0L   equ     0xfe9
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE  6
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE  6
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -358,7 +358,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0024 E300      00322         BNC     _00226_DS_
 0026 0E07      00323         MOVLW   0x07
 0028 5C00      00324         SUBWF   r0x01, W
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE  7
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE  7
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -418,7 +418,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                00376 ;       .line   300; sonar.c    status_t    sonar_emit_pulse(unsigned char output_port)
 0000 CFD9 FFE5 00377         MOVFF   FSR2L, POSTDEC1
 0004 CFE1 FFD9 00378         MOVFF   FSR1L, FSR2L
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE  8
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE  8
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -478,7 +478,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0066 6AE8      00430         CLRF    WREG
 0068 00431 _00213_DS_:
 0068 CFE4 F000 00432         MOVFF   PREINC1, r0x01
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE  9
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE  9
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -538,7 +538,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                00484 ;       .line   261; sonar.c    TIMER0_READ16(t0);
 006E C000 F000 00485         MOVFF   _TMR0L, r0x04
 0072 6A00      00486         CLRF    r0x05
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 10
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE 10
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -598,7 +598,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 00D8 E300      00538         BNC     _00196_DS_
 00DA 00539 _00181_DS_:
 00DA 5000      00540         MOVF    r0x07, W
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 11
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE 11
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -658,7 +658,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 014A 26E1      00592         ADDWF   FSR1L, F
                00593 ;       .line   273; sonar.c    waiting_for_echo[interrupt_port-1] = 1;
 014C 0E00      00594         MOVLW   LOW(_sonar_read_waiting_for_echo_1_1)
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 12
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE 12
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -718,7 +718,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 01B6 0E00      00646         MOVLW   HIGH(_sonar_read_last_distance_1_1)
 01B8 2200      00647         ADDWFC  r0x03, F
                00648 ;       .line   286; sonar.c    ECHO_TIME_TO_CM(SONAR_ECHO_TIME(interrupt_port));
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 13
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE 13
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -778,7 +778,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0222 6EE5      00700         MOVWF   POSTDEC1
 0224 5000      00701         MOVF    r0x05, W
 0226 6EE5      00702         MOVWF   POSTDEC1
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 14
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE 14
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -838,7 +838,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 029C 6A00      00754         CLRF    r0x00
 029E 0E00      00755         MOVLW   LOW(_sonar_read_last_distance_1_1)
 02A0 2600      00756         ADDWF   r0x01, F
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 15
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE 15
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -898,7 +898,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 003E 5C00      00808         SUBWF   r0x01, W
 0040 E300      00809         BNC     _00151_DS_
 0042 00810 _00150_DS_:
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 16
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE 16
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -958,7 +958,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 00A8 6AE8      00862         CLRF    WREG
 00AA 00863 _00155_DS_:
 00AA CFE4 F000 00864         MOVFF   PREINC1, r0x04
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 17
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE 17
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1018,7 +1018,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0068 00916 _00126_DS_:
                00917 ;       .line   171; sonar.c    while ( io_read_digital(digital_in_port) == 1 )
 0068 5000      00918         MOVF    r0x01, W
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 18
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE 18
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1078,7 +1078,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 00CA 6AE8      00970         CLRF    WREG
 00CC BE00      00971         BTFSC   r0x03, 7
 00CE 0EFF      00972         MOVLW   0xff
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 19
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE 19
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1138,7 +1138,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 013E EC00 F000 01024         CALL    __divulong
 0142 6E00      01025         MOVWF   r0x00
 0144 CFF3 F000 01026         MOVFF   PRODL, r0x01
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 20
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE 20
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1198,7 +1198,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 003C 0E00      01078         MOVLW   0x00
 003E 6EE5      01079         MOVWF   POSTDEC1
 0040 5000      01080         MOVF    r0x00, W
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 21
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE 21
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1241,7 +1241,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                01115 ; access size:     11 (0x000b) bytes
                01116 
                01117 
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 22
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE 22
 
 
 SYMBOL TABLE
@@ -1300,7 +1300,7 @@ _ADRESH                           00000000
 _ADRESL                           00000000
 _Analog_ports                     00000000
 _BSR                              00000000
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 23
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE 23
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1360,7 +1360,7 @@ _IPR3bits                         00000000
 _Interrupt_port_in_use            00000000
 _LATA                             00000000
 _LATAbits                         00000000
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 24
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE 24
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1420,7 +1420,7 @@ _PORTF                            00000000
 _PORTFbits                        00000000
 _PORTG                            00000000
 _PORTGbits                        00000000
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 25
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE 25
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1480,7 +1480,7 @@ _T1CON                            00000000
 _T1CONbits                        00000000
 _T2CON                            00000000
 _T2CONbits                        00000000
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 26
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE 26
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1540,7 +1540,7 @@ _Timer2_overflows                 00000000
 _Timer3_overflows                 00000000
 _Timer4_overflows                 00000000
 _WDTCON                           00000000
-gpasm-0.13.7 beta               sonar.asm   11-2-2012  01:06:41          PAGE 27
+gpasm-0.13.7 beta               sonar.asm   11-10-2012  17:01:25         PAGE 27
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT

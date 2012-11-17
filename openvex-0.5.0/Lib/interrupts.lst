@@ -1,4 +1,4 @@
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE  1
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -7,7 +7,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                00001 ;--------------------------------------------------------
                00002 ; File Created by SDCC : free open source ANSI-C Compiler
                00003 ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
-               00004 ; This file was generated Fri Nov  2 01:09:54 2012
+               00004 ; This file was generated Sat Nov 10 17:01:25 2012
                00005 ;--------------------------------------------------------
                00006 ; PIC16 port for the Microchip 16-bit core micros
                00007 ;--------------------------------------------------------
@@ -58,7 +58,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                00052         extern _PORTAbits
                00053         extern _PORTBbits
                00054         extern _PORTCbits
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE  2
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -118,7 +118,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                00106         extern _SSPSTATbits
                00107         extern _T2CONbits
                00108         extern _T1CONbits
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE  3
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -178,7 +178,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                00160         extern _MEMCON
                00161         extern _PIE1
                00162         extern _PIR1
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE  4
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE  4
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -238,7 +238,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                00214         extern _TMR1L
                00215         extern _TMR1H
                00216         extern _RCON
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE  5
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE  5
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -298,7 +298,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
   00000FFA     00268 PCLATH  equ     0xffa
   00000FFB     00269 PCLATU  equ     0xffb
   00000FE8     00270 WREG    equ     0xfe8
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE  6
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE  6
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -358,7 +358,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                00322 
                00323 udata_interrupts_4      udata
                00324 _Timer0_overflows       res     2
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE  7
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE  7
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -418,7 +418,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0050 C000 FFE5 00376         MOVFF   r0x09, POSTDEC1
 0054 C000 FFE5 00377         MOVFF   r0x0a, POSTDEC1
                00378 ;       .line   279; interrupts.c       Porta_sample = PORTA;
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE  8
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE  8
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -478,7 +478,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 00B4 1000      00430         IORWF   r0x06, W
 00B6 B4D8      00431         BTFSC   STATUS, 2
 00B8 D000      00432         BRA     _00172_DS_
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE  9
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE  9
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -538,7 +538,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0122 5000      00484         MOVF    r0x06, W
 0124 0A02      00485         XORLW   0x02
 0126 E100      00486         BNZ     _00164_DS_
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 10
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 10
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -598,7 +598,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0180 6800      00538         SETF    r0x06
 0182 0E00      00539         MOVLW   LOW(_Sonar_on_iport)
 0184 2600      00540         ADDWF   r0x05, F
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 11
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 11
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -658,7 +658,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 01DA 0000      00592         BANKSEL (_Encoder_ticks + 1)
 01DC 2100      00593         ADDWFC  (_Encoder_ticks + 1), W, B
 01DE 6E00      00594         MOVWF   r0x02
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 12
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 12
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -718,7 +718,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                00646 ;       .line   368; interrupts.c       SHAFT_ENCODER_ISR(2);
 0232 5100      00647         MOVF    (_Encoder_ticks + 2), W, B
 0234 0F01      00648         ADDLW   0x01
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 13
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 13
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -778,7 +778,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0288 2B00      00700         INCF    _Timer0_overflows, F, B
 028A E300      00701         BNC     _10289_DS_
 028C 0000      00702         BANKSEL (_Timer0_overflows + 1)
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 14
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 14
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -838,7 +838,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 02D0 00754 _60294_DS_:
 02D0 00755 _00211_DS_:
                00756 ;       .line   415; interrupts.c       if ( PIR3bits.TMR4IF )
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 15
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 15
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -898,7 +898,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0000 CFD9 FFE5 00808         MOVFF   FSR2L, POSTDEC1
 0004 CFE1 FFD9 00809         MOVFF   FSR1L, FSR2L
 0008 C000 FFE5 00810         MOVFF   r0x00, POSTDEC1
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 16
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 16
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -958,7 +958,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0086 00862 _00317_DS_:
 0086 EF00 F000 00863         GOTO    _00289_DS_
 008A EF00 F000 00864         GOTO    _00290_DS_
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 17
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 17
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1018,7 +1018,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 00F4 6E00      00916         MOVWF   r0x01
                00917 ;       .line   532; interrupts.c       break;
 00F6 D000      00918         BRA     _00306_DS_
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 18
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 18
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1078,7 +1078,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0136 0000      00970         BANKSEL _Portf_sample
 0138 1500      00971         ANDWF   _Portf_sample, W, B
 013A 6E00      00972         MOVWF   r0x01
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 19
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 19
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1138,7 +1138,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0184 CFEF F000 01024         MOVFF   INDF0, r0x04
 0188 0EFF      01025         MOVLW   0xff
 018A 2600      01026         ADDWF   r0x03, F
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 20
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 20
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1198,7 +1198,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0020 C000 FFE5 01078         MOVFF   r0x06, POSTDEC1
 0024 C000 FFE5 01079         MOVFF   r0x07, POSTDEC1
 0028 C000 FFE5 01080         MOVFF   r0x08, POSTDEC1
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 21
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 21
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1258,7 +1258,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 00A8 C000 FFEF 01132         MOVFF   r0x05, INDF0
                01133 ;       .line   479; interrupts.c       SET_SONAR_ECHO_TIME(interrupt_port,
 00AC 0E00      01134         MOVLW   LOW(_Sonar_echo_time)
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 22
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 22
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1318,7 +1318,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0140 CFE4 F000 01186         MOVFF   PREINC1, r0x00
 0144 CFE4 FFD9 01187         MOVFF   PREINC1, FSR2L
 0148 0012      01188         RETURN  
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 23
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 23
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1378,7 +1378,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0078 C000 FFE9 01240         MOVFF   r0x02, FSR0L
 007C C000 FFEA 01241         MOVFF   r0x05, FSR0H
 0080 CFEE F000 01242         MOVFF   POSTINC0, r0x02
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 24
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 24
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1438,7 +1438,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0106 01294 _00265_DS_:
                01295 ;       .line   455; interrupts.c       INTCON2bits.INTEDG2 = 0;
 0106 9800      01296         BCF     _INTCON2bits, 4
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 25
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 25
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1498,7 +1498,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0040 2600      01348         ADDWF   r0x01, F
 0042 5000      01349         MOVF    r0x02, W
 0044 22FA      01350         ADDWFC  PCLATH, F
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 26
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 26
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1558,7 +1558,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0028 6A00      01402         CLRF    r0x02
 002A 3400      01403         RLCF    r0x00, W
 002C 3600      01404         RLCF    r0x02, F
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 27
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 27
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1618,7 +1618,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000C C000 FFE5 01456         MOVFF   r0x01, POSTDEC1
 0010 0E02      01457         MOVLW   0x02
 0012 CFDB F000 01458         MOVFF   PLUSW2, r0x00
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 28
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 28
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1673,7 +1673,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                01505 ; access size:     12 (0x000c) bytes
                01506 
                01507 
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 29
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 29
 
 
 SYMBOL TABLE
@@ -1732,7 +1732,7 @@ _00216_DS_                        000001B2
 _00218_DS_                        000002F0
 _00245_DS_                        00000086
 _00254_DS_                        000001D0
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 30
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 30
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1792,7 +1792,7 @@ _CCP4CON                          00000000
 _CCP4CONbits                      00000000
 _CCP5CON                          00000000
 _CCP5CONbits                      00000000
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 31
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 31
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1852,7 +1852,7 @@ _LATBbits                         00000000
 _LATC                             00000000
 _LATCbits                         00000000
 _LATD                             00000000
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 32
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 32
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1912,7 +1912,7 @@ _PORTHbits                        00000000
 _PORTJ                            00000000
 _PORTJbits                        00000000
 _POSTDEC0                         00000000
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 33
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 33
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -1972,7 +1972,7 @@ _T1CONbits                        00000000
 _T2CON                            00000000
 _T2CONbits                        00000000
 _T3CON                            00000000
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 34
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 34
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -2032,7 +2032,7 @@ _Timer3_overflows                 00000000
 _Timer4_overflows                 00000000
 _WDTCON                           00000000
 _WDTCONbits                       00000000
-gpasm-0.13.7 beta               interrupts.asm11-2-2012  01:09:54          PAGE 35
+gpasm-0.13.7 beta               interrupts.asm11-10-2012  17:01:25         PAGE 35
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
