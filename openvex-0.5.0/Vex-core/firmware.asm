@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 2.9.0 #5416 (Feb  3 2010) (UNIX)
-; This file was generated Fri Nov 16 22:22:01 2012
+; This file was generated Sun Dec  2 03:58:30 2012
 ;--------------------------------------------------------
 ; PIC16 port for the Microchip 16-bit core micros
 ;--------------------------------------------------------
@@ -37,6 +37,7 @@
 	global _bump_front
 	global _set_drives_LR
 	global _cliff_avoidance
+	global _debugMode
 	global _SPEED
 	global _LEFT_SPEED
 	global _RIGHT_SPEED
@@ -291,6 +292,7 @@
 	extern _TOSH
 	extern _TOSU
 	extern _printf
+	extern _putchar
 	extern _usart_getc
 	extern _usart_puts
 	extern _io_set_analog_port_count
@@ -333,6 +335,7 @@ PRODH	equ	0xff4
 
 
 	idata
+_debugMode	db	0x00
 _LEFT_MOTOR_POWER	db	0x00
 _RIGHT_MOTOR_POWER	db	0x00
 _SPEED	db	0x46
@@ -575,7 +578,7 @@ _00115_DS_:
 	INCF	FSR1L, F
 	MOVF	r0x0a, W
 	BNZ	_00117_DS_
-;	.line	125; firmware.c	printf("BF\n");
+;	.line	125; firmware.c	printf("BF");
 	MOVLW	UPPER(__str_0)
 	MOVWF	POSTDEC1
 	MOVLW	HIGH(__str_0)
@@ -689,7 +692,7 @@ _00165_DS_:
 	MOVWF	r0x04
 	MOVFF	PRODL, r0x05
 	INCF	FSR1L, F
-;	.line	153; firmware.c	printf("L%d\n",light_level);
+;	.line	153; firmware.c	printf("Li%d",light_level);
 	MOVF	r0x05, W
 	MOVWF	POSTDEC1
 	MOVF	r0x04, W
@@ -736,7 +739,7 @@ _00166_DS_:
 _00167_DS_:
 	BNC	_00131_DS_
 _00130_DS_:
-;	.line	160; firmware.c	printf("UD: %d\n",sonar_dist);
+;	.line	160; firmware.c	printf("UD%d",sonar_dist);
 	MOVF	r0x0d, W
 	MOVWF	POSTDEC1
 	MOVF	r0x0c, W
@@ -824,10 +827,10 @@ _00171_DS_:
 ; ; Starting pCode block
 S_firmware__cliff_avoidance	code
 _cliff_avoidance:
-;	.line	595; firmware.c	void cliff_avoidance()
+;	.line	604; firmware.c	void cliff_avoidance()
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
-;	.line	597; firmware.c	set_drives_LR(-127,-127);
+;	.line	606; firmware.c	set_drives_LR(-127,-127);
 	MOVLW	0x81
 	MOVWF	POSTDEC1
 	MOVLW	0x81
@@ -835,12 +838,12 @@ _cliff_avoidance:
 	CALL	_set_drives_LR
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	598; firmware.c	controller_submit_data(NO_WAIT);
+;	.line	607; firmware.c	controller_submit_data(NO_WAIT);
 	MOVLW	0x00
 	MOVWF	POSTDEC1
 	CALL	_controller_submit_data
 	INCF	FSR1L, F
-;	.line	599; firmware.c	delay_msec(60);
+;	.line	608; firmware.c	delay_msec(60);
 	MOVLW	0x00
 	MOVWF	POSTDEC1
 	MOVLW	0x3c
@@ -848,7 +851,7 @@ _cliff_avoidance:
 	CALL	_delay_msec
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	600; firmware.c	set_drives_LR(0,0);
+;	.line	609; firmware.c	set_drives_LR(0,0);
 	MOVLW	0x00
 	MOVWF	POSTDEC1
 	MOVLW	0x00
@@ -856,12 +859,12 @@ _cliff_avoidance:
 	CALL	_set_drives_LR
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	601; firmware.c	controller_submit_data(NO_WAIT);
+;	.line	610; firmware.c	controller_submit_data(NO_WAIT);
 	MOVLW	0x00
 	MOVWF	POSTDEC1
 	CALL	_controller_submit_data
 	INCF	FSR1L, F
-;	.line	602; firmware.c	DRIVE = &halt;
+;	.line	611; firmware.c	DRIVE = &halt;
 	MOVLW	HIGH(_halt)
 	BANKSEL	(_DRIVE + 1)
 	MOVWF	(_DRIVE + 1), B
@@ -877,7 +880,7 @@ _cliff_avoidance:
 ; ; Starting pCode block
 S_firmware__set_drives_LR	code
 _set_drives_LR:
-;	.line	587; firmware.c	void set_drives_LR(signed char leftPower,signed char rightPower)
+;	.line	596; firmware.c	void set_drives_LR(signed char leftPower,signed char rightPower)
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
@@ -886,7 +889,7 @@ _set_drives_LR:
 	MOVFF	PLUSW2, r0x00
 	MOVLW	0x03
 	MOVFF	PLUSW2, r0x01
-;	.line	589; firmware.c	pwm_write(RIGHT_DRIVE_PORT1, rightPower);
+;	.line	598; firmware.c	pwm_write(RIGHT_DRIVE_PORT1, rightPower);
 	MOVF	r0x01, W
 	MOVWF	POSTDEC1
 	MOVLW	0x01
@@ -894,7 +897,7 @@ _set_drives_LR:
 	CALL	_pwm_write
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	590; firmware.c	pwm_write(LEFT_DRIVE_PORT1, -leftPower);
+;	.line	599; firmware.c	pwm_write(LEFT_DRIVE_PORT1, -leftPower);
 	NEGF	r0x00
 	MOVF	r0x00, W
 	MOVWF	POSTDEC1
@@ -903,7 +906,7 @@ _set_drives_LR:
 	CALL	_pwm_write
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	591; firmware.c	pwm_write(RIGHT_DRIVE_PORT2, rightPower);
+;	.line	600; firmware.c	pwm_write(RIGHT_DRIVE_PORT2, rightPower);
 	MOVF	r0x01, W
 	MOVWF	POSTDEC1
 	MOVLW	0x03
@@ -911,7 +914,7 @@ _set_drives_LR:
 	CALL	_pwm_write
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	592; firmware.c	pwm_write(LEFT_DRIVE_PORT2, -leftPower);
+;	.line	601; firmware.c	pwm_write(LEFT_DRIVE_PORT2, -leftPower);
 	MOVF	r0x00, W
 	MOVWF	POSTDEC1
 	MOVLW	0x04
@@ -927,14 +930,14 @@ _set_drives_LR:
 ; ; Starting pCode block
 S_firmware__bump_front	code
 _bump_front:
-;	.line	570; firmware.c	void bump_front()
+;	.line	579; firmware.c	void bump_front()
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
 	MOVFF	r0x02, POSTDEC1
 	MOVFF	r0x03, POSTDEC1
-;	.line	573; firmware.c	set_drives_LR(-AUTON_DRIVE_SPEED,-AUTON_DRIVE_SPEED);
+;	.line	582; firmware.c	set_drives_LR(-AUTON_DRIVE_SPEED,-AUTON_DRIVE_SPEED);
 	MOVLW	0xba
 	MOVWF	POSTDEC1
 	MOVLW	0xba
@@ -942,12 +945,12 @@ _bump_front:
 	CALL	_set_drives_LR
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	574; firmware.c	controller_submit_data(WAIT);
+;	.line	583; firmware.c	controller_submit_data(WAIT);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	CALL	_controller_submit_data
 	INCF	FSR1L, F
-;	.line	575; firmware.c	delay_msec(500);
+;	.line	584; firmware.c	delay_msec(500);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	MOVLW	0xf4
@@ -955,7 +958,7 @@ _bump_front:
 	CALL	_delay_msec
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	578; firmware.c	set_drives_LR(-AUTON_DRIVE_SPEED,AUTON_DRIVE_SPEED);
+;	.line	587; firmware.c	set_drives_LR(-AUTON_DRIVE_SPEED,AUTON_DRIVE_SPEED);
 	MOVLW	0x46
 	MOVWF	POSTDEC1
 	MOVLW	0xba
@@ -963,12 +966,12 @@ _bump_front:
 	CALL	_set_drives_LR
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	579; firmware.c	controller_submit_data(WAIT);
+;	.line	588; firmware.c	controller_submit_data(WAIT);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	CALL	_controller_submit_data
 	INCF	FSR1L, F
-;	.line	580; firmware.c	delay_msec(2700);
+;	.line	589; firmware.c	delay_msec(2700);
 	MOVLW	0x0a
 	MOVWF	POSTDEC1
 	MOVLW	0x8c
@@ -976,7 +979,7 @@ _bump_front:
 	CALL	_delay_msec
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	583; firmware.c	set_drives_LR(SPEED * DRIVE->left_multiplier, SPEED * DRIVE->right_multiplier);
+;	.line	592; firmware.c	set_drives_LR(SPEED * DRIVE->left_multiplier, SPEED * DRIVE->right_multiplier);
 	MOVFF	_DRIVE, r0x00
 	MOVFF	(_DRIVE + 1), r0x01
 	MOVFF	(_DRIVE + 2), r0x02
@@ -1017,7 +1020,7 @@ _bump_front:
 	CALL	_set_drives_LR
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	584; firmware.c	controller_submit_data(WAIT);
+;	.line	593; firmware.c	controller_submit_data(WAIT);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	CALL	_controller_submit_data
@@ -1032,14 +1035,14 @@ _bump_front:
 ; ; Starting pCode block
 S_firmware__bump_front_right	code
 _bump_front_right:
-;	.line	552; firmware.c	void bump_front_right()
+;	.line	561; firmware.c	void bump_front_right()
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
 	MOVFF	r0x02, POSTDEC1
 	MOVFF	r0x03, POSTDEC1
-;	.line	555; firmware.c	set_drives_LR(-AUTON_DRIVE_SPEED,-AUTON_DRIVE_SPEED);
+;	.line	564; firmware.c	set_drives_LR(-AUTON_DRIVE_SPEED,-AUTON_DRIVE_SPEED);
 	MOVLW	0xba
 	MOVWF	POSTDEC1
 	MOVLW	0xba
@@ -1047,12 +1050,12 @@ _bump_front_right:
 	CALL	_set_drives_LR
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	556; firmware.c	controller_submit_data(WAIT);
+;	.line	565; firmware.c	controller_submit_data(WAIT);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	CALL	_controller_submit_data
 	INCF	FSR1L, F
-;	.line	557; firmware.c	delay_msec(500);
+;	.line	566; firmware.c	delay_msec(500);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	MOVLW	0xf4
@@ -1060,7 +1063,7 @@ _bump_front_right:
 	CALL	_delay_msec
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	560; firmware.c	set_drives_LR(-AUTON_DRIVE_SPEED,AUTON_DRIVE_SPEED);
+;	.line	569; firmware.c	set_drives_LR(-AUTON_DRIVE_SPEED,AUTON_DRIVE_SPEED);
 	MOVLW	0x46
 	MOVWF	POSTDEC1
 	MOVLW	0xba
@@ -1068,12 +1071,12 @@ _bump_front_right:
 	CALL	_set_drives_LR
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	561; firmware.c	controller_submit_data(WAIT);
+;	.line	570; firmware.c	controller_submit_data(WAIT);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	CALL	_controller_submit_data
 	INCF	FSR1L, F
-;	.line	562; firmware.c	delay_msec(500);
+;	.line	571; firmware.c	delay_msec(500);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	MOVLW	0xf4
@@ -1081,7 +1084,7 @@ _bump_front_right:
 	CALL	_delay_msec
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	565; firmware.c	set_drives_LR(SPEED * DRIVE->left_multiplier, SPEED * DRIVE->right_multiplier);
+;	.line	574; firmware.c	set_drives_LR(SPEED * DRIVE->left_multiplier, SPEED * DRIVE->right_multiplier);
 	MOVFF	_DRIVE, r0x00
 	MOVFF	(_DRIVE + 1), r0x01
 	MOVFF	(_DRIVE + 2), r0x02
@@ -1122,7 +1125,7 @@ _bump_front_right:
 	CALL	_set_drives_LR
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	566; firmware.c	controller_submit_data(WAIT);
+;	.line	575; firmware.c	controller_submit_data(WAIT);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	CALL	_controller_submit_data
@@ -1137,14 +1140,14 @@ _bump_front_right:
 ; ; Starting pCode block
 S_firmware__bump_front_left	code
 _bump_front_left:
-;	.line	533; firmware.c	void bump_front_left()
+;	.line	542; firmware.c	void bump_front_left()
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
 	MOVFF	r0x02, POSTDEC1
 	MOVFF	r0x03, POSTDEC1
-;	.line	536; firmware.c	set_drives_LR(-AUTON_DRIVE_SPEED,-AUTON_DRIVE_SPEED);
+;	.line	545; firmware.c	set_drives_LR(-AUTON_DRIVE_SPEED,-AUTON_DRIVE_SPEED);
 	MOVLW	0xba
 	MOVWF	POSTDEC1
 	MOVLW	0xba
@@ -1152,12 +1155,12 @@ _bump_front_left:
 	CALL	_set_drives_LR
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	537; firmware.c	controller_submit_data(WAIT);
+;	.line	546; firmware.c	controller_submit_data(WAIT);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	CALL	_controller_submit_data
 	INCF	FSR1L, F
-;	.line	538; firmware.c	delay_msec(500);
+;	.line	547; firmware.c	delay_msec(500);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	MOVLW	0xf4
@@ -1165,7 +1168,7 @@ _bump_front_left:
 	CALL	_delay_msec
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	541; firmware.c	set_drives_LR(AUTON_DRIVE_SPEED,-AUTON_DRIVE_SPEED);
+;	.line	550; firmware.c	set_drives_LR(AUTON_DRIVE_SPEED,-AUTON_DRIVE_SPEED);
 	MOVLW	0xba
 	MOVWF	POSTDEC1
 	MOVLW	0x46
@@ -1173,12 +1176,12 @@ _bump_front_left:
 	CALL	_set_drives_LR
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	542; firmware.c	controller_submit_data(WAIT);
+;	.line	551; firmware.c	controller_submit_data(WAIT);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	CALL	_controller_submit_data
 	INCF	FSR1L, F
-;	.line	543; firmware.c	delay_msec(500);
+;	.line	552; firmware.c	delay_msec(500);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	MOVLW	0xf4
@@ -1186,7 +1189,7 @@ _bump_front_left:
 	CALL	_delay_msec
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	546; firmware.c	set_drives_LR(SPEED * DRIVE->left_multiplier, SPEED * DRIVE->right_multiplier);
+;	.line	555; firmware.c	set_drives_LR(SPEED * DRIVE->left_multiplier, SPEED * DRIVE->right_multiplier);
 	MOVFF	_DRIVE, r0x00
 	MOVFF	(_DRIVE + 1), r0x01
 	MOVFF	(_DRIVE + 2), r0x02
@@ -1227,12 +1230,12 @@ _bump_front_left:
 	CALL	_set_drives_LR
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	547; firmware.c	controller_submit_data(WAIT);
+;	.line	556; firmware.c	controller_submit_data(WAIT);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	CALL	_controller_submit_data
 	INCF	FSR1L, F
-;	.line	548; firmware.c	delay_msec(100);
+;	.line	557; firmware.c	delay_msec(100);
 	MOVLW	0x00
 	MOVWF	POSTDEC1
 	MOVLW	0x64
@@ -1250,32 +1253,32 @@ _bump_front_left:
 ; ; Starting pCode block
 S_firmware__heartbeat	code
 _heartbeat:
-;	.line	517; firmware.c	void heartbeat(void)
+;	.line	526; firmware.c	void heartbeat(void)
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
-;	.line	521; firmware.c	dat = RCREG;
+;	.line	530; firmware.c	dat = RCREG;
 	MOVFF	_RCREG, r0x00
-;	.line	522; firmware.c	if(dat == 'p')
+;	.line	531; firmware.c	if(dat == 'p')
 	MOVF	r0x00, W
 	XORLW	0x70
-	BNZ	_00437_DS_
-;	.line	524; firmware.c	printf("Hello, World!\n");
-	MOVLW	UPPER(__str_23)
+	BNZ	_00448_DS_
+;	.line	533; firmware.c	printf("Hello, World!\n");
+	MOVLW	UPPER(__str_19)
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(__str_23)
+	MOVLW	HIGH(__str_19)
 	MOVWF	POSTDEC1
-	MOVLW	LOW(__str_23)
+	MOVLW	LOW(__str_19)
 	MOVWF	POSTDEC1
 	CALL	_printf
 	MOVLW	0x03
 	ADDWF	FSR1L, F
-;	.line	525; firmware.c	controller_submit_data(NO_WAIT);
+;	.line	534; firmware.c	controller_submit_data(NO_WAIT);
 	MOVLW	0x00
 	MOVWF	POSTDEC1
 	CALL	_controller_submit_data
 	INCF	FSR1L, F
-_00437_DS_:
+_00448_DS_:
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
 	RETURN	
@@ -1283,7 +1286,7 @@ _00437_DS_:
 ; ; Starting pCode block
 S_firmware__serial_control	code
 _serial_control:
-;	.line	422; firmware.c	void serial_control(void)
+;	.line	423; firmware.c	void serial_control(void)
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
@@ -1291,99 +1294,104 @@ _serial_control:
 	MOVFF	r0x02, POSTDEC1
 	MOVFF	r0x03, POSTDEC1
 	MOVFF	r0x04, POSTDEC1
-;	.line	426; firmware.c	if(usart_data_available())
+;	.line	427; firmware.c	if(usart_data_available())
 	CALL	_usart_data_available
 	MOVWF	r0x00
 	MOVF	r0x00, W
-	BZ	_00283_DS_
-;	.line	427; firmware.c	command_byte = usart_get_byte();
+	BZ	_00286_DS_
+;	.line	428; firmware.c	command_byte = usart_get_byte();
 	CALL	_usart_get_byte
 	MOVWF	r0x00
-	BRA	_00284_DS_
-_00283_DS_:
-;	.line	428; firmware.c	else return;
-	GOTO	_00343_DS_
-_00284_DS_:
-;	.line	430; firmware.c	switch(command_byte)
+	BRA	_00287_DS_
+_00286_DS_:
+;	.line	429; firmware.c	else return;
+	GOTO	_00350_DS_
+_00287_DS_:
+;	.line	431; firmware.c	switch(command_byte)
 	MOVF	r0x00, W
 	XORLW	0x2b
-	BNZ	_00390_DS_
-	BRA	_00294_DS_
-_00390_DS_:
+	BNZ	_00399_DS_
+	BRA	_00297_DS_
+_00399_DS_:
 	MOVF	r0x00, W
 	XORLW	0x2d
-	BNZ	_00392_DS_
-	BRA	_00297_DS_
-_00392_DS_:
+	BNZ	_00401_DS_
+	BRA	_00300_DS_
+_00401_DS_:
 	MOVF	r0x00, W
 	XORLW	0x30
-	BNZ	_00394_DS_
-	BRA	_00291_DS_
-_00394_DS_:
+	BNZ	_00403_DS_
+	BRA	_00294_DS_
+_00403_DS_:
 	MOVF	r0x00, W
 	XORLW	0x31
-	BNZ	_00396_DS_
-	BRA	_00290_DS_
-_00396_DS_:
+	BNZ	_00405_DS_
+	BRA	_00293_DS_
+_00405_DS_:
+	MOVF	r0x00, W
+	XORLW	0x44
+	BNZ	_00407_DS_
+	GOTO	_00319_DS_
+_00407_DS_:
 	MOVF	r0x00, W
 	XORLW	0x48
-	BNZ	_00398_DS_
-	BRA	_00370_DS_
-_00398_DS_:
+	BNZ	_00409_DS_
+	BRA	_00378_DS_
+_00409_DS_:
 	MOVF	r0x00, W
 	XORLW	0x53
-	BNZ	_00400_DS_
-	BRA	_00366_DS_
-_00400_DS_:
+	BNZ	_00411_DS_
+	BRA	_00374_DS_
+_00411_DS_:
 	MOVF	r0x00, W
 	XORLW	0x5a
-	BNZ	_00402_DS_
-	BRA	_00293_DS_
-_00402_DS_:
+	BNZ	_00413_DS_
+	BRA	_00296_DS_
+_00413_DS_:
 	MOVF	r0x00, W
 	XORLW	0x61
-	BNZ	_00404_DS_
-	BRA	_00287_DS_
-_00404_DS_:
+	BNZ	_00415_DS_
+	BRA	_00290_DS_
+_00415_DS_:
 	MOVF	r0x00, W
 	XORLW	0x62
-	BNZ	_00406_DS_
-	BRA	_00289_DS_
-_00406_DS_:
+	BNZ	_00417_DS_
+	BRA	_00292_DS_
+_00417_DS_:
 	MOVF	r0x00, W
 	XORLW	0x64
-	BNZ	_00408_DS_
-	BRA	_00288_DS_
-_00408_DS_:
+	BNZ	_00419_DS_
+	BRA	_00291_DS_
+_00419_DS_:
 	MOVF	r0x00, W
 	XORLW	0x68
-	BNZ	_00410_DS_
-	BRA	_00309_DS_
-_00410_DS_:
+	BNZ	_00421_DS_
+	BRA	_00312_DS_
+_00421_DS_:
 	MOVF	r0x00, W
 	XORLW	0x6c
-	BNZ	_00412_DS_
-	BRA	_00378_DS_
-_00412_DS_:
+	BNZ	_00423_DS_
+	BRA	_00386_DS_
+_00423_DS_:
 	MOVF	r0x00, W
 	XORLW	0x72
-	BNZ	_00414_DS_
-	BRA	_00382_DS_
-_00414_DS_:
+	BNZ	_00425_DS_
+	BRA	_00390_DS_
+_00425_DS_:
 	MOVF	r0x00, W
 	XORLW	0x73
-	BZ	_00286_DS_
+	BZ	_00289_DS_
 	MOVF	r0x00, W
 	XORLW	0x77
-	BZ	_00285_DS_
+	BZ	_00288_DS_
 	MOVF	r0x00, W
 	XORLW	0x7a
-	BNZ	_00420_DS_
-	BRA	_00292_DS_
-_00420_DS_:
-	GOTO	_00343_DS_
-_00285_DS_:
-;	.line	433; firmware.c	DRIVE = &forward;   usart_puts("w\n");
+	BNZ	_00431_DS_
+	BRA	_00295_DS_
+_00431_DS_:
+	GOTO	_00350_DS_
+_00288_DS_:
+;	.line	435; firmware.c	DRIVE = &forward;   putchar('w'); //usart_puts("w\n");
 	MOVLW	HIGH(_forward)
 	BANKSEL	(_DRIVE + 1)
 	MOVWF	(_DRIVE + 1), B
@@ -1393,19 +1401,12 @@ _00285_DS_:
 	MOVLW	0x80
 	BANKSEL	(_DRIVE + 2)
 	MOVWF	(_DRIVE + 2), B
-	MOVLW	UPPER(__str_12)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(__str_12)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(__str_12)
-	MOVWF	POSTDEC1
-	CALL	_usart_puts
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	434; firmware.c	break;
-	BRA	_00343_DS_
-_00286_DS_:
-;	.line	436; firmware.c	DRIVE = &backward;  usart_puts("s\n");
+	MOVLW	0x77
+	CALL	_putchar
+;	.line	436; firmware.c	break;
+	BRA	_00350_DS_
+_00289_DS_:
+;	.line	438; firmware.c	DRIVE = &backward;  putchar('s'); //usart_puts("s\n");
 	MOVLW	HIGH(_backward)
 	BANKSEL	(_DRIVE + 1)
 	MOVWF	(_DRIVE + 1), B
@@ -1415,19 +1416,12 @@ _00286_DS_:
 	MOVLW	0x80
 	BANKSEL	(_DRIVE + 2)
 	MOVWF	(_DRIVE + 2), B
-	MOVLW	UPPER(__str_13)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(__str_13)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(__str_13)
-	MOVWF	POSTDEC1
-	CALL	_usart_puts
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	437; firmware.c	break;
-	BRA	_00343_DS_
-_00287_DS_:
-;	.line	439; firmware.c	DRIVE = &rotate_left;   usart_puts("a\n");
+	MOVLW	0x73
+	CALL	_putchar
+;	.line	439; firmware.c	break;
+	BRA	_00350_DS_
+_00290_DS_:
+;	.line	441; firmware.c	DRIVE = &rotate_left;   putchar('a'); //usart_puts("a\n");
 	MOVLW	HIGH(_rotate_left)
 	BANKSEL	(_DRIVE + 1)
 	MOVWF	(_DRIVE + 1), B
@@ -1437,19 +1431,12 @@ _00287_DS_:
 	MOVLW	0x80
 	BANKSEL	(_DRIVE + 2)
 	MOVWF	(_DRIVE + 2), B
-	MOVLW	UPPER(__str_14)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(__str_14)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(__str_14)
-	MOVWF	POSTDEC1
-	CALL	_usart_puts
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	440; firmware.c	break;
-	BRA	_00343_DS_
-_00288_DS_:
-;	.line	442; firmware.c	DRIVE = &rotate_right;   usart_puts("d\n");
+	MOVLW	0x61
+	CALL	_putchar
+;	.line	442; firmware.c	break;
+	BRA	_00350_DS_
+_00291_DS_:
+;	.line	444; firmware.c	DRIVE = &rotate_right;   putchar('d'); //usart_puts("d\n");
 	MOVLW	HIGH(_rotate_right)
 	BANKSEL	(_DRIVE + 1)
 	MOVWF	(_DRIVE + 1), B
@@ -1459,19 +1446,12 @@ _00288_DS_:
 	MOVLW	0x80
 	BANKSEL	(_DRIVE + 2)
 	MOVWF	(_DRIVE + 2), B
-	MOVLW	UPPER(__str_15)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(__str_15)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(__str_15)
-	MOVWF	POSTDEC1
-	CALL	_usart_puts
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	443; firmware.c	break;
-	BRA	_00343_DS_
-_00289_DS_:
-;	.line	445; firmware.c	DRIVE = &halt;  usart_puts("b\n");
+	MOVLW	0x64
+	CALL	_putchar
+;	.line	445; firmware.c	break;
+	BRA	_00350_DS_
+_00292_DS_:
+;	.line	447; firmware.c	DRIVE = &halt;  putchar('b'); //usart_puts("b\n");
 	MOVLW	HIGH(_halt)
 	BANKSEL	(_DRIVE + 1)
 	MOVWF	(_DRIVE + 1), B
@@ -1481,68 +1461,61 @@ _00289_DS_:
 	MOVLW	0x80
 	BANKSEL	(_DRIVE + 2)
 	MOVWF	(_DRIVE + 2), B
-	MOVLW	UPPER(__str_16)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(__str_16)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(__str_16)
-	MOVWF	POSTDEC1
-	CALL	_usart_puts
-	MOVLW	0x03
-	ADDWF	FSR1L, F
-;	.line	446; firmware.c	break;
-	BRA	_00343_DS_
-_00290_DS_:
-;	.line	448; firmware.c	controller_end_autonomous_mode();
+	MOVLW	0x62
+	CALL	_putchar
+;	.line	448; firmware.c	break;
+	BRA	_00350_DS_
+_00293_DS_:
+;	.line	450; firmware.c	controller_end_autonomous_mode();
 	CALL	_controller_end_autonomous_mode
-;	.line	449; firmware.c	usart_puts("Radio control\n");
-	MOVLW	UPPER(__str_17)
+;	.line	451; firmware.c	usart_puts("rc");
+	MOVLW	UPPER(__str_11)
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(__str_17)
+	MOVLW	HIGH(__str_11)
 	MOVWF	POSTDEC1
-	MOVLW	LOW(__str_17)
+	MOVLW	LOW(__str_11)
 	MOVWF	POSTDEC1
 	CALL	_usart_puts
 	MOVLW	0x03
 	ADDWF	FSR1L, F
-;	.line	450; firmware.c	break;
-	BRA	_00343_DS_
-_00291_DS_:
-;	.line	452; firmware.c	controller_begin_autonomous_mode();
+;	.line	452; firmware.c	break;
+	BRA	_00350_DS_
+_00294_DS_:
+;	.line	454; firmware.c	controller_begin_autonomous_mode();
 	CALL	_controller_begin_autonomous_mode
-;	.line	453; firmware.c	usart_puts("Serial control\n");
-	MOVLW	UPPER(__str_18)
+;	.line	455; firmware.c	usart_puts("sc");
+	MOVLW	UPPER(__str_12)
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(__str_18)
+	MOVLW	HIGH(__str_12)
 	MOVWF	POSTDEC1
-	MOVLW	LOW(__str_18)
+	MOVLW	LOW(__str_12)
 	MOVWF	POSTDEC1
 	CALL	_usart_puts
 	MOVLW	0x03
 	ADDWF	FSR1L, F
-;	.line	454; firmware.c	break;
-	BRA	_00343_DS_
-_00292_DS_:
+;	.line	456; firmware.c	break;
+	BRA	_00350_DS_
+_00295_DS_:
 	BANKSEL	_SPEED
-;	.line	456; firmware.c	SPEED = 000;    printf("S%d",SPEED);
+;	.line	458; firmware.c	SPEED = 000;    printf("S%d",SPEED);
 	CLRF	_SPEED, B
 	MOVLW	0x00
 	MOVWF	POSTDEC1
 	MOVLW	0x00
 	MOVWF	POSTDEC1
-	MOVLW	UPPER(__str_19)
+	MOVLW	UPPER(__str_13)
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(__str_19)
+	MOVLW	HIGH(__str_13)
 	MOVWF	POSTDEC1
-	MOVLW	LOW(__str_19)
+	MOVLW	LOW(__str_13)
 	MOVWF	POSTDEC1
 	CALL	_printf
 	MOVLW	0x05
 	ADDWF	FSR1L, F
-;	.line	457; firmware.c	break;
-	BRA	_00343_DS_
-_00293_DS_:
-;	.line	459; firmware.c	SPEED = 127;    printf("S%d",SPEED);
+;	.line	459; firmware.c	break;
+	BRA	_00350_DS_
+_00296_DS_:
+;	.line	461; firmware.c	SPEED = 127;    printf("S%d",SPEED);
 	MOVLW	0x7f
 	BANKSEL	_SPEED
 	MOVWF	_SPEED, B
@@ -1550,32 +1523,32 @@ _00293_DS_:
 	MOVWF	POSTDEC1
 	MOVLW	0x7f
 	MOVWF	POSTDEC1
-	MOVLW	UPPER(__str_19)
+	MOVLW	UPPER(__str_13)
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(__str_19)
+	MOVLW	HIGH(__str_13)
 	MOVWF	POSTDEC1
-	MOVLW	LOW(__str_19)
+	MOVLW	LOW(__str_13)
 	MOVWF	POSTDEC1
 	CALL	_printf
 	MOVLW	0x05
 	ADDWF	FSR1L, F
-;	.line	460; firmware.c	break;
-	BRA	_00343_DS_
-_00294_DS_:
-;	.line	462; firmware.c	SPEED += 5;
+;	.line	462; firmware.c	break;
+	BRA	_00350_DS_
+_00297_DS_:
+;	.line	464; firmware.c	SPEED += 5;
 	MOVLW	0x05
 	BANKSEL	_SPEED
 	ADDWF	_SPEED, F, B
-;	.line	463; firmware.c	if(SPEED < 0) SPEED = 127;  printf("S%d",SPEED);
+;	.line	465; firmware.c	if(SPEED < 0) SPEED = 127;  printf("S%d",SPEED);
 	BSF	STATUS, 0
 	BANKSEL	_SPEED
 	BTFSS	_SPEED, 7, B
 	BCF	STATUS, 0
-	BNC	_00296_DS_
+	BNC	_00299_DS_
 	MOVLW	0x7f
 	BANKSEL	_SPEED
 	MOVWF	_SPEED, B
-_00296_DS_:
+_00299_DS_:
 	MOVFF	_SPEED, r0x00
 	CLRF	r0x01
 	BANKSEL	_SPEED
@@ -1585,36 +1558,36 @@ _00296_DS_:
 	MOVWF	POSTDEC1
 	MOVF	r0x00, W
 	MOVWF	POSTDEC1
-	MOVLW	UPPER(__str_19)
+	MOVLW	UPPER(__str_13)
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(__str_19)
+	MOVLW	HIGH(__str_13)
 	MOVWF	POSTDEC1
-	MOVLW	LOW(__str_19)
+	MOVLW	LOW(__str_13)
 	MOVWF	POSTDEC1
 	CALL	_printf
 	MOVLW	0x05
 	ADDWF	FSR1L, F
-;	.line	464; firmware.c	break;
-	BRA	_00343_DS_
-_00297_DS_:
-;	.line	466; firmware.c	SPEED -= 5;
+;	.line	466; firmware.c	break;
+	BRA	_00350_DS_
+_00300_DS_:
+;	.line	468; firmware.c	SPEED -= 5;
 	MOVLW	0xfb
 	BANKSEL	_SPEED
 	ADDWF	_SPEED, F, B
-;	.line	467; firmware.c	if(SPEED < 0) SPEED = 0;    printf("S%d",SPEED);
+;	.line	469; firmware.c	if(SPEED < 0) SPEED = 0;    printf("S%d",SPEED);
 	BSF	STATUS, 0
 	BANKSEL	_SPEED
 	BTFSS	_SPEED, 7, B
 ; #	BCF	STATUS, 0
 ; #	BTFSS	STATUS, 0
-; #	GOTO	_00299_DS_
+; #	GOTO	_00302_DS_
 ; #	CLRF	_SPEED, B
 ; #	MOVFF	_SPEED, r0x00
 	BCF	STATUS, 0
-	BNC	_10466_DS_
+	BNC	_10477_DS_
 	BANKSEL	_SPEED
 	CLRF	_SPEED, B
-_10466_DS_:
+_10477_DS_:
 	MOVFF	_SPEED, r0x00
 	CLRF	r0x01
 	BANKSEL	_SPEED
@@ -1624,54 +1597,54 @@ _10466_DS_:
 	MOVWF	POSTDEC1
 	MOVF	r0x00, W
 	MOVWF	POSTDEC1
-	MOVLW	UPPER(__str_19)
+	MOVLW	UPPER(__str_13)
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(__str_19)
+	MOVLW	HIGH(__str_13)
 	MOVWF	POSTDEC1
-	MOVLW	LOW(__str_19)
+	MOVLW	LOW(__str_13)
 	MOVWF	POSTDEC1
 	CALL	_printf
 	MOVLW	0x05
 	ADDWF	FSR1L, F
-;	.line	468; firmware.c	break;
-	BRA	_00343_DS_
-_00366_DS_:
-;	.line	471; firmware.c	for(j=0;!usart_data_available() && j<0x7FFE;j++);
+;	.line	470; firmware.c	break;
+	BRA	_00350_DS_
+_00374_DS_:
+;	.line	473; firmware.c	for(j=0;!usart_data_available() && j<0x7FFE;j++);
 	CLRF	r0x00
 	CLRF	r0x01
-_00319_DS_:
+_00326_DS_:
 	CALL	_usart_data_available
 	MOVWF	r0x02
 	MOVF	r0x02, W
-	BNZ	_00322_DS_
+	BNZ	_00329_DS_
 	MOVF	r0x01, W
 	ADDLW	0x80
 	ADDLW	0x01
-	BNZ	_00421_DS_
+	BNZ	_00432_DS_
 	MOVLW	0xfe
 	SUBWF	r0x00, W
-_00421_DS_:
-	BC	_00322_DS_
+_00432_DS_:
+	BC	_00329_DS_
 	INCF	r0x00, F
 	BTFSC	STATUS, 0
 	INCF	r0x01, F
-	BRA	_00319_DS_
-_00322_DS_:
-;	.line	472; firmware.c	if(j>=0x7FFE)
+	BRA	_00326_DS_
+_00329_DS_:
+;	.line	474; firmware.c	if(j<=0x7FFE)
 	MOVF	r0x01, W
 	ADDLW	0x80
 	ADDLW	0x01
-	BNZ	_00422_DS_
-	MOVLW	0xfe
+	BNZ	_00433_DS_
+	MOVLW	0xff
 	SUBWF	r0x00, W
-_00422_DS_:
-	BNC	_00302_DS_
-;	.line	473; firmware.c	SPEED = usart_get_byte();
+_00433_DS_:
+	BC	_00305_DS_
+;	.line	475; firmware.c	SPEED = usart_get_byte();
 	CALL	_usart_get_byte
 	BANKSEL	_SPEED
 	MOVWF	_SPEED, B
-_00302_DS_:
-;	.line	474; firmware.c	printf("S%d",SPEED);
+_00305_DS_:
+;	.line	476; firmware.c	printf("S%d",SPEED);
 	MOVFF	_SPEED, r0x00
 	CLRF	r0x01
 	BANKSEL	_SPEED
@@ -1681,93 +1654,93 @@ _00302_DS_:
 	MOVWF	POSTDEC1
 	MOVF	r0x00, W
 	MOVWF	POSTDEC1
-	MOVLW	UPPER(__str_19)
+	MOVLW	UPPER(__str_13)
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(__str_19)
+	MOVLW	HIGH(__str_13)
 	MOVWF	POSTDEC1
-	MOVLW	LOW(__str_19)
+	MOVLW	LOW(__str_13)
 	MOVWF	POSTDEC1
 	CALL	_printf
 	MOVLW	0x05
 	ADDWF	FSR1L, F
-;	.line	475; firmware.c	break;
-	BRA	_00343_DS_
-_00370_DS_:
-;	.line	478; firmware.c	for(j=0;!usart_data_available() && j<0x7FFE;j++);
+;	.line	477; firmware.c	break;
+	BRA	_00350_DS_
+_00378_DS_:
+;	.line	480; firmware.c	for(j=0;!usart_data_available() && j<0x7FFE;j++);
 	CLRF	r0x00
 	CLRF	r0x01
-_00324_DS_:
+_00331_DS_:
 	CALL	_usart_data_available
 	MOVWF	r0x02
 	MOVF	r0x02, W
-	BNZ	_00327_DS_
+	BNZ	_00334_DS_
 	MOVF	r0x01, W
 	ADDLW	0x80
 	ADDLW	0x01
-	BNZ	_00423_DS_
+	BNZ	_00434_DS_
 	MOVLW	0xfe
 	SUBWF	r0x00, W
-_00423_DS_:
-	BC	_00327_DS_
+_00434_DS_:
+	BC	_00334_DS_
 	INCF	r0x00, F
 	BTFSC	STATUS, 0
 	INCF	r0x01, F
-	BRA	_00324_DS_
-_00327_DS_:
-;	.line	479; firmware.c	if(j<0x7FFE)
+	BRA	_00331_DS_
+_00334_DS_:
+;	.line	481; firmware.c	if(j<0x7FFE)
 	MOVF	r0x01, W
 	ADDLW	0x80
 	ADDLW	0x01
-	BNZ	_00424_DS_
+	BNZ	_00435_DS_
 	MOVLW	0xfe
 	SUBWF	r0x00, W
-_00424_DS_:
+_00435_DS_:
 	BTFSC	STATUS, 0
-	BRA	_00343_DS_
-;	.line	480; firmware.c	k = usart_getc();
+	BRA	_00350_DS_
+;	.line	482; firmware.c	k = usart_getc();
 	CALL	_usart_getc
 	MOVWF	r0x00
 	CLRF	r0x01
-;	.line	483; firmware.c	for(j=0;!usart_data_available() && j<0x7FFE;j++);
+;	.line	485; firmware.c	for(j=0;!usart_data_available() && j<0x7FFE;j++);
 	CLRF	r0x02
 	CLRF	r0x03
-_00329_DS_:
+_00336_DS_:
 	CALL	_usart_data_available
 	MOVWF	r0x04
 	MOVF	r0x04, W
-	BNZ	_00332_DS_
+	BNZ	_00339_DS_
 	MOVF	r0x03, W
 	ADDLW	0x80
 	ADDLW	0x01
-	BNZ	_00425_DS_
+	BNZ	_00436_DS_
 	MOVLW	0xfe
 	SUBWF	r0x02, W
-_00425_DS_:
-	BC	_00332_DS_
+_00436_DS_:
+	BC	_00339_DS_
 	INCF	r0x02, F
 	BTFSC	STATUS, 0
 	INCF	r0x03, F
-	BRA	_00329_DS_
-_00332_DS_:
-;	.line	484; firmware.c	if(j<0x7FFE)
+	BRA	_00336_DS_
+_00339_DS_:
+;	.line	486; firmware.c	if(j<0x7FFE)
 	MOVF	r0x03, W
 	ADDLW	0x80
 	ADDLW	0x01
-	BNZ	_00426_DS_
+	BNZ	_00437_DS_
 	MOVLW	0xfe
 	SUBWF	r0x02, W
-_00426_DS_:
+_00437_DS_:
 	BTFSC	STATUS, 0
-	BRA	_00343_DS_
-;	.line	486; firmware.c	RIGHT_SPEED = usart_getc();
+	BRA	_00350_DS_
+;	.line	488; firmware.c	RIGHT_SPEED = usart_getc();
 	CALL	_usart_getc
 	BANKSEL	_RIGHT_SPEED
 	MOVWF	_RIGHT_SPEED, B
-;	.line	487; firmware.c	LEFT_SPEED = k;
+;	.line	489; firmware.c	LEFT_SPEED = k;
 	MOVF	r0x00, W
 	BANKSEL	_LEFT_SPEED
 	MOVWF	_LEFT_SPEED, B
-;	.line	488; firmware.c	printf("H%c%c\n",LEFT_SPEED,RIGHT_SPEED);
+;	.line	490; firmware.c	printf("H%c%c",LEFT_SPEED,RIGHT_SPEED);
 	MOVFF	_RIGHT_SPEED, r0x00
 	CLRF	r0x01
 	BANKSEL	_RIGHT_SPEED
@@ -1786,16 +1759,16 @@ _00426_DS_:
 	MOVWF	POSTDEC1
 	MOVF	r0x02, W
 	MOVWF	POSTDEC1
-	MOVLW	UPPER(__str_20)
+	MOVLW	UPPER(__str_14)
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(__str_20)
+	MOVLW	HIGH(__str_14)
 	MOVWF	POSTDEC1
-	MOVLW	LOW(__str_20)
+	MOVLW	LOW(__str_14)
 	MOVWF	POSTDEC1
 	CALL	_printf
 	MOVLW	0x07
 	ADDWF	FSR1L, F
-;	.line	489; firmware.c	DRIVE = &differential;
+;	.line	491; firmware.c	DRIVE = &differential;
 	MOVLW	HIGH(_differential)
 	BANKSEL	(_DRIVE + 1)
 	MOVWF	(_DRIVE + 1), B
@@ -1805,10 +1778,10 @@ _00426_DS_:
 	MOVLW	0x80
 	BANKSEL	(_DRIVE + 2)
 	MOVWF	(_DRIVE + 2), B
-;	.line	491; firmware.c	break;
-	BRA	_00343_DS_
-_00309_DS_:
-;	.line	494; firmware.c	DRIVE = &differential;
+;	.line	493; firmware.c	break;
+	BRA	_00350_DS_
+_00312_DS_:
+;	.line	496; firmware.c	DRIVE = &differential;
 	MOVLW	HIGH(_differential)
 	BANKSEL	(_DRIVE + 1)
 	MOVWF	(_DRIVE + 1), B
@@ -1818,45 +1791,48 @@ _00309_DS_:
 	MOVLW	0x80
 	BANKSEL	(_DRIVE + 2)
 	MOVWF	(_DRIVE + 2), B
-;	.line	495; firmware.c	break;
-	BRA	_00343_DS_
-_00378_DS_:
-;	.line	498; firmware.c	for(j=0;!usart_data_available() && j<0x7FFE;j++);
+;	.line	497; firmware.c	putchar('h');
+	MOVLW	0x68
+	CALL	_putchar
+;	.line	498; firmware.c	break;
+	BRA	_00350_DS_
+_00386_DS_:
+;	.line	501; firmware.c	for(j=0;!usart_data_available() && j<0x7FFE;j++);
 	CLRF	r0x00
 	CLRF	r0x01
-_00334_DS_:
+_00341_DS_:
 	CALL	_usart_data_available
 	MOVWF	r0x02
 	MOVF	r0x02, W
-	BNZ	_00337_DS_
+	BNZ	_00344_DS_
 	MOVF	r0x01, W
 	ADDLW	0x80
 	ADDLW	0x01
-	BNZ	_00427_DS_
+	BNZ	_00438_DS_
 	MOVLW	0xfe
 	SUBWF	r0x00, W
-_00427_DS_:
-	BC	_00337_DS_
+_00438_DS_:
+	BC	_00344_DS_
 	INCF	r0x00, F
 	BTFSC	STATUS, 0
 	INCF	r0x01, F
-	BRA	_00334_DS_
-_00337_DS_:
-;	.line	499; firmware.c	if(j<0x7FFE)
+	BRA	_00341_DS_
+_00344_DS_:
+;	.line	502; firmware.c	if(j<0x7FFE)
 	MOVF	r0x01, W
 	ADDLW	0x80
 	ADDLW	0x01
-	BNZ	_00428_DS_
+	BNZ	_00439_DS_
 	MOVLW	0xfe
 	SUBWF	r0x00, W
-_00428_DS_:
-	BC	_00312_DS_
-;	.line	500; firmware.c	LEFT_SPEED = usart_getc();
+_00439_DS_:
+	BC	_00315_DS_
+;	.line	503; firmware.c	LEFT_SPEED = usart_getc();
 	CALL	_usart_getc
 	BANKSEL	_LEFT_SPEED
 	MOVWF	_LEFT_SPEED, B
-_00312_DS_:
-;	.line	501; firmware.c	printf("l%c",LEFT_SPEED);
+_00315_DS_:
+;	.line	504; firmware.c	printf("l%c",LEFT_SPEED);
 	MOVFF	_LEFT_SPEED, r0x00
 	CLRF	r0x01
 	BANKSEL	_LEFT_SPEED
@@ -1866,54 +1842,54 @@ _00312_DS_:
 	MOVWF	POSTDEC1
 	MOVF	r0x00, W
 	MOVWF	POSTDEC1
-	MOVLW	UPPER(__str_21)
+	MOVLW	UPPER(__str_15)
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(__str_21)
+	MOVLW	HIGH(__str_15)
 	MOVWF	POSTDEC1
-	MOVLW	LOW(__str_21)
+	MOVLW	LOW(__str_15)
 	MOVWF	POSTDEC1
 	CALL	_printf
 	MOVLW	0x05
 	ADDWF	FSR1L, F
-;	.line	502; firmware.c	break;
-	BRA	_00343_DS_
-_00382_DS_:
-;	.line	504; firmware.c	for(j=0;!usart_data_available() && j<0x7FFE;j++);
+;	.line	505; firmware.c	break;
+	BRA	_00350_DS_
+_00390_DS_:
+;	.line	507; firmware.c	for(j=0;!usart_data_available() && j<0x7FFE;j++);
 	CLRF	r0x00
 	CLRF	r0x01
-_00339_DS_:
+_00346_DS_:
 	CALL	_usart_data_available
 	MOVWF	r0x02
 	MOVF	r0x02, W
-	BNZ	_00342_DS_
+	BNZ	_00349_DS_
 	MOVF	r0x01, W
 	ADDLW	0x80
 	ADDLW	0x01
-	BNZ	_00429_DS_
+	BNZ	_00440_DS_
 	MOVLW	0xfe
 	SUBWF	r0x00, W
-_00429_DS_:
-	BC	_00342_DS_
+_00440_DS_:
+	BC	_00349_DS_
 	INCF	r0x00, F
 	BTFSC	STATUS, 0
 	INCF	r0x01, F
-	BRA	_00339_DS_
-_00342_DS_:
-;	.line	505; firmware.c	if(j<0x7FFE)
+	BRA	_00346_DS_
+_00349_DS_:
+;	.line	508; firmware.c	if(j<0x7FFE)
 	MOVF	r0x01, W
 	ADDLW	0x80
 	ADDLW	0x01
-	BNZ	_00430_DS_
+	BNZ	_00441_DS_
 	MOVLW	0xfe
 	SUBWF	r0x00, W
-_00430_DS_:
-	BC	_00315_DS_
-;	.line	506; firmware.c	RIGHT_SPEED = usart_getc();
+_00441_DS_:
+	BC	_00318_DS_
+;	.line	509; firmware.c	RIGHT_SPEED = usart_getc();
 	CALL	_usart_getc
 	BANKSEL	_RIGHT_SPEED
 	MOVWF	_RIGHT_SPEED, B
-_00315_DS_:
-;	.line	507; firmware.c	printf("r%c",RIGHT_SPEED);
+_00318_DS_:
+;	.line	510; firmware.c	printf("r%c",RIGHT_SPEED);
 	MOVFF	_RIGHT_SPEED, r0x00
 	CLRF	r0x01
 	BANKSEL	_RIGHT_SPEED
@@ -1923,17 +1899,44 @@ _00315_DS_:
 	MOVWF	POSTDEC1
 	MOVF	r0x00, W
 	MOVWF	POSTDEC1
-	MOVLW	UPPER(__str_22)
+	MOVLW	UPPER(__str_16)
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(__str_22)
+	MOVLW	HIGH(__str_16)
 	MOVWF	POSTDEC1
-	MOVLW	LOW(__str_22)
+	MOVLW	LOW(__str_16)
 	MOVWF	POSTDEC1
 	CALL	_printf
 	MOVLW	0x05
 	ADDWF	FSR1L, F
-_00343_DS_:
-;	.line	512; firmware.c	}
+_00319_DS_:
+	BANKSEL	_debugMode
+;	.line	513; firmware.c	if(debugMode)
+	MOVF	_debugMode, W, B
+	BZ	_00321_DS_
+;	.line	514; firmware.c	usart_puts("D1");
+	MOVLW	UPPER(__str_17)
+	MOVWF	POSTDEC1
+	MOVLW	HIGH(__str_17)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(__str_17)
+	MOVWF	POSTDEC1
+	CALL	_usart_puts
+	MOVLW	0x03
+	ADDWF	FSR1L, F
+	BRA	_00350_DS_
+_00321_DS_:
+;	.line	516; firmware.c	usart_puts("D0");
+	MOVLW	UPPER(__str_18)
+	MOVWF	POSTDEC1
+	MOVLW	HIGH(__str_18)
+	MOVWF	POSTDEC1
+	MOVLW	LOW(__str_18)
+	MOVWF	POSTDEC1
+	CALL	_usart_puts
+	MOVLW	0x03
+	ADDWF	FSR1L, F
+_00350_DS_:
+;	.line	521; firmware.c	}
 	MOVFF	PREINC1, r0x04
 	MOVFF	PREINC1, r0x03
 	MOVFF	PREINC1, r0x02
@@ -1945,11 +1948,11 @@ _00343_DS_:
 ; ; Starting pCode block
 S_firmware__usart_get_byte	code
 _usart_get_byte:
-;	.line	417; firmware.c	char usart_get_byte(void)
+;	.line	418; firmware.c	char usart_get_byte(void)
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
-;	.line	419; firmware.c	return RCREG;
+;	.line	420; firmware.c	return RCREG;
 	MOVFF	_RCREG, r0x00
 	MOVF	r0x00, W
 	MOVFF	PREINC1, r0x00
@@ -1959,21 +1962,21 @@ _usart_get_byte:
 ; ; Starting pCode block
 S_firmware__usart_get_byte_available	code
 _usart_get_byte_available:
-;	.line	408; firmware.c	char usart_get_byte_available(void)
+;	.line	409; firmware.c	char usart_get_byte_available(void)
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
-;	.line	410; firmware.c	if(PIR1bits.RCIF)
+;	.line	411; firmware.c	if(PIR1bits.RCIF)
 	BTFSS	_PIR1bits, 5
-	BRA	_00270_DS_
-;	.line	411; firmware.c	return RCREG;
+	BRA	_00273_DS_
+;	.line	412; firmware.c	return RCREG;
 	MOVFF	_RCREG, r0x00
 	MOVF	r0x00, W
-	BRA	_00272_DS_
-_00270_DS_:
-;	.line	413; firmware.c	return 0;
+	BRA	_00275_DS_
+_00273_DS_:
+;	.line	414; firmware.c	return 0;
 	CLRF	WREG
-_00272_DS_:
+_00275_DS_:
 	MOVFF	PREINC1, r0x00
 	MOVFF	PREINC1, FSR2L
 	RETURN	
@@ -1981,11 +1984,11 @@ _00272_DS_:
 ; ; Starting pCode block
 S_firmware__usart_data_available	code
 _usart_data_available:
-;	.line	402; firmware.c	char usart_data_available(void)
+;	.line	403; firmware.c	char usart_data_available(void)
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
-;	.line	404; firmware.c	return PIR1bits.RCIF;
+;	.line	405; firmware.c	return PIR1bits.RCIF;
 	CLRF	r0x00
 	BTFSC	_PIR1bits, 5
 	INCF	r0x00, F
@@ -1997,10 +2000,10 @@ _usart_data_available:
 ; ; Starting pCode block
 S_firmware__reset_usart	code
 _reset_usart:
-;	.line	396; firmware.c	void reset_usart()
+;	.line	397; firmware.c	void reset_usart()
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
-;	.line	398; firmware.c	PIR1bits.RCIF = 0;
+;	.line	399; firmware.c	PIR1bits.RCIF = 0;
 	BCF	_PIR1bits, 5
 	MOVFF	PREINC1, FSR2L
 	RETURN	
@@ -2008,23 +2011,23 @@ _reset_usart:
 ; ; Starting pCode block
 S_firmware__autonomous_routine0	code
 _autonomous_routine0:
-;	.line	353; firmware.c	void    autonomous_routine0(void)
+;	.line	354; firmware.c	void    autonomous_routine0(void)
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
 	MOVFF	r0x01, POSTDEC1
 	MOVFF	r0x02, POSTDEC1
-;	.line	356; firmware.c	DPRINTF("Starting autonomous routine...\n");
-	MOVLW	UPPER(__str_10)
+;	.line	357; firmware.c	DPRINTF("Starting autonomous routine...\n");
+	MOVLW	UPPER(__str_9)
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(__str_10)
+	MOVLW	HIGH(__str_9)
 	MOVWF	POSTDEC1
-	MOVLW	LOW(__str_10)
+	MOVLW	LOW(__str_9)
 	MOVWF	POSTDEC1
 	CALL	_printf
 	MOVLW	0x03
 	ADDWF	FSR1L, F
-;	.line	360; firmware.c	set_drives_LR(AUTON_DRIVE_SPEED,AUTON_DRIVE_SPEED);
+;	.line	361; firmware.c	set_drives_LR(AUTON_DRIVE_SPEED,AUTON_DRIVE_SPEED);
 	MOVLW	0x46
 	MOVWF	POSTDEC1
 	MOVLW	0x46
@@ -2032,15 +2035,15 @@ _autonomous_routine0:
 	CALL	_set_drives_LR
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	361; firmware.c	controller_submit_data(WAIT);
+;	.line	362; firmware.c	controller_submit_data(WAIT);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	CALL	_controller_submit_data
 	INCF	FSR1L, F
-;	.line	365; firmware.c	for(i=0; (rc_read_data(6) != -127) && (i < 400);i++)
+;	.line	366; firmware.c	for(i=0; (rc_read_data(6) != -127) && (i < 400);i++)
 	CLRF	r0x00
 	CLRF	r0x01
-_00242_DS_:
+_00245_DS_:
 	MOVLW	0x06
 	MOVWF	POSTDEC1
 	CALL	_rc_read_data
@@ -2048,16 +2051,16 @@ _00242_DS_:
 	INCF	FSR1L, F
 	MOVF	r0x02, W
 	XORLW	0x81
-	BZ	_00245_DS_
+	BZ	_00248_DS_
 	MOVF	r0x01, W
 	ADDLW	0x80
 	ADDLW	0x7f
-	BNZ	_00254_DS_
+	BNZ	_00257_DS_
 	MOVLW	0x90
 	SUBWF	r0x00, W
-_00254_DS_:
-	BC	_00245_DS_
-;	.line	367; firmware.c	delay_msec(50);
+_00257_DS_:
+	BC	_00248_DS_
+;	.line	368; firmware.c	delay_msec(50);
 	MOVLW	0x00
 	MOVWF	POSTDEC1
 	MOVLW	0x32
@@ -2065,14 +2068,14 @@ _00254_DS_:
 	CALL	_delay_msec
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	365; firmware.c	for(i=0; (rc_read_data(6) != -127) && (i < 400);i++)
+;	.line	366; firmware.c	for(i=0; (rc_read_data(6) != -127) && (i < 400);i++)
 	INCF	r0x00, F
 	BTFSC	STATUS, 0
 	INCF	r0x01, F
-	BRA	_00242_DS_
-_00245_DS_:
+	BRA	_00245_DS_
+_00248_DS_:
 	BANKSEL	_halt
-;	.line	388; firmware.c	set_drives_LR(halt.left_multiplier,halt.left_multiplier);
+;	.line	389; firmware.c	set_drives_LR(halt.left_multiplier,halt.left_multiplier);
 	MOVF	_halt, W, B
 	MOVWF	POSTDEC1
 	BANKSEL	_halt
@@ -2081,17 +2084,17 @@ _00245_DS_:
 	CALL	_set_drives_LR
 	MOVLW	0x02
 	ADDWF	FSR1L, F
-;	.line	389; firmware.c	controller_submit_data(WAIT);
+;	.line	390; firmware.c	controller_submit_data(WAIT);
 	MOVLW	0x01
 	MOVWF	POSTDEC1
 	CALL	_controller_submit_data
 	INCF	FSR1L, F
-;	.line	392; firmware.c	DPRINTF("Ending autonomous routine...\n");
-	MOVLW	UPPER(__str_11)
+;	.line	393; firmware.c	DPRINTF("Ending autonomous routine...\n");
+	MOVLW	UPPER(__str_10)
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(__str_11)
+	MOVLW	HIGH(__str_10)
 	MOVWF	POSTDEC1
-	MOVLW	LOW(__str_11)
+	MOVLW	LOW(__str_10)
 	MOVWF	POSTDEC1
 	CALL	_printf
 	MOVLW	0x03
@@ -2105,7 +2108,7 @@ _00245_DS_:
 ; ; Starting pCode block
 S_firmware__arcade_drive_routine	code
 _arcade_drive_routine:
-;	.line	328; firmware.c	void    arcade_drive_routine(void)
+;	.line	329; firmware.c	void    arcade_drive_routine(void)
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
@@ -2116,20 +2119,20 @@ _arcade_drive_routine:
 	MOVFF	r0x05, POSTDEC1
 	MOVFF	r0x06, POSTDEC1
 	MOVFF	r0x07, POSTDEC1
-;	.line	333; firmware.c	joy_x = rc_read_data(ARCADE_DRIVE_X_CHAN);
+;	.line	334; firmware.c	joy_x = rc_read_data(ARCADE_DRIVE_X_CHAN);
 	MOVLW	0x04
 	MOVWF	POSTDEC1
 	CALL	_rc_read_data
 	MOVWF	r0x00
 	INCF	FSR1L, F
-;	.line	334; firmware.c	joy_y = -rc_read_data(ARCADE_DRIVE_Y_CHAN);
+;	.line	335; firmware.c	joy_y = -rc_read_data(ARCADE_DRIVE_Y_CHAN);
 	MOVLW	0x03
 	MOVWF	POSTDEC1
 	CALL	_rc_read_data
 	MOVWF	r0x01
 	INCF	FSR1L, F
 	NEGF	r0x01
-;	.line	335; firmware.c	arcade_drive(joy_x, joy_y, PWM_MAX, &left_power, &right_power);
+;	.line	336; firmware.c	arcade_drive(joy_x, joy_y, PWM_MAX, &left_power, &right_power);
 	MOVLW	HIGH(_arcade_drive_routine_left_power_1_1)
 	MOVWF	r0x03
 	MOVLW	LOW(_arcade_drive_routine_left_power_1_1)
@@ -2165,7 +2168,7 @@ _arcade_drive_routine:
 	MOVLW	0x09
 	ADDWF	FSR1L, F
 	BANKSEL	_arcade_drive_routine_right_power_1_1
-;	.line	339; firmware.c	set_drives_LR(left_power,right_power);
+;	.line	340; firmware.c	set_drives_LR(left_power,right_power);
 	MOVF	_arcade_drive_routine_right_power_1_1, W, B
 	MOVWF	POSTDEC1
 	BANKSEL	_arcade_drive_routine_left_power_1_1
@@ -2188,11 +2191,11 @@ _arcade_drive_routine:
 ; ; Starting pCode block
 S_firmware__tank_drive_routine	code
 _tank_drive_routine:
-;	.line	306; firmware.c	void    tank_drive_routine(void)
+;	.line	307; firmware.c	void    tank_drive_routine(void)
 	MOVFF	FSR2L, POSTDEC1
 	MOVFF	FSR1L, FSR2L
 	MOVFF	r0x00, POSTDEC1
-;	.line	312; firmware.c	left_power = -rc_read_data(TANK_DRIVE_LEFT_CHAN);
+;	.line	313; firmware.c	left_power = -rc_read_data(TANK_DRIVE_LEFT_CHAN);
 	MOVLW	0x03
 	MOVWF	POSTDEC1
 	CALL	_rc_read_data
@@ -2202,7 +2205,7 @@ _tank_drive_routine:
 	BANKSEL	_tank_drive_routine_left_power_1_1
 	MOVWF	_tank_drive_routine_left_power_1_1, B
 	INCF	_tank_drive_routine_left_power_1_1, F, B
-;	.line	313; firmware.c	right_power = rc_read_data(TANK_DRIVE_RIGHT_CHAN);
+;	.line	314; firmware.c	right_power = rc_read_data(TANK_DRIVE_RIGHT_CHAN);
 	MOVLW	0x02
 	MOVWF	POSTDEC1
 	CALL	_rc_read_data
@@ -2210,7 +2213,7 @@ _tank_drive_routine:
 	MOVWF	_tank_drive_routine_right_power_1_1, B
 	INCF	FSR1L, F
 	BANKSEL	_tank_drive_routine_right_power_1_1
-;	.line	316; firmware.c	set_drives_LR(left_power,right_power);
+;	.line	317; firmware.c	set_drives_LR(left_power,right_power);
 	MOVF	_tank_drive_routine_right_power_1_1, W, B
 	MOVWF	POSTDEC1
 	BANKSEL	_tank_drive_routine_left_power_1_1
@@ -2274,10 +2277,10 @@ _00208_DS_:
 	INCF	FSR1L, F
 	MOVLW	0x00
 	SUBWF	r0x01, W
-	BNZ	_00221_DS_
+	BNZ	_00224_DS_
 	MOVLW	0x10
 	SUBWF	r0x00, W
-_00221_DS_:
+_00224_DS_:
 	BNC	_00210_DS_
 ;	.line	267; firmware.c	cliff_avoidance();
 	CALL	_cliff_avoidance
@@ -2289,12 +2292,12 @@ _00210_DS_:
 	MOVFF	PRODH, r0x02
 	MOVFF	FSR0L, r0x03
 	BTFSS	_T0CON, 3
-	BRA	_00215_DS_
+	BRA	_00217_DS_
 	MOVLW	0x01
 	MOVWF	r0x04
 	CLRF	r0x05
-	BRA	_00216_DS_
-_00215_DS_:
+	BRA	_00218_DS_
+_00217_DS_:
 	MOVLW	0x07
 	ANDWF	_T0CON, W
 	MOVWF	r0x06
@@ -2303,15 +2306,15 @@ _00215_DS_:
 	MOVLW	0x00
 	MOVWF	r0x05
 	MOVF	r0x06, W
-	BZ	_00216_DS_
+	BZ	_00218_DS_
 	NEGF	WREG
 	BCF	STATUS, 0
-_00225_DS_:
+_00228_DS_:
 	RLCF	r0x04, F
 	RLCF	r0x05, F
 	ADDLW	0x01
-	BNC	_00225_DS_
-_00216_DS_:
+	BNC	_00228_DS_
+_00218_DS_:
 	MOVF	r0x05, W
 	MOVWF	POSTDEC1
 	MOVF	r0x04, W
@@ -2383,30 +2386,35 @@ _00216_DS_:
 	MOVF	(_rc_routine_elapsed_time_1_1 + 3), W, B
 	BANKSEL	(_rc_routine_old_time_1_1 + 3)
 	SUBWF	(_rc_routine_old_time_1_1 + 3), W, B
-	BNZ	_00226_DS_
+	BNZ	_00229_DS_
 	BANKSEL	(_rc_routine_elapsed_time_1_1 + 2)
 	MOVF	(_rc_routine_elapsed_time_1_1 + 2), W, B
 	BANKSEL	(_rc_routine_old_time_1_1 + 2)
 	SUBWF	(_rc_routine_old_time_1_1 + 2), W, B
-	BNZ	_00226_DS_
+	BNZ	_00229_DS_
 	BANKSEL	(_rc_routine_elapsed_time_1_1 + 1)
 	MOVF	(_rc_routine_elapsed_time_1_1 + 1), W, B
 	BANKSEL	(_rc_routine_old_time_1_1 + 1)
 	SUBWF	(_rc_routine_old_time_1_1 + 1), W, B
-	BNZ	_00226_DS_
+	BNZ	_00229_DS_
 	BANKSEL	_rc_routine_elapsed_time_1_1
 	MOVF	_rc_routine_elapsed_time_1_1, W, B
 	BANKSEL	_rc_routine_old_time_1_1
 	SUBWF	_rc_routine_old_time_1_1, W, B
-_00226_DS_:
+_00229_DS_:
 	BTFSC	STATUS, 0
-	BRA	_00213_DS_
+	BRA	_00215_DS_
 ;	.line	281; firmware.c	old_time = elapsed_time;
 	MOVFF	_rc_routine_elapsed_time_1_1, _rc_routine_old_time_1_1
 	MOVFF	(_rc_routine_elapsed_time_1_1 + 1), (_rc_routine_old_time_1_1 + 1)
 	MOVFF	(_rc_routine_elapsed_time_1_1 + 2), (_rc_routine_old_time_1_1 + 2)
 	MOVFF	(_rc_routine_elapsed_time_1_1 + 3), (_rc_routine_old_time_1_1 + 3)
-;	.line	289; firmware.c	DPRINTF("ET: %ld  RC: %d %d %d %d %d %d %d  Jumper: %d\n",
+	BANKSEL	_debugMode
+;	.line	289; firmware.c	if(debugMode)
+	MOVF	_debugMode, W, B
+	BTFSC	STATUS, 2
+	BRA	_00215_DS_
+;	.line	290; firmware.c	DPRINTF("ET: %ld  RC: %d %d %d %d %d %d %d  Jumper: %d\n",
 	MOVLW	0x04
 	MOVWF	POSTDEC1
 	CALL	_io_read_digital
@@ -2512,16 +2520,16 @@ _00226_DS_:
 	BANKSEL	_rc_routine_elapsed_time_1_1
 	MOVF	_rc_routine_elapsed_time_1_1, W, B
 	MOVWF	POSTDEC1
-	MOVLW	UPPER(__str_9)
+	MOVLW	UPPER(__str_8)
 	MOVWF	POSTDEC1
-	MOVLW	HIGH(__str_9)
+	MOVLW	HIGH(__str_8)
 	MOVWF	POSTDEC1
-	MOVLW	LOW(__str_9)
+	MOVLW	LOW(__str_8)
 	MOVWF	POSTDEC1
 	CALL	_printf
 	MOVLW	0x17
 	ADDWF	FSR1L, F
-_00213_DS_:
+_00215_DS_:
 	MOVFF	PREINC1, r0x0f
 	MOVFF	PREINC1, r0x0e
 	MOVFF	PREINC1, r0x0d
@@ -2574,32 +2582,6 @@ _custom_init:
 	MOVWF	_distance_cm_per_15_ticks, B
 	BANKSEL	(_distance_cm_per_15_ticks + 1)
 	CLRF	(_distance_cm_per_15_ticks + 1), B
-;	.line	202; firmware.c	printf("wheel circumf: %d, rotation_circumf: %d, degree/tick: %d, cm/15tick %d \n",
-	MOVLW	0x00
-	MOVWF	POSTDEC1
-	MOVLW	0x07
-	MOVWF	POSTDEC1
-	MOVLW	0x00
-	MOVWF	POSTDEC1
-	MOVLW	0x03
-	MOVWF	POSTDEC1
-	MOVLW	0x00
-	MOVWF	POSTDEC1
-	MOVLW	0x3e
-	MOVWF	POSTDEC1
-	MOVLW	0x00
-	MOVWF	POSTDEC1
-	MOVLW	0x2f
-	MOVWF	POSTDEC1
-	MOVLW	UPPER(__str_8)
-	MOVWF	POSTDEC1
-	MOVLW	HIGH(__str_8)
-	MOVWF	POSTDEC1
-	MOVLW	LOW(__str_8)
-	MOVWF	POSTDEC1
-	CALL	_printf
-	MOVLW	0x0b
-	ADDWF	FSR1L, F
 ;	.line	206; firmware.c	for (c = 1; c <= 15; ++c)
 	MOVLW	0x01
 	MOVWF	r0x00
@@ -2720,7 +2702,7 @@ _00187_DS_:
 
 ; ; Starting pCode block
 __str_0:
-	DB	0x42, 0x46, 0x0a, 0x00
+	DB	0x42, 0x46, 0x00
 ; ; Starting pCode block
 __str_1:
 	DB	0x42, 0x4c, 0x00
@@ -2732,10 +2714,10 @@ __str_3:
 	DB	0x43, 0x46, 0x00
 ; ; Starting pCode block
 __str_4:
-	DB	0x4c, 0x25, 0x64, 0x0a, 0x00
+	DB	0x4c, 0x69, 0x25, 0x64, 0x00
 ; ; Starting pCode block
 __str_5:
-	DB	0x55, 0x44, 0x3a, 0x20, 0x25, 0x64, 0x0a, 0x00
+	DB	0x55, 0x44, 0x25, 0x64, 0x00
 ; ; Starting pCode block
 __str_6:
 	DB	0x45, 0x4c, 0x00
@@ -2744,73 +2726,53 @@ __str_7:
 	DB	0x45, 0x52, 0x00
 ; ; Starting pCode block
 __str_8:
-	DB	0x77, 0x68, 0x65, 0x65, 0x6c, 0x20, 0x63, 0x69, 0x72, 0x63, 0x75, 0x6d
-	DB	0x66, 0x3a, 0x20, 0x25, 0x64, 0x2c, 0x20, 0x72, 0x6f, 0x74, 0x61, 0x74
-	DB	0x69, 0x6f, 0x6e, 0x5f, 0x63, 0x69, 0x72, 0x63, 0x75, 0x6d, 0x66, 0x3a
-	DB	0x20, 0x25, 0x64, 0x2c, 0x20, 0x64, 0x65, 0x67, 0x72, 0x65, 0x65, 0x2f
-	DB	0x74, 0x69, 0x63, 0x6b, 0x3a, 0x20, 0x25, 0x64, 0x2c, 0x20, 0x63, 0x6d
-	DB	0x2f, 0x31, 0x35, 0x74, 0x69, 0x63, 0x6b, 0x20, 0x25, 0x64, 0x20, 0x0a
-	DB	0x00
-; ; Starting pCode block
-__str_9:
 	DB	0x45, 0x54, 0x3a, 0x20, 0x25, 0x6c, 0x64, 0x20, 0x20, 0x52, 0x43, 0x3a
 	DB	0x20, 0x25, 0x64, 0x20, 0x25, 0x64, 0x20, 0x25, 0x64, 0x20, 0x25, 0x64
 	DB	0x20, 0x25, 0x64, 0x20, 0x25, 0x64, 0x20, 0x25, 0x64, 0x20, 0x20, 0x4a
 	DB	0x75, 0x6d, 0x70, 0x65, 0x72, 0x3a, 0x20, 0x25, 0x64, 0x0a, 0x00
 ; ; Starting pCode block
-__str_10:
+__str_9:
 	DB	0x53, 0x74, 0x61, 0x72, 0x74, 0x69, 0x6e, 0x67, 0x20, 0x61, 0x75, 0x74
 	DB	0x6f, 0x6e, 0x6f, 0x6d, 0x6f, 0x75, 0x73, 0x20, 0x72, 0x6f, 0x75, 0x74
 	DB	0x69, 0x6e, 0x65, 0x2e, 0x2e, 0x2e, 0x0a, 0x00
 ; ; Starting pCode block
-__str_11:
+__str_10:
 	DB	0x45, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x20, 0x61, 0x75, 0x74, 0x6f, 0x6e
 	DB	0x6f, 0x6d, 0x6f, 0x75, 0x73, 0x20, 0x72, 0x6f, 0x75, 0x74, 0x69, 0x6e
 	DB	0x65, 0x2e, 0x2e, 0x2e, 0x0a, 0x00
 ; ; Starting pCode block
+__str_11:
+	DB	0x72, 0x63, 0x00
+; ; Starting pCode block
 __str_12:
-	DB	0x77, 0x0a, 0x00
+	DB	0x73, 0x63, 0x00
 ; ; Starting pCode block
 __str_13:
-	DB	0x73, 0x0a, 0x00
-; ; Starting pCode block
-__str_14:
-	DB	0x61, 0x0a, 0x00
-; ; Starting pCode block
-__str_15:
-	DB	0x64, 0x0a, 0x00
-; ; Starting pCode block
-__str_16:
-	DB	0x62, 0x0a, 0x00
-; ; Starting pCode block
-__str_17:
-	DB	0x52, 0x61, 0x64, 0x69, 0x6f, 0x20, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f
-	DB	0x6c, 0x0a, 0x00
-; ; Starting pCode block
-__str_18:
-	DB	0x53, 0x65, 0x72, 0x69, 0x61, 0x6c, 0x20, 0x63, 0x6f, 0x6e, 0x74, 0x72
-	DB	0x6f, 0x6c, 0x0a, 0x00
-; ; Starting pCode block
-__str_19:
 	DB	0x53, 0x25, 0x64, 0x00
 ; ; Starting pCode block
-__str_20:
-	DB	0x48, 0x25, 0x63, 0x25, 0x63, 0x0a, 0x00
+__str_14:
+	DB	0x48, 0x25, 0x63, 0x25, 0x63, 0x00
 ; ; Starting pCode block
-__str_21:
+__str_15:
 	DB	0x6c, 0x25, 0x63, 0x00
 ; ; Starting pCode block
-__str_22:
+__str_16:
 	DB	0x72, 0x25, 0x63, 0x00
 ; ; Starting pCode block
-__str_23:
+__str_17:
+	DB	0x44, 0x31, 0x00
+; ; Starting pCode block
+__str_18:
+	DB	0x44, 0x30, 0x00
+; ; Starting pCode block
+__str_19:
 	DB	0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x2c, 0x20, 0x57, 0x6f, 0x72, 0x6c, 0x64
 	DB	0x21, 0x0a, 0x00
 
 
 ; Statistics:
-; code size:	 4654 (0x122e) bytes ( 3.55%)
-;           	 2327 (0x0917) words
+; code size:	 4580 (0x11e4) bytes ( 3.49%)
+;           	 2290 (0x08f2) words
 ; udata size:	   32 (0x0020) bytes ( 1.79%)
 ; access size:	   16 (0x0010) bytes
 

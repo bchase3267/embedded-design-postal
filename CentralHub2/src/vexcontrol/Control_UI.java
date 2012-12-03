@@ -148,7 +148,7 @@ public class Control_UI extends JFrame {
 					if(vexPort != null)
 					{
 						try {
-							if(vexPort.isOpened())
+						if(vexPort.isOpened())
 							vexPort.closePort();
 						} catch (SerialPortException e1) {
 							// TODO Auto-generated catch block

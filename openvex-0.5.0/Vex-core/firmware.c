@@ -122,7 +122,7 @@ void    main(void)
         {
             if(io_read_digital(RIGHT_BUMPER_PORT)==0)
             {
-                printf("BF\n");
+                printf("BF");
                 bump_front();
             }
             else
@@ -150,14 +150,14 @@ void    main(void)
             if(io_read_analog(LIGHT_SENSOR_PORT) != light_level)
             {
                 light_level = io_read_analog(LIGHT_SENSOR_PORT);
-                printf("L%d\n",light_level);
+                printf("Li%d",light_level);
             }
             i = 0;
         }
 
         if(sonar_dist - old_sonar_dist > 1 || old_sonar_dist - sonar_dist > 1)
         {
-            printf("UD: %d\n",sonar_dist);
+            printf("UD%d",sonar_dist);
             old_sonar_dist = sonar_dist;
         }
 
@@ -286,12 +286,13 @@ void    rc_routine(void)
 	/* 
 	 *  Display status of various sensors and rc inputs.
 	 */
-	DPRINTF("ET: %ld  RC: %d %d %d %d %d %d %d  Jumper: %d\n",
-	    elapsed_time, rc_read_status(),
-	    rc_read_data(1), rc_read_data(2),
-	    rc_read_data(3), rc_read_data(4),
-	    rc_read_data(5), rc_read_data(6),
-	    io_read_digital(ARCADE_JUMPER_PORT));
+    if(debugMode)
+        DPRINTF("ET: %ld  RC: %d %d %d %d %d %d %d  Jumper: %d\n",
+            elapsed_time, rc_read_status(),
+            rc_read_data(1), rc_read_data(2),
+            rc_read_data(3), rc_read_data(4),
+            rc_read_data(5), rc_read_data(6),
+            io_read_digital(ARCADE_JUMPER_PORT));
     }
 }
 
@@ -429,28 +430,29 @@ void serial_control(void)
 
     switch(command_byte)
     {
+
     case 'w':
-        DRIVE = &forward;   usart_puts("w\n");
+        DRIVE = &forward;   putchar('w'); //usart_puts("w\n");
         break;
     case 's':
-        DRIVE = &backward;  usart_puts("s\n");
+        DRIVE = &backward;  putchar('s'); //usart_puts("s\n");
         break;
     case 'a':
-        DRIVE = &rotate_left;   usart_puts("a\n");
+        DRIVE = &rotate_left;   putchar('a'); //usart_puts("a\n");
         break;
     case 'd':
-        DRIVE = &rotate_right;   usart_puts("d\n");
+        DRIVE = &rotate_right;   putchar('d'); //usart_puts("d\n");
         break;
     case 'b':
-        DRIVE = &halt;  usart_puts("b\n");
+        DRIVE = &halt;  putchar('b'); //usart_puts("b\n");
         break;
     case '1':
         controller_end_autonomous_mode();
-        usart_puts("Radio control\n");
+        usart_puts("rc");
         break;
     case '0':
         controller_begin_autonomous_mode();
-        usart_puts("Serial control\n");
+        usart_puts("sc");
         break;
     case 'z':
         SPEED = 000;    printf("S%d",SPEED);
@@ -469,7 +471,7 @@ void serial_control(void)
 
     case 'S':
         for(j=0;!usart_data_available() && j<0x7FFE;j++);
-        if(j>=0x7FFE)
+        if(j<=0x7FFE)
             SPEED = usart_get_byte();
         printf("S%d",SPEED);
         break;
@@ -485,13 +487,14 @@ void serial_control(void)
         {
             RIGHT_SPEED = usart_getc();
             LEFT_SPEED = k;
-            printf("H%c%c\n",LEFT_SPEED,RIGHT_SPEED);
+            printf("H%c%c",LEFT_SPEED,RIGHT_SPEED);
             DRIVE = &differential;
         }
         break;
 
     case 'h':
         DRIVE = &differential;
+        putchar('h');
         break;
 
     case 'l':
@@ -505,6 +508,12 @@ void serial_control(void)
         if(j<0x7FFE)
             RIGHT_SPEED = usart_getc();
         printf("r%c",RIGHT_SPEED);
+    case 'D':
+        debugMode != debugMode;
+        if(debugMode)
+            usart_puts("D1");
+        else
+            usart_puts("D0");
         break;
 
     default:

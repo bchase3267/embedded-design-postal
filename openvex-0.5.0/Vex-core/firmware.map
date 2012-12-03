@@ -1,5 +1,5 @@
 gplink-0.13.7 beta
-Map File - Created 11-16-2012  22:22:02
+Map File - Created 12-2-2012  03:58:30
  
                                  Section Info
                   Section       Type    Address   Location Size(Bytes)
@@ -12,126 +12,126 @@ S_vex_spi__InterruptVectorHigh       code   0x000808    program   0x000004
 S_interrupts__InterruptVectorLow       code   0x000818    program   0x000004
 S_shaft_encoder__shaft_tps_run       code   0x00081c    program   0x000d1e
      S_vfprintf__vfprintf       code   0x00153a    program   0x000836
-S_firmware__serial_control       code   0x001d70    program   0x000498
-S_timer_simple__timer_read_ms       code   0x002208    program   0x00037c
-S_interrupts__InterruptHandlerLow       code   0x002584    program   0x000346
-S_arcade_drive__arcade_drive       code   0x0028ca    program   0x000324
-         S_firmware__main       code   0x002bee    program   0x000306
-      S_sonar__sonar_read       code   0x002ef4    program   0x0002ee
-   S_firmware__rc_routine       code   0x0031e2    program   0x0002d2
-S_shaft_encoder__shaft_tps_init       code   0x0034b4    program   0x0002b8
-  S_firmware__custom_init       code   0x00376c    program   0x00027a
-S_vex_spi__InterruptHandlerHigh       code   0x0039e6    program   0x000256
-   S_io__io_write_digital       code   0x003c3c    program   0x00021c
-      S_mullong___mullong       code   0x003e58    program   0x000214
-   S_io__io_set_direction       code   0x00406c    program   0x000204
-S_interrupts__quad_encoder_isr       code   0x004270    program   0x0001f0
-            S_ltoa__ultoa       code   0x004460    program   0x0001b8
-S_sonar__sonar_read_spin_wait       code   0x004618    program   0x000180
-    S_io__io_read_digital       code   0x004798    program   0x00017e
-  S_vex_spi__check_tx_env       code   0x004916    program   0x00017c
-   S_io__io_get_direction       code   0x004a92    program   0x000164
-S_shaft_encoder__shaft_encoder_disable       code   0x004bf6    program   0x000154
-S_interrupts__sonar_echo_isr       code   0x004d4a    program   0x00014a
-   S_timer__timer3_read32       code   0x004e94    program   0x000144
-   S_timer__timer1_read32       code   0x004fd8    program   0x000144
-   S_timer__timer0_read32       code   0x00511c    program   0x000144
-S_interrupts__sonar_emit_isr       code   0x005260    program   0x00013a
-S_shaft_encoder__shaft_encoder_enable       code   0x00539a    program   0x000128
-    S_modulong___modulong       code   0x0054c2    program   0x000124
-    S_divulong___divulong       code   0x0055e6    program   0x00011a
-   S_master__rc_read_data       code   0x005700    program   0x000118
-         S_memcpy__memcpy       code   0x005818    program   0x00010a
-S_firmware__bump_front_left       code   0x005922    program   0x0000fe
-S_strmputchar____stream_putchar       code   0x005a20    program   0x0000fe
-      S_divsint___divsint       code   0x005b1e    program   0x0000f6
-   S_firmware__bump_front       code   0x005c14    program   0x0000ee
-S_firmware__bump_front_right       code   0x005d02    program   0x0000ee
-S_master__controller_submit_data       code   0x005df0    program   0x0000e8
-                    .code       code   0x005ed8    program   0x0000e0
-  S_init__controller_init       code   0x005fb8    program   0x0000da
-S_master__pwm_set_output_type       code   0x006092    program   0x0000d4
-       S_vex_spi__OpenSPI       code   0x006166    program   0x0000d4
-S_timer_simple__timer_start       code   0x00623a    program   0x0000ce
-             S_ltoa__ltoa       code   0x006308    program   0x0000c8
-S_io__io_update_local_pwm_dir       code   0x0063d0    program   0x0000c6
-      S_sonar__sonar_init       code   0x006496    program   0x0000c4
-S_firmware__autonomous_routine0       code   0x00655a    program   0x0000c2
-S_timer_simple__timer_clear       code   0x00661c    program   0x0000c2
-S_firmware__arcade_drive_routine       code   0x0066de    program   0x0000be
-S_shaft_encoder__shaft_encoder_enable_quad       code   0x00679c    program   0x0000b8
-S_master__rc_button_sequence       code   0x006854    program   0x0000b4
-      S_divuint___divuint       code   0x006908    program   0x0000aa
-S_shaft_encoder__shaft_encoder_enable_std       code   0x0069b2    program   0x0000a6
-        S_init__init_regs       code   0x006a58    program   0x0000a0
-        S_mulint___mulint       code   0x006af8    program   0x0000a0
-      S_crt0iz___do_cinit       code   0x006b98    program   0x00009c
-S_timer_simple__timer_stop       code   0x006c34    program   0x00008e
-   S_timer__timer4_read32       code   0x006cc2    program   0x00008a
-   S_timer__timer2_read32       code   0x006d4c    program   0x00008a
-S_sonar__sonar_emit_pulse_interrupt       code   0x006dd6    program   0x000086
-S_master__pwm_select_processor       code   0x006e5c    program   0x000084
-S_interrupts__interrupt_disable       code   0x006ee0    program   0x000082
-S_interrupts__interrupt_enable       code   0x006f62    program   0x000082
-      S_uopen__usart_open       code   0x006fe4    program   0x00007e
-                 .idata_i       code   0x007062    program   0x00007c
-S_sonar__sonar_init_spin_wait       code   0x0070de    program   0x00007c
-      S_uputs__usart_puts       code   0x00715a    program   0x00007a
-S_master__controller_print_version       code   0x0071d4    program   0x000078
-S_sonar__sonar_emit_pulse       code   0x00724c    program   0x000076
- S_master__rc_read_status       code   0x0072c2    program   0x000076
-   S_vex_delay__delay_sec       code   0x007338    program   0x000076
-         S_printf__printf       code   0x0073ae    program   0x000072
-  S_vex_delay__delay_msec       code   0x007420    program   0x00006e
-S_firmware__set_drives_LR       code   0x00748e    program   0x00006c
-     S_io__io_read_analog       code   0x0074fa    program   0x00006c
-      S_master__pwm_write       code   0x007566    program   0x000068
-S_firmware__cliff_avoidance       code   0x0075ce    program   0x000064
-S_interrupts__interrupt_set_edge       code   0x007632    program   0x00005c
-S_shaft_encoder__shaft_encoder_read_quad       code   0x00768e    program   0x00005c
-S_shaft_encoder__shaft_encoder_read_std       code   0x0076ea    program   0x00005c
-S_shaft_encoder__shaft_encoder_reset       code   0x007746    program   0x000056
-       S_master__pwm_read       code   0x00779c    program   0x000052
-S_master__controller_in_autonomous_mode       code   0x0077ee    program   0x000052
-S_timer_simple__timer_allocate       code   0x007840    program   0x00004e
-S_firmware__tank_drive_routine       code   0x00788e    program   0x00004c
-       S_io__adc_open8520       code   0x0078da    program   0x00004c
-S_io__io_set_analog_port_count       code   0x007926    program   0x000046
-     S_timer__timer0_init       code   0x00796c    program   0x000046
-S_timer_simple__timer_free       code   0x0079b2    program   0x000046
-    S_gptrget4___gptrget4       code   0x0079f8    program   0x000040
-    S_firmware__heartbeat       code   0x007a38    program   0x00003e
-    S_gptrget3___gptrget3       code   0x007a76    program   0x000036
-S_master__controller_begin_autonomous_mode       code   0x007aac    program   0x000034
-S_master__controller_end_autonomous_mode       code   0x007ae0    program   0x000034
-  S_vex_usart__usart_init       code   0x007b14    program   0x000034
-       S_islower__islower       code   0x007b48    program   0x00002e
-S_master__rc_new_data_available       code   0x007b76    program   0x00002c
-    S_gptrget2___gptrget2       code   0x007ba2    program   0x00002c
-S_master__master_clr_user_cmd       code   0x007bce    program   0x00002a
-       S_crt0iz___startup       code   0x007bf8    program   0x000028
-S_master__master_set_user_cmd       code   0x007c20    program   0x000028
-      S_ugetc__usart_getc       code   0x007c48    program   0x000028
-S_firmware__usart_get_byte_available       code   0x007c70    program   0x000024
-    S_gptrget1___gptrget1       code   0x007c94    program   0x000022
-    S_gptrput4___gptrput4       code   0x007cb6    program   0x000020
-S_firmware__usart_data_available       code   0x007cd6    program   0x00001e
-S_firmware__usart_get_byte       code   0x007cf4    program   0x00001c
-    S_gptrput3___gptrput3       code   0x007d10    program   0x00001c
-    S_gptrput2___gptrput2       code   0x007d2c    program   0x000018
-S_vex_spi__user_proc_is_ready       code   0x007d44    program   0x000016
-    S_gptrput1___gptrput1       code   0x007d5a    program   0x000014
-S_io__io_get_analog_port_count       code   0x007d6e    program   0x000012
-  S_firmware__reset_usart       code   0x007d80    program   0x000010
-           S_io__adc_conv       code   0x007d90    program   0x000010
-      S_uputc__usart_putc       code   0x007da0    program   0x000010
-                   .cinit       code   0x007db0    program   0x00000e
-S_strmusart____stream_usart_putchar       code   0x007dbe    program   0x000008
-      S_adcread__adc_read       code   0x007dc6    program   0x000008
-      S_ubusy__usart_busy       code   0x007dce    program   0x000008
-S_strmgpsim____stream_gpsim_putchar       code   0x007dd6    program   0x000006
-    S_adcclose__adc_close       code   0x007ddc    program   0x000006
-                   .idata      idata   0x000700       data   0x00007b
+S_firmware__serial_control       code   0x001d70    program   0x000492
+S_timer_simple__timer_read_ms       code   0x002202    program   0x00037c
+S_interrupts__InterruptHandlerLow       code   0x00257e    program   0x000346
+S_arcade_drive__arcade_drive       code   0x0028c4    program   0x000324
+         S_firmware__main       code   0x002be8    program   0x000306
+      S_sonar__sonar_read       code   0x002eee    program   0x0002ee
+   S_firmware__rc_routine       code   0x0031dc    program   0x0002da
+S_shaft_encoder__shaft_tps_init       code   0x0034b6    program   0x0002b8
+S_vex_spi__InterruptHandlerHigh       code   0x00376e    program   0x000256
+   S_io__io_write_digital       code   0x0039c4    program   0x00021c
+      S_mullong___mullong       code   0x003be0    program   0x000214
+   S_io__io_set_direction       code   0x003df4    program   0x000204
+S_interrupts__quad_encoder_isr       code   0x003ff8    program   0x0001f0
+  S_firmware__custom_init       code   0x0041e8    program   0x0001d4
+            S_ltoa__ultoa       code   0x0043bc    program   0x0001b8
+S_sonar__sonar_read_spin_wait       code   0x004574    program   0x000180
+    S_io__io_read_digital       code   0x0046f4    program   0x00017e
+  S_vex_spi__check_tx_env       code   0x004872    program   0x00017c
+   S_io__io_get_direction       code   0x0049ee    program   0x000164
+S_shaft_encoder__shaft_encoder_disable       code   0x004b52    program   0x000154
+S_interrupts__sonar_echo_isr       code   0x004ca6    program   0x00014a
+   S_timer__timer3_read32       code   0x004df0    program   0x000144
+   S_timer__timer1_read32       code   0x004f34    program   0x000144
+   S_timer__timer0_read32       code   0x005078    program   0x000144
+S_interrupts__sonar_emit_isr       code   0x0051bc    program   0x00013a
+S_shaft_encoder__shaft_encoder_enable       code   0x0052f6    program   0x000128
+    S_modulong___modulong       code   0x00541e    program   0x000124
+    S_divulong___divulong       code   0x005542    program   0x00011a
+   S_master__rc_read_data       code   0x00565c    program   0x000118
+         S_memcpy__memcpy       code   0x005774    program   0x00010a
+S_firmware__bump_front_left       code   0x00587e    program   0x0000fe
+S_strmputchar____stream_putchar       code   0x00597c    program   0x0000fe
+      S_divsint___divsint       code   0x005a7a    program   0x0000f6
+   S_firmware__bump_front       code   0x005b70    program   0x0000ee
+S_firmware__bump_front_right       code   0x005c5e    program   0x0000ee
+S_master__controller_submit_data       code   0x005d4c    program   0x0000e8
+                    .code       code   0x005e34    program   0x0000e0
+  S_init__controller_init       code   0x005f14    program   0x0000da
+S_master__pwm_set_output_type       code   0x005fee    program   0x0000d4
+       S_vex_spi__OpenSPI       code   0x0060c2    program   0x0000d4
+S_timer_simple__timer_start       code   0x006196    program   0x0000ce
+             S_ltoa__ltoa       code   0x006264    program   0x0000c8
+S_io__io_update_local_pwm_dir       code   0x00632c    program   0x0000c6
+      S_sonar__sonar_init       code   0x0063f2    program   0x0000c4
+S_firmware__autonomous_routine0       code   0x0064b6    program   0x0000c2
+S_timer_simple__timer_clear       code   0x006578    program   0x0000c2
+S_firmware__arcade_drive_routine       code   0x00663a    program   0x0000be
+S_shaft_encoder__shaft_encoder_enable_quad       code   0x0066f8    program   0x0000b8
+S_master__rc_button_sequence       code   0x0067b0    program   0x0000b4
+      S_divuint___divuint       code   0x006864    program   0x0000aa
+S_shaft_encoder__shaft_encoder_enable_std       code   0x00690e    program   0x0000a6
+        S_init__init_regs       code   0x0069b4    program   0x0000a0
+        S_mulint___mulint       code   0x006a54    program   0x0000a0
+      S_crt0iz___do_cinit       code   0x006af4    program   0x00009c
+S_timer_simple__timer_stop       code   0x006b90    program   0x00008e
+   S_timer__timer4_read32       code   0x006c1e    program   0x00008a
+   S_timer__timer2_read32       code   0x006ca8    program   0x00008a
+S_sonar__sonar_emit_pulse_interrupt       code   0x006d32    program   0x000086
+S_master__pwm_select_processor       code   0x006db8    program   0x000084
+S_interrupts__interrupt_disable       code   0x006e3c    program   0x000082
+S_interrupts__interrupt_enable       code   0x006ebe    program   0x000082
+      S_uopen__usart_open       code   0x006f40    program   0x00007e
+                 .idata_i       code   0x006fbe    program   0x00007c
+S_sonar__sonar_init_spin_wait       code   0x00703a    program   0x00007c
+      S_uputs__usart_puts       code   0x0070b6    program   0x00007a
+S_master__controller_print_version       code   0x007130    program   0x000078
+S_sonar__sonar_emit_pulse       code   0x0071a8    program   0x000076
+ S_master__rc_read_status       code   0x00721e    program   0x000076
+   S_vex_delay__delay_sec       code   0x007294    program   0x000076
+         S_printf__printf       code   0x00730a    program   0x000072
+  S_vex_delay__delay_msec       code   0x00737c    program   0x00006e
+S_firmware__set_drives_LR       code   0x0073ea    program   0x00006c
+     S_io__io_read_analog       code   0x007456    program   0x00006c
+      S_master__pwm_write       code   0x0074c2    program   0x000068
+S_firmware__cliff_avoidance       code   0x00752a    program   0x000064
+S_interrupts__interrupt_set_edge       code   0x00758e    program   0x00005c
+S_shaft_encoder__shaft_encoder_read_quad       code   0x0075ea    program   0x00005c
+S_shaft_encoder__shaft_encoder_read_std       code   0x007646    program   0x00005c
+S_shaft_encoder__shaft_encoder_reset       code   0x0076a2    program   0x000056
+       S_master__pwm_read       code   0x0076f8    program   0x000052
+S_master__controller_in_autonomous_mode       code   0x00774a    program   0x000052
+S_timer_simple__timer_allocate       code   0x00779c    program   0x00004e
+S_firmware__tank_drive_routine       code   0x0077ea    program   0x00004c
+       S_io__adc_open8520       code   0x007836    program   0x00004c
+S_io__io_set_analog_port_count       code   0x007882    program   0x000046
+     S_timer__timer0_init       code   0x0078c8    program   0x000046
+S_timer_simple__timer_free       code   0x00790e    program   0x000046
+    S_gptrget4___gptrget4       code   0x007954    program   0x000040
+    S_firmware__heartbeat       code   0x007994    program   0x00003e
+    S_gptrget3___gptrget3       code   0x0079d2    program   0x000036
+S_master__controller_begin_autonomous_mode       code   0x007a08    program   0x000034
+S_master__controller_end_autonomous_mode       code   0x007a3c    program   0x000034
+  S_vex_usart__usart_init       code   0x007a70    program   0x000034
+       S_islower__islower       code   0x007aa4    program   0x00002e
+S_master__rc_new_data_available       code   0x007ad2    program   0x00002c
+    S_gptrget2___gptrget2       code   0x007afe    program   0x00002c
+S_master__master_clr_user_cmd       code   0x007b2a    program   0x00002a
+       S_crt0iz___startup       code   0x007b54    program   0x000028
+S_master__master_set_user_cmd       code   0x007b7c    program   0x000028
+      S_ugetc__usart_getc       code   0x007ba4    program   0x000028
+S_firmware__usart_get_byte_available       code   0x007bcc    program   0x000024
+    S_gptrget1___gptrget1       code   0x007bf0    program   0x000022
+    S_gptrput4___gptrput4       code   0x007c12    program   0x000020
+S_firmware__usart_data_available       code   0x007c32    program   0x00001e
+S_firmware__usart_get_byte       code   0x007c50    program   0x00001c
+    S_gptrput3___gptrput3       code   0x007c6c    program   0x00001c
+    S_gptrput2___gptrput2       code   0x007c88    program   0x000018
+S_vex_spi__user_proc_is_ready       code   0x007ca0    program   0x000016
+    S_gptrput1___gptrput1       code   0x007cb6    program   0x000014
+S_io__io_get_analog_port_count       code   0x007cca    program   0x000012
+  S_firmware__reset_usart       code   0x007cdc    program   0x000010
+           S_io__adc_conv       code   0x007cec    program   0x000010
+      S_uputc__usart_putc       code   0x007cfc    program   0x000010
+                   .cinit       code   0x007d0c    program   0x00000e
+S_strmusart____stream_usart_putchar       code   0x007d1a    program   0x000008
+      S_adcread__adc_read       code   0x007d22    program   0x000008
+      S_ubusy__usart_busy       code   0x007d2a    program   0x000008
+S_strmgpsim____stream_gpsim_putchar       code   0x007d32    program   0x000006
+    S_adcclose__adc_close       code   0x007d38    program   0x000006
+                   .idata      idata   0x000700       data   0x00007c
                .registers      udata   00000000       data   0x00001f
             stack_section      udata   0x000100       data   0x000100
           udata_vex_spi_5      udata   0x000200       data   0x000040
@@ -139,62 +139,62 @@ S_strmgpsim____stream_gpsim_putchar       code   0x007dd6    program   0x000006
          udata_vfprintf_1      udata   0x000260       data   0x00000d
        udata_interrupts_9      udata   0x00026d       data   0x00000c
       udata_interrupts_10      udata   0x000279       data   0x00000c
-       udata_interrupts_6      udata   0x000285       data   0x000004
-       udata_interrupts_8      udata   0x000289       data   0x000004
-            udata_timer_0      udata   0x00028d       data   0x000004
-    udata_shaft_encoder_3      udata   0x000291       data   0x000004
-    udata_shaft_encoder_4      udata   0x000295       data   0x000004
-    udata_shaft_encoder_5      udata   0x000299       data   0x000004
-    udata_shaft_encoder_6      udata   0x00029d       data   0x000004
-          udata_mullong_0      udata   0x0002a1       data   0x000004
-          udata_mullong_1      udata   0x0002a5       data   0x000004
-          udata_mullong_2      udata   0x0002a9       data   0x000004
-          udata_mullong_3      udata   0x0002ad       data   0x000004
-          udata_mullong_4      udata   0x0002b1       data   0x000004
-          udata_vex_spi_0      udata   0x0002b5       data   0x000003
-          udata_vex_spi_1      udata   0x0002b8       data   0x000003
-    udata_shaft_encoder_2      udata   0x0002bb       data   0x000003
-          udata_streams_0      udata   0x0002be       data   0x000003
-          udata_streams_1      udata   0x0002c1       data   0x000003
-         udata_vfprintf_0      udata   0x0002c4       data   0x000003
-         udata_firmware_0      udata   0x0002c7       data   0x000002
-         udata_firmware_1      udata   0x0002c9       data   0x000002
-         udata_firmware_2      udata   0x0002cb       data   0x000002
-         udata_firmware_3      udata   0x0002cd       data   0x000002
-       udata_interrupts_4      udata   0x0002cf       data   0x000002
-       udata_interrupts_5      udata   0x0002d1       data   0x000002
-       udata_interrupts_7      udata   0x0002d3       data   0x000002
-     udata_arcade_drive_0      udata   0x0002d5       data   0x000002
-     udata_arcade_drive_1      udata   0x0002d7       data   0x000002
-           udata_mulint_0      udata   0x0002d9       data   0x000002
-           udata_mulint_1      udata   0x0002db       data   0x000002
-           udata_mulint_2      udata   0x0002dd       data   0x000002
-         udata_firmware_5      udata   0x0002df       data   0x000001
-         udata_firmware_7      udata   0x0002e0       data   0x000001
-         udata_firmware_8      udata   0x0002e1       data   0x000001
-         udata_firmware_9      udata   0x0002e2       data   0x000001
-        udata_firmware_10      udata   0x0002e3       data   0x000001
-       udata_interrupts_1      udata   0x0002e4       data   0x000001
-       udata_interrupts_2      udata   0x0002e5       data   0x000001
-       udata_interrupts_3      udata   0x0002e6       data   0x000001
-               udata_io_0      udata   0x0002e7       data   0x000001
-               udata_io_1      udata   0x0002e8       data   0x000001
-           udata_master_0      udata   0x0002e9       data   0x000001
-           udata_master_1      udata   0x0002ea       data   0x000001
-           udata_master_2      udata   0x0002eb       data   0x000001
-           udata_master_3      udata   0x0002ec       data   0x000001
-           udata_master_4      udata   0x0002ed       data   0x000001
-          udata_vex_spi_2      udata   0x0002ee       data   0x000001
-          udata_vex_spi_3      udata   0x0002ef       data   0x000001
-          udata_vex_spi_6      udata   0x0002f0       data   0x000001
-    udata_shaft_encoder_0      udata   0x0002f1       data   0x000001
-    udata_shaft_encoder_1      udata   0x0002f2       data   0x000001
-           udata_usartd_0      udata   0x0002f3       data   0x000001
-          udata_vex_spi_4      udata   0x00077b       data   0x000040
-          udata_vex_spi_7      udata   0x0007bb       data   0x000020
-         udata_firmware_4      udata   0x0007db       data   0x00000f
-       udata_interrupts_0      udata   0x0007ea       data   0x000006
-         udata_firmware_6      udata   0x0007f0       data   0x000004
+         udata_firmware_6      udata   0x000285       data   0x000004
+       udata_interrupts_6      udata   0x000289       data   0x000004
+       udata_interrupts_8      udata   0x00028d       data   0x000004
+            udata_timer_0      udata   0x000291       data   0x000004
+    udata_shaft_encoder_3      udata   0x000295       data   0x000004
+    udata_shaft_encoder_4      udata   0x000299       data   0x000004
+    udata_shaft_encoder_5      udata   0x00029d       data   0x000004
+    udata_shaft_encoder_6      udata   0x0002a1       data   0x000004
+          udata_mullong_0      udata   0x0002a5       data   0x000004
+          udata_mullong_1      udata   0x0002a9       data   0x000004
+          udata_mullong_2      udata   0x0002ad       data   0x000004
+          udata_mullong_3      udata   0x0002b1       data   0x000004
+          udata_mullong_4      udata   0x0002b5       data   0x000004
+          udata_vex_spi_1      udata   0x0002b9       data   0x000003
+    udata_shaft_encoder_2      udata   0x0002bc       data   0x000003
+          udata_streams_0      udata   0x0002bf       data   0x000003
+          udata_streams_1      udata   0x0002c2       data   0x000003
+         udata_vfprintf_0      udata   0x0002c5       data   0x000003
+         udata_firmware_0      udata   0x0002c8       data   0x000002
+         udata_firmware_1      udata   0x0002ca       data   0x000002
+         udata_firmware_2      udata   0x0002cc       data   0x000002
+         udata_firmware_3      udata   0x0002ce       data   0x000002
+       udata_interrupts_4      udata   0x0002d0       data   0x000002
+       udata_interrupts_5      udata   0x0002d2       data   0x000002
+       udata_interrupts_7      udata   0x0002d4       data   0x000002
+     udata_arcade_drive_0      udata   0x0002d6       data   0x000002
+     udata_arcade_drive_1      udata   0x0002d8       data   0x000002
+           udata_mulint_0      udata   0x0002da       data   0x000002
+           udata_mulint_1      udata   0x0002dc       data   0x000002
+           udata_mulint_2      udata   0x0002de       data   0x000002
+         udata_firmware_5      udata   0x0002e0       data   0x000001
+         udata_firmware_7      udata   0x0002e1       data   0x000001
+         udata_firmware_8      udata   0x0002e2       data   0x000001
+         udata_firmware_9      udata   0x0002e3       data   0x000001
+        udata_firmware_10      udata   0x0002e4       data   0x000001
+       udata_interrupts_1      udata   0x0002e5       data   0x000001
+       udata_interrupts_2      udata   0x0002e6       data   0x000001
+       udata_interrupts_3      udata   0x0002e7       data   0x000001
+               udata_io_0      udata   0x0002e8       data   0x000001
+               udata_io_1      udata   0x0002e9       data   0x000001
+           udata_master_0      udata   0x0002ea       data   0x000001
+           udata_master_1      udata   0x0002eb       data   0x000001
+           udata_master_2      udata   0x0002ec       data   0x000001
+           udata_master_3      udata   0x0002ed       data   0x000001
+           udata_master_4      udata   0x0002ee       data   0x000001
+          udata_vex_spi_2      udata   0x0002ef       data   0x000001
+          udata_vex_spi_3      udata   0x0002f0       data   0x000001
+          udata_vex_spi_6      udata   0x0002f1       data   0x000001
+    udata_shaft_encoder_0      udata   0x0002f2       data   0x000001
+    udata_shaft_encoder_1      udata   0x0002f3       data   0x000001
+           udata_usartd_0      udata   0x0002f4       data   0x000001
+          udata_vex_spi_4      udata   0x00077c       data   0x000040
+          udata_vex_spi_7      udata   0x0007bc       data   0x000020
+         udata_firmware_4      udata   0x0007dc       data   0x00000f
+       udata_interrupts_0      udata   0x0007eb       data   0x000006
+          udata_vex_spi_0      udata   0x0007f1       data   0x000003
       ustat_pic18f8520_00      udata   0x000f6b       data   0x00000e
       ustat_pic18f8520_01      udata   0x000f80       data   0x00001b
       ustat_pic18f8520_02      udata   0x000f9c       data   0x00001a
@@ -204,153 +204,154 @@ S_strmgpsim____stream_gpsim_putchar       code   0x007dd6    program   0x000006
                               Program Memory Usage
                                Start         End
                            ---------   ---------
-                            0x007062    0x0070dd
-                            0x005ed8    0x005fb7
-                            0x002bee    0x002ef3
-                            0x0075ce    0x007631
-                            0x00748e    0x0074f9
-                            0x005c14    0x005d01
-                            0x005d02    0x005def
-                            0x005922    0x005a1f
-                            0x007a38    0x007a75
-                            0x001d70    0x002207
-                            0x007cf4    0x007d0f
-                            0x007c70    0x007c93
-                            0x007cd6    0x007cf3
-                            0x007d80    0x007d8f
-                            0x00655a    0x00661b
-                            0x0066de    0x00679b
-                            0x00788e    0x0078d9
-                            0x0031e2    0x0034b3
-                            0x00376c    0x0039e5
+                            0x006fbe    0x007039
+                            0x005e34    0x005f13
+                            0x002be8    0x002eed
+                            0x00752a    0x00758d
+                            0x0073ea    0x007455
+                            0x005b70    0x005c5d
+                            0x005c5e    0x005d4b
+                            0x00587e    0x00597b
+                            0x007994    0x0079d1
+                            0x001d70    0x002201
+                            0x007c50    0x007c6b
+                            0x007bcc    0x007bef
+                            0x007c32    0x007c4f
+                            0x007cdc    0x007ceb
+                            0x0064b6    0x006577
+                            0x00663a    0x0066f7
+                            0x0077ea    0x007835
+                            0x0031dc    0x0034b5
+                            0x0041e8    0x0043bb
                             0x000800    0x000803
-                            0x006b98    0x006c33
-                            0x007bf8    0x007c1f
-                            0x006dd6    0x006e5b
-                            0x00724c    0x0072c1
-                            0x002ef4    0x0031e1
-                            0x006496    0x006559
-                            0x004618    0x004797
-                            0x0070de    0x007159
+                            0x006af4    0x006b8f
+                            0x007b54    0x007b7b
+                            0x006d32    0x006db7
+                            0x0071a8    0x00721d
+                            0x002eee    0x0031db
+                            0x0063f2    0x0064b5
+                            0x004574    0x0046f3
+                            0x00703a    0x0070b5
                             0x000818    0x00081b
-                            0x002584    0x0028c9
-                            0x004270    0x00445f
-                            0x004d4a    0x004e93
-                            0x005260    0x005399
-                            0x006ee0    0x006f61
-                            0x006f62    0x006fe3
-                            0x007632    0x00768d
-                            0x0028ca    0x002bed
-                            0x0063d0    0x006495
-                            0x004a92    0x004bf5
-                            0x00406c    0x00426f
-                            0x003c3c    0x003e57
-                            0x004798    0x004915
-                            0x0074fa    0x007565
+                            0x00257e    0x0028c3
+                            0x003ff8    0x0041e7
+                            0x004ca6    0x004def
+                            0x0051bc    0x0052f5
+                            0x006e3c    0x006ebd
+                            0x006ebe    0x006f3f
+                            0x00758e    0x0075e9
+                            0x0028c4    0x002be7
+                            0x00632c    0x0063f1
+                            0x0049ee    0x004b51
+                            0x003df4    0x003ff7
+                            0x0039c4    0x003bdf
+                            0x0046f4    0x004871
+                            0x007456    0x0074c1
                             0x00080c    0x000813
-                            0x007d90    0x007d9f
-                            0x0078da    0x007925
-                            0x007d6e    0x007d7f
-                            0x007926    0x00796b
-                            0x007bce    0x007bf7
-                            0x007c20    0x007c47
-                            0x006092    0x006165
-                            0x006e5c    0x006edf
-                            0x00779c    0x0077ed
-                            0x007566    0x0075cd
-                            0x0071d4    0x00724b
-                            0x005df0    0x005ed7
-                            0x007aac    0x007adf
-                            0x007ae0    0x007b13
-                            0x0077ee    0x00783f
-                            0x007b76    0x007ba1
-                            0x006854    0x006907
-                            0x005700    0x005817
-                            0x0072c2    0x007337
-                            0x00796c    0x0079b1
-                            0x006cc2    0x006d4b
-                            0x004e94    0x004fd7
-                            0x006d4c    0x006dd5
-                            0x004fd8    0x00511b
-                            0x00511c    0x00525f
+                            0x007cec    0x007cfb
+                            0x007836    0x007881
+                            0x007cca    0x007cdb
+                            0x007882    0x0078c7
+                            0x007b2a    0x007b53
+                            0x007b7c    0x007ba3
+                            0x005fee    0x0060c1
+                            0x006db8    0x006e3b
+                            0x0076f8    0x007749
+                            0x0074c2    0x007529
+                            0x007130    0x0071a7
+                            0x005d4c    0x005e33
+                            0x007a08    0x007a3b
+                            0x007a3c    0x007a6f
+                            0x00774a    0x00779b
+                            0x007ad2    0x007afd
+                            0x0067b0    0x006863
+                            0x00565c    0x005773
+                            0x00721e    0x007293
+                            0x0078c8    0x00790d
+                            0x006c1e    0x006ca7
+                            0x004df0    0x004f33
+                            0x006ca8    0x006d31
+                            0x004f34    0x005077
+                            0x005078    0x0051bb
                             0x000808    0x00080b
-                            0x0039e6    0x003c3b
-                            0x004916    0x004a91
-                            0x007d44    0x007d59
-                            0x006166    0x006239
-                            0x007338    0x0073ad
-                            0x007420    0x00748d
-                            0x006a58    0x006af7
-                            0x005fb8    0x006091
-                            0x0034b4    0x00376b
+                            0x00376e    0x0039c3
+                            0x004872    0x0049ed
+                            0x007ca0    0x007cb5
+                            0x0060c2    0x006195
+                            0x007294    0x007309
+                            0x00737c    0x0073e9
+                            0x0069b4    0x006a53
+                            0x005f14    0x005fed
+                            0x0034b6    0x00376d
                             0x00081c    0x001539
-                            0x00768e    0x0076e9
-                            0x0076ea    0x007745
-                            0x007746    0x00779b
-                            0x004bf6    0x004d49
-                            0x00539a    0x0054c1
-                            0x00679c    0x006853
-                            0x0069b2    0x006a57
-                            0x0079b2    0x0079f7
-                            0x007840    0x00788d
-                            0x006c34    0x006cc1
-                            0x00623a    0x006307
-                            0x00661c    0x0066dd
-                            0x002208    0x002583
-                            0x007b14    0x007b47
-                            0x0073ae    0x00741f
-                            0x00153a    0x001d6f
-                            0x005a20    0x005b1d
-                            0x005818    0x005921
-                            0x000804    0x000807
-                            0x007dd6    0x007ddb
-                            0x006308    0x0063cf
-                            0x004460    0x004617
+                            0x0075ea    0x007645
+                            0x007646    0x0076a1
+                            0x0076a2    0x0076f7
+                            0x004b52    0x004ca5
+                            0x0052f6    0x00541d
+                            0x0066f8    0x0067af
+                            0x00690e    0x0069b3
+                            0x00790e    0x007953
+                            0x00779c    0x0077e9
+                            0x006b90    0x006c1d
+                            0x006196    0x006263
+                            0x006578    0x006639
+                            0x002202    0x00257d
+                            0x007a70    0x007aa3
+                            0x00730a    0x00737b
                             0x000814    0x000815
-                            0x007dbe    0x007dc5
-                            0x007b48    0x007b75
-                            0x003e58    0x00406b
-                            0x0054c2    0x0055e5
-                            0x007d5a    0x007d6d
-                            0x006908    0x0069b1
-                            0x007ba2    0x007bcd
-                            0x007d10    0x007d2b
-                            0x006af8    0x006b97
-                            0x007cb6    0x007cd5
-                            0x0055e6    0x0056ff
-                            0x007c94    0x007cb5
-                            0x005b1e    0x005c13
-                            0x007d2c    0x007d43
-                            0x007a76    0x007aab
-                            0x0079f8    0x007a37
-                            0x007c48    0x007c6f
-                            0x00715a    0x0071d3
-                            0x007dc6    0x007dcd
-                            0x007ddc    0x007de1
-                            0x006fe4    0x007061
-                            0x007dce    0x007dd5
-                            0x007da0    0x007daf
-                            0x007db0    0x007dbd
+                            0x00153a    0x001d6f
+                            0x00597c    0x005a79
+                            0x005774    0x00587d
+                            0x000804    0x000807
+                            0x007d32    0x007d37
+                            0x006264    0x00632b
+                            0x0043bc    0x004573
+                            0x007aa4    0x007ad1
+                            0x007d1a    0x007d21
+                            0x003be0    0x003df3
+                            0x00541e    0x005541
+                            0x007cb6    0x007cc9
+                            0x006864    0x00690d
+                            0x007afe    0x007b29
+                            0x007c6c    0x007c87
+                            0x006a54    0x006af3
+                            0x007c12    0x007c31
+                            0x005542    0x00565b
+                            0x007bf0    0x007c11
+                            0x005a7a    0x005b6f
+                            0x007c88    0x007c9f
+                            0x0079d2    0x007a07
+                            0x007954    0x007993
+                            0x007ba4    0x007bcb
+                            0x0070b6    0x00712f
+                            0x007d22    0x007d29
+                            0x007d38    0x007d3d
+                            0x006f40    0x006fbd
+                            0x007d2a    0x007d31
+                            0x007cfc    0x007d0b
+                            0x007d0c    0x007d19
  
-                            15088 program addresses used
+                            15006 program addresses used
  
                               Symbols
                      Name    Address   Location    Storage File
                 ---------  ---------  ---------  --------- ---------
-        _LEFT_MOTOR_POWER   0x000700       data     extern firmware.asm
-       _RIGHT_MOTOR_POWER   0x000701       data     extern firmware.asm
-                   _SPEED   0x000702       data     extern firmware.asm
-              _LEFT_SPEED   0x000703       data     extern firmware.asm
-             _RIGHT_SPEED   0x000704       data     extern firmware.asm
-                 _forward   0x000705       data     extern firmware.asm
-                _backward   0x000707       data     extern firmware.asm
-             _rotate_left   0x000709       data     extern firmware.asm
-            _rotate_right   0x00070b       data     extern firmware.asm
-                    _halt   0x00070d       data     extern firmware.asm
-            _differential   0x00070f       data     extern firmware.asm
-                   _DRIVE   0x000711       data     extern firmware.asm
-_rc_routine_sonar_distance_1_1   0x000714       data     static firmware.asm
- _rc_routine_old_time_1_1   0x000716       data     static firmware.asm
+               _debugMode   0x000700       data     extern firmware.asm
+        _LEFT_MOTOR_POWER   0x000701       data     extern firmware.asm
+       _RIGHT_MOTOR_POWER   0x000702       data     extern firmware.asm
+                   _SPEED   0x000703       data     extern firmware.asm
+              _LEFT_SPEED   0x000704       data     extern firmware.asm
+             _RIGHT_SPEED   0x000705       data     extern firmware.asm
+                 _forward   0x000706       data     extern firmware.asm
+                _backward   0x000708       data     extern firmware.asm
+             _rotate_left   0x00070a       data     extern firmware.asm
+            _rotate_right   0x00070c       data     extern firmware.asm
+                    _halt   0x00070e       data     extern firmware.asm
+            _differential   0x000710       data     extern firmware.asm
+                   _DRIVE   0x000712       data     extern firmware.asm
+_rc_routine_sonar_distance_1_1   0x000715       data     static firmware.asm
+ _rc_routine_old_time_1_1   0x000717       data     static firmware.asm
                     r0x00   00000000       data     static firmware.asm
                     r0x01   0x000001       data     static firmware.asm
                     r0x02   0x000002       data     static firmware.asm
@@ -367,184 +368,183 @@ _rc_routine_sonar_distance_1_1   0x000714       data     static firmware.asm
                     r0x0d   0x00000d       data     static firmware.asm
                     r0x0e   0x00000e       data     static firmware.asm
                     r0x0f   0x00000f       data     static firmware.asm
-   _rotation_deg_per_tick   0x0002c7       data     extern firmware.asm
-  _wheel_circumference_cm   0x0002c9       data     extern firmware.asm
-_rotation_circumference_cm   0x0002cb       data     extern firmware.asm
-_distance_cm_per_15_ticks   0x0002cd       data     extern firmware.asm
-           _stringOfChars   0x0007db       data     extern firmware.asm
-             _integerByte   0x0002df       data     extern firmware.asm
-_rc_routine_elapsed_time_1_1   0x0007f0       data     static firmware.asm
-_tank_drive_routine_left_power_1_1   0x0002e0       data     static firmware.asm
-_tank_drive_routine_right_power_1_1   0x0002e1       data     static firmware.asm
-_arcade_drive_routine_left_power_1_1   0x0002e2       data     static firmware.asm
-_arcade_drive_routine_right_power_1_1   0x0002e3       data     static firmware.asm
-    __sdcc_gsinit_startup   0x005ed8    program     static firmware.asm
-   __sdcc_program_startup   0x005edc    program     static firmware.asm
-            _.code_000008   0x005ee0    program     static firmware.asm
-            _.code_00000a   0x005ee2    program     static firmware.asm
-                    _main   0x002bee    program     extern firmware.asm
-               _00138_DS_   0x002c14    program     static firmware.asm
-               _00110_DS_   0x002c42    program     static firmware.asm
-               _00159_DS_   0x002c76    program     static firmware.asm
-               _00160_DS_   0x002c78    program     static firmware.asm
-               _00112_DS_   0x002c8e    program     static firmware.asm
-               _00113_DS_   0x002cf0    program     static firmware.asm
-               _00115_DS_   0x002cfa    program     static firmware.asm
-               _00117_DS_   0x002d34    program     static firmware.asm
-               _00122_DS_   0x002d4e    program     static firmware.asm
-               _00123_DS_   0x002d76    program     static firmware.asm
-               _00161_DS_   0x002d98    program     static firmware.asm
-               _00125_DS_   0x002db2    program     static firmware.asm
-               _00162_DS_   0x002dcc    program     static firmware.asm
-               _00163_DS_   0x002dce    program     static firmware.asm
-               _00165_DS_   0x002dea    program     static firmware.asm
-               _00127_DS_   0x002e16    program     static firmware.asm
-               _00129_DS_   0x002e1a    program     static firmware.asm
-               _00166_DS_   0x002e30    program     static firmware.asm
-               _00167_DS_   0x002e48    program     static firmware.asm
-               _00130_DS_   0x002e4a    program     static firmware.asm
-               _00131_DS_   0x002e6e    program     static firmware.asm
-               _00169_DS_   0x002e8a    program     static firmware.asm
-               _00134_DS_   0x002eae    program     static firmware.asm
-               _00171_DS_   0x002ecc    program     static firmware.asm
-         _cliff_avoidance   0x0075ce    program     extern firmware.asm
-           _set_drives_LR   0x00748e    program     extern firmware.asm
-              _bump_front   0x005c14    program     extern firmware.asm
-        _bump_front_right   0x005d02    program     extern firmware.asm
-         _bump_front_left   0x005922    program     extern firmware.asm
-               _heartbeat   0x007a38    program     extern firmware.asm
-               _00437_DS_   0x007a6c    program     static firmware.asm
+   _rotation_deg_per_tick   0x0002c8       data     extern firmware.asm
+  _wheel_circumference_cm   0x0002ca       data     extern firmware.asm
+_rotation_circumference_cm   0x0002cc       data     extern firmware.asm
+_distance_cm_per_15_ticks   0x0002ce       data     extern firmware.asm
+           _stringOfChars   0x0007dc       data     extern firmware.asm
+             _integerByte   0x0002e0       data     extern firmware.asm
+_rc_routine_elapsed_time_1_1   0x000285       data     static firmware.asm
+_tank_drive_routine_left_power_1_1   0x0002e1       data     static firmware.asm
+_tank_drive_routine_right_power_1_1   0x0002e2       data     static firmware.asm
+_arcade_drive_routine_left_power_1_1   0x0002e3       data     static firmware.asm
+_arcade_drive_routine_right_power_1_1   0x0002e4       data     static firmware.asm
+    __sdcc_gsinit_startup   0x005e34    program     static firmware.asm
+   __sdcc_program_startup   0x005e38    program     static firmware.asm
+            _.code_000008   0x005e3c    program     static firmware.asm
+            _.code_00000a   0x005e3e    program     static firmware.asm
+                    _main   0x002be8    program     extern firmware.asm
+               _00138_DS_   0x002c0e    program     static firmware.asm
+               _00110_DS_   0x002c3c    program     static firmware.asm
+               _00159_DS_   0x002c70    program     static firmware.asm
+               _00160_DS_   0x002c72    program     static firmware.asm
+               _00112_DS_   0x002c88    program     static firmware.asm
+               _00113_DS_   0x002cea    program     static firmware.asm
+               _00115_DS_   0x002cf4    program     static firmware.asm
+               _00117_DS_   0x002d2e    program     static firmware.asm
+               _00122_DS_   0x002d48    program     static firmware.asm
+               _00123_DS_   0x002d70    program     static firmware.asm
+               _00161_DS_   0x002d92    program     static firmware.asm
+               _00125_DS_   0x002dac    program     static firmware.asm
+               _00162_DS_   0x002dc6    program     static firmware.asm
+               _00163_DS_   0x002dc8    program     static firmware.asm
+               _00165_DS_   0x002de4    program     static firmware.asm
+               _00127_DS_   0x002e10    program     static firmware.asm
+               _00129_DS_   0x002e14    program     static firmware.asm
+               _00166_DS_   0x002e2a    program     static firmware.asm
+               _00167_DS_   0x002e42    program     static firmware.asm
+               _00130_DS_   0x002e44    program     static firmware.asm
+               _00131_DS_   0x002e68    program     static firmware.asm
+               _00169_DS_   0x002e84    program     static firmware.asm
+               _00134_DS_   0x002ea8    program     static firmware.asm
+               _00171_DS_   0x002ec6    program     static firmware.asm
+         _cliff_avoidance   0x00752a    program     extern firmware.asm
+           _set_drives_LR   0x0073ea    program     extern firmware.asm
+              _bump_front   0x005b70    program     extern firmware.asm
+        _bump_front_right   0x005c5e    program     extern firmware.asm
+         _bump_front_left   0x00587e    program     extern firmware.asm
+               _heartbeat   0x007994    program     extern firmware.asm
+               _00448_DS_   0x0079c8    program     static firmware.asm
           _serial_control   0x001d70    program     extern firmware.asm
-               _00283_DS_   0x001d9e    program     static firmware.asm
-               _00284_DS_   0x001da2    program     static firmware.asm
-               _00390_DS_   0x001daa    program     static firmware.asm
-               _00392_DS_   0x001db2    program     static firmware.asm
-               _00394_DS_   0x001dba    program     static firmware.asm
-               _00396_DS_   0x001dc2    program     static firmware.asm
-               _00398_DS_   0x001dca    program     static firmware.asm
-               _00400_DS_   0x001dd2    program     static firmware.asm
-               _00402_DS_   0x001dda    program     static firmware.asm
-               _00404_DS_   0x001de2    program     static firmware.asm
-               _00406_DS_   0x001dea    program     static firmware.asm
-               _00408_DS_   0x001df2    program     static firmware.asm
-               _00410_DS_   0x001dfa    program     static firmware.asm
-               _00412_DS_   0x001e02    program     static firmware.asm
-               _00414_DS_   0x001e0a    program     static firmware.asm
-               _00420_DS_   0x001e1e    program     static firmware.asm
-               _00285_DS_   0x001e22    program     static firmware.asm
-               _00286_DS_   0x001e4a    program     static firmware.asm
-               _00287_DS_   0x001e72    program     static firmware.asm
-               _00288_DS_   0x001e9a    program     static firmware.asm
-               _00289_DS_   0x001ec2    program     static firmware.asm
-               _00290_DS_   0x001eea    program     static firmware.asm
-               _00291_DS_   0x001f04    program     static firmware.asm
-               _00292_DS_   0x001f1e    program     static firmware.asm
-               _00293_DS_   0x001f40    program     static firmware.asm
-               _00294_DS_   0x001f64    program     static firmware.asm
-               _00296_DS_   0x001f7a    program     static firmware.asm
-               _00297_DS_   0x001fa4    program     static firmware.asm
-               _10466_DS_   0x001fb8    program     static firmware.asm
-               _00366_DS_   0x001fe2    program     static firmware.asm
-               _00319_DS_   0x001fe6    program     static firmware.asm
-               _00421_DS_   0x001ffc    program     static firmware.asm
-               _00322_DS_   0x002006    program     static firmware.asm
-               _00422_DS_   0x002012    program     static firmware.asm
-               _00302_DS_   0x00201c    program     static firmware.asm
-               _00370_DS_   0x002046    program     static firmware.asm
-               _00324_DS_   0x00204a    program     static firmware.asm
-               _00423_DS_   0x002060    program     static firmware.asm
-               _00327_DS_   0x00206a    program     static firmware.asm
-               _00424_DS_   0x002076    program     static firmware.asm
-               _00329_DS_   0x002086    program     static firmware.asm
-               _00425_DS_   0x00209c    program     static firmware.asm
-               _00332_DS_   0x0020a6    program     static firmware.asm
-               _00426_DS_   0x0020b2    program     static firmware.asm
-               _00309_DS_   0x002114    program     static firmware.asm
-               _00378_DS_   0x002128    program     static firmware.asm
-               _00334_DS_   0x00212c    program     static firmware.asm
-               _00427_DS_   0x002142    program     static firmware.asm
-               _00337_DS_   0x00214c    program     static firmware.asm
-               _00428_DS_   0x002158    program     static firmware.asm
-               _00312_DS_   0x002162    program     static firmware.asm
-               _00382_DS_   0x00218c    program     static firmware.asm
-               _00339_DS_   0x002190    program     static firmware.asm
-               _00429_DS_   0x0021a6    program     static firmware.asm
-               _00342_DS_   0x0021b0    program     static firmware.asm
-               _00430_DS_   0x0021bc    program     static firmware.asm
-               _00315_DS_   0x0021c6    program     static firmware.asm
-               _00343_DS_   0x0021ee    program     static firmware.asm
-          _usart_get_byte   0x007cf4    program     extern firmware.asm
-_usart_get_byte_available   0x007c70    program     extern firmware.asm
-               _00270_DS_   0x007c88    program     static firmware.asm
-               _00272_DS_   0x007c8a    program     static firmware.asm
-    _usart_data_available   0x007cd6    program     extern firmware.asm
-             _reset_usart   0x007d80    program     extern firmware.asm
-     _autonomous_routine0   0x00655a    program     extern firmware.asm
-               _00242_DS_   0x0065a0    program     static firmware.asm
-               _00254_DS_   0x0065be    program     static firmware.asm
-               _00245_DS_   0x0065d8    program     static firmware.asm
-    _arcade_drive_routine   0x0066de    program     extern firmware.asm
-      _tank_drive_routine   0x00788e    program     extern firmware.asm
-              _rc_routine   0x0031e2    program     extern firmware.asm
-               _00207_DS_   0x003240    program     static firmware.asm
-               _00208_DS_   0x003244    program     static firmware.asm
-               _00221_DS_   0x003268    program     static firmware.asm
-               _00210_DS_   0x00326e    program     static firmware.asm
-               _00215_DS_   0x00328c    program     static firmware.asm
-               _00225_DS_   0x0032a2    program     static firmware.asm
-               _00216_DS_   0x0032aa    program     static firmware.asm
-               _00226_DS_   0x003364    program     static firmware.asm
-               _00213_DS_   0x00346e    program     static firmware.asm
-             _custom_init   0x00376c    program     extern firmware.asm
-               _00176_DS_   0x0037e2    program     static firmware.asm
-               _00199_DS_   0x0037ee    program     static firmware.asm
-               _00179_DS_   0x00380c    program     static firmware.asm
-               _00180_DS_   0x00381c    program     static firmware.asm
-               _00200_DS_   0x003828    program     static firmware.asm
-               _00183_DS_   0x003846    program     static firmware.asm
-               _00184_DS_   0x00384c    program     static firmware.asm
-               _00201_DS_   0x003858    program     static firmware.asm
-               _00187_DS_   0x003876    program     static firmware.asm
-                  __str_0   0x0038b0    program     static firmware.asm
-                  __str_1   0x0038b4    program     static firmware.asm
-                  __str_2   0x0038b8    program     static firmware.asm
-                  __str_3   0x0038bc    program     static firmware.asm
-                  __str_4   0x0038c0    program     static firmware.asm
-                  __str_5   0x0038c6    program     static firmware.asm
-                  __str_6   0x0038ce    program     static firmware.asm
-                  __str_7   0x0038d2    program     static firmware.asm
-                  __str_8   0x0038d6    program     static firmware.asm
-                  __str_9   0x003920    program     static firmware.asm
-                 __str_10   0x003950    program     static firmware.asm
-                 __str_11   0x003970    program     static firmware.asm
-                 __str_12   0x00398e    program     static firmware.asm
-                 __str_13   0x003992    program     static firmware.asm
-                 __str_14   0x003996    program     static firmware.asm
-                 __str_15   0x00399a    program     static firmware.asm
-                 __str_16   0x00399e    program     static firmware.asm
-                 __str_17   0x0039a2    program     static firmware.asm
-                 __str_18   0x0039b2    program     static firmware.asm
-                 __str_19   0x0039c2    program     static firmware.asm
-                 __str_20   0x0039c6    program     static firmware.asm
-                 __str_21   0x0039ce    program     static firmware.asm
-                 __str_22   0x0039d2    program     static firmware.asm
-                 __str_23   0x0039d6    program     static firmware.asm
-                ___uflags   0x00071a       data     extern crt0iz.asm
+               _00286_DS_   0x001d9e    program     static firmware.asm
+               _00287_DS_   0x001da2    program     static firmware.asm
+               _00399_DS_   0x001daa    program     static firmware.asm
+               _00401_DS_   0x001db2    program     static firmware.asm
+               _00403_DS_   0x001dba    program     static firmware.asm
+               _00405_DS_   0x001dc2    program     static firmware.asm
+               _00407_DS_   0x001dcc    program     static firmware.asm
+               _00409_DS_   0x001dd4    program     static firmware.asm
+               _00411_DS_   0x001ddc    program     static firmware.asm
+               _00413_DS_   0x001de4    program     static firmware.asm
+               _00415_DS_   0x001dec    program     static firmware.asm
+               _00417_DS_   0x001df4    program     static firmware.asm
+               _00419_DS_   0x001dfc    program     static firmware.asm
+               _00421_DS_   0x001e04    program     static firmware.asm
+               _00423_DS_   0x001e0c    program     static firmware.asm
+               _00425_DS_   0x001e14    program     static firmware.asm
+               _00431_DS_   0x001e28    program     static firmware.asm
+               _00288_DS_   0x001e2c    program     static firmware.asm
+               _00289_DS_   0x001e46    program     static firmware.asm
+               _00290_DS_   0x001e60    program     static firmware.asm
+               _00291_DS_   0x001e7a    program     static firmware.asm
+               _00292_DS_   0x001e94    program     static firmware.asm
+               _00293_DS_   0x001eae    program     static firmware.asm
+               _00294_DS_   0x001ec8    program     static firmware.asm
+               _00295_DS_   0x001ee2    program     static firmware.asm
+               _00296_DS_   0x001f04    program     static firmware.asm
+               _00297_DS_   0x001f28    program     static firmware.asm
+               _00299_DS_   0x001f3e    program     static firmware.asm
+               _00300_DS_   0x001f68    program     static firmware.asm
+               _10477_DS_   0x001f7c    program     static firmware.asm
+               _00374_DS_   0x001fa6    program     static firmware.asm
+               _00326_DS_   0x001faa    program     static firmware.asm
+               _00432_DS_   0x001fc0    program     static firmware.asm
+               _00329_DS_   0x001fca    program     static firmware.asm
+               _00433_DS_   0x001fd6    program     static firmware.asm
+               _00305_DS_   0x001fe0    program     static firmware.asm
+               _00378_DS_   0x00200a    program     static firmware.asm
+               _00331_DS_   0x00200e    program     static firmware.asm
+               _00434_DS_   0x002024    program     static firmware.asm
+               _00334_DS_   0x00202e    program     static firmware.asm
+               _00435_DS_   0x00203a    program     static firmware.asm
+               _00336_DS_   0x00204a    program     static firmware.asm
+               _00436_DS_   0x002060    program     static firmware.asm
+               _00339_DS_   0x00206a    program     static firmware.asm
+               _00437_DS_   0x002076    program     static firmware.asm
+               _00312_DS_   0x0020d8    program     static firmware.asm
+               _00386_DS_   0x0020f2    program     static firmware.asm
+               _00341_DS_   0x0020f6    program     static firmware.asm
+               _00438_DS_   0x00210c    program     static firmware.asm
+               _00344_DS_   0x002116    program     static firmware.asm
+               _00439_DS_   0x002122    program     static firmware.asm
+               _00315_DS_   0x00212c    program     static firmware.asm
+               _00390_DS_   0x002156    program     static firmware.asm
+               _00346_DS_   0x00215a    program     static firmware.asm
+               _00440_DS_   0x002170    program     static firmware.asm
+               _00349_DS_   0x00217a    program     static firmware.asm
+               _00441_DS_   0x002186    program     static firmware.asm
+               _00318_DS_   0x002190    program     static firmware.asm
+               _00319_DS_   0x0021b8    program     static firmware.asm
+               _00321_DS_   0x0021d4    program     static firmware.asm
+               _00350_DS_   0x0021e8    program     static firmware.asm
+          _usart_get_byte   0x007c50    program     extern firmware.asm
+_usart_get_byte_available   0x007bcc    program     extern firmware.asm
+               _00273_DS_   0x007be4    program     static firmware.asm
+               _00275_DS_   0x007be6    program     static firmware.asm
+    _usart_data_available   0x007c32    program     extern firmware.asm
+             _reset_usart   0x007cdc    program     extern firmware.asm
+     _autonomous_routine0   0x0064b6    program     extern firmware.asm
+               _00245_DS_   0x0064fc    program     static firmware.asm
+               _00257_DS_   0x00651a    program     static firmware.asm
+               _00248_DS_   0x006534    program     static firmware.asm
+    _arcade_drive_routine   0x00663a    program     extern firmware.asm
+      _tank_drive_routine   0x0077ea    program     extern firmware.asm
+              _rc_routine   0x0031dc    program     extern firmware.asm
+               _00207_DS_   0x00323a    program     static firmware.asm
+               _00208_DS_   0x00323e    program     static firmware.asm
+               _00224_DS_   0x003262    program     static firmware.asm
+               _00210_DS_   0x003268    program     static firmware.asm
+               _00217_DS_   0x003286    program     static firmware.asm
+               _00228_DS_   0x00329c    program     static firmware.asm
+               _00218_DS_   0x0032a4    program     static firmware.asm
+               _00229_DS_   0x00335e    program     static firmware.asm
+               _00215_DS_   0x003470    program     static firmware.asm
+             _custom_init   0x0041e8    program     extern firmware.asm
+               _00176_DS_   0x00422a    program     static firmware.asm
+               _00199_DS_   0x004236    program     static firmware.asm
+               _00179_DS_   0x004254    program     static firmware.asm
+               _00180_DS_   0x004264    program     static firmware.asm
+               _00200_DS_   0x004270    program     static firmware.asm
+               _00183_DS_   0x00428e    program     static firmware.asm
+               _00184_DS_   0x004294    program     static firmware.asm
+               _00201_DS_   0x0042a0    program     static firmware.asm
+               _00187_DS_   0x0042be    program     static firmware.asm
+                  __str_0   0x0042f8    program     static firmware.asm
+                  __str_1   0x0042fc    program     static firmware.asm
+                  __str_2   0x004300    program     static firmware.asm
+                  __str_3   0x004304    program     static firmware.asm
+                  __str_4   0x004308    program     static firmware.asm
+                  __str_5   0x00430e    program     static firmware.asm
+                  __str_6   0x004314    program     static firmware.asm
+                  __str_7   0x004318    program     static firmware.asm
+                  __str_8   0x00431c    program     static firmware.asm
+                  __str_9   0x00434c    program     static firmware.asm
+                 __str_10   0x00436c    program     static firmware.asm
+                 __str_11   0x00438a    program     static firmware.asm
+                 __str_12   0x00438e    program     static firmware.asm
+                 __str_13   0x004392    program     static firmware.asm
+                 __str_14   0x004396    program     static firmware.asm
+                 __str_15   0x00439c    program     static firmware.asm
+                 __str_16   0x0043a0    program     static firmware.asm
+                 __str_17   0x0043a4    program     static firmware.asm
+                 __str_18   0x0043a8    program     static firmware.asm
+                 __str_19   0x0043ac    program     static firmware.asm
+                ___uflags   0x00071b       data     extern crt0iz.asm
                   __entry   0x000800    program     extern crt0iz.asm
-               __do_cinit   0x006b98    program     extern crt0iz.asm
-                     test   0x006bb0    program     static crt0iz.asm
-                    done1   0x006bb6    program     static crt0iz.asm
-                    cont1   0x006bba    program     static crt0iz.asm
-                copy_loop   0x006c08    program     static crt0iz.asm
-            copy_one_byte   0x006c0e    program     static crt0iz.asm
-             done_copying   0x006c1c    program     static crt0iz.asm
-                  do_next   0x006c2e    program     static crt0iz.asm
-                     done   0x006c32    program     static crt0iz.asm
-                __startup   0x007bf8    program     extern crt0iz.asm
-               clear_loop   0x007c10    program     static crt0iz.asm
-               _00110_DS_   0x007c1e    program     static crt0iz.asm
-_sonar_read_waiting_for_echo_1_1   0x00071b       data     static sonar.asm
-_sonar_read_last_distance_1_1   0x000721       data     static sonar.asm
+               __do_cinit   0x006af4    program     extern crt0iz.asm
+                     test   0x006b0c    program     static crt0iz.asm
+                    done1   0x006b12    program     static crt0iz.asm
+                    cont1   0x006b16    program     static crt0iz.asm
+                copy_loop   0x006b64    program     static crt0iz.asm
+            copy_one_byte   0x006b6a    program     static crt0iz.asm
+             done_copying   0x006b78    program     static crt0iz.asm
+                  do_next   0x006b8a    program     static crt0iz.asm
+                     done   0x006b8e    program     static crt0iz.asm
+                __startup   0x007b54    program     extern crt0iz.asm
+               clear_loop   0x007b6c    program     static crt0iz.asm
+               _00110_DS_   0x007b7a    program     static crt0iz.asm
+_sonar_read_waiting_for_echo_1_1   0x00071c       data     static sonar.asm
+_sonar_read_last_distance_1_1   0x000722       data     static sonar.asm
                     r0x00   00000000       data     static sonar.asm
                     r0x01   0x000001       data     static sonar.asm
                     r0x02   0x000002       data     static sonar.asm
@@ -556,50 +556,50 @@ _sonar_read_last_distance_1_1   0x000721       data     static sonar.asm
                     r0x08   0x000008       data     static sonar.asm
                     r0x09   0x000009       data     static sonar.asm
                     r0x0a   0x00000a       data     static sonar.asm
-_sonar_emit_pulse_interrupt   0x006dd6    program     extern sonar.asm
-               _00226_DS_   0x006e20    program     static sonar.asm
-               _00227_DS_   0x006e24    program     static sonar.asm
-               _00232_DS_   0x006e4a    program     static sonar.asm
-        _sonar_emit_pulse   0x00724c    program     extern sonar.asm
-               _00206_DS_   0x007280    program     static sonar.asm
-               _00207_DS_   0x007284    program     static sonar.asm
-               _00210_DS_   0x00729c    program     static sonar.asm
-               _00213_DS_   0x0072b4    program     static sonar.asm
-              _sonar_read   0x002ef4    program     extern sonar.asm
-               _00168_DS_   0x002f3a    program     static sonar.asm
-               _00169_DS_   0x002f40    program     static sonar.asm
-               _00180_DS_   0x002fb0    program     static sonar.asm
-               _00196_DS_   0x002fc6    program     static sonar.asm
-               _00181_DS_   0x002fce    program     static sonar.asm
-               _00197_DS_   0x003014    program     static sonar.asm
-               _00176_DS_   0x00305a    program     static sonar.asm
-               _00182_DS_   0x0030ba    program     static sonar.asm
-               _00201_DS_   0x0030d0    program     static sonar.asm
-               _00183_DS_   0x0030d8    program     static sonar.asm
-               _00177_DS_   0x00318c    program     static sonar.asm
-               _00178_DS_   0x0031b0    program     static sonar.asm
-              _sonar_init   0x006496    program     extern sonar.asm
-               _00150_DS_   0x0064d8    program     static sonar.asm
-               _00151_DS_   0x0064dc    program     static sonar.asm
-               _00155_DS_   0x006540    program     static sonar.asm
-    _sonar_read_spin_wait   0x004618    program     extern sonar.asm
-               _00123_DS_   0x004656    program     static sonar.asm
-               _00126_DS_   0x004680    program     static sonar.asm
-               _00131_DS_   0x0046c4    program     static sonar.asm
-               _00145_DS_   0x0046da    program     static sonar.asm
-               _00132_DS_   0x0046e2    program     static sonar.asm
-    _sonar_init_spin_wait   0x0070de    program     extern sonar.asm
-               _00105_DS_   0x007116    program     static sonar.asm
-               _00106_DS_   0x00711a    program     static sonar.asm
-               _00110_DS_   0x00714c    program     static sonar.asm
-   _Interrupt_port_in_use   0x00072d       data     extern interrupts.asm
-          _Sonar_on_iport   0x000733       data     extern interrupts.asm
-    _Sonar_data_available   0x000739       data     extern interrupts.asm
-         _Sonar_echo_time   0x00073f       data     extern interrupts.asm
-           _Encoder_ticks   0x00074b       data     extern interrupts.asm
-        _Encoder_on_iport   0x000757       data     extern interrupts.asm
-         _Quad_input_port   0x00075d       data     extern interrupts.asm
-_InterruptHandlerLow_old_portb_1_1   0x000763       data     static interrupts.asm
+_sonar_emit_pulse_interrupt   0x006d32    program     extern sonar.asm
+               _00226_DS_   0x006d7c    program     static sonar.asm
+               _00227_DS_   0x006d80    program     static sonar.asm
+               _00232_DS_   0x006da6    program     static sonar.asm
+        _sonar_emit_pulse   0x0071a8    program     extern sonar.asm
+               _00206_DS_   0x0071dc    program     static sonar.asm
+               _00207_DS_   0x0071e0    program     static sonar.asm
+               _00210_DS_   0x0071f8    program     static sonar.asm
+               _00213_DS_   0x007210    program     static sonar.asm
+              _sonar_read   0x002eee    program     extern sonar.asm
+               _00168_DS_   0x002f34    program     static sonar.asm
+               _00169_DS_   0x002f3a    program     static sonar.asm
+               _00180_DS_   0x002faa    program     static sonar.asm
+               _00196_DS_   0x002fc0    program     static sonar.asm
+               _00181_DS_   0x002fc8    program     static sonar.asm
+               _00197_DS_   0x00300e    program     static sonar.asm
+               _00176_DS_   0x003054    program     static sonar.asm
+               _00182_DS_   0x0030b4    program     static sonar.asm
+               _00201_DS_   0x0030ca    program     static sonar.asm
+               _00183_DS_   0x0030d2    program     static sonar.asm
+               _00177_DS_   0x003186    program     static sonar.asm
+               _00178_DS_   0x0031aa    program     static sonar.asm
+              _sonar_init   0x0063f2    program     extern sonar.asm
+               _00150_DS_   0x006434    program     static sonar.asm
+               _00151_DS_   0x006438    program     static sonar.asm
+               _00155_DS_   0x00649c    program     static sonar.asm
+    _sonar_read_spin_wait   0x004574    program     extern sonar.asm
+               _00123_DS_   0x0045b2    program     static sonar.asm
+               _00126_DS_   0x0045dc    program     static sonar.asm
+               _00131_DS_   0x004620    program     static sonar.asm
+               _00145_DS_   0x004636    program     static sonar.asm
+               _00132_DS_   0x00463e    program     static sonar.asm
+    _sonar_init_spin_wait   0x00703a    program     extern sonar.asm
+               _00105_DS_   0x007072    program     static sonar.asm
+               _00106_DS_   0x007076    program     static sonar.asm
+               _00110_DS_   0x0070a8    program     static sonar.asm
+   _Interrupt_port_in_use   0x00072e       data     extern interrupts.asm
+          _Sonar_on_iport   0x000734       data     extern interrupts.asm
+    _Sonar_data_available   0x00073a       data     extern interrupts.asm
+         _Sonar_echo_time   0x000740       data     extern interrupts.asm
+           _Encoder_ticks   0x00074c       data     extern interrupts.asm
+        _Encoder_on_iport   0x000758       data     extern interrupts.asm
+         _Quad_input_port   0x00075e       data     extern interrupts.asm
+_InterruptHandlerLow_old_portb_1_1   0x000764       data     static interrupts.asm
                     r0x00   00000000       data     static interrupts.asm
                     r0x01   0x000001       data     static interrupts.asm
                     r0x02   0x000002       data     static interrupts.asm
@@ -612,95 +612,95 @@ _InterruptHandlerLow_old_portb_1_1   0x000763       data     static interrupts.a
                     r0x09   0x000009       data     static interrupts.asm
                     r0x0a   0x00000a       data     static interrupts.asm
                     r0x0b   0x00000b       data     static interrupts.asm
-       _Sonar_output_port   0x0007ea       data     extern interrupts.asm
-            _Porta_sample   0x0002e4       data     extern interrupts.asm
-            _Portf_sample   0x0002e5       data     extern interrupts.asm
-            _Porth_sample   0x0002e6       data     extern interrupts.asm
-        _Timer0_overflows   0x0002cf       data     extern interrupts.asm
-        _Timer1_overflows   0x0002d1       data     extern interrupts.asm
-        _Timer2_overflows   0x000285       data     extern interrupts.asm
-        _Timer3_overflows   0x0002d3       data     extern interrupts.asm
-        _Timer4_overflows   0x000289       data     extern interrupts.asm
+       _Sonar_output_port   0x0007eb       data     extern interrupts.asm
+            _Porta_sample   0x0002e5       data     extern interrupts.asm
+            _Portf_sample   0x0002e6       data     extern interrupts.asm
+            _Porth_sample   0x0002e7       data     extern interrupts.asm
+        _Timer0_overflows   0x0002d0       data     extern interrupts.asm
+        _Timer1_overflows   0x0002d2       data     extern interrupts.asm
+        _Timer2_overflows   0x000289       data     extern interrupts.asm
+        _Timer3_overflows   0x0002d4       data     extern interrupts.asm
+        _Timer4_overflows   0x00028d       data     extern interrupts.asm
           _Timer0_at_emit   0x00026d       data     extern interrupts.asm
           _Timer0_at_echo   0x000279       data     extern interrupts.asm
       _InterruptVectorLow   0x000818    program     extern interrupts.asm
-     _InterruptHandlerLow   0x002584    program     extern interrupts.asm
-               _00214_DS_   0x0025fe    program     static interrupts.asm
-               _00245_DS_   0x00260a    program     static interrupts.asm
-               _00167_DS_   0x0026a6    program     static interrupts.asm
-               _00164_DS_   0x0026ba    program     static interrupts.asm
-               _00168_DS_   0x0026e4    program     static interrupts.asm
-               _00172_DS_   0x0026fa    program     static interrupts.asm
-               _00170_DS_   0x00272a    program     static interrupts.asm
-               _00216_DS_   0x002736    program     static interrupts.asm
-               _00177_DS_   0x002744    program     static interrupts.asm
-               _00254_DS_   0x002754    program     static interrupts.asm
-               _00187_DS_   0x002772    program     static interrupts.asm
-               _00184_DS_   0x002784    program     static interrupts.asm
-               _00179_DS_   0x00279a    program     static interrupts.asm
-               _00190_DS_   0x0027a4    program     static interrupts.asm
-               _00258_DS_   0x0027b4    program     static interrupts.asm
-               _00200_DS_   0x0027d2    program     static interrupts.asm
-               _00197_DS_   0x0027e4    program     static interrupts.asm
-               _00192_DS_   0x0027fa    program     static interrupts.asm
-               _00203_DS_   0x002804    program     static interrupts.asm
-               _10289_DS_   0x002814    program     static interrupts.asm
-               _00205_DS_   0x002814    program     static interrupts.asm
-               _20290_DS_   0x002824    program     static interrupts.asm
-               _00207_DS_   0x002824    program     static interrupts.asm
-               _30291_DS_   0x002834    program     static interrupts.asm
-               _40292_DS_   0x00283a    program     static interrupts.asm
-               _50293_DS_   0x002840    program     static interrupts.asm
-               _00209_DS_   0x002844    program     static interrupts.asm
-               _60294_DS_   0x002854    program     static interrupts.asm
-               _00211_DS_   0x002854    program     static interrupts.asm
-               _70295_DS_   0x002864    program     static interrupts.asm
-               _80296_DS_   0x00286a    program     static interrupts.asm
-               _90297_DS_   0x002870    program     static interrupts.asm
-               _00218_DS_   0x002874    program     static interrupts.asm
-        _quad_encoder_isr   0x004270    program     extern interrupts.asm
-               _00317_DS_   0x0042f6    program     static interrupts.asm
-               _00289_DS_   0x004336    program     static interrupts.asm
-               _00290_DS_   0x004340    program     static interrupts.asm
-               _00291_DS_   0x00434a    program     static interrupts.asm
-               _00292_DS_   0x004354    program     static interrupts.asm
-               _00293_DS_   0x00435e    program     static interrupts.asm
-               _00294_DS_   0x004368    program     static interrupts.asm
-               _00295_DS_   0x004372    program     static interrupts.asm
-               _00296_DS_   0x00437c    program     static interrupts.asm
-               _00297_DS_   0x004386    program     static interrupts.asm
-               _00298_DS_   0x004390    program     static interrupts.asm
-               _00299_DS_   0x00439a    program     static interrupts.asm
-               _00300_DS_   0x0043a4    program     static interrupts.asm
-               _00301_DS_   0x0043ae    program     static interrupts.asm
-               _00302_DS_   0x0043b8    program     static interrupts.asm
-               _00303_DS_   0x0043c2    program     static interrupts.asm
-               _00304_DS_   0x0043cc    program     static interrupts.asm
-               _00306_DS_   0x0043d4    program     static interrupts.asm
-               _00308_DS_   0x004412    program     static interrupts.asm
-               _00310_DS_   0x004446    program     static interrupts.asm
-          _sonar_echo_isr   0x004d4a    program     extern interrupts.asm
-          _sonar_emit_isr   0x005260    program     extern interrupts.asm
-               _00279_DS_   0x00534e    program     static interrupts.asm
-               _00265_DS_   0x005366    program     static interrupts.asm
-               _00266_DS_   0x00536a    program     static interrupts.asm
-               _00272_DS_   0x00536c    program     static interrupts.asm
-       _interrupt_disable   0x006ee0    program     extern interrupts.asm
-               _00151_DS_   0x006f36    program     static interrupts.asm
-               _00138_DS_   0x006f4e    program     static interrupts.asm
-               _00139_DS_   0x006f52    program     static interrupts.asm
-               _00143_DS_   0x006f56    program     static interrupts.asm
-               _00145_DS_   0x006f58    program     static interrupts.asm
-        _interrupt_enable   0x006f62    program     extern interrupts.asm
-               _00133_DS_   0x006fb8    program     static interrupts.asm
-               _00120_DS_   0x006fd0    program     static interrupts.asm
-               _00121_DS_   0x006fd4    program     static interrupts.asm
-               _00125_DS_   0x006fd8    program     static interrupts.asm
-               _00127_DS_   0x006fda    program     static interrupts.asm
-      _interrupt_set_edge   0x007632    program     extern interrupts.asm
-               _00105_DS_   0x00765c    program     static interrupts.asm
-               _00106_DS_   0x00766e    program     static interrupts.asm
-               _00108_DS_   0x007680    program     static interrupts.asm
+     _InterruptHandlerLow   0x00257e    program     extern interrupts.asm
+               _00214_DS_   0x0025f8    program     static interrupts.asm
+               _00245_DS_   0x002604    program     static interrupts.asm
+               _00167_DS_   0x0026a0    program     static interrupts.asm
+               _00164_DS_   0x0026b4    program     static interrupts.asm
+               _00168_DS_   0x0026de    program     static interrupts.asm
+               _00172_DS_   0x0026f4    program     static interrupts.asm
+               _00170_DS_   0x002724    program     static interrupts.asm
+               _00216_DS_   0x002730    program     static interrupts.asm
+               _00177_DS_   0x00273e    program     static interrupts.asm
+               _00254_DS_   0x00274e    program     static interrupts.asm
+               _00187_DS_   0x00276c    program     static interrupts.asm
+               _00184_DS_   0x00277e    program     static interrupts.asm
+               _00179_DS_   0x002794    program     static interrupts.asm
+               _00190_DS_   0x00279e    program     static interrupts.asm
+               _00258_DS_   0x0027ae    program     static interrupts.asm
+               _00200_DS_   0x0027cc    program     static interrupts.asm
+               _00197_DS_   0x0027de    program     static interrupts.asm
+               _00192_DS_   0x0027f4    program     static interrupts.asm
+               _00203_DS_   0x0027fe    program     static interrupts.asm
+               _10289_DS_   0x00280e    program     static interrupts.asm
+               _00205_DS_   0x00280e    program     static interrupts.asm
+               _20290_DS_   0x00281e    program     static interrupts.asm
+               _00207_DS_   0x00281e    program     static interrupts.asm
+               _30291_DS_   0x00282e    program     static interrupts.asm
+               _40292_DS_   0x002834    program     static interrupts.asm
+               _50293_DS_   0x00283a    program     static interrupts.asm
+               _00209_DS_   0x00283e    program     static interrupts.asm
+               _60294_DS_   0x00284e    program     static interrupts.asm
+               _00211_DS_   0x00284e    program     static interrupts.asm
+               _70295_DS_   0x00285e    program     static interrupts.asm
+               _80296_DS_   0x002864    program     static interrupts.asm
+               _90297_DS_   0x00286a    program     static interrupts.asm
+               _00218_DS_   0x00286e    program     static interrupts.asm
+        _quad_encoder_isr   0x003ff8    program     extern interrupts.asm
+               _00317_DS_   0x00407e    program     static interrupts.asm
+               _00289_DS_   0x0040be    program     static interrupts.asm
+               _00290_DS_   0x0040c8    program     static interrupts.asm
+               _00291_DS_   0x0040d2    program     static interrupts.asm
+               _00292_DS_   0x0040dc    program     static interrupts.asm
+               _00293_DS_   0x0040e6    program     static interrupts.asm
+               _00294_DS_   0x0040f0    program     static interrupts.asm
+               _00295_DS_   0x0040fa    program     static interrupts.asm
+               _00296_DS_   0x004104    program     static interrupts.asm
+               _00297_DS_   0x00410e    program     static interrupts.asm
+               _00298_DS_   0x004118    program     static interrupts.asm
+               _00299_DS_   0x004122    program     static interrupts.asm
+               _00300_DS_   0x00412c    program     static interrupts.asm
+               _00301_DS_   0x004136    program     static interrupts.asm
+               _00302_DS_   0x004140    program     static interrupts.asm
+               _00303_DS_   0x00414a    program     static interrupts.asm
+               _00304_DS_   0x004154    program     static interrupts.asm
+               _00306_DS_   0x00415c    program     static interrupts.asm
+               _00308_DS_   0x00419a    program     static interrupts.asm
+               _00310_DS_   0x0041ce    program     static interrupts.asm
+          _sonar_echo_isr   0x004ca6    program     extern interrupts.asm
+          _sonar_emit_isr   0x0051bc    program     extern interrupts.asm
+               _00279_DS_   0x0052aa    program     static interrupts.asm
+               _00265_DS_   0x0052c2    program     static interrupts.asm
+               _00266_DS_   0x0052c6    program     static interrupts.asm
+               _00272_DS_   0x0052c8    program     static interrupts.asm
+       _interrupt_disable   0x006e3c    program     extern interrupts.asm
+               _00151_DS_   0x006e92    program     static interrupts.asm
+               _00138_DS_   0x006eaa    program     static interrupts.asm
+               _00139_DS_   0x006eae    program     static interrupts.asm
+               _00143_DS_   0x006eb2    program     static interrupts.asm
+               _00145_DS_   0x006eb4    program     static interrupts.asm
+        _interrupt_enable   0x006ebe    program     extern interrupts.asm
+               _00133_DS_   0x006f14    program     static interrupts.asm
+               _00120_DS_   0x006f2c    program     static interrupts.asm
+               _00121_DS_   0x006f30    program     static interrupts.asm
+               _00125_DS_   0x006f34    program     static interrupts.asm
+               _00127_DS_   0x006f36    program     static interrupts.asm
+      _interrupt_set_edge   0x00758e    program     extern interrupts.asm
+               _00105_DS_   0x0075b8    program     static interrupts.asm
+               _00106_DS_   0x0075ca    program     static interrupts.asm
+               _00108_DS_   0x0075dc    program     static interrupts.asm
                     r0x00   00000000       data     static arcade_drive.asm
                     r0x01   0x000001       data     static arcade_drive.asm
                     r0x02   0x000002       data     static arcade_drive.asm
@@ -720,141 +720,141 @@ _InterruptHandlerLow_old_portb_1_1   0x000763       data     static interrupts.a
                     r0x10   0x000010       data     static arcade_drive.asm
                     r0x11   0x000011       data     static arcade_drive.asm
                     r0x12   0x000012       data     static arcade_drive.asm
-_arcade_drive_left_power_1_1   0x0002d5       data     static arcade_drive.asm
-_arcade_drive_right_power_1_1   0x0002d7       data     static arcade_drive.asm
-            _arcade_drive   0x0028ca    program     extern arcade_drive.asm
-               _00119_DS_   0x00297a    program     static arcade_drive.asm
-               _00120_DS_   0x002990    program     static arcade_drive.asm
-               _00121_DS_   0x0029b6    program     static arcade_drive.asm
-               _00122_DS_   0x0029cc    program     static arcade_drive.asm
-               _00123_DS_   0x0029dc    program     static arcade_drive.asm
-               _00124_DS_   0x0029ee    program     static arcade_drive.asm
-               _00141_DS_   0x0029fa    program     static arcade_drive.asm
-               _00125_DS_   0x002a0c    program     static arcade_drive.asm
-               _00126_DS_   0x002a1e    program     static arcade_drive.asm
-               _00143_DS_   0x002a2a    program     static arcade_drive.asm
-               _00105_DS_   0x002a34    program     static arcade_drive.asm
-               _00106_DS_   0x002a38    program     static arcade_drive.asm
-               _00115_DS_   0x002b3a    program     static arcade_drive.asm
-               _00113_DS_   0x002b4e    program     static arcade_drive.asm
-               _10105_DS_   0x002b5c    program     static arcade_drive.asm
-               _20106_DS_   0x002b6a    program     static arcade_drive.asm
-               _00116_DS_   0x002b6a    program     static arcade_drive.asm
-               _00117_DS_   0x002b9c    program     static arcade_drive.asm
+_arcade_drive_left_power_1_1   0x0002d6       data     static arcade_drive.asm
+_arcade_drive_right_power_1_1   0x0002d8       data     static arcade_drive.asm
+            _arcade_drive   0x0028c4    program     extern arcade_drive.asm
+               _00119_DS_   0x002974    program     static arcade_drive.asm
+               _00120_DS_   0x00298a    program     static arcade_drive.asm
+               _00121_DS_   0x0029b0    program     static arcade_drive.asm
+               _00122_DS_   0x0029c6    program     static arcade_drive.asm
+               _00123_DS_   0x0029d6    program     static arcade_drive.asm
+               _00124_DS_   0x0029e8    program     static arcade_drive.asm
+               _00141_DS_   0x0029f4    program     static arcade_drive.asm
+               _00125_DS_   0x002a06    program     static arcade_drive.asm
+               _00126_DS_   0x002a18    program     static arcade_drive.asm
+               _00143_DS_   0x002a24    program     static arcade_drive.asm
+               _00105_DS_   0x002a2e    program     static arcade_drive.asm
+               _00106_DS_   0x002a32    program     static arcade_drive.asm
+               _00115_DS_   0x002b34    program     static arcade_drive.asm
+               _00113_DS_   0x002b48    program     static arcade_drive.asm
+               _10105_DS_   0x002b56    program     static arcade_drive.asm
+               _20106_DS_   0x002b64    program     static arcade_drive.asm
+               _00116_DS_   0x002b64    program     static arcade_drive.asm
+               _00117_DS_   0x002b96    program     static arcade_drive.asm
                     r0x00   00000000       data     static io.asm
                     r0x01   0x000001       data     static io.asm
                     r0x02   0x000002       data     static io.asm
                     r0x03   0x000003       data     static io.asm
                     r0x04   0x000004       data     static io.asm
                     r0x05   0x000005       data     static io.asm
-            _Analog_ports   0x0002e7       data     extern io.asm
-      _Analog_ports_const   0x0002e8       data     extern io.asm
- _io_update_local_pwm_dir   0x0063d0    program     extern io.asm
-        _io_get_direction   0x004a92    program     extern io.asm
-               _00270_DS_   0x004abc    program     static io.asm
-               _00271_DS_   0x004ac0    program     static io.asm
-               _00300_DS_   0x004b06    program     static io.asm
-               _00273_DS_   0x004b46    program     static io.asm
-               _00274_DS_   0x004b50    program     static io.asm
-               _00275_DS_   0x004b5a    program     static io.asm
-               _00276_DS_   0x004b64    program     static io.asm
-               _00277_DS_   0x004b6e    program     static io.asm
-               _00278_DS_   0x004b78    program     static io.asm
-               _00279_DS_   0x004b82    program     static io.asm
-               _00280_DS_   0x004b8c    program     static io.asm
-               _00281_DS_   0x004b96    program     static io.asm
-               _00282_DS_   0x004ba0    program     static io.asm
-               _00283_DS_   0x004baa    program     static io.asm
-               _00284_DS_   0x004bb4    program     static io.asm
-               _00285_DS_   0x004bbe    program     static io.asm
-               _00286_DS_   0x004bc8    program     static io.asm
-               _00287_DS_   0x004bd2    program     static io.asm
-               _00288_DS_   0x004bdc    program     static io.asm
-               _00289_DS_   0x004be6    program     static io.asm
-               _00291_DS_   0x004be8    program     static io.asm
-        _io_set_direction   0x00406c    program     extern io.asm
-               _00235_DS_   0x0040a0    program     static io.asm
-               _00236_DS_   0x0040a4    program     static io.asm
-               _00265_DS_   0x0040ea    program     static io.asm
-               _00238_DS_   0x00412a    program     static io.asm
-               _00239_DS_   0x00413a    program     static io.asm
-               _00240_DS_   0x00414c    program     static io.asm
-               _00241_DS_   0x004160    program     static io.asm
-               _00242_DS_   0x004174    program     static io.asm
-               _00243_DS_   0x004188    program     static io.asm
-               _00244_DS_   0x004198    program     static io.asm
-               _00245_DS_   0x0041aa    program     static io.asm
-               _00246_DS_   0x0041be    program     static io.asm
-               _00247_DS_   0x0041d2    program     static io.asm
-               _00248_DS_   0x0041e4    program     static io.asm
-               _00249_DS_   0x0041f8    program     static io.asm
-               _00250_DS_   0x00420c    program     static io.asm
-               _00251_DS_   0x00421e    program     static io.asm
-               _00252_DS_   0x004232    program     static io.asm
-               _00253_DS_   0x004246    program     static io.asm
-               _00254_DS_   0x004258    program     static io.asm
-               _00255_DS_   0x00425c    program     static io.asm
-               _00256_DS_   0x00425e    program     static io.asm
-        _io_write_digital   0x003c3c    program     extern io.asm
-               _00198_DS_   0x003c84    program     static io.asm
-               _00199_DS_   0x003c88    program     static io.asm
-               _00230_DS_   0x003cce    program     static io.asm
-               _00202_DS_   0x003d0e    program     static io.asm
-               _00203_DS_   0x003d1e    program     static io.asm
-               _00204_DS_   0x003d30    program     static io.asm
-               _00205_DS_   0x003d44    program     static io.asm
-               _00206_DS_   0x003d58    program     static io.asm
-               _00207_DS_   0x003d6c    program     static io.asm
-               _00208_DS_   0x003d7c    program     static io.asm
-               _00209_DS_   0x003d8e    program     static io.asm
-               _00210_DS_   0x003da2    program     static io.asm
-               _00211_DS_   0x003db6    program     static io.asm
-               _00212_DS_   0x003dc8    program     static io.asm
-               _00213_DS_   0x003ddc    program     static io.asm
-               _00214_DS_   0x003df0    program     static io.asm
-               _00215_DS_   0x003e02    program     static io.asm
-               _00216_DS_   0x003e16    program     static io.asm
-               _00217_DS_   0x003e2a    program     static io.asm
-               _00218_DS_   0x003e3c    program     static io.asm
-               _00219_DS_   0x003e40    program     static io.asm
-               _00220_DS_   0x003e42    program     static io.asm
-         _io_read_digital   0x004798    program     extern io.asm
-               _00159_DS_   0x0047d8    program     static io.asm
-               _00160_DS_   0x0047dc    program     static io.asm
-               _00193_DS_   0x004822    program     static io.asm
-               _00163_DS_   0x004862    program     static io.asm
-               _00164_DS_   0x00486c    program     static io.asm
-               _00165_DS_   0x004876    program     static io.asm
-               _00166_DS_   0x004880    program     static io.asm
-               _00167_DS_   0x00488a    program     static io.asm
-               _00168_DS_   0x004894    program     static io.asm
-               _00169_DS_   0x00489e    program     static io.asm
-               _00170_DS_   0x0048a8    program     static io.asm
-               _00171_DS_   0x0048b2    program     static io.asm
-               _00172_DS_   0x0048bc    program     static io.asm
-               _00173_DS_   0x0048c6    program     static io.asm
-               _00174_DS_   0x0048d0    program     static io.asm
-               _00175_DS_   0x0048da    program     static io.asm
-               _00176_DS_   0x0048e4    program     static io.asm
-               _00177_DS_   0x0048ee    program     static io.asm
-               _00178_DS_   0x0048f8    program     static io.asm
-               _00179_DS_   0x004902    program     static io.asm
-               _00181_DS_   0x004904    program     static io.asm
-          _io_read_analog   0x0074fa    program     extern io.asm
-               _00142_DS_   0x00751e    program     static io.asm
-               _00143_DS_   0x007524    program     static io.asm
-               _00145_DS_   0x00753a    program     static io.asm
-               _00148_DS_   0x007558    program     static io.asm
+            _Analog_ports   0x0002e8       data     extern io.asm
+      _Analog_ports_const   0x0002e9       data     extern io.asm
+ _io_update_local_pwm_dir   0x00632c    program     extern io.asm
+        _io_get_direction   0x0049ee    program     extern io.asm
+               _00270_DS_   0x004a18    program     static io.asm
+               _00271_DS_   0x004a1c    program     static io.asm
+               _00300_DS_   0x004a62    program     static io.asm
+               _00273_DS_   0x004aa2    program     static io.asm
+               _00274_DS_   0x004aac    program     static io.asm
+               _00275_DS_   0x004ab6    program     static io.asm
+               _00276_DS_   0x004ac0    program     static io.asm
+               _00277_DS_   0x004aca    program     static io.asm
+               _00278_DS_   0x004ad4    program     static io.asm
+               _00279_DS_   0x004ade    program     static io.asm
+               _00280_DS_   0x004ae8    program     static io.asm
+               _00281_DS_   0x004af2    program     static io.asm
+               _00282_DS_   0x004afc    program     static io.asm
+               _00283_DS_   0x004b06    program     static io.asm
+               _00284_DS_   0x004b10    program     static io.asm
+               _00285_DS_   0x004b1a    program     static io.asm
+               _00286_DS_   0x004b24    program     static io.asm
+               _00287_DS_   0x004b2e    program     static io.asm
+               _00288_DS_   0x004b38    program     static io.asm
+               _00289_DS_   0x004b42    program     static io.asm
+               _00291_DS_   0x004b44    program     static io.asm
+        _io_set_direction   0x003df4    program     extern io.asm
+               _00235_DS_   0x003e28    program     static io.asm
+               _00236_DS_   0x003e2c    program     static io.asm
+               _00265_DS_   0x003e72    program     static io.asm
+               _00238_DS_   0x003eb2    program     static io.asm
+               _00239_DS_   0x003ec2    program     static io.asm
+               _00240_DS_   0x003ed4    program     static io.asm
+               _00241_DS_   0x003ee8    program     static io.asm
+               _00242_DS_   0x003efc    program     static io.asm
+               _00243_DS_   0x003f10    program     static io.asm
+               _00244_DS_   0x003f20    program     static io.asm
+               _00245_DS_   0x003f32    program     static io.asm
+               _00246_DS_   0x003f46    program     static io.asm
+               _00247_DS_   0x003f5a    program     static io.asm
+               _00248_DS_   0x003f6c    program     static io.asm
+               _00249_DS_   0x003f80    program     static io.asm
+               _00250_DS_   0x003f94    program     static io.asm
+               _00251_DS_   0x003fa6    program     static io.asm
+               _00252_DS_   0x003fba    program     static io.asm
+               _00253_DS_   0x003fce    program     static io.asm
+               _00254_DS_   0x003fe0    program     static io.asm
+               _00255_DS_   0x003fe4    program     static io.asm
+               _00256_DS_   0x003fe6    program     static io.asm
+        _io_write_digital   0x0039c4    program     extern io.asm
+               _00198_DS_   0x003a0c    program     static io.asm
+               _00199_DS_   0x003a10    program     static io.asm
+               _00230_DS_   0x003a56    program     static io.asm
+               _00202_DS_   0x003a96    program     static io.asm
+               _00203_DS_   0x003aa6    program     static io.asm
+               _00204_DS_   0x003ab8    program     static io.asm
+               _00205_DS_   0x003acc    program     static io.asm
+               _00206_DS_   0x003ae0    program     static io.asm
+               _00207_DS_   0x003af4    program     static io.asm
+               _00208_DS_   0x003b04    program     static io.asm
+               _00209_DS_   0x003b16    program     static io.asm
+               _00210_DS_   0x003b2a    program     static io.asm
+               _00211_DS_   0x003b3e    program     static io.asm
+               _00212_DS_   0x003b50    program     static io.asm
+               _00213_DS_   0x003b64    program     static io.asm
+               _00214_DS_   0x003b78    program     static io.asm
+               _00215_DS_   0x003b8a    program     static io.asm
+               _00216_DS_   0x003b9e    program     static io.asm
+               _00217_DS_   0x003bb2    program     static io.asm
+               _00218_DS_   0x003bc4    program     static io.asm
+               _00219_DS_   0x003bc8    program     static io.asm
+               _00220_DS_   0x003bca    program     static io.asm
+         _io_read_digital   0x0046f4    program     extern io.asm
+               _00159_DS_   0x004734    program     static io.asm
+               _00160_DS_   0x004738    program     static io.asm
+               _00193_DS_   0x00477e    program     static io.asm
+               _00163_DS_   0x0047be    program     static io.asm
+               _00164_DS_   0x0047c8    program     static io.asm
+               _00165_DS_   0x0047d2    program     static io.asm
+               _00166_DS_   0x0047dc    program     static io.asm
+               _00167_DS_   0x0047e6    program     static io.asm
+               _00168_DS_   0x0047f0    program     static io.asm
+               _00169_DS_   0x0047fa    program     static io.asm
+               _00170_DS_   0x004804    program     static io.asm
+               _00171_DS_   0x00480e    program     static io.asm
+               _00172_DS_   0x004818    program     static io.asm
+               _00173_DS_   0x004822    program     static io.asm
+               _00174_DS_   0x00482c    program     static io.asm
+               _00175_DS_   0x004836    program     static io.asm
+               _00176_DS_   0x004840    program     static io.asm
+               _00177_DS_   0x00484a    program     static io.asm
+               _00178_DS_   0x004854    program     static io.asm
+               _00179_DS_   0x00485e    program     static io.asm
+               _00181_DS_   0x004860    program     static io.asm
+          _io_read_analog   0x007456    program     extern io.asm
+               _00142_DS_   0x00747a    program     static io.asm
+               _00143_DS_   0x007480    program     static io.asm
+               _00145_DS_   0x007496    program     static io.asm
+               _00148_DS_   0x0074b4    program     static io.asm
                 _adc_busy   0x00080c    program     extern io.asm
-                _adc_conv   0x007d90    program     extern io.asm
-            _adc_open8520   0x0078da    program     extern io.asm
-_io_get_analog_port_count   0x007d6e    program     extern io.asm
-_io_set_analog_port_count   0x007926    program     extern io.asm
-               _00109_DS_   0x00794e    program     static io.asm
-               _00106_DS_   0x007960    program     static io.asm
-               _00111_DS_   0x007962    program     static io.asm
-_rc_button_sequence_count_1_1   0x000764       data     static master.asm
-_rc_button_sequence_val_1_1   0x000765       data     static master.asm
+                _adc_conv   0x007cec    program     extern io.asm
+            _adc_open8520   0x007836    program     extern io.asm
+_io_get_analog_port_count   0x007cca    program     extern io.asm
+_io_set_analog_port_count   0x007882    program     extern io.asm
+               _00109_DS_   0x0078aa    program     static io.asm
+               _00106_DS_   0x0078bc    program     static io.asm
+               _00111_DS_   0x0078be    program     static io.asm
+_rc_button_sequence_count_1_1   0x000765       data     static master.asm
+_rc_button_sequence_val_1_1   0x000766       data     static master.asm
                     r0x00   00000000       data     static master.asm
                     r0x01   0x000001       data     static master.asm
                     r0x02   0x000002       data     static master.asm
@@ -863,75 +863,75 @@ _rc_button_sequence_val_1_1   0x000765       data     static master.asm
                     r0x05   0x000005       data     static master.asm
                     r0x06   0x000006       data     static master.asm
                     r0x07   0x000007       data     static master.asm
-_rc_button_sequence_temp_1_1   0x0002e9       data     static master.asm
-_rc_button_sequence_digit_1_1   0x0002ea       data     static master.asm
-_rc_button_sequence_button_1_1   0x0002eb       data     static master.asm
-_rc_button_sequence_old_button_1_1   0x0002ec       data     static master.asm
-        _Pwm_disable_mask   0x0002ed       data     extern master.asm
-     _master_clr_user_cmd   0x007bce    program     extern master.asm
-     _master_set_user_cmd   0x007c20    program     extern master.asm
-     _pwm_set_output_type   0x006092    program     extern master.asm
-               _00289_DS_   0x0060f8    program     static master.asm
-               _00290_DS_   0x0060fa    program     static master.asm
-               _00272_DS_   0x006102    program     static master.asm
-               _00273_DS_   0x006104    program     static master.asm
-               _00291_DS_   0x00610e    program     static master.asm
-               _00292_DS_   0x006110    program     static master.asm
-               _00275_DS_   0x006116    program     static master.asm
-               _00276_DS_   0x006118    program     static master.asm
-               _00294_DS_   0x006122    program     static master.asm
-               _00295_DS_   0x006124    program     static master.asm
-               _00278_DS_   0x00612a    program     static master.asm
-               _00279_DS_   0x00612c    program     static master.asm
-               _00297_DS_   0x006136    program     static master.asm
-               _00298_DS_   0x006138    program     static master.asm
-               _00281_DS_   0x00613e    program     static master.asm
-               _00283_DS_   0x006140    program     static master.asm
-    _pwm_select_processor   0x006e5c    program     extern master.asm
-               _00263_DS_   0x006e96    program     static master.asm
-               _00262_DS_   0x006e9c    program     static master.asm
-               _00252_DS_   0x006eaa    program     static master.asm
-               _00266_DS_   0x006eb8    program     static master.asm
-               _00265_DS_   0x006ebe    program     static master.asm
-               _00254_DS_   0x006ece    program     static master.asm
-                _pwm_read   0x00779c    program     extern master.asm
-               _00238_DS_   0x0077de    program     static master.asm
-               _00241_DS_   0x0077e0    program     static master.asm
-               _pwm_write   0x007566    program     extern master.asm
-               _00219_DS_   0x00758e    program     static master.asm
-               _00221_DS_   0x0075ba    program     static master.asm
-               _00224_DS_   0x0075bc    program     static master.asm
-_controller_print_version   0x0071d4    program     extern master.asm
-  _controller_submit_data   0x005df0    program     extern master.asm
-               _00194_DS_   0x005e26    program     static master.asm
-               _00195_DS_   0x005eac    program     static master.asm
-               _00200_DS_   0x005eb6    program     static master.asm
-_controller_begin_autonomous_mode   0x007aac    program     extern master.asm
-               _00185_DS_   0x007acc    program     static master.asm
-_controller_end_autonomous_mode   0x007ae0    program     extern master.asm
-               _00177_DS_   0x007b00    program     static master.asm
-_controller_in_autonomous_mode   0x0077ee    program     extern master.asm
-   _rc_new_data_available   0x007b76    program     extern master.asm
-               _00166_DS_   0x007b96    program     static master.asm
-      _rc_button_sequence   0x006854    program     extern master.asm
-               _00129_DS_   0x00687c    program     static master.asm
-               _00130_DS_   0x006880    program     static master.asm
-               _00132_DS_   0x00689e    program     static master.asm
-               _00133_DS_   0x0068a4    program     static master.asm
-               _00134_DS_   0x0068ac    program     static master.asm
-               _00135_DS_   0x0068b2    program     static master.asm
-               _00158_DS_   0x0068c4    program     static master.asm
-               _00137_DS_   0x0068da    program     static master.asm
-               _00140_DS_   0x0068f8    program     static master.asm
-               _00142_DS_   0x0068fa    program     static master.asm
-            _rc_read_data   0x005700    program     extern master.asm
-               _00111_DS_   0x0057b8    program     static master.asm
-               _00113_DS_   0x0057f8    program     static master.asm
-               _00116_DS_   0x0057fa    program     static master.asm
-          _rc_read_status   0x0072c2    program     extern master.asm
-                  __str_0   0x007310    program     static master.asm
-                  __str_1   0x00732a    program     static master.asm
-_timer0_init_timer0_running_1_1   0x000766       data     static timer.asm
+_rc_button_sequence_temp_1_1   0x0002ea       data     static master.asm
+_rc_button_sequence_digit_1_1   0x0002eb       data     static master.asm
+_rc_button_sequence_button_1_1   0x0002ec       data     static master.asm
+_rc_button_sequence_old_button_1_1   0x0002ed       data     static master.asm
+        _Pwm_disable_mask   0x0002ee       data     extern master.asm
+     _master_clr_user_cmd   0x007b2a    program     extern master.asm
+     _master_set_user_cmd   0x007b7c    program     extern master.asm
+     _pwm_set_output_type   0x005fee    program     extern master.asm
+               _00289_DS_   0x006054    program     static master.asm
+               _00290_DS_   0x006056    program     static master.asm
+               _00272_DS_   0x00605e    program     static master.asm
+               _00273_DS_   0x006060    program     static master.asm
+               _00291_DS_   0x00606a    program     static master.asm
+               _00292_DS_   0x00606c    program     static master.asm
+               _00275_DS_   0x006072    program     static master.asm
+               _00276_DS_   0x006074    program     static master.asm
+               _00294_DS_   0x00607e    program     static master.asm
+               _00295_DS_   0x006080    program     static master.asm
+               _00278_DS_   0x006086    program     static master.asm
+               _00279_DS_   0x006088    program     static master.asm
+               _00297_DS_   0x006092    program     static master.asm
+               _00298_DS_   0x006094    program     static master.asm
+               _00281_DS_   0x00609a    program     static master.asm
+               _00283_DS_   0x00609c    program     static master.asm
+    _pwm_select_processor   0x006db8    program     extern master.asm
+               _00263_DS_   0x006df2    program     static master.asm
+               _00262_DS_   0x006df8    program     static master.asm
+               _00252_DS_   0x006e06    program     static master.asm
+               _00266_DS_   0x006e14    program     static master.asm
+               _00265_DS_   0x006e1a    program     static master.asm
+               _00254_DS_   0x006e2a    program     static master.asm
+                _pwm_read   0x0076f8    program     extern master.asm
+               _00238_DS_   0x00773a    program     static master.asm
+               _00241_DS_   0x00773c    program     static master.asm
+               _pwm_write   0x0074c2    program     extern master.asm
+               _00219_DS_   0x0074ea    program     static master.asm
+               _00221_DS_   0x007516    program     static master.asm
+               _00224_DS_   0x007518    program     static master.asm
+_controller_print_version   0x007130    program     extern master.asm
+  _controller_submit_data   0x005d4c    program     extern master.asm
+               _00194_DS_   0x005d82    program     static master.asm
+               _00195_DS_   0x005e08    program     static master.asm
+               _00200_DS_   0x005e12    program     static master.asm
+_controller_begin_autonomous_mode   0x007a08    program     extern master.asm
+               _00185_DS_   0x007a28    program     static master.asm
+_controller_end_autonomous_mode   0x007a3c    program     extern master.asm
+               _00177_DS_   0x007a5c    program     static master.asm
+_controller_in_autonomous_mode   0x00774a    program     extern master.asm
+   _rc_new_data_available   0x007ad2    program     extern master.asm
+               _00166_DS_   0x007af2    program     static master.asm
+      _rc_button_sequence   0x0067b0    program     extern master.asm
+               _00129_DS_   0x0067d8    program     static master.asm
+               _00130_DS_   0x0067dc    program     static master.asm
+               _00132_DS_   0x0067fa    program     static master.asm
+               _00133_DS_   0x006800    program     static master.asm
+               _00134_DS_   0x006808    program     static master.asm
+               _00135_DS_   0x00680e    program     static master.asm
+               _00158_DS_   0x006820    program     static master.asm
+               _00137_DS_   0x006836    program     static master.asm
+               _00140_DS_   0x006854    program     static master.asm
+               _00142_DS_   0x006856    program     static master.asm
+            _rc_read_data   0x00565c    program     extern master.asm
+               _00111_DS_   0x005714    program     static master.asm
+               _00113_DS_   0x005754    program     static master.asm
+               _00116_DS_   0x005756    program     static master.asm
+          _rc_read_status   0x00721e    program     extern master.asm
+                  __str_0   0x00726c    program     static master.asm
+                  __str_1   0x007286    program     static master.asm
+_timer0_init_timer0_running_1_1   0x000767       data     static timer.asm
                     r0x00   00000000       data     static timer.asm
                     r0x01   0x000001       data     static timer.asm
                     r0x02   0x000002       data     static timer.asm
@@ -948,120 +948,120 @@ _timer0_init_timer0_running_1_1   0x000766       data     static timer.asm
                     r0x0d   0x00000d       data     static timer.asm
                     r0x0e   0x00000e       data     static timer.asm
                     r0x0f   0x00000f       data     static timer.asm
-         _Timer_allocated   0x00028d       data     extern timer.asm
-             _timer0_init   0x00796c    program     extern timer.asm
-               _00156_DS_   0x0079a8    program     static timer.asm
-           _timer4_read32   0x006cc2    program     extern timer.asm
-           _timer3_read32   0x004e94    program     extern timer.asm
-               _00144_DS_   0x004f22    program     static timer.asm
-               _00137_DS_   0x004f60    program     static timer.asm
-               _00139_DS_   0x004f92    program     static timer.asm
-           _timer2_read32   0x006d4c    program     extern timer.asm
-           _timer1_read32   0x004fd8    program     extern timer.asm
-               _00126_DS_   0x005066    program     static timer.asm
-               _00119_DS_   0x0050a4    program     static timer.asm
-               _00121_DS_   0x0050d6    program     static timer.asm
-           _timer0_read32   0x00511c    program     extern timer.asm
-               _00113_DS_   0x0051aa    program     static timer.asm
-               _00106_DS_   0x0051e8    program     static timer.asm
-               _00108_DS_   0x00521a    program     static timer.asm
-      _Rx_user_buff_index   0x000767       data     extern vex_spi.asm
-             _User_rxdata   0x000768       data     extern vex_spi.asm
-      _Tx_user_buff_index   0x00076b       data     extern vex_spi.asm
-_InterruptHandlerHigh_packet_num_1_1   0x00076c       data     static vex_spi.asm
+         _Timer_allocated   0x000291       data     extern timer.asm
+             _timer0_init   0x0078c8    program     extern timer.asm
+               _00156_DS_   0x007904    program     static timer.asm
+           _timer4_read32   0x006c1e    program     extern timer.asm
+           _timer3_read32   0x004df0    program     extern timer.asm
+               _00144_DS_   0x004e7e    program     static timer.asm
+               _00137_DS_   0x004ebc    program     static timer.asm
+               _00139_DS_   0x004eee    program     static timer.asm
+           _timer2_read32   0x006ca8    program     extern timer.asm
+           _timer1_read32   0x004f34    program     extern timer.asm
+               _00126_DS_   0x004fc2    program     static timer.asm
+               _00119_DS_   0x005000    program     static timer.asm
+               _00121_DS_   0x005032    program     static timer.asm
+           _timer0_read32   0x005078    program     extern timer.asm
+               _00113_DS_   0x005106    program     static timer.asm
+               _00106_DS_   0x005144    program     static timer.asm
+               _00108_DS_   0x005176    program     static timer.asm
+      _Rx_user_buff_index   0x000768       data     extern vex_spi.asm
+             _User_rxdata   0x000769       data     extern vex_spi.asm
+      _Tx_user_buff_index   0x00076c       data     extern vex_spi.asm
+_InterruptHandlerHigh_packet_num_1_1   0x00076d       data     static vex_spi.asm
                     r0x00   00000000       data     static vex_spi.asm
                     r0x01   0x000001       data     static vex_spi.asm
                     r0x02   0x000002       data     static vex_spi.asm
                     r0x03   0x000003       data     static vex_spi.asm
                     r0x04   0x000004       data     static vex_spi.asm
-_InterruptHandlerHigh_tx_ptr_1_1   0x0002b5       data     static vex_spi.asm
-_InterruptHandlerHigh_rx_ptr_1_1   0x0002b8       data     static vex_spi.asm
-_InterruptHandlerHigh_Spi_byte_count_1_1   0x0002ee       data     static vex_spi.asm
-_InterruptHandlerHigh_spi_ch_1_1   0x0002ef       data     static vex_spi.asm
-                 _Rx_buff   0x00077b       data     extern vex_spi.asm
+_InterruptHandlerHigh_tx_ptr_1_1   0x0007f1       data     static vex_spi.asm
+_InterruptHandlerHigh_rx_ptr_1_1   0x0002b9       data     static vex_spi.asm
+_InterruptHandlerHigh_Spi_byte_count_1_1   0x0002ef       data     static vex_spi.asm
+_InterruptHandlerHigh_spi_ch_1_1   0x0002f0       data     static vex_spi.asm
+                 _Rx_buff   0x00077c       data     extern vex_spi.asm
                  _Tx_buff   0x000200       data     extern vex_spi.asm
-              _Spi_status   0x0002f0       data     extern vex_spi.asm
-             _User_txdata   0x0007bb       data     extern vex_spi.asm
+              _Spi_status   0x0002f1       data     extern vex_spi.asm
+             _User_txdata   0x0007bc       data     extern vex_spi.asm
      _InterruptVectorHigh   0x000808    program     extern vex_spi.asm
-    _InterruptHandlerHigh   0x0039e6    program     extern vex_spi.asm
-               _00111_DS_   0x003b22    program     static vex_spi.asm
-               _10159_DS_   0x003b4c    program     static vex_spi.asm
-               _20160_DS_   0x003b52    program     static vex_spi.asm
-               _00117_DS_   0x003b58    program     static vex_spi.asm
-               _30161_DS_   0x003b86    program     static vex_spi.asm
-               _40162_DS_   0x003b8c    program     static vex_spi.asm
-               _50163_DS_   0x003bb2    program     static vex_spi.asm
-               _60164_DS_   0x003bb8    program     static vex_spi.asm
-               _00119_DS_   0x003c06    program     static vex_spi.asm
-            _check_tx_env   0x004916    program     extern vex_spi.asm
-               _00166_DS_   0x004938    program     static vex_spi.asm
-               _00162_DS_   0x004958    program     static vex_spi.asm
-               _00167_DS_   0x004964    program     static vex_spi.asm
-               _00210_DS_   0x00497c    program     static vex_spi.asm
-               _00207_DS_   0x00498e    program     static vex_spi.asm
-               _00204_DS_   0x0049a0    program     static vex_spi.asm
-               _00201_DS_   0x0049b2    program     static vex_spi.asm
-               _00198_DS_   0x0049c4    program     static vex_spi.asm
-               _00195_DS_   0x0049d8    program     static vex_spi.asm
-               _00192_DS_   0x0049ea    program     static vex_spi.asm
-               _00189_DS_   0x0049fc    program     static vex_spi.asm
-               _00186_DS_   0x004a14    program     static vex_spi.asm
-               _00183_DS_   0x004a28    program     static vex_spi.asm
-               _00180_DS_   0x004a3c    program     static vex_spi.asm
-               _00177_DS_   0x004a4e    program     static vex_spi.asm
-               _00174_DS_   0x004a60    program     static vex_spi.asm
-               _00171_DS_   0x004a78    program     static vex_spi.asm
-               _00212_DS_   0x004a88    program     static vex_spi.asm
-      _user_proc_is_ready   0x007d44    program     extern vex_spi.asm
-                 _OpenSPI   0x006166    program     extern vex_spi.asm
-               _00137_DS_   0x00619c    program     static vex_spi.asm
-               _00138_DS_   0x00619e    program     static vex_spi.asm
-               _00145_DS_   0x0061de    program     static vex_spi.asm
-               _00124_DS_   0x0061ee    program     static vex_spi.asm
-               _00125_DS_   0x0061f4    program     static vex_spi.asm
-               _00126_DS_   0x0061fa    program     static vex_spi.asm
-               _00127_DS_   0x006200    program     static vex_spi.asm
-               _00128_DS_   0x006204    program     static vex_spi.asm
-               _00133_DS_   0x006210    program     static vex_spi.asm
-               _00130_DS_   0x00621a    program     static vex_spi.asm
-               _00134_DS_   0x00621c    program     static vex_spi.asm
+    _InterruptHandlerHigh   0x00376e    program     extern vex_spi.asm
+               _00111_DS_   0x0038aa    program     static vex_spi.asm
+               _10159_DS_   0x0038d4    program     static vex_spi.asm
+               _20160_DS_   0x0038da    program     static vex_spi.asm
+               _00117_DS_   0x0038e0    program     static vex_spi.asm
+               _30161_DS_   0x00390e    program     static vex_spi.asm
+               _40162_DS_   0x003914    program     static vex_spi.asm
+               _50163_DS_   0x00393a    program     static vex_spi.asm
+               _60164_DS_   0x003940    program     static vex_spi.asm
+               _00119_DS_   0x00398e    program     static vex_spi.asm
+            _check_tx_env   0x004872    program     extern vex_spi.asm
+               _00166_DS_   0x004894    program     static vex_spi.asm
+               _00162_DS_   0x0048b4    program     static vex_spi.asm
+               _00167_DS_   0x0048c0    program     static vex_spi.asm
+               _00210_DS_   0x0048d8    program     static vex_spi.asm
+               _00207_DS_   0x0048ea    program     static vex_spi.asm
+               _00204_DS_   0x0048fc    program     static vex_spi.asm
+               _00201_DS_   0x00490e    program     static vex_spi.asm
+               _00198_DS_   0x004920    program     static vex_spi.asm
+               _00195_DS_   0x004934    program     static vex_spi.asm
+               _00192_DS_   0x004946    program     static vex_spi.asm
+               _00189_DS_   0x004958    program     static vex_spi.asm
+               _00186_DS_   0x004970    program     static vex_spi.asm
+               _00183_DS_   0x004984    program     static vex_spi.asm
+               _00180_DS_   0x004998    program     static vex_spi.asm
+               _00177_DS_   0x0049aa    program     static vex_spi.asm
+               _00174_DS_   0x0049bc    program     static vex_spi.asm
+               _00171_DS_   0x0049d4    program     static vex_spi.asm
+               _00212_DS_   0x0049e4    program     static vex_spi.asm
+      _user_proc_is_ready   0x007ca0    program     extern vex_spi.asm
+                 _OpenSPI   0x0060c2    program     extern vex_spi.asm
+               _00137_DS_   0x0060f8    program     static vex_spi.asm
+               _00138_DS_   0x0060fa    program     static vex_spi.asm
+               _00145_DS_   0x00613a    program     static vex_spi.asm
+               _00124_DS_   0x00614a    program     static vex_spi.asm
+               _00125_DS_   0x006150    program     static vex_spi.asm
+               _00126_DS_   0x006156    program     static vex_spi.asm
+               _00127_DS_   0x00615c    program     static vex_spi.asm
+               _00128_DS_   0x006160    program     static vex_spi.asm
+               _00133_DS_   0x00616c    program     static vex_spi.asm
+               _00130_DS_   0x006176    program     static vex_spi.asm
+               _00134_DS_   0x006178    program     static vex_spi.asm
                     r0x00   00000000       data     static vex_delay.asm
                     r0x01   0x000001       data     static vex_delay.asm
                     r0x02   0x000002       data     static vex_delay.asm
                     r0x03   0x000003       data     static vex_delay.asm
-               _delay_sec   0x007338    program     extern vex_delay.asm
-               _00120_DS_   0x00735c    program     static vex_delay.asm
-               _00130_DS_   0x00736c    program     static vex_delay.asm
-               _00125_DS_   0x007378    program     static vex_delay.asm
-               _00126_DS_   0x00737e    program     static vex_delay.asm
-               _00123_DS_   0x007398    program     static vex_delay.asm
-              _delay_msec   0x007420    program     extern vex_delay.asm
-               _00105_DS_   0x007444    program     static vex_delay.asm
-               _00115_DS_   0x007454    program     static vex_delay.asm
-               _00110_DS_   0x007460    program     static vex_delay.asm
-               _00111_DS_   0x007466    program     static vex_delay.asm
-               _00108_DS_   0x007478    program     static vex_delay.asm
+               _delay_sec   0x007294    program     extern vex_delay.asm
+               _00120_DS_   0x0072b8    program     static vex_delay.asm
+               _00130_DS_   0x0072c8    program     static vex_delay.asm
+               _00125_DS_   0x0072d4    program     static vex_delay.asm
+               _00126_DS_   0x0072da    program     static vex_delay.asm
+               _00123_DS_   0x0072f4    program     static vex_delay.asm
+              _delay_msec   0x00737c    program     extern vex_delay.asm
+               _00105_DS_   0x0073a0    program     static vex_delay.asm
+               _00115_DS_   0x0073b0    program     static vex_delay.asm
+               _00110_DS_   0x0073bc    program     static vex_delay.asm
+               _00111_DS_   0x0073c2    program     static vex_delay.asm
+               _00108_DS_   0x0073d4    program     static vex_delay.asm
                     r0x00   00000000       data     static init.asm
                     r0x01   0x000001       data     static init.asm
                     r0x02   0x000002       data     static init.asm
-               _init_regs   0x006a58    program     extern init.asm
-         _controller_init   0x005fb8    program     extern init.asm
-               _00108_DS_   0x005fd8    program     static init.asm
-               _00111_DS_   0x005ff2    program     static init.asm
-               _00112_DS_   0x005ff6    program     static init.asm
-               _00115_DS_   0x006018    program     static init.asm
-               _00116_DS_   0x00601c    program     static init.asm
-               _00119_DS_   0x006036    program     static init.asm
-               _00120_DS_   0x00603a    program     static init.asm
-               _00123_DS_   0x00604e    program     static init.asm
-               _00105_DS_   0x006072    program     static init.asm
-   _shaft_tps_run_kpn_1_1   0x00076d       data     static shaft_encoder.asm
-   _shaft_tps_run_kpd_1_1   0x00076f       data     static shaft_encoder.asm
-   _shaft_tps_run_kin_1_1   0x000771       data     static shaft_encoder.asm
-   _shaft_tps_run_kid_1_1   0x000773       data     static shaft_encoder.asm
-   _shaft_tps_run_kdn_1_1   0x000775       data     static shaft_encoder.asm
-   _shaft_tps_run_kdd_1_1   0x000777       data     static shaft_encoder.asm
-_shaft_tps_run_sample_interval_1_1   0x000779       data     static shaft_encoder.asm
+               _init_regs   0x0069b4    program     extern init.asm
+         _controller_init   0x005f14    program     extern init.asm
+               _00108_DS_   0x005f34    program     static init.asm
+               _00111_DS_   0x005f4e    program     static init.asm
+               _00112_DS_   0x005f52    program     static init.asm
+               _00115_DS_   0x005f74    program     static init.asm
+               _00116_DS_   0x005f78    program     static init.asm
+               _00119_DS_   0x005f92    program     static init.asm
+               _00120_DS_   0x005f96    program     static init.asm
+               _00123_DS_   0x005faa    program     static init.asm
+               _00105_DS_   0x005fce    program     static init.asm
+   _shaft_tps_run_kpn_1_1   0x00076e       data     static shaft_encoder.asm
+   _shaft_tps_run_kpd_1_1   0x000770       data     static shaft_encoder.asm
+   _shaft_tps_run_kin_1_1   0x000772       data     static shaft_encoder.asm
+   _shaft_tps_run_kid_1_1   0x000774       data     static shaft_encoder.asm
+   _shaft_tps_run_kdn_1_1   0x000776       data     static shaft_encoder.asm
+   _shaft_tps_run_kdd_1_1   0x000778       data     static shaft_encoder.asm
+_shaft_tps_run_sample_interval_1_1   0x00077a       data     static shaft_encoder.asm
                     r0x00   00000000       data     static shaft_encoder.asm
                     r0x01   0x000001       data     static shaft_encoder.asm
                     r0x02   0x000002       data     static shaft_encoder.asm
@@ -1085,20 +1085,20 @@ _shaft_tps_run_sample_interval_1_1   0x000779       data     static shaft_encode
                     r0x14   0x000014       data     static shaft_encoder.asm
                     r0x15   0x000015       data     static shaft_encoder.asm
                     r0x16   0x000016       data     static shaft_encoder.asm
-_shaft_tps_run_active_timers_1_1   0x0002f1       data     static shaft_encoder.asm
-_shaft_tps_run_active_counters_1_1   0x0002f2       data     static shaft_encoder.asm
-    _shaft_tps_run_sp_1_1   0x0002bb       data     static shaft_encoder.asm
-_shaft_tps_run_start_time_1_1   0x000291       data     static shaft_encoder.asm
-_shaft_tps_run_elapsed_time_1_1   0x000295       data     static shaft_encoder.asm
-_shaft_tps_run_actual_ticks_1_1   0x000299       data     static shaft_encoder.asm
-_shaft_tps_run_expected_ticks_1_1   0x00029d       data     static shaft_encoder.asm
-          _shaft_tps_init   0x0034b4    program     extern shaft_encoder.asm
-               _00327_DS_   0x0035c8    program     static shaft_encoder.asm
-               _00328_DS_   0x0035cc    program     static shaft_encoder.asm
-               _00352_DS_   0x0036ea    program     static shaft_encoder.asm
-               _00337_DS_   0x0036f6    program     static shaft_encoder.asm
-               _00338_DS_   0x0036fe    program     static shaft_encoder.asm
-               _00335_DS_   0x003716    program     static shaft_encoder.asm
+_shaft_tps_run_active_timers_1_1   0x0002f2       data     static shaft_encoder.asm
+_shaft_tps_run_active_counters_1_1   0x0002f3       data     static shaft_encoder.asm
+    _shaft_tps_run_sp_1_1   0x0002bc       data     static shaft_encoder.asm
+_shaft_tps_run_start_time_1_1   0x000295       data     static shaft_encoder.asm
+_shaft_tps_run_elapsed_time_1_1   0x000299       data     static shaft_encoder.asm
+_shaft_tps_run_actual_ticks_1_1   0x00029d       data     static shaft_encoder.asm
+_shaft_tps_run_expected_ticks_1_1   0x0002a1       data     static shaft_encoder.asm
+          _shaft_tps_init   0x0034b6    program     extern shaft_encoder.asm
+               _00327_DS_   0x0035ca    program     static shaft_encoder.asm
+               _00328_DS_   0x0035ce    program     static shaft_encoder.asm
+               _00352_DS_   0x0036ec    program     static shaft_encoder.asm
+               _00337_DS_   0x0036f8    program     static shaft_encoder.asm
+               _00338_DS_   0x003700    program     static shaft_encoder.asm
+               _00335_DS_   0x003718    program     static shaft_encoder.asm
            _shaft_tps_run   0x00081c    program     extern shaft_encoder.asm
                _00234_DS_   0x0008a4    program     static shaft_encoder.asm
                _00235_DS_   0x0008aa    program     static shaft_encoder.asm
@@ -1137,48 +1137,48 @@ _shaft_tps_run_expected_ticks_1_1   0x00029d       data     static shaft_encoder
                _00264_DS_   0x0014c2    program     static shaft_encoder.asm
                _00265_DS_   0x0014d6    program     static shaft_encoder.asm
                _00266_DS_   0x0014d8    program     static shaft_encoder.asm
- _shaft_encoder_read_quad   0x00768e    program     extern shaft_encoder.asm
-               _00222_DS_   0x0076b0    program     static shaft_encoder.asm
-               _00223_DS_   0x0076b6    program     static shaft_encoder.asm
-               _00225_DS_   0x0076dc    program     static shaft_encoder.asm
-  _shaft_encoder_read_std   0x0076ea    program     extern shaft_encoder.asm
-               _00210_DS_   0x00770c    program     static shaft_encoder.asm
-               _00211_DS_   0x007712    program     static shaft_encoder.asm
-               _00213_DS_   0x007738    program     static shaft_encoder.asm
-     _shaft_encoder_reset   0x007746    program     extern shaft_encoder.asm
-               _00198_DS_   0x007768    program     static shaft_encoder.asm
-               _00199_DS_   0x00776c    program     static shaft_encoder.asm
-               _00201_DS_   0x00778e    program     static shaft_encoder.asm
-   _shaft_encoder_disable   0x004bf6    program     extern shaft_encoder.asm
-               _00163_DS_   0x004c36    program     static shaft_encoder.asm
-               _00164_DS_   0x004c3a    program     static shaft_encoder.asm
-               _00192_DS_   0x004cb8    program     static shaft_encoder.asm
-               _00166_DS_   0x004cd0    program     static shaft_encoder.asm
-               _00167_DS_   0x004cd4    program     static shaft_encoder.asm
-               _00171_DS_   0x004cd8    program     static shaft_encoder.asm
-               _00175_DS_   0x004ce2    program     static shaft_encoder.asm
-               _00193_DS_   0x004cee    program     static shaft_encoder.asm
-               _00178_DS_   0x004d22    program     static shaft_encoder.asm
-               _00174_DS_   0x004d2a    program     static shaft_encoder.asm
-               _00179_DS_   0x004d2c    program     static shaft_encoder.asm
-    _shaft_encoder_enable   0x00539a    program     extern shaft_encoder.asm
-               _00137_DS_   0x005400    program     static shaft_encoder.asm
-               _00138_DS_   0x005404    program     static shaft_encoder.asm
-               _00158_DS_   0x005470    program     static shaft_encoder.asm
-               _00141_DS_   0x005488    program     static shaft_encoder.asm
-               _00142_DS_   0x005492    program     static shaft_encoder.asm
-               _00146_DS_   0x00549c    program     static shaft_encoder.asm
-               _00147_DS_   0x0054a2    program     static shaft_encoder.asm
-               _00148_DS_   0x0054a4    program     static shaft_encoder.asm
-_shaft_encoder_enable_quad   0x00679c    program     extern shaft_encoder.asm
-               _00112_DS_   0x0067f0    program     static shaft_encoder.asm
-               _00113_DS_   0x0067f4    program     static shaft_encoder.asm
-               _00119_DS_   0x006838    program     static shaft_encoder.asm
-               _00120_DS_   0x00683a    program     static shaft_encoder.asm
-_shaft_encoder_enable_std   0x0069b2    program     extern shaft_encoder.asm
-               _00106_DS_   0x0069f8    program     static shaft_encoder.asm
-                  __str_0   0x006a0c    program     static shaft_encoder.asm
-                  __str_1   0x006a4e    program     static shaft_encoder.asm
+ _shaft_encoder_read_quad   0x0075ea    program     extern shaft_encoder.asm
+               _00222_DS_   0x00760c    program     static shaft_encoder.asm
+               _00223_DS_   0x007612    program     static shaft_encoder.asm
+               _00225_DS_   0x007638    program     static shaft_encoder.asm
+  _shaft_encoder_read_std   0x007646    program     extern shaft_encoder.asm
+               _00210_DS_   0x007668    program     static shaft_encoder.asm
+               _00211_DS_   0x00766e    program     static shaft_encoder.asm
+               _00213_DS_   0x007694    program     static shaft_encoder.asm
+     _shaft_encoder_reset   0x0076a2    program     extern shaft_encoder.asm
+               _00198_DS_   0x0076c4    program     static shaft_encoder.asm
+               _00199_DS_   0x0076c8    program     static shaft_encoder.asm
+               _00201_DS_   0x0076ea    program     static shaft_encoder.asm
+   _shaft_encoder_disable   0x004b52    program     extern shaft_encoder.asm
+               _00163_DS_   0x004b92    program     static shaft_encoder.asm
+               _00164_DS_   0x004b96    program     static shaft_encoder.asm
+               _00192_DS_   0x004c14    program     static shaft_encoder.asm
+               _00166_DS_   0x004c2c    program     static shaft_encoder.asm
+               _00167_DS_   0x004c30    program     static shaft_encoder.asm
+               _00171_DS_   0x004c34    program     static shaft_encoder.asm
+               _00175_DS_   0x004c3e    program     static shaft_encoder.asm
+               _00193_DS_   0x004c4a    program     static shaft_encoder.asm
+               _00178_DS_   0x004c7e    program     static shaft_encoder.asm
+               _00174_DS_   0x004c86    program     static shaft_encoder.asm
+               _00179_DS_   0x004c88    program     static shaft_encoder.asm
+    _shaft_encoder_enable   0x0052f6    program     extern shaft_encoder.asm
+               _00137_DS_   0x00535c    program     static shaft_encoder.asm
+               _00138_DS_   0x005360    program     static shaft_encoder.asm
+               _00158_DS_   0x0053cc    program     static shaft_encoder.asm
+               _00141_DS_   0x0053e4    program     static shaft_encoder.asm
+               _00142_DS_   0x0053ee    program     static shaft_encoder.asm
+               _00146_DS_   0x0053f8    program     static shaft_encoder.asm
+               _00147_DS_   0x0053fe    program     static shaft_encoder.asm
+               _00148_DS_   0x005400    program     static shaft_encoder.asm
+_shaft_encoder_enable_quad   0x0066f8    program     extern shaft_encoder.asm
+               _00112_DS_   0x00674c    program     static shaft_encoder.asm
+               _00113_DS_   0x006750    program     static shaft_encoder.asm
+               _00119_DS_   0x006794    program     static shaft_encoder.asm
+               _00120_DS_   0x006796    program     static shaft_encoder.asm
+_shaft_encoder_enable_std   0x00690e    program     extern shaft_encoder.asm
+               _00106_DS_   0x006954    program     static shaft_encoder.asm
+                  __str_0   0x006968    program     static shaft_encoder.asm
+                  __str_1   0x0069aa    program     static shaft_encoder.asm
                     r0x00   00000000       data     static timer_simple.asm
                     r0x01   0x000001       data     static timer_simple.asm
                     r0x02   0x000002       data     static timer_simple.asm
@@ -1191,55 +1191,55 @@ _shaft_encoder_enable_std   0x0069b2    program     extern shaft_encoder.asm
                     r0x09   0x000009       data     static timer_simple.asm
                     r0x0a   0x00000a       data     static timer_simple.asm
                     r0x0b   0x00000b       data     static timer_simple.asm
-              _timer_free   0x0079b2    program     extern timer_simple.asm
-          _timer_allocate   0x007840    program     extern timer_simple.asm
-               _00194_DS_   0x007856    program     static timer_simple.asm
-               _00191_DS_   0x007866    program     static timer_simple.asm
-               _00188_DS_   0x007876    program     static timer_simple.asm
-               _00192_DS_   0x007886    program     static timer_simple.asm
-               _00196_DS_   0x007888    program     static timer_simple.asm
-              _timer_stop   0x006c34    program     extern timer_simple.asm
-               _00180_DS_   0x006c8a    program     static timer_simple.asm
-               _00169_DS_   0x006c9a    program     static timer_simple.asm
-               _00170_DS_   0x006ca2    program     static timer_simple.asm
-               _00171_DS_   0x006caa    program     static timer_simple.asm
-               _00172_DS_   0x006cb2    program     static timer_simple.asm
-               _00174_DS_   0x006cb8    program     static timer_simple.asm
-             _timer_start   0x00623a    program     extern timer_simple.asm
-               _00164_DS_   0x006294    program     static timer_simple.asm
-               _00153_DS_   0x0062a4    program     static timer_simple.asm
-               _00154_DS_   0x0062bc    program     static timer_simple.asm
-               _00155_DS_   0x0062d2    program     static timer_simple.asm
-               _00156_DS_   0x0062ea    program     static timer_simple.asm
-               _00158_DS_   0x0062fe    program     static timer_simple.asm
-             _timer_clear   0x00661c    program     extern timer_simple.asm
-               _00148_DS_   0x006676    program     static timer_simple.asm
-               _00137_DS_   0x006686    program     static timer_simple.asm
-               _00138_DS_   0x006694    program     static timer_simple.asm
-               _00139_DS_   0x0066ae    program     static timer_simple.asm
-               _00140_DS_   0x0066bc    program     static timer_simple.asm
-               _00142_DS_   0x0066d4    program     static timer_simple.asm
-           _timer_read_ms   0x002208    program     extern timer_simple.asm
-               _00116_DS_   0x002286    program     static timer_simple.asm
-               _00105_DS_   0x002296    program     static timer_simple.asm
-               _00119_DS_   0x0022c4    program     static timer_simple.asm
-               _00118_DS_   0x0022cc    program     static timer_simple.asm
-               _00106_DS_   0x002338    program     static timer_simple.asm
-               _00122_DS_   0x00236e    program     static timer_simple.asm
-               _00124_DS_   0x002378    program     static timer_simple.asm
-               _00123_DS_   0x00237a    program     static timer_simple.asm
-               _00121_DS_   0x002386    program     static timer_simple.asm
-               _00107_DS_   0x0023f2    program     static timer_simple.asm
-               _00127_DS_   0x002420    program     static timer_simple.asm
-               _00126_DS_   0x002428    program     static timer_simple.asm
-               _00108_DS_   0x002494    program     static timer_simple.asm
-               _00130_DS_   0x0024ca    program     static timer_simple.asm
-               _00132_DS_   0x0024d4    program     static timer_simple.asm
-               _00131_DS_   0x0024d6    program     static timer_simple.asm
-               _00129_DS_   0x0024e2    program     static timer_simple.asm
-               _00109_DS_   0x00254e    program     static timer_simple.asm
-               _00110_DS_   0x002556    program     static timer_simple.asm
-              _usart_init   0x007b14    program     extern vex_usart.asm
+              _timer_free   0x00790e    program     extern timer_simple.asm
+          _timer_allocate   0x00779c    program     extern timer_simple.asm
+               _00194_DS_   0x0077b2    program     static timer_simple.asm
+               _00191_DS_   0x0077c2    program     static timer_simple.asm
+               _00188_DS_   0x0077d2    program     static timer_simple.asm
+               _00192_DS_   0x0077e2    program     static timer_simple.asm
+               _00196_DS_   0x0077e4    program     static timer_simple.asm
+              _timer_stop   0x006b90    program     extern timer_simple.asm
+               _00180_DS_   0x006be6    program     static timer_simple.asm
+               _00169_DS_   0x006bf6    program     static timer_simple.asm
+               _00170_DS_   0x006bfe    program     static timer_simple.asm
+               _00171_DS_   0x006c06    program     static timer_simple.asm
+               _00172_DS_   0x006c0e    program     static timer_simple.asm
+               _00174_DS_   0x006c14    program     static timer_simple.asm
+             _timer_start   0x006196    program     extern timer_simple.asm
+               _00164_DS_   0x0061f0    program     static timer_simple.asm
+               _00153_DS_   0x006200    program     static timer_simple.asm
+               _00154_DS_   0x006218    program     static timer_simple.asm
+               _00155_DS_   0x00622e    program     static timer_simple.asm
+               _00156_DS_   0x006246    program     static timer_simple.asm
+               _00158_DS_   0x00625a    program     static timer_simple.asm
+             _timer_clear   0x006578    program     extern timer_simple.asm
+               _00148_DS_   0x0065d2    program     static timer_simple.asm
+               _00137_DS_   0x0065e2    program     static timer_simple.asm
+               _00138_DS_   0x0065f0    program     static timer_simple.asm
+               _00139_DS_   0x00660a    program     static timer_simple.asm
+               _00140_DS_   0x006618    program     static timer_simple.asm
+               _00142_DS_   0x006630    program     static timer_simple.asm
+           _timer_read_ms   0x002202    program     extern timer_simple.asm
+               _00116_DS_   0x002280    program     static timer_simple.asm
+               _00105_DS_   0x002290    program     static timer_simple.asm
+               _00119_DS_   0x0022be    program     static timer_simple.asm
+               _00118_DS_   0x0022c6    program     static timer_simple.asm
+               _00106_DS_   0x002332    program     static timer_simple.asm
+               _00122_DS_   0x002368    program     static timer_simple.asm
+               _00124_DS_   0x002372    program     static timer_simple.asm
+               _00123_DS_   0x002374    program     static timer_simple.asm
+               _00121_DS_   0x002380    program     static timer_simple.asm
+               _00107_DS_   0x0023ec    program     static timer_simple.asm
+               _00127_DS_   0x00241a    program     static timer_simple.asm
+               _00126_DS_   0x002422    program     static timer_simple.asm
+               _00108_DS_   0x00248e    program     static timer_simple.asm
+               _00130_DS_   0x0024c4    program     static timer_simple.asm
+               _00132_DS_   0x0024ce    program     static timer_simple.asm
+               _00131_DS_   0x0024d0    program     static timer_simple.asm
+               _00129_DS_   0x0024dc    program     static timer_simple.asm
+               _00109_DS_   0x002548    program     static timer_simple.asm
+               _00110_DS_   0x002550    program     static timer_simple.asm
+              _usart_init   0x007a70    program     extern vex_usart.asm
                   _RCSTA2   0x000f6b       data     extern libdev18f8520_a-pic18f8520.asm
               _RCSTA2bits   0x000f6b       data     extern libdev18f8520_a-pic18f8520.asm
                   _TXSTA2   0x000f6c       data     extern libdev18f8520_a-pic18f8520.asm
@@ -1455,11 +1455,12 @@ _shaft_encoder_enable_std   0x0069b2    program     extern shaft_encoder.asm
                     _TOSL   0x000ffd       data     extern libdev18f8520_a-pic18f8520.asm
                     _TOSH   0x000ffe       data     extern libdev18f8520_a-pic18f8520.asm
                     _TOSU   0x000fff       data     extern libdev18f8520_a-pic18f8520.asm
-                  _stdout   0x0002be       data     extern streams.asm
-                   _stdin   0x0002c1       data     extern streams.asm
+                  _stdout   0x0002bf       data     extern streams.asm
+                   _stdin   0x0002c2       data     extern streams.asm
                     r0x00   00000000       data     static printf.asm
                     r0x01   0x000001       data     static printf.asm
-                  _printf   0x0073ae    program     extern printf.asm
+                  _printf   0x00730a    program     extern printf.asm
+                 _putchar   0x000814    program     extern putchar.asm
                     r0x00   00000000       data     static vfprintf.asm
                     r0x01   0x000001       data     static vfprintf.asm
                     r0x02   0x000002       data     static vfprintf.asm
@@ -1491,7 +1492,7 @@ _shaft_encoder_enable_std   0x0069b2    program     extern shaft_encoder.asm
                     r0x1c   0x00001c       data     static vfprintf.asm
                     r0x1d   0x00001d       data     static vfprintf.asm
                     r0x1e   0x00001e       data     static vfprintf.asm
-_vfprintf_stringbuffer_1_1   0x0002c4       data     static vfprintf.asm
+_vfprintf_stringbuffer_1_1   0x0002c5       data     static vfprintf.asm
      _vfprintf_buffer_1_1   0x000260       data     static vfprintf.asm
                 _vfprintf   0x00153a    program     extern vfprintf.asm
                _00215_DS_   0x00161a    program     static vfprintf.asm
@@ -1546,18 +1547,18 @@ _vfprintf_stringbuffer_1_1   0x0002c4       data     static vfprintf.asm
                _00214_DS_   0x001cce    program     static vfprintf.asm
                _00217_DS_   0x001cdc    program     static vfprintf.asm
                   __str_0   0x001d64    program     static vfprintf.asm
-              _delay1ktcy   0x005ee4    program     extern delay/delay1ktcy.S
-            _.code_00000e   0x005ef2    program     static delay/delay1ktcy.S
-            @delay1k_loop   0x005ef4    program     static delay/delay1ktcy.S
-            _.code_000018   0x005efc    program     static delay/delay1ktcy.S
-            _.code_00001a   0x005efe    program     static delay/delay1ktcy.S
-             @delay1k_end   0x005f08    program     static delay/delay1ktcy.S
-             _delay10ktcy   0x005f0a    program     extern delay/delay10ktcy.S
-            _.code_000014   0x005f1e    program     static delay/delay10ktcy.S
-           @delay10k_loop   0x005f20    program     static delay/delay10ktcy.S
-            _.code_000024   0x005f2e    program     static delay/delay10ktcy.S
-            _.code_000026   0x005f30    program     static delay/delay10ktcy.S
-            @delay10k_end   0x005f3a    program     static delay/delay10ktcy.S
+              _delay1ktcy   0x005e40    program     extern delay/delay1ktcy.S
+            _.code_00000e   0x005e4e    program     static delay/delay1ktcy.S
+            @delay1k_loop   0x005e50    program     static delay/delay1ktcy.S
+            _.code_000018   0x005e58    program     static delay/delay1ktcy.S
+            _.code_00001a   0x005e5a    program     static delay/delay1ktcy.S
+             @delay1k_end   0x005e64    program     static delay/delay1ktcy.S
+             _delay10ktcy   0x005e66    program     extern delay/delay10ktcy.S
+            _.code_000014   0x005e7a    program     static delay/delay10ktcy.S
+           @delay10k_loop   0x005e7c    program     static delay/delay10ktcy.S
+            _.code_000024   0x005e8a    program     static delay/delay10ktcy.S
+            _.code_000026   0x005e8c    program     static delay/delay10ktcy.S
+            @delay10k_end   0x005e96    program     static delay/delay10ktcy.S
                     r0x00   00000000       data     static strmputchar.asm
                     r0x01   0x000001       data     static strmputchar.asm
                     r0x02   0x000002       data     static strmputchar.asm
@@ -1566,12 +1567,12 @@ _vfprintf_stringbuffer_1_1   0x0002c4       data     static vfprintf.asm
                     r0x05   0x000005       data     static strmputchar.asm
                     r0x06   0x000006       data     static strmputchar.asm
                     r0x07   0x000007       data     static strmputchar.asm
-        ___stream_putchar   0x005a20    program     extern strmputchar.asm
-               _00119_DS_   0x005abc    program     static strmputchar.asm
-               _00114_DS_   0x005ad0    program     static strmputchar.asm
-               _00111_DS_   0x005ade    program     static strmputchar.asm
-               _00108_DS_   0x005aec    program     static strmputchar.asm
-               _00121_DS_   0x005af8    program     static strmputchar.asm
+        ___stream_putchar   0x00597c    program     extern strmputchar.asm
+               _00119_DS_   0x005a18    program     static strmputchar.asm
+               _00114_DS_   0x005a2c    program     static strmputchar.asm
+               _00111_DS_   0x005a3a    program     static strmputchar.asm
+               _00108_DS_   0x005a48    program     static strmputchar.asm
+               _00121_DS_   0x005a54    program     static strmputchar.asm
                     r0x00   00000000       data     static memcpy.asm
                     r0x01   0x000001       data     static memcpy.asm
                     r0x02   0x000002       data     static memcpy.asm
@@ -1585,11 +1586,11 @@ _vfprintf_stringbuffer_1_1   0x0002c4       data     static vfprintf.asm
                     r0x0a   0x00000a       data     static memcpy.asm
                     r0x0b   0x00000b       data     static memcpy.asm
                     r0x0c   0x00000c       data     static memcpy.asm
-                  _memcpy   0x005818    program     extern memcpy.asm
-               _00105_DS_   0x005890    program     static memcpy.asm
-               _00107_DS_   0x0058de    program     static memcpy.asm
+                  _memcpy   0x005774    program     extern memcpy.asm
+               _00105_DS_   0x0057ec    program     static memcpy.asm
+               _00107_DS_   0x00583a    program     static memcpy.asm
    ___stream_mssp_putchar   0x000804    program     extern strmmssp.asm
-  ___stream_gpsim_putchar   0x007dd6    program     extern strmgpsim.asm
+  ___stream_gpsim_putchar   0x007d32    program     extern strmgpsim.asm
                     r0x00   00000000       data     static ltoa.asm
                     r0x01   0x000001       data     static ltoa.asm
                     r0x02   0x000002       data     static ltoa.asm
@@ -1607,39 +1608,38 @@ _vfprintf_stringbuffer_1_1   0x0002c4       data     static vfprintf.asm
                     r0x0e   0x00000e       data     static ltoa.asm
                     r0x0f   0x00000f       data     static ltoa.asm
         _ultoa_buffer_1_1   0x000240       data     static ltoa.asm
-                    _ltoa   0x006308    program     extern ltoa.asm
-               _00128_DS_   0x00638a    program     static ltoa.asm
-                   _ultoa   0x004460    program     extern ltoa.asm
-               _00107_DS_   0x0044d8    program     static ltoa.asm
-               _00106_DS_   0x004514    program     static ltoa.asm
-               _00110_DS_   0x004586    program     static ltoa.asm
-               _00122_DS_   0x0045c4    program     static ltoa.asm
-                 _putchar   0x000814    program     extern putchar.asm
-              _delay1mtcy   0x005f3c    program     extern delay/delay1mtcy.S
-            _.code_00001a   0x005f56    program     static delay/delay1mtcy.S
-            @delay1m_loop   0x005f58    program     static delay/delay1mtcy.S
-            _.code_000030   0x005f6c    program     static delay/delay1mtcy.S
-            _.code_000032   0x005f6e    program     static delay/delay1mtcy.S
-             @delay1m_end   0x005f78    program     static delay/delay1mtcy.S
-             _delay100tcy   0x005f7a    program     extern delay/delay100tcy.S
-            _.code_00000e   0x005f88    program     static delay/delay100tcy.S
-           @delay100_loop   0x005f8a    program     static delay/delay100tcy.S
-            _.code_000018   0x005f92    program     static delay/delay100tcy.S
-            _.code_00001e   0x005f98    program     static delay/delay100tcy.S
-            @delay100_end   0x005f9e    program     static delay/delay100tcy.S
-  ___stream_usart_putchar   0x007dbe    program     extern strmusart.asm
-                       @1   0x007dbe    program     static strmusart.asm
+                    _ltoa   0x006264    program     extern ltoa.asm
+               _00128_DS_   0x0062e6    program     static ltoa.asm
+                   _ultoa   0x0043bc    program     extern ltoa.asm
+               _00107_DS_   0x004434    program     static ltoa.asm
+               _00106_DS_   0x004470    program     static ltoa.asm
+               _00110_DS_   0x0044e2    program     static ltoa.asm
+               _00122_DS_   0x004520    program     static ltoa.asm
                     r0x00   00000000       data     static islower.asm
-                 _islower   0x007b48    program     extern islower.asm
-               _00106_DS_   0x007b6a    program     static islower.asm
-               _00108_DS_   0x007b6c    program     static islower.asm
-              _delay10tcy   0x005fa0    program     extern delay/delay10tcy.S
-            _.code_000008   0x005fa8    program     static delay/delay10tcy.S
-            @delay10_loop   0x005faa    program     static delay/delay10tcy.S
-            _.code_00000a   0x005faa    program     static delay/delay10tcy.S
-            _.code_00000c   0x005fac    program     static delay/delay10tcy.S
-            _.code_00000e   0x005fae    program     static delay/delay10tcy.S
-             @delay10_end   0x005fb6    program     static delay/delay10tcy.S
+                 _islower   0x007aa4    program     extern islower.asm
+               _00106_DS_   0x007ac6    program     static islower.asm
+               _00108_DS_   0x007ac8    program     static islower.asm
+              _delay1mtcy   0x005e98    program     extern delay/delay1mtcy.S
+            _.code_00001a   0x005eb2    program     static delay/delay1mtcy.S
+            @delay1m_loop   0x005eb4    program     static delay/delay1mtcy.S
+            _.code_000030   0x005ec8    program     static delay/delay1mtcy.S
+            _.code_000032   0x005eca    program     static delay/delay1mtcy.S
+             @delay1m_end   0x005ed4    program     static delay/delay1mtcy.S
+             _delay100tcy   0x005ed6    program     extern delay/delay100tcy.S
+            _.code_00000e   0x005ee4    program     static delay/delay100tcy.S
+           @delay100_loop   0x005ee6    program     static delay/delay100tcy.S
+            _.code_000018   0x005eee    program     static delay/delay100tcy.S
+            _.code_00001e   0x005ef4    program     static delay/delay100tcy.S
+            @delay100_end   0x005efa    program     static delay/delay100tcy.S
+  ___stream_usart_putchar   0x007d1a    program     extern strmusart.asm
+                       @1   0x007d1a    program     static strmusart.asm
+              _delay10tcy   0x005efc    program     extern delay/delay10tcy.S
+            _.code_000008   0x005f04    program     static delay/delay10tcy.S
+            @delay10_loop   0x005f06    program     static delay/delay10tcy.S
+            _.code_00000a   0x005f06    program     static delay/delay10tcy.S
+            _.code_00000c   0x005f08    program     static delay/delay10tcy.S
+            _.code_00000e   0x005f0a    program     static delay/delay10tcy.S
+             @delay10_end   0x005f12    program     static delay/delay10tcy.S
                     r0x00   00000000       data     static mullong.asm
                     r0x01   0x000001       data     static mullong.asm
                     r0x02   0x000002       data     static mullong.asm
@@ -1648,12 +1648,12 @@ _vfprintf_stringbuffer_1_1   0x0002c4       data     static vfprintf.asm
                     r0x05   0x000005       data     static mullong.asm
                     r0x06   0x000006       data     static mullong.asm
                     r0x07   0x000007       data     static mullong.asm
-          __mullong_x_1_1   0x0002a1       data     static mullong.asm
-          __mullong_y_1_1   0x0002a5       data     static mullong.asm
-          __mullong_t_1_1   0x0002a9       data     static mullong.asm
-         __mullong_t1_1_1   0x0002ad       data     static mullong.asm
-         __mullong_t2_1_1   0x0002b1       data     static mullong.asm
-                __mullong   0x003e58    program     extern mullong.asm
+          __mullong_x_1_1   0x0002a5       data     static mullong.asm
+          __mullong_y_1_1   0x0002a9       data     static mullong.asm
+          __mullong_t_1_1   0x0002ad       data     static mullong.asm
+         __mullong_t1_1_1   0x0002b1       data     static mullong.asm
+         __mullong_t2_1_1   0x0002b5       data     static mullong.asm
+                __mullong   0x003be0    program     extern mullong.asm
                    _stack   0x000100       data     extern stack/stack.S
                _stack_end   0x0001ff       data     extern stack/stack.S
                     r0x00   00000000       data     static modulong.asm
@@ -1667,16 +1667,16 @@ _vfprintf_stringbuffer_1_1   0x0002c4       data     static vfprintf.asm
                     r0x08   0x000008       data     static modulong.asm
                     r0x09   0x000009       data     static modulong.asm
                     r0x0a   0x00000a       data     static modulong.asm
-               __modulong   0x0054c2    program     extern modulong.asm
-               _00107_DS_   0x00552a    program     static modulong.asm
-               _00125_DS_   0x005554    program     static modulong.asm
-               _00106_DS_   0x005562    program     static modulong.asm
-               _00112_DS_   0x00556a    program     static modulong.asm
-               _00126_DS_   0x005580    program     static modulong.asm
-               _00111_DS_   0x005592    program     static modulong.asm
-               __gptrput1   0x007d5a    program     extern gptrput1.asm
-                 _lab_01_   0x007d68    program     static gptrput1.asm
-                 _lab_02_   0x007d6c    program     static gptrput1.asm
+               __modulong   0x00541e    program     extern modulong.asm
+               _00107_DS_   0x005486    program     static modulong.asm
+               _00125_DS_   0x0054b0    program     static modulong.asm
+               _00106_DS_   0x0054be    program     static modulong.asm
+               _00112_DS_   0x0054c6    program     static modulong.asm
+               _00126_DS_   0x0054dc    program     static modulong.asm
+               _00111_DS_   0x0054ee    program     static modulong.asm
+               __gptrput1   0x007cb6    program     extern gptrput1.asm
+                 _lab_01_   0x007cc4    program     static gptrput1.asm
+                 _lab_02_   0x007cc8    program     static gptrput1.asm
                     r0x00   00000000       data     static divuint.asm
                     r0x01   0x000001       data     static divuint.asm
                     r0x02   0x000002       data     static divuint.asm
@@ -1685,28 +1685,28 @@ _vfprintf_stringbuffer_1_1   0x0002c4       data     static vfprintf.asm
                     r0x05   0x000005       data     static divuint.asm
                     r0x06   0x000006       data     static divuint.asm
                     r0x07   0x000007       data     static divuint.asm
-                __divuint   0x006908    program     extern divuint.asm
-               _00109_DS_   0x006950    program     static divuint.asm
-               _00121_DS_   0x006976    program     static divuint.asm
-               _00110_DS_   0x006982    program     static divuint.asm
-               __gptrget2   0x007ba2    program     extern gptrget2.asm
-                 _lab_01_   0x007bb2    program     static gptrget2.asm
-                 _lab_02_   0x007bcc    program     static gptrget2.asm
-                    _end_   0x007bcc    program     static gptrget2.asm
-               __gptrput3   0x007d10    program     extern gptrput3.asm
-                 _lab_01_   0x007d26    program     static gptrput3.asm
-                 _lab_02_   0x007d2a    program     static gptrput3.asm
+                __divuint   0x006864    program     extern divuint.asm
+               _00109_DS_   0x0068ac    program     static divuint.asm
+               _00121_DS_   0x0068d2    program     static divuint.asm
+               _00110_DS_   0x0068de    program     static divuint.asm
+               __gptrget2   0x007afe    program     extern gptrget2.asm
+                 _lab_01_   0x007b0e    program     static gptrget2.asm
+                 _lab_02_   0x007b28    program     static gptrget2.asm
+                    _end_   0x007b28    program     static gptrget2.asm
+               __gptrput3   0x007c6c    program     extern gptrput3.asm
+                 _lab_01_   0x007c82    program     static gptrput3.asm
+                 _lab_02_   0x007c86    program     static gptrput3.asm
                     r0x00   00000000       data     static mulint.asm
                     r0x01   0x000001       data     static mulint.asm
                     r0x02   0x000002       data     static mulint.asm
                     r0x03   0x000003       data     static mulint.asm
-           __mulint_x_1_1   0x0002d9       data     static mulint.asm
-           __mulint_y_1_1   0x0002db       data     static mulint.asm
-           __mulint_t_1_1   0x0002dd       data     static mulint.asm
-                 __mulint   0x006af8    program     extern mulint.asm
-               __gptrput4   0x007cb6    program     extern gptrput4.asm
-                 _lab_01_   0x007cd0    program     static gptrput4.asm
-                 _lab_02_   0x007cd4    program     static gptrput4.asm
+           __mulint_x_1_1   0x0002da       data     static mulint.asm
+           __mulint_y_1_1   0x0002dc       data     static mulint.asm
+           __mulint_t_1_1   0x0002de       data     static mulint.asm
+                 __mulint   0x006a54    program     extern mulint.asm
+               __gptrput4   0x007c12    program     extern gptrput4.asm
+                 _lab_01_   0x007c2c    program     static gptrput4.asm
+                 _lab_02_   0x007c30    program     static gptrput4.asm
                     r0x00   00000000       data     static divulong.asm
                     r0x01   0x000001       data     static divulong.asm
                     r0x02   0x000002       data     static divulong.asm
@@ -1721,14 +1721,14 @@ _vfprintf_stringbuffer_1_1   0x0002c4       data     static vfprintf.asm
                     r0x0b   0x00000b       data     static divulong.asm
                     r0x0c   0x00000c       data     static divulong.asm
                     r0x0d   0x00000d       data     static divulong.asm
-               __divulong   0x0055e6    program     extern divulong.asm
-               _00109_DS_   0x005662    program     static divulong.asm
-               _00121_DS_   0x00569c    program     static divulong.asm
-               _00110_DS_   0x0056b0    program     static divulong.asm
-               __gptrget1   0x007c94    program     extern gptrget1.asm
-                 _lab_01_   0x007ca0    program     static gptrget1.asm
-                 _lab_02_   0x007cb4    program     static gptrget1.asm
-                    _end_   0x007cb4    program     static gptrget1.asm
+               __divulong   0x005542    program     extern divulong.asm
+               _00109_DS_   0x0055be    program     static divulong.asm
+               _00121_DS_   0x0055f8    program     static divulong.asm
+               _00110_DS_   0x00560c    program     static divulong.asm
+               __gptrget1   0x007bf0    program     extern gptrget1.asm
+                 _lab_01_   0x007bfc    program     static gptrget1.asm
+                 _lab_02_   0x007c10    program     static gptrget1.asm
+                    _end_   0x007c10    program     static gptrget1.asm
                     r0x00   00000000       data     static divsint.asm
                     r0x01   0x000001       data     static divsint.asm
                     r0x02   0x000002       data     static divsint.asm
@@ -1737,52 +1737,52 @@ _vfprintf_stringbuffer_1_1   0x0002c4       data     static vfprintf.asm
                     r0x05   0x000005       data     static divsint.asm
                     r0x06   0x000006       data     static divsint.asm
                     r0x07   0x000007       data     static divsint.asm
-                __divsint   0x005b1e    program     extern divsint.asm
-               _00110_DS_   0x005b7a    program     static divsint.asm
-               _00111_DS_   0x005b82    program     static divsint.asm
-               _00112_DS_   0x005ba6    program     static divsint.asm
-               _00113_DS_   0x005bae    program     static divsint.asm
-               _00106_DS_   0x005be8    program     static divsint.asm
-               _00108_DS_   0x005bee    program     static divsint.asm
-               __gptrput2   0x007d2c    program     extern gptrput2.asm
-                 _lab_01_   0x007d3e    program     static gptrput2.asm
-                 _lab_02_   0x007d42    program     static gptrput2.asm
-               __gptrget3   0x007a76    program     extern gptrget3.asm
-                 _lab_01_   0x007a8a    program     static gptrget3.asm
-                 _lab_02_   0x007aaa    program     static gptrget3.asm
-               __gptrget4   0x0079f8    program     extern gptrget4.asm
-                 _lab_01_   0x007a10    program     static gptrget4.asm
-                 _lab_02_   0x007a36    program     static gptrget4.asm
-              _usart_getc   0x007c48    program     extern libio18f8520_a-ugetc.asm
-               _10105_DS_   0x007c5c    program     static libio18f8520_a-ugetc.asm
-               _00108_DS_   0x007c5c    program     static libio18f8520_a-ugetc.asm
-               _00110_DS_   0x007c64    program     static libio18f8520_a-ugetc.asm
-               _00112_DS_   0x007c6c    program     static libio18f8520_a-ugetc.asm
+                __divsint   0x005a7a    program     extern divsint.asm
+               _00110_DS_   0x005ad6    program     static divsint.asm
+               _00111_DS_   0x005ade    program     static divsint.asm
+               _00112_DS_   0x005b02    program     static divsint.asm
+               _00113_DS_   0x005b0a    program     static divsint.asm
+               _00106_DS_   0x005b44    program     static divsint.asm
+               _00108_DS_   0x005b4a    program     static divsint.asm
+               __gptrput2   0x007c88    program     extern gptrput2.asm
+                 _lab_01_   0x007c9a    program     static gptrput2.asm
+                 _lab_02_   0x007c9e    program     static gptrput2.asm
+               __gptrget3   0x0079d2    program     extern gptrget3.asm
+                 _lab_01_   0x0079e6    program     static gptrget3.asm
+                 _lab_02_   0x007a06    program     static gptrget3.asm
+               __gptrget4   0x007954    program     extern gptrget4.asm
+                 _lab_01_   0x00796c    program     static gptrget4.asm
+                 _lab_02_   0x007992    program     static gptrget4.asm
+              _usart_getc   0x007ba4    program     extern libio18f8520_a-ugetc.asm
+               _10105_DS_   0x007bb8    program     static libio18f8520_a-ugetc.asm
+               _00108_DS_   0x007bb8    program     static libio18f8520_a-ugetc.asm
+               _00110_DS_   0x007bc0    program     static libio18f8520_a-ugetc.asm
+               _00112_DS_   0x007bc8    program     static libio18f8520_a-ugetc.asm
                     r0x00   00000000       data     static libio18f8520_a-uputs.asm
                     r0x01   0x000001       data     static libio18f8520_a-uputs.asm
                     r0x02   0x000002       data     static libio18f8520_a-uputs.asm
                     r0x03   0x000003       data     static libio18f8520_a-uputs.asm
-              _usart_puts   0x00715a    program     extern libio18f8520_a-uputs.asm
-               _00105_DS_   0x007184    program     static libio18f8520_a-uputs.asm
-                _adc_read   0x007dc6    program     extern libio18f8520_a-adcread.asm
-               _adc_close   0x007ddc    program     extern libio18f8520_a-adcclose.asm
+              _usart_puts   0x0070b6    program     extern libio18f8520_a-uputs.asm
+               _00105_DS_   0x0070e0    program     static libio18f8520_a-uputs.asm
+                _adc_read   0x007d22    program     extern libio18f8520_a-adcread.asm
+               _adc_close   0x007d38    program     extern libio18f8520_a-adcclose.asm
                     r0x00   00000000       data     static libio18f8520_a-uopen.asm
                     r0x01   0x000001       data     static libio18f8520_a-uopen.asm
                     r0x02   0x000002       data     static libio18f8520_a-uopen.asm
-              _usart_open   0x006fe4    program     extern libio18f8520_a-uopen.asm
-               _00108_DS_   0x007016    program     static libio18f8520_a-uopen.asm
-               _00110_DS_   0x00701c    program     static libio18f8520_a-uopen.asm
-               _00112_DS_   0x007024    program     static libio18f8520_a-uopen.asm
-               _00113_DS_   0x007026    program     static libio18f8520_a-uopen.asm
-               _00115_DS_   0x00702e    program     static libio18f8520_a-uopen.asm
-               _00116_DS_   0x007030    program     static libio18f8520_a-uopen.asm
-               _00118_DS_   0x00703a    program     static libio18f8520_a-uopen.asm
-               _00119_DS_   0x00703c    program     static libio18f8520_a-uopen.asm
-               _00121_DS_   0x007046    program     static libio18f8520_a-uopen.asm
-               _00122_DS_   0x007048    program     static libio18f8520_a-uopen.asm
-            _USART_Status   0x0002f3       data     extern libio18f8520_a-usartd.asm
-              _usart_busy   0x007dce    program     extern libio18f8520_a-ubusy.asm
-              _usart_putc   0x007da0    program     extern libio18f8520_a-uputc.asm
-                     _01_   0x007dac    program     static libio18f8520_a-uputc.asm
-                   _cinit   0x007db0    program     extern  
+              _usart_open   0x006f40    program     extern libio18f8520_a-uopen.asm
+               _00108_DS_   0x006f72    program     static libio18f8520_a-uopen.asm
+               _00110_DS_   0x006f78    program     static libio18f8520_a-uopen.asm
+               _00112_DS_   0x006f80    program     static libio18f8520_a-uopen.asm
+               _00113_DS_   0x006f82    program     static libio18f8520_a-uopen.asm
+               _00115_DS_   0x006f8a    program     static libio18f8520_a-uopen.asm
+               _00116_DS_   0x006f8c    program     static libio18f8520_a-uopen.asm
+               _00118_DS_   0x006f96    program     static libio18f8520_a-uopen.asm
+               _00119_DS_   0x006f98    program     static libio18f8520_a-uopen.asm
+               _00121_DS_   0x006fa2    program     static libio18f8520_a-uopen.asm
+               _00122_DS_   0x006fa4    program     static libio18f8520_a-uopen.asm
+            _USART_Status   0x0002f4       data     extern libio18f8520_a-usartd.asm
+              _usart_busy   0x007d2a    program     extern libio18f8520_a-ubusy.asm
+              _usart_putc   0x007cfc    program     extern libio18f8520_a-uputc.asm
+                     _01_   0x007d08    program     static libio18f8520_a-uputc.asm
+                   _cinit   0x007d0c    program     extern  
  

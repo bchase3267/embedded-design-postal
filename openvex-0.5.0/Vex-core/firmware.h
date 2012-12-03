@@ -37,6 +37,8 @@ int rotation_circumference_cm;
 int distance_cm_per_15_ticks;
 char stringOfChars[15];
 signed char integerByte;
+
+char debugMode = 0;
 /* Place a jumper in I/O port for arcade drive. No jumper = tank drive. */
 
 // analog input
