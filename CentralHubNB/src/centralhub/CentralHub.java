@@ -17,15 +17,16 @@ import jssc.*;
  *
  * @author brian
  */
-public class CentalHub extends javax.swing.JFrame {
+public class CentralHub extends javax.swing.JFrame {
 
     public String listOfPorts[];
     public SerialPort vexPort;
     private String USB0 = "/dev/ttyUSB0";
-    
+    private GPSServer gpsServer;
+    private CommandServer commandServer;
     
     /** Creates new form CentalHub */
-    public CentalHub() {
+    public CentralHub() {
         initComponents();
         fillSerialPortBox();
         if(comboBoxPorts.getSelectedItem() == USB0)
@@ -214,7 +215,7 @@ private void jbtnForwardMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST
         try {
             vexPort.writeByte(character);
         } catch (SerialPortException ex) {
-            Logger.getLogger(CentalHub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CentralHub.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }//GEN-LAST:event_jbtnForwardMousePressed
@@ -253,7 +254,7 @@ private void jbtnOpenPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             try {
                 vexPort.writeByte(character);
             } catch (SerialPortException ex) {
-                Logger.getLogger(CentalHub.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CentralHub.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jbtnForwardMouseReleased
@@ -273,7 +274,7 @@ private void jbtnOpenPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                     data[1] = (byte) jSliderVelocity.getValue();
                     vexPort.writeBytes(data);
                 } catch (SerialPortException ex) {
-                    Logger.getLogger(CentalHub.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(CentralHub.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -288,7 +289,7 @@ private void jbtnOpenPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                 vexPort.closePort();
                 } 
                 catch (SerialPortException ex) {
-                Logger.getLogger(CentalHub.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CentralHub.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -301,7 +302,7 @@ private void jbtnOpenPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             try {
                 vexPort.writeByte(character);
             } catch (SerialPortException ex) {
-                Logger.getLogger(CentalHub.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CentralHub.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jbtnStopMousePressed
@@ -313,7 +314,7 @@ private void jbtnOpenPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             try {
                 vexPort.writeByte(character);
             } catch (SerialPortException ex) {
-                Logger.getLogger(CentalHub.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CentralHub.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jbtnRightMousePressed
@@ -325,7 +326,7 @@ private void jbtnOpenPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             try {
                 vexPort.writeByte(character);
             } catch (SerialPortException ex) {
-                Logger.getLogger(CentalHub.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CentralHub.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jbtnRightMouseReleased
@@ -337,7 +338,7 @@ private void jbtnOpenPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             try {
                 vexPort.writeByte(character);
             } catch (SerialPortException ex) {
-                Logger.getLogger(CentalHub.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CentralHub.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jbtnStopMouseReleased
@@ -349,7 +350,7 @@ private void jbtnOpenPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             try {
                 vexPort.writeByte(character);
             } catch (SerialPortException ex) {
-                Logger.getLogger(CentalHub.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CentralHub.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jbtnLeftMousePressed
@@ -361,7 +362,7 @@ private void jbtnOpenPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             try {
                 vexPort.writeByte(character);
             } catch (SerialPortException ex) {
-                Logger.getLogger(CentalHub.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CentralHub.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jbtnLeftMouseReleased
@@ -373,7 +374,7 @@ private void jbtnOpenPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             try {
                 vexPort.writeByte(character);
             } catch (SerialPortException ex) {
-                Logger.getLogger(CentalHub.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CentralHub.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jbtnBackwardMousePressed
@@ -385,7 +386,7 @@ private void jbtnOpenPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             try {
                 vexPort.writeByte(character);
             } catch (SerialPortException ex) {
-                Logger.getLogger(CentalHub.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CentralHub.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jbtnBackwardMouseReleased
@@ -479,13 +480,13 @@ private void openVexPort()
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CentalHub.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CentralHub.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CentalHub.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CentralHub.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CentalHub.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CentralHub.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CentalHub.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CentralHub.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -494,7 +495,7 @@ private void openVexPort()
 
             @Override
             public void run() {
-                new CentalHub().setVisible(true);
+                new CentralHub().setVisible(true);
             }
         });
     }

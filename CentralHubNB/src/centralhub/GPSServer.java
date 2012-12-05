@@ -11,22 +11,20 @@ import java.io.*;
  *
  * @author brian
  */
-public class NetBookServer {
+public class GPSServer implements Runnable{
     private ServerSocket serverSocket;
     private Socket clientSocket;
     private PrintWriter output;
     private BufferedReader input;
-    
-    private VexProtocol vexPro;
-    
-    private int serverSocketNumber = 1247;
-    private String inLine, outLine;
+    private GPSCoordinates lastCoordinates;
+    private int serverSocketNumber = 695;
+    private String inLine = "", outLine;
     
     
     public void setupPort()
     {
         try {
-            serverSocket = new ServerSocket(4444);
+            serverSocket = new ServerSocket(serverSocketNumber);
         } catch (IOException e) {
             System.err.println("Could not listen on port: ".concat(
                     Integer.toString(serverSocketNumber)));
@@ -34,7 +32,13 @@ public class NetBookServer {
         }
         
         try {
+            System.out.println("Waiting for a client to connect!");
             clientSocket = serverSocket.accept();
+            if(clientSocket.isConnected())
+            {
+                System.out.println("Client is connected!");
+            }
+                
         } catch (IOException e) {
             System.err.println("Accept failed.");
             System.exit(1);
@@ -45,7 +49,7 @@ public class NetBookServer {
             input = new BufferedReader(new InputStreamReader(
 				clientSocket.getInputStream()));
             
-            vexPro = new VexProtocol();
+           //vexPro = new VexProtocol();
             outLine = "";   ////////////////////////
         }
         catch(Exception e)
@@ -56,17 +60,31 @@ public class NetBookServer {
         
     }
     
-    public void runServer()
+    /**
+     *
+     */
+    @Override
+    public void run()
     {
         try
         {
-            
+            while((inLine = input.readLine()) != null)
+            {
+                if(!"".equals(inLine))
+                {
+                    lastCoordinates = new GPSCoordinates(inLine);
+                }
+                Thread.sleep(10);
+            }
         }
         catch(Exception e)
         {
             
         }
+        
+        closePorts();
     }
+    
     
     public void closePorts()
     {
@@ -84,4 +102,13 @@ public class NetBookServer {
        }
     }
     
+    public GPSCoordinates getLastCoordinates()
+    {
+        return lastCoordinates;
+        
+    }
 }
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */

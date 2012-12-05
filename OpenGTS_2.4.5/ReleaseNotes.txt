@@ -1,0 +1,33 @@
+
+Version 2.4.5 [2012/09/02] 
+- CHG: Increased number of geozone points to 10.
+- NEW: Added additional columns to EventData table.
+- NEW: Added a "maxMessageLength" property to "SMSOutboundGateway" support.
+- NEW: Added "createAge" column option to report layout "EventDataLayout".
+
+Version 2.4.4 [2012/08/01] 
+- NEW: Additional pushpins, special thanks to Jason Herring.
+- NEW: Added option to Account table for finding referenced email addresses.
+- NEW: Added additional fields to Device table.
+- NEW: Added ${vehicleVolts} message replacement variable to EventData.
+- NEW: Added "reportDistance" column option to report layout "EventDataLayout".
+- NEW: Added "Assigned User ID" option to Device/Vehicle Admin page.
+- NEW: Added "lastUpdateUser" column support to various tables.
+- DCS: gprmc] Fixed NPE when no date/time is specified.
+
+-----------------------------------------------------------------------------------
+
+Project Home Page:
+    http://www.opengts.org
+
+Download Latest Version from SourceForge:
+    https://sourceforge.net/projects/opengts/
+
+Documentation (installation/configuration, tutorials, FAQ):
+    http://www.opengts.org/FAQ.html
+    http://www.opengts.org/documentation.html
+
+GTS Enterprise:
+    http://www.geotelematic.com/gts.html
+    http://www.geotelematic.com/documentation.html
+

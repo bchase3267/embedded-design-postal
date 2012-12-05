@@ -29,11 +29,35 @@ public class GPSHandler {
 }
 class GPSCoordinates
 {
-    private double longitude;
-    private double latitude;
+    private double longitudeDegrees;
+    private double latitudeDegrees;
+    
+    public GPSCoordinates()
+    {
+        longitudeDegrees = 0.0;
+        latitudeDegrees = 0.0;
+    }        
     
     public GPSCoordinates(String joined)
     {
+        String Longitude, Latitude;
         
+        
+    }
+    
+    public GPSCoordinates(String Longitude, String Latitude)
+    {
+        longitudeDegrees = Double.parseDouble(Longitude);
+        latitudeDegrees = Double.parseDouble(Latitude);
+    }
+    
+    public double getLongitudeDegrees()
+    {
+        return longitudeDegrees;        
+    }
+    
+    public double getLatitudeDegrees()
+    {
+        return latitudeDegrees;
     }
 }
