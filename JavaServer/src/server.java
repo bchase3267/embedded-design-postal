@@ -28,7 +28,7 @@ public static void main(String[] args) throws IOException{
     String sendsentence = null;
 
     
-    ServerSocket server=new ServerSocket(80);
+    ServerSocket server=new ServerSocket(5000);
     do
     {
     System.out.println("waiting for client");
@@ -49,7 +49,6 @@ public static void main(String[] args) throws IOException{
     System.out.println(recvsentence);
     test = recvsentence;
     } catch (Exception e){}
-    System.out.println("test");
     } while (!test.equals("close"));
     sock.close();
     } while (true);
