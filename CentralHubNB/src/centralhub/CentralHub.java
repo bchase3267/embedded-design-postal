@@ -30,7 +30,20 @@ public class CentralHub extends javax.swing.JFrame {
         initComponents();
         fillSerialPortBox();
         if(comboBoxPorts.getSelectedItem() == USB0)
+        {
             openVexPort();
+        }
+        try
+        {
+            commandServer = new CommandServer();
+            //commandServer.setupPort();
+            //commandServer.run();
+        }
+        catch(Exception e)
+        {
+            
+        }
+        
         
     }
    
@@ -245,6 +258,17 @@ private void jTextFieldDirectKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:
 
 private void jbtnOpenPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOpenPortActionPerformed
     openVexPort();
+    try
+    {
+    
+    commandServer.setupPort();
+    commandServer.run();
+    }
+    catch(Exception e)
+    {
+        
+    }
+            
 }//GEN-LAST:event_jbtnOpenPortActionPerformed
 
     private void jbtnForwardMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnForwardMouseReleased
@@ -287,12 +311,16 @@ private void jbtnOpenPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             {
                 try {
                 vexPort.closePort();
+            
                 } 
                 catch (SerialPortException ex) {
                 Logger.getLogger(CentralHub.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
+        
+        commandServer.closePorts();
+               
     }//GEN-LAST:event_formWindowClosing
 
     private void jbtnStopMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnStopMousePressed

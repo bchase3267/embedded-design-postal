@@ -12,21 +12,21 @@ import java.io.*;
  * @author brian
  */
 public class CommandServer implements Runnable{
-    private ServerSocket serverSocket;
-    private Socket clientSocket;
-    private PrintWriter output;
-    private BufferedReader input;
+    private ServerSocket serverSocket = null;
+    private Socket clientSocket = null;
+    private PrintWriter output = null;
+    private BufferedReader input = null;
     
     private VexProtocol vexPro;
     
-    private int serverSocketNumber = 1247;
+    private int serverSocketNumber = 5000;
     private String inLine, outLine;
     
     
     public void setupPort()
     {
         try {
-            serverSocket = new ServerSocket(80);
+            serverSocket = new ServerSocket(serverSocketNumber);
         } catch (IOException e) {
             System.err.println("Could not listen on port: ".concat(
                     Integer.toString(serverSocketNumber)));
@@ -72,7 +72,13 @@ public class CommandServer implements Runnable{
         {
             while((inLine = input.readLine()) != null)
             {
-                
+                if(inLine != null)
+                {
+                    if(!inLine.isEmpty())
+                    {
+                        vexPro.processAndroidInput(inLine);
+                    }
+                }
                 
             }
         }

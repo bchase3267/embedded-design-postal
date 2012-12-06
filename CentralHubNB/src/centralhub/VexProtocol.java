@@ -4,24 +4,52 @@
  */
 package centralhub;
 
+import java.util.Queue;
+import jssc.SerialPort;
+
 /**
  *
  * @author brian
  */
 public class VexProtocol {
 
+    private SerialPort vexPort;
+    private Queue<String> commands;
     public VexProtocol() {
-        
+        vexPort = null;
     }
-       
-    StringPair processAndroidInput(String fromAndroid)
+   
+    
+    public String processAndroidInput(String fromAndroid)
     {
-        StringPair outputStrings = null;
+        String outputStrings = null;
+        try
+        {
+            vexPort.writeString(fromAndroid);
+        }
+        catch(Exception e)
+        {
+            
+        }
         
         return outputStrings;
     }
+    
+    public boolean connectSerialPort(SerialPort newPort)
+    {
+        try
+        {
+            vexPort = newPort;
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
+        return true;
+            
+    }
 }
-
+/*
 class StringPair
 {
     private String toAndroid;
@@ -48,4 +76,5 @@ class StringPair
     {
         return toVex;
     }
-}
+   
+}*/
